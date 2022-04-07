@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="uisual" content="Made with Uisual (uisual.com)">
-    <meta name="author" content="#">
-    <meta name="description" content="#">
+    <meta name="author" content="Block Star Logic">
+    <meta name="description" content="Job Crypt job portal, where Web 3 professionals go to find Web 3 jobs in a Web 3 way. ">
     <meta name="referrer" content="unsafe-url">
     <meta name="robots" content="index, follow">
     <!-- SPEED -->
@@ -20,29 +20,49 @@
     <!-- LINK -->
     <link rel="me" href="#">
     <link rel="canonical" href="#">
-    <link rel="icon" type="image/png" href="#" sizes="48x48">
+    <link rel="icon" type="image/png" href="assets/images/logo/jclogo.png" sizes="48x48">
     <!-- PERFORMANCE -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
     <link rel="preload" as="style" href="style.css">
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/ipfs-http-client-lite/dist/index.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <!-- Web 3 -->
+
+
     <!-- TITLE -->
-    <title>Job Crypt</title>
+    <title>Job Crypt - Web 3 Jobs for Web 3 people</title>
 </head>
 
 <body>
-    <header role="banner" class="ui-section-header">
-        <div class="ui-layout-container">
-            <div class="ui-section-header__layout ui-layout-flex">
+    <header role=" banner " class="ui-section-header ">
+        <div class="ui-layout-container ">
+
+            <div class="ui-section-header__layout ui-layout-flex ">
                 <!-- LOGO -->
-                <a href="#" role="link" aria-label="#">
-                    <img src="media/jclogo.svg" height="50" width="50" /><b>Job Crypt</b>
+                <a href="# " role="link " aria-label="# ">
+                    <img src="media/jclogo.svg " height="50 " width="50 " /><b>Job Crypt</b><br/><small><center>[PUBLIC-ALPHA]</center></small></b>
                 </a>
                 <!-- MENU -->
-                <a href="pages/employer/post.html"> <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Post a Job</button> </a>
-                <a href="https://www.twitter.com/job_crypt" role="link" aria-label="#">
-                    <svg viewBox="0 0 24 24" height="18" width="18" fill="none" stroke="#353535" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" role="img" aria-label="#">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-            </svg>
+                <a href="pages/app/post.html "> <button type="submit " class="ui-component-button ui-component-button-medium ui-component-button-primary ">Post a Job</button> </a>
+                <a href="https://www.twitter.com/job_crypt " role="link " aria-label="# ">
+                    <svg viewBox="0 0 24 24 " height="18 " width="18 " fill="none " stroke="#353535 " stroke-linecap="round " stroke-linejoin="round " stroke-width="2 " role="img " aria-label="# ">
+                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z "/>
+                    </svg>
+                </a>
+                <a href="https://discord.gg/JgBEEtaSmD " target="_blank" role="link " aria-label="# ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                      </svg>
+                </a>
+                <a href="https://www.tiktok.com/@jobcrypt" target="_blank" role="link " aria-label="# ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                        <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
+                      </svg>
                 </a>
                 <table>
                     <tr>
@@ -51,56 +71,60 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <font size="1">Earn Rewards</font>
-                            <p>
-                                <span id="earn_rewards"></span>
-                            </p>
+                        <td>
+                            <b><small>[<a href="https://docs.celo.org/getting-started/wallets/using-metamask-with-celo/manual-setup#:~:text=Network%20Name%3A%20Celo%20(Alfajores%20Testnet)" target="_blank">Network CELO (Alfajores Testnet)</a>]</small></b>
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td align="center ">
                             <div class="ui-component-card ">
                                 <h6>Select Dashboard</h6>
                                 <table>
                                     <tr>
+                                        <td>                                           
+                                                <span id="stake_approve_span"></span> 
+                                           </td>
+                                           <td>
+                                                <span id="stake_button_span"></span>                                                
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
-                                            <a href="pages/employer/employer_dashboard.html">Employer</a> </td>
+                                            <a href="pages/employer/employer_dashboard.html ">Employer</a> </td>
                                         <td>
-                                            <a href="pages/jobseeker/job_seeker_dashboard.html"> | Job Seeker
+                                            <a href="pages/jobseeker/job_seeker_dashboard.html "> | Job Seeker
                                             </a></td>
                                     </tr>
                                 </table>
                             </div>
                         </td>
                     </tr>
+          
                 </table>
+            </div>
+            <div>
+               
             </div>
         </div>
     </header>
+    <center><small><span id="stake_status_span"></span></center>
+    <center><span id="showAccount"></span></center>
     <main role=" main ">
         <section class="ui-section-hero ">
             <div class="ui-layout-container ">
                 <!-- COPYWRITING -->
                 <div class="ui-layout-column-6 ui-layout-column-center ">
                     <h1>Search for your Dream Decentralized Job.</h1>
+
                     <div class="ui-component-cta ui-layout-flex ">
                         <form action="# " class="ui-component-form ui-layout-grid ui-layout-column-4 ">
-                            <input type="text" id="job_search" placeholder=" Search e.g. Solidity " class="ui-component-input ui-component-input-medium " required>
-                            <button type="submit" id="job_search_button" class=" ui-component-button ui-component-button-medium ui-component-button-primary ">Search</button>
+                            <input type="text " id="job_search " placeholder=" Search e.g. Solidity " class="ui-component-input ui-component-input-medium " required>
+                            <button type="submit " id="job_search_button " class=" ui-component-button ui-component-button-medium ui-component-button-primary ">Search</button>
                         </form>
                         <p class="ui-text-note "></p>
-                        <table>
+                        <table id="hot_search_table">
                             <tr>
-                                <td colspan="4 "><small><b>Hot search</b></small></td>
-                            </tr>
-                            <tr>
-                                <span id="hot_search">
-                                <td><a href=" " style="color: rgb(18, 22, 236); "><b>All Jobs | </b></a></td>
-                                <td><a href=" " style="color: rgb(18, 22, 236); "><b>Remote | </b></a></td>
-                                <td><a href=" " style="color: rgb(18, 22, 236); "><b>Solidity | </b></a></td>
-                                <td><a href=" " style="color: rgb(18, 22, 236); "><b>Blockchain Manager </b></a></td>
-                                </span>
+                                <td colspan="4 "><span id="hot_search_title"><b>Connect Web 3 to view the latest jobs!!</b></span></td>
                             </tr>
                         </table>
                     </div>
@@ -113,163 +137,46 @@
 
 
                 <div class="ui-layout-column-10 ui-layout-column-center ">
-                    <table>
+                    <table id="latest_jobs">
                         <tr>
-                            <td valign="top">
-                                <div class=" ui-component-card ui-layout-column-2 " id="popular_jobs">
-                                    <h6>Popular Jobs</h6>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <br/>
-                                                <a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Senior Infrastructure Engineer</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br/><a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Senior Frontend Engineer</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br/>
-                                                <a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Email Marketing Executive</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br/>
-                                                <a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Social Media Manager</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br/>
-                                                <a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Senior Solidity Developer</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br/>
-                                                <a href="pages/app/job_search_results.html" style="color: rgb(230, 59, 144);">Substrate Rust Developer</a><br/> &nbsp;
-                                            </td>
-                                        </tr>
+                            <td></td>
+                            <td>
+                                <h3>
+                                    <center><span id="latest_jobs_title"></span></center>
+                                </h3>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td valign=" top ">
+                                <div  " id="popular_jobs_div">
+                                    <span id="popular_jobs_title"></span>
+                                    <table id="popular_jobs_table">
+
                                     </table>
                                 </div>
                             </td>
                             <td>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html ">
-                                        <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248);">Blockchain Content Manager</h4>
-                                    </a>
-                                    <h5>
-                                        <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Stardust</a> | San Fransico | Permanent | ::6 hours | <a href=" pages/jobseeker/job_detail_template.html ">more...</a>
-                                    </h5>
-                                </div>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html ">
-                                        <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248); ">Blockchain Engineering Manager</h4>
-                                    </a>
-                                    <h5>
-                                        <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Stardust</a> | San Fransico | Permanent | ::6 hours</h5>
-                                    <p>Building the future for gamers
-                                        <a href="pages/jobseeker/job_detail_template.html ">more...</a>
-                                    </p>
-                                </div>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html ">
-                                        <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248); ">Marketing & Partnerships Lead</h4>
-                                    </a>
-                                    <h5>
-                                        <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Black Eye Galaxy</a> | San Fransico | Permanent | ::6 hours</h5>
-                                    <p>Building the future for gamers
-                                        <a href="pages/jobseeker/job_detail_template.html ">more...</a>
-                                    </p>
-                                </div>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html ">
-                                        <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248); ">NFT Gaming Community Manager</h4>
-                                    </a>
-                                    <h5>
-                                        <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Surf</a> | Remote | Permanent | ::6 hours</h5>
-                                    <p>Building the future for gamers
-                                        <a href="pages/jobseeker/job_detail_template.html ">more...</a>
-                                    </p>
-                                </div>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html ">
-                                        <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248); ">Senior Front-End Engineer</h4>
-                                    </a>
-                                    <h5>
-                                        <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Get Protocol</a> | London | Permanent | ::6 hours</h5>
-                                    <p>Building the future for gamers
-                                        <a href="pages/jobseeker/job_detail_template.html ">more...</a>
-                                    </p>
-                                </div>
-                                <div class=" ui-component-card ui-layout-column-6 ">
-                                    <a href="pages/jobseeker/job_detail_template.html "></a>
-                                    <h4 class="ui-component-card--title " style="color: rgb(100, 36, 248); ">Senior DApp Engineer</h4>
-                                    </a>
-                                    <h5><a href="pages/employer/company_linktree.html " style="color: cadetblue;">@PARSIQ</a> | San Fransico | Permanent | ::6 hours</h5>
-                                    Building the future for gamers <a href="pages/jobseeker/job_detail_template.html ">more...</a>
+                                <table id="latest_jobs">
+                                    <tr>
+                                        <td>
+                                            <span id="latest_jobs_view"></span>
 
-                                </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
                             </td>
                             <td valign="top ">
                                 <div class=" ui-component-card ui-layout-column-4 ">
-                                    <h6 align="center ">Older Jobs</h6>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Coinme</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Senior Infrastructure Engineer</b></a></font><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Immutable</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Senior Frontend Engineer</b></a></font><br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Trusted Node</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Email Marketing Executive</b></a>
-                                                </font>
-                                                <br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@DApp Radar</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Social Media Manager</b></a>
-                                                </font>
-                                                <br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Drops DAO</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Senior Solidity Developer</b></a>
-                                                </font>
-                                                <br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="pages/employer/company_linktree.html " style="color: cadetblue;">@Composable Finance</a>
-                                                <br/>
-                                                <font color="orange"><a href="pages/jobseeker/job_detail_template.html "><b>Substrate Rust Developer</b></a>
-                                                </font>
-                                                <<br/> &nbsp;
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <span id="featured_jobs_title"></span>
+                                    <center>
+                                        <table id="featured_jobs_table">
+
+                                        </table>
+                                    </center>
                                 </div>
                             </td>
                         </tr>
@@ -278,6 +185,20 @@
             </div>
         </section>
 
+        <section class=" ui-section-content">
+            <div class="ui-layout-container ">
+                <div class="ui-layout-column-12 ui-layout-column-center ">
+                    <p>
+                        <table> 
+                            <td><h4><a href="https://events.protocol.ai/2021/browsers3000/" target="_blank">Winner Browsers 3000 - Filecoin Prize</a></h4> </td>
+                            <td><small><a href="https://events.protocol.ai/2021/browsers3000/" target="_blank"><img src="assets/images/logo/browsers3000logo.PNG"/></a></small> </td>
+                            <td><h4><a href="https://github.com/filecoin-project/devgrants/issues/340" target="_blank">Filecoin Next Steps Micro Grant - Awardee 2021</a></h4></td>
+                            <td><small><a href="https://grants.filecoin.io/" target="_blank"><img src="assets/images/logo/filecoin-logo.png"/></small></a> </td>
+                        </table>                    
+                    </p>
+                </div>
+            </div>
+        </section>
 
         <section class=" ui-section-close ">
             <div class="ui-layout-container ">
@@ -300,23 +221,25 @@
             <div class="ui-section-footer__layout ui-layout-flex ">
 
                 <!-- COPYRIGHT -->
-                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2021 Job Crypt</small>
-                    <br/><small>Template by Uisual</small>
+                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2022 Job Crypt</small>
+                    <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
+                    <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank ">Open Block EI </a></small>
                 </p>
+                
                 <p>
                     <table>
                         <tr>
                             <td>
-                                <a href="pages/app/about.html ">about | </a>
+                                <a href="pages/app/jc/01_about.html ">about | </a>
                             </td>
                             <td>
-                                <a href="pages/app/terms.html ">terms | </a>
+                                <a href="pages/app/jc/03_terms.html">terms | </a>
                             </td>
                             <td>
-                                <a href="pages/app/privacy.html ">privacy policy | </a>
+                                <a href="pages/app/jc/02_privacy.html">privacy policy | </a>
                             </td>
                             <td>
-                                <a href="pages/app/privacy.html ">cookie policy </a>
+                                <a href="pages/app/jc/06_cookies.html">cookie policy </a>
                             </td>
                         </tr>
                     </table>
@@ -325,209 +248,36 @@
             </div>
         </div>
     </footer>
+    
+    <script src="assets/abi/i_jc_jobcrypt_abi.js"></script>
+    <script src="assets/abi/i_jc_job_posting_abi.js"></script>
+    <script src="assets/abi/i_jc_employer_dashboard_abi.js"></script>
+    <script src="assets/abi/i_jc_job_seeker_dashboard_abi.js"></script>
+    <script src="assets/abi/i_jc_payment_manager_abi.js"></script>
+    <script src="assets/abi/i_jc_posting_factory_abi.js"></script>
+    <script src="assets/abi/i_open_product_abi.js"></script>
+    <script src="assets/abi/i_open_product_core_abi.js"></script>
+    <script src="assets/abi/i_jc_dashboard_factory_abi.js"></script>
+    <script src="assets/abi/i_erc20_abi.js"></script>
+    <script src="assets/abi/i_erc20_metadata_abi.js"></script>
+    <script src="assets/abi/i_open_register_abi.js"></script>
+
+    <script src="assets/js/jc_latest_jobs.js"></script>    
+    <script src="assets/js/jc_popular_jobs.js"></script>
+    <script src="assets/js/jc_featured_jobs.js"></script>
+    <script src="assets/js/jc_search_jobs.js"></script>
+    <script src="assets/js/jc_index.js"></script>
+    <script src="assets/js/jobcrypt.js"></script>
+
+
     <script>
-        //import MetaMaskOnboarding from '@metamask/onboarding';
-        //Basic Actions Section
+        console.log(iJCJobCryptAbi);    
+    </script>    
 
-        const connectWeb3Button = document.getElementById('connect_web_3');
-        console.log("got connect button : " + onboardButton);
-
-        const jobSearchField = document.getElementById('search_field');
-
-        const jobSearchButton = document.getElementById('job_search_button');
-
-        const showWallet = document.getElementById('show_wallet');
-
-        const hotSearchListTable = document.getElementById("hot_search ");
-
-        const earnRewards = document.getElementById('earn_rewards');
-
-        const popularJobs = document.getElementById('popular_jobs');
-
-        const latestJobs = document.getElementById('latest_jobs');
-
-        const olderJobs = document.getElementById('older_jobs');
-
-        const jobNewsletter = document.getElmentById('job_news_letter');
-
-        const jobNewsletterButton = document.getElmentById('job_news_letter_button');
-
-
-        console.log("got show wallet : " + showWallet);
-
-        var account;
-
-        //Created check function to see if the MetaMask extension is installed
-        const isMetaMaskInstalled = () => {
-
-            const {
-                ethereum
-            } = window;
-            return Boolean(ethereum && ethereum.isMetaMask);
-        };
-
-        const MetaMaskClientCheck = () => {
-            //Now we check to see if Metmask is installed
-            if (!isMetaMaskInstalled()) {
-                console.log("metamask not installed ");
-                //If it isn't installed we ask the user to click to install it
-                onboardButton.innerText = 'Click here to install MetaMask!';
-                //When the button is clicked we call this function
-                onboardButton.onclick = onClickInstall;
-                //The button is now disabled
-                onboardButton.disabled = false;
-            } else {
-                //If it is installed we change our button text
-                onboardButton.innerText = 'Click to Connect Metamask';
-                console.log("metamask installed ");
-                onboardButton.addEventListener('click', () => {
-                    getAccount();
-                    console.log(" getting ended bets: " + account);
-                    getEndedBets();
-                    onboardButton.innerText = "Web 3 Connected ";
-                    console.log(" getting running bets ");
-                    getRunningBets();
-                    console.log(" getting running stats ");
-                    getStats();
-                });
-            }
-        };
-        const initialize = () => {
-            MetaMaskClientCheck();
-
-        };
-
-        window.addEventListener('DOMContentLoaded', initialize);
-
-        async function getAccount() {
-            const accounts = await ethereum.request({
-                method: 'eth_requestAccounts'
-            });
-            account = accounts[0];
-            showAccount.innerHTML = "<b>Connected Wallet :: " + account + "</b>";
-        } //We create a new MetaMask onboarding object to use in our app //const onboarding = new MetaMaskOnboarding({ forwarderOrigin
-        }); //This will start the onboarding proccess const onClickInstall = () => { onboardButton.innerText = 'Onboarding in progress'; onboardButton.disabled = true; //On this object we have startOnboarding
-        which will start the onboarding process
-        for our end user onboarding.startOnboarding();
-        };
-        const onClickConnect = async() => {
-            try { // Will open the MetaMask UI // You should disable this button while
-                the request is pending!await ethereum.request({
-                    method: 'eth_requestAccounts'
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        const ierc20_abi = "";
-        const rewardContractAddress = "";
-        const web3 = new
-        Web3(ethereum);
-        const jobCryptContract = new web3.eth.Contract(ierc20_abi, uni_erc20_address); // unicode bets const unicodeBetsContract = new web3.eth.Contract(unicode_bets_abi, unicode_bets_address);
-        // ierc20 contracts const usdcContract = new web3.eth.Contract(ierc20_abi, usdc_erc20_address); const uniContract = new web3.eth.Contract(ierc20_abi, uni_erc20_address); const tetherContract = new web3.eth.Contract(ierc20_abi,
-        tether_erc20_address);
-        const daiContract = new web3.eth.Contract(ierc20_abi, dai_erc20_address);
-        const alpha_approve_button = document.getElementById("approve_token_alpha");
-        const beta_approve_button = document.getElementById("approve_token_beta");
-        const team_position_select = document.getElementById("bet_position");
-        const place_bet_button = document.getElementById("place_bet_button");
-        place_bet_button.addEventListener('click',
-            () => {
-                placeBet();
-            });
-        const alpha_amount = document.getElementById("alpha_bet_amount");
-        const txn_display = document.getElementById("txn_display");
-        const pool_1_view = document.getElementById("pool_1_view");
-        const pool_2_view = document.getElementById("pool_2_view");
-        const pool_x_view = document.getElementById("pool_x_view");
-        alpha_approve_button.addEventListener('click', () => {
-            approveAlphaContract();
-        });
-        async function approveAlphaContract() {
-            console.log("from account : " + account);
-            let ierc20selected = document.getElementById("alpha_bet_token").value;
-            console.log("selected ierc20: " + ierc20selected);
-            let ierc20betAmount = document.getElementById("alpha_bet_amount").value;
-            let alpha_approve_button = document.getElementById("approve_token_alpha");
-            alpha_approve_button.innerText = "approving...";
-            let
-                ierc20Contract = getIERC20Contract(ierc20selected);
-            console.log("ierc20 contract" + ierc20Contract);
-            ierc20Contract.methods.approve(unicode_bets_address, ierc20betAmount).send({
-                from: account
-            }).then(function(result) {
-                console.log("result:-" + result);
-                alpha_approve_button.innerText = ierc20selected + " approved";
-                alpha_approve_button.disabled = true;
-            })
-        }
-
-        function getIERC20Contract(ierc20Selected) {
-            if (ierc20Selected ==
-                'UNI') {
-                return uniContract;
-            }
-            if (ierc20Selected == 'USDC') {
-                return usdcContract;
-            }
-            if (ierc20Selected == 'TETHER') {
-                return tetherContract;
-            }
-            if (ierc20Selected == 'DAI') {
-                return daiContract;
-            }
-        }
-
-        function getEndedBets() {}
-        async function getRunningBets() {}
-        async function getStats() {
-            unicodeBetsContract.methods.pool1().call({
-                from: account
-            }).then(function(result) {
-                console.log("result:-" +
-                    result);
-                pool_1_view.innerText = result;
-            });
-            unicodeBetsContract.methods.pool2().call({
-                from: account
-            }).then(function(result) {
-                console.log("result:-" + result);
-                pool_2_view.innerText = result;
-            });
-            unicodeBetsContract.methods.pool3().call({
-                from: account
-            }).then(function(result) {
-                console.log("result:-" + result);
-                pool_x_view.innerText = result;
-            });
-        }
-        async function placeBet() {
-            let position =
-                team_position_select.value;
-            let alpha_bet = alpha_bet_amount.value;
-            unicodeBetsContract.methods.YourBet(position).send({
-                from: account,
-                value: alpha_bet
-            }).on('transactionHash', function(hash) {
-                txn_display.innerText = "Etherscan Transaction: " + hash;
-                place_bet_button.innerText = "placing...";
-            }).on('reciept', function(reciept) {
-                add_bet();
-                place_bet_button.innerText = "Placed";
-            }).on('confirmation', function(confirmationNumber,
-                receipt) {
-                txn_display.innerText = "confirmed"
-                place_bet_button.innerText = "Place Bet";
-            }).on('error', function(error, receipt) {
-                place_bet_button.innerText = "Place Bet";
-            });
-        }
-
-        function add_bet() {
-            console.log("adding bet");
-        }
-        async function claimRewards() {}
-    </script>
+	
+	<!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/25669875.js"></script>
+<!-- End of HubSpot Embed Code -->
 </body>
 
 </html>

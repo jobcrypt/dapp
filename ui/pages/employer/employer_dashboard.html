@@ -23,8 +23,18 @@
     <link rel="icon" type="image/png" href="#" sizes="48x48">
     <!-- PERFORMANCE -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
-    <link rel="preload" as="style" href="style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="style" href="../../style.css">
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://unpkg.com/ipfs-http-client-lite/dist/index.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <!-- Web 3 -->
+    <script type="text/javacript" src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+    <script type="text/javacript" src="../../assets/abi/i_jc_job_posting_abi.js"></script>
+    <script type="text/javacript" src="../../assets/abi/i_jc_employer_dashboard_abi.js"></script>
     <!-- TITLE -->
     <title>Job Crypt</title>
 </head>
@@ -34,107 +44,90 @@
         <div class="ui-layout-container">
             <div class="ui-section-header__layout ui-layout-flex">
                 <!-- LOGO -->
-                <a href="#" role="link" aria-label="#">
-                    <img src="media/jclogo.svg" height="50" width="50" /><b>Job Crypt</b>
+                <a href="../../index.html" role="link" aria-label="#">
+                    <img src="../../media/jclogo.svg" height="50" width="50" /><b>Job Crypt</b><br/><small><center>[PUBLIC-ALPHA]</center></small></b>
                 </a>
                 <!-- MENU -->
-                <a href="post.html"> <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Post a Job</button> </a>
+                <a href="../app/post.html"> <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Post a Job</button> </a>
                 <a href="#" role="link" aria-label="#">
                     <svg viewBox="0 0 24 24" height="18" width="18" fill="none" stroke="#353535" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" role="img" aria-label="#">
               <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
             </svg>
                 </a>
+            </a>
+            <a href="https://discord.gg/JgBEEtaSmD " target="_blank" role="link " aria-label="# ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                  </svg>
+            </a>
+            <a href="https://www.tiktok.com/@jobcrypt" target="_blank" role="link " aria-label="# ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
+                  </svg>
+            </a>
+        </div>
                 <table>
                     <tr>
-                        <td> <a href="">Connect Web 3</a></td>
+                        <td> <a id="connect_web_3">Connect Web 3</a></td>
+                    </tr>
+                    <tr> 
+                        <td><b><small>[<a href="https://docs.celo.org/getting-started/wallets/using-metamask-with-celo/manual-setup#:~:text=Network%20Name%3A%20Celo%20(Alfajores%20Testnet)" target="_blank">Network CELO (Alfajores Testnet)</a>]</small></b></td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <font size="1">Earn Rewards</font>
+                            <div class="ui-component-card ">
+                                <h6>Select Dashboard</h6>
+                                <table>
+                                    <tr>
+                                        <td>                                           
+                                                <span id="stake_approve_span"></span> 
+                                           </td>
+                                           <td>
+                                                <span id="stake_button_span"></span>                                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="../jobseeker/job_seeker_dashboard.html">  Job Seeker
+                                            </a></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </header>
+    <center><small><span id="stake_status_span"></span></center>
+    <center><span id="showAccount"></span></center>
     <main role="main">
         <section class="ui-section-hero">
             <div class="ui-layout-container">
                 <!-- COPYWRITING -->
-                <div class="ui-layout-column-6 ui-layout-column-center">
-                    <h1>Search for your Dream Decentralized Job.</h1>
-                    <div class="ui-component-cta ui-layout-flex">
-                        <form action="#" class="ui-component-form ui-layout-grid ui-layout-column-4">
-                            <input type="email" placeholder="Search e.g. Solidity" class="ui-component-input ui-component-input-medium" required>
-                            <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Search</button>
-                        </form>
-                        <p class="ui-text-note"></p>
-                        <table>
-                            <tr>
-                                <td colspan="4"><small><b>Quick search</b></small></td>
-                            </tr>
-                            <tr>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>All Jobs</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Remote</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Solidity</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Manager</b></a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Co-Founder</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Team Lead</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Developer</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Marketing</b></a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>DeFi</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>NFT</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Intern</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Compliance</b></a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Communit</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Trader</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Designer</b></a></td>
-                                <td><a href="" style="color: rgb(18, 22, 236);"><b>Chief-something</b></a></td>
-                            </tr>
-                        </table>
+                <div class="ui-layout-column-8 ui-layout-column-center">
+                    <div class=" ui-component-card ui-layout-column-8 ">
+                        <h2>Your Latest Job Postings</h2>
+                        <center>
+                            <span id="action_result_span"></span>
+                            
+                            <table id="employer_dashboard_table">
+                                <tr>
+                                    <th>Post Date</th>
+                                    <th>Title</th>
+                                    <th>Applicants</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                    <th></th>                               
+                                </tr>
+                            </table>
+                        </center>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="ui-section-content">
-            <div class="ui-layout-container ">
-                <div class="ui-layout-column-6 ui-layout-column-center ">
-                    <table>
-                        <tr>
-                            <td>
-                                <div class=" ui-component-card ui-layout-column-4 ">
-                                    <h4 class="ui-component-card--title ">${Job Title} </h4>
-                                    <h5>${company} ${location type} ${pay type} ${post-age}</h5>
-                                    <p>${head-line} ${more}</p>
-                                </div>
-                                <div class="ui-component-card ui-layout-column-4 ">
-                                    <h4 class="ui-component-card--title ">${Job Title} </h4>
-                                    <h5>${company} ${location type} ${pay type} ${post-age}</h5>
-                                    <p>${head-line} ${more}</p>
-                                </div>
-                            </td>
-                            <td>
-                                <h6 align="right">Older Jobs</h6>
-                                <div class=" ui-component-card ui-layout-column-4 ">
-                                    ${older job title}${age} ${applicants}
-                                    <br/> ${older job title}${age} ${applicants}
-                                    <br/> ${older job title}${age} ${applicants}
-                                    <br/> ${older job title}${age} ${applicants}
-                                    <br/>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
 
 
         <section class=" ui-section-close ">
@@ -156,14 +149,392 @@
     <footer role="contentinfo " class="ui-section-footer ">
         <div class="ui-layout-container ">
             <div class="ui-section-footer__layout ui-layout-flex ">
+
                 <!-- COPYRIGHT -->
-                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2021 Job Crypt</small>
-                    <br/><small>Template by Uisual</small>
+                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2022 Job Crypt</small>
+                    <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
+                    <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank ">Open Block EI</a></small>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="01_about.html ">about | </a>
+                            </td>
+                            <td>
+                                <a href="03_terms.html">terms | </a>
+                            </td>
+                            <td>
+                                <a href="02_privacy.html">privacy policy | </a>
+                            </td>
+                            <td>
+                                <a href="#">cookie policy </a>
+                            </td>
+                        </tr>
+                    </table>
                 </p>
 
             </div>
         </div>
     </footer>
+    <!-- The Modal -->
+    <div id="extension_modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Some text in the Modal..</p>
+    </div>
+  
+  </div>
+    <script>
+
+    </script>
+    <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
+    <script src="../../assets/abi/i_jc_employer_dashboard_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_seeker_dashboard_abi.js"></script>
+    <script src="../../assets/abi/i_jc_payment_manager_abi.js"></script>
+    <script src="../../assets/abi/i_jc_dashboard_factory_abi.js"></script>
+    <script src="../../assets/abi/i_jc_posting_factory_abi.js"></script>
+    <script src="../../assets/abi/i_open_product_abi.js"></script>
+    <script src="../../assets/abi/i_open_product_core_abi.js"></script>
+    <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+    <script src="../../assets/abi/i_open_register_abi.js"></script>
+
+    <script src="../../assets/js/jobcrypt.js"></script>
+    <script> 
+    /*
+             <select class="ui-component-form">
+                                        <option>Select option</option>
+      DRAFT         <option>Edit</option>       <!-- edit posting   -->
+      DRAFT         <option>Archive</option>    <!-- clear posting from list  -->
+                                                                        <option>Extend</option> <!-- extend posting   -->
+      POSTED        <option>Fill</option>       <!-- mark posting filled   -->
+      POSTED        <option>Cancel</option>     <!-- posting will may return -->
+      
+      EXPIRED       <option>Extend</option>     <!-- posting will continue  -->
+      EXPIRED       <option>Archive</option>    <!-- posting will not be returning -->
+
+      FILLED       <option>Archive</option>
+      CANCELLED    <option>Archive</option>
+      
+
+    */
+
+    const actionResultSpan = ge("action_result_span");
+    const employerDashboardTable = ge("employer_dashboard_table");
+    const extensionModal = ge("extension_modal");
+
+
+    function loadPageData() { 
+        getDashboard(); 
+    }
+
+    function getDashboard() {
+	    jcDashboardFactoryContract.methods.hasDashboard(account, "EMPLOYER_DASHBOARD_TYPE").call({
+			from: account
+		})
+		.then(function(response) {
+			if (response === true) {
+				findDashboard(); 
+			} else {
+				createDashboard();
+			}
+		})
+		.catch(function(err) {
+			console.log(err);
+		});
+}
+
+    function createDashboard() {
+        jcDashboardFactoryContract.methods.createEmployerDashboard(account).send({
+            from: account
+        })
+        .then(function(response) {
+            console.log(response);
+            getDashboard();
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+    }
+
+    function findDashboard() { 
+        jcDashboardFactoryContract.methods.findDashboard(account,"EMPLOYER_DASHBOARD_TYPE" ).call({from : account})
+        .then(function(response){
+            console.log(response);
+            var dashboardAddress = response; 
+            iEmployerDashboardContract = new web3.eth.Contract(iJCEmployerDashboardAbi, dashboardAddress);
+            buildEmployerDashboardTable(iEmployerDashboardContract);
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+    }
+
+    function buildEmployerDashboardTable(iEmployerDashboardContract) {
+        iEmployerDashboardContract.methods.getPostings().call({from : account})
+        .then(function(response){
+            console.log(response);
+            var postingAddresses = response; 
+            for(var x = 0; x < postingAddresses.length; x++){
+                var postingAddress = postingAddresses[x];
+                buildPostingTableRow(postingAddress);
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }
+
+    function buildPostingTableRow(postingAddress){
+        
+        var row = employerDashboardTable.insertRow();
+    
+        iJobPostingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
+
+        var postingStartDateCell = row.insertCell();   
+        var titleCell = row.insertCell(); 
+        var applicantCountCell = row.insertCell(); 
+        var expiryDateCell = row.insertCell();
+        var statusCell = row.insertCell();
+        var actionCell = row.insertCell(); 
+        var buttonCell = row.insertCell(); 
+
+        getStartDate(postingStartDateCell, iJobPostingContract);
+        getTitle(titleCell , iJobPostingContract, postingAddress);
+        getApplicantCount(applicantCountCell, iJobPostingContract);
+        getExpiryDate(expiryDateCell, iJobPostingContract);
+        getStatus(statusCell, iJobPostingContract, postingAddress, actionCell);        
+        getActionButton(buttonCell, iJobPostingContract);
+
+        /**
+            <tr>
+                <td>2021/12/01 10:00 GMT</td>
+                <td>
+                    <a href="../app/job_detail_template.html" target="_blank"><b>DeFi Community Manager</b></a></td>
+                <td>65</td>
+                <td>2021/12/15 10:00 GMT</td>
+                <td>ACTIVE</td>
+                <td>
+                    <select class="ui-component-form">
+                        <option>Select option</option>
+                        <option>Edit</option> <!-- edit posting   -->
+                        <option>Extend</option> <!-- extend posting   -->
+                        <option>Fill</option> <!-- mark posting filled   -->
+                        <option>Cancel</option> <!-- posting will not be returning -->
+                        <option>Archive</option> <!-- posting will not be returning -->
+                </td>
+                <td> <button type="submit " class="ui-component-button ui-component-button-medium ui-component-button-primary ">Submit</button></td>
+
+            </tr>
+        */
+
+    }
+
+
+
+
+    function getStartDate(cell, iJCPostingContract){
+        iJobPostingContract.methods.getPostingDate().call({from : account})
+        .then(function(response){
+            console.log(response);
+            var startDate = new Date(response*1000);
+            var startDateTxt = text(formatDate(startDate));
+            cell.append(startDateTxt);
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+        
+    }
+
+    function getTitle(cell, iJCPostingContract, postingAddress){
+        iJobPostingContract.methods.getFeature("JOB_TITLE").call({from : account})
+        .then(function(response){
+            console.log(response);
+            var title = response; 
+            
+            var titleLink = ce("a"); 
+            cell.append(titleLink);
+
+            titleLink.setAttribute("href", "../app/job_detail_template.html?postingAddress="+postingAddress);
+            titleLink.setAttribute("target", "_blank"); 
+                    
+            var titleTxt = text(title);
+            titleLink.append(bold(titleTxt));
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+   
+    }
+
+    function getApplicantCount(cell, iJCPostingContract){
+        iJobPostingContract.methods.getApplicantCount().call({from : account})
+        .then(function(response){
+            console.log(response);
+            var applicantCount = response; 
+
+            var applicantCountTxt = text(applicantCount);
+            cell.append(applicantCountTxt);
+        })
+        .catch(function(err){
+            console.log(err);
+        })     
+    }
+
+    function getExpiryDate(cell, iJCPostingContract){
+        iJobPostingContract.methods.getExpiryDate().call({from : account})
+        .then(function(response){
+            console.log(response);
+            var expiryDate = new Date(response*1000);
+
+            var expiryDateTxt = text(formatDate(expiryDate));
+            cell.append(expiryDateTxt);
+        })
+        .catch(function(err){
+            console.log(err);
+        })       
+    }
+
+    function getStatus(cell, iJCPostingContract, postinAddress, selectCell){
+        iJobPostingContract.methods.getPostingStatus().call({from : account})
+        .then(function(response){
+            console.log(response);
+            var status = response;            
+            cell.append(bold(text(status)));
+
+            var actionSelect = ce("select");
+            actionSelect.setAttribute("id", postinAddress);
+            actionSelect.setAttribute("class", "form-control");
+            selectCell.append(actionSelect);
+
+            if(status === "DRAFT"){
+                console.log("draft"); 
+                var editOption = option("EDIT"  , "edit"); 
+                var archiveOption = option("ARCHIVE", "archive"); 
+                actionSelect.append(editOption);
+                actionSelect.append(archiveOption);                            
+            }
+
+            if(status === "POSTED"){
+                console.log("posted option");
+                var fillOption = option("FILL"  , "fill"); 
+                var cancelOption = option("CANCEL", "cancel"); 
+                actionSelect.append(fillOption);
+                actionSelect.append(cancelOption);                                    
+            }
+
+            if(status === "EXPIRED"){        
+                console.log("expired"); 
+                var extendOption = option("EXTEND", "extend"); 
+                var archiveOption = option("ARCHIVE"  , "archive"); 
+                
+                actionSelect.append(extendOption); 
+                actionSelect.append(archiveOption);            
+            }
+
+            if(status === "FILLED" || status === "CANCELLED" || status === "EXPIRED"   ) {
+                var archiveOption = option("ARCHIVE"  , "archive");             
+                actionSelect.append(archiveOption);                    
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        })      
+    }
+
+    function getActionButton(cell, postingAddress){        
+        var submitButton = ce("button");
+        cell.append(submitButton) ;
+        submitButton.setAttribute("type", "submit");
+        submitButton.setAttribute("class","ui-component-button ui-component-button-small ui-component-button-primary");
+        submitButton.setAttribute("onclick", "processAction("+postingAddress+")");
+        submitButton.append(text("Action"));
+    }
+
+    function processAction(postingAddress){
+        var action = ge(postingAddress);
+
+        if(action === "EDIT") {
+            // send to post page
+            window.open("/pages/app/post.html?postingAddress="+postingAddress); 
+        }
+        if(action === "EXTEND") {
+            // modal
+            extensionModal.modal();
+            
+        }
+
+        if(action === "FILL") {
+            // call posting
+            iJobPostingContract.methods.fillJob().send({from : account})
+            .then(function(response){
+                console.log(response);
+                actionResultSpan.innerHTML = "FILLED :: "+ response.blockhash
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        }
+
+        if(action === "CANCEL") {
+            // call posting
+            iJobPostingContract.methods.cancelJob().send({from : account})
+            .then(function(response){
+                console.log(response);
+                actionResultSpan.innerHTML = "CANCELLED :: "+ response.blockhash
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        }
+
+        if(action === "ARCHIVE") {
+            // call posting 
+            iJobPostingContract.methods.archive().send({from : account})
+            .then(function(response){
+                console.log(response);
+                actionResultSpan.innerHTML = "ARCHIVED :: "+ response.blockhash
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        }
+
+    }
+
+    function option(name, value) {
+        var o = ce("option")
+        o.setAttribute("value", value);
+        o.append(text(name));
+
+        return o; 
+    }
+    function ge(element){
+        return document.getElementById(element);
+    }
+
+    function ce(element) {
+        return document.createElement(element);
+    }
+    function text(txt) {
+        return document.createTextNode(txt);
+    }
+
+    function bold(b) {
+        var bold = document.createElement("b");
+        bold.append(b);
+        return bold; 
+    }
+
+    function formatDate(date) {
+        return date.toLocaleString('en-UK', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute: '2-digit', second: '2-digit' })
+    }
+
+    </script>
 </body>
 
 </html>

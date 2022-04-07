@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="uisual" content="Made with Uisual (uisual.com)">
+    <meta name="author" content="JobCrypt">
+    <meta name="description" content="#">
+    <meta name="referrer" content="unsafe-url">
+    <meta name="robots" content="index, follow">
+    <!-- SPEED -->
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- LINK -->
+    <link rel="me" href="#">
+    <link rel="canonical" href="#">
+    <link rel="icon" type="image/png" href="#" sizes="48x48">
+    <!-- PERFORMANCE -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <link rel="preload" as="style" href="../../style.css">
+    <link rel="stylesheet" href="../../style.css">
+    <script src="https://unpkg.com/ipfs-http-client-lite/dist/index.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Web 3 -->
+
+    <!-- TITLE -->
+    <title>Job Crypt</title>
+</head>
+
+<body>
+    <header role="banner" class="ui-section-header">
+        <div class="ui-layout-container">
+            <div class="ui-section-header__layout ui-layout-flex">
+                <!-- LOGO -->
+                <a href="../../index.html" role="link" aria-label="#">
+                    <img src="../../media/jclogo.svg" height="50" width="50" /><b>Job Crypt</b><br/><small><center>[PUBLIC-ALPHA]</center></small></b>
+                </a>
+                <!-- MENU -->
+                <a href=".../../../../index.html"> <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Search Jobs</button> </a>
+                <a href="#" role="link" aria-label="#">
+                    <svg viewBox="0 0 24 24" height="18" width="18" fill="none" stroke="#353535" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" role="img" aria-label="#">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+            </svg>
+                </a>
+                </a>
+                <a href="https://discord.gg/JgBEEtaSmD " target="_blank" role="link " aria-label="# ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                  </svg>
+                </a>
+                <a href="https://www.tiktok.com/@jobcrypt" target="_blank" role="link " aria-label="# ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z"/>
+                  </svg>
+                </a>
+            </div>
+            <table>
+                <tr>
+                    <td> <a id="connect_web_3">Connect Web 3</a></td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <b><small>[<a href="https://docs.celo.org/getting-started/wallets/using-metamask-with-celo/manual-setup#:~:text=Network%20Name%3A%20Celo%20(Alfajores%20Testnet)" target="_blank">Network CELO (Alfajores Testnet)</a>]</small></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <div class="ui-component-card ">
+                            <h6>Select Dashboard</h6>
+                            <table>
+                                <tr>
+                                    <td>                                           
+                                            <span id="stake_approve_span"></span> 
+                                       </td>
+                                       <td>
+                                            <span id="stake_button_span"></span>                                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="../employer/employer_dashboard.html">Employer</a> </td>
+                                    <td>
+                                        <a href="../jobseeker/job_seeker_dashboard.html"> | Job Seeker
+                                            </a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </header>
+    <center><small><span id="stake_status_span"></span></center>
+    <center><span id="showAccount"></span></center>
+    <center><span id="job_posting_result"></span></center>
+    <main role=" main ">
+        <!-- START MAIN -->
+        <section class="ui-section-content">
+            <div class="ui-layout-container">
+                <div class="ui-layout-column-10 ui-layout-column-center ">
+
+                    <div class="ui-component-card ">
+                        <center>
+                        <h3>Create draft Job Posting</h3>
+                        <table> 
+                            <tr> 
+                                <td><span id="job_posting_create_display"></span></td>
+                            </tr>
+                            <tr> 
+                                <td><small>Note: Listings duration only starts after posting.</small></td>
+                            </tr>
+                        </table>
+                    </center>
+                        
+                        <center>
+                            <table style="text-align: left; ">
+                                <tr>
+                                    <td>Select Draft Job Posting Product (pay later)
+                                    </td>
+                                    <td>
+                                        <select class="ui-component-input ui-component-input-medium " id="job_posting_product_select" ) ">
+                                            <option value="1-week ">$5 - 1 week listing - (cUSD)</option>
+                                            <option value="2-week " selected>2 Celo - 2 week listing (CELO)</option>
+                                            <option value="4-week ">€5 - 2 week listing (cEUR</option>
+                                        </select>
+                                </td>
+                            </tr>
+ 
+              
+                            <tr>
+                                <td> </td>
+                                <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="create_draft_job_posting" type="button " value="Create Draft Job Posting ">
+                                </td>
+                            </tr>
+                        </table>
+                        </center>                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="ui-section-content ">
+            <div class="ui-layout-container ">
+                <div class="ui-layout-column-10 ui-layout-column-center ">
+                    <div class="ui-component-card ">
+                        <h3>Select Draft Job Posting To Edit</h3>
+                        <span id="job_posting_edit_display"></span>
+                        <center>
+                        <table style="text-align: center; ">
+                            <tr>
+                               
+                                <td>
+                                    <select class="ui-component-input ui-component-input-medium " id="edit_draft_job_posting_select") ">
+                                        <option value="1-week">Job Title 1 - 1 week listing</option>
+                                        <option value="2-week" selected>Empty Draft 2 - 4 week listing</option>
+                                        <option value="4-week">Empty Draft 3 - 2 week listing</option>
+                                        <option value="5-week">Job Title 4 - 5 week listing</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="edit_draft_posting_button" type="button " value="Edit Draft Posting ">
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="ui-section-content ">
+            <div class="ui-layout-container ">
+                <div class="ui-layout-column-10 ui-layout-column-center ">
+
+                    <div class="ui-component-card " style="text-align: center; ">
+
+                        <h2>Enter Job Posting Details</h2>
+                        <span id="job_posting_save_display"></span>
+                        <table style="text-align: left; ">
+
+                            <tr>
+                                <td>Job Title*</td>
+                                <td><input type="text " id="job_title" placeholder=" enter job title ... " class="ui-component-input ui-component-input-medium " required></td>
+                            </tr>
+                            <tr>
+                                <td>Location Type*</td>
+                                <td>
+                                    <select class="ui-component-input ui-component-input-medium " id="job_location_type">
+                                        <option value="Geo-Local">Geo Local</option>
+                                        <option value="Geo-Remote" selected>Geo Remote</option>
+                                        <option value="Mixed-Mode ">Geo Mixed Mode</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Location Support*</td>
+                                <td>
+                                    <select class="ui-component-input ui-component-input-medium " id="job_location_support">
+                                        <option value="Paid-Relocation ">Paid Relocation</option>
+                                        <option value="Supported-Relocation " selected>Supported Relocation</option>
+                                        <option value="Not-Provided">Not Provided</option>
+                                        <option value="N/A">N/A</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Work Location</td>
+                                <td><input type="text " id="job_work_location" placeholder=" enter work location (optional) ... " class="ui-component-input ui-component-input-medium "></td>
+                            </tr>
+                            <tr>
+                                <td>Company Name*</td>
+                                <td><input type="text " id="company_name" placeholder=" enter company name ... " class="ui-component-input ui-component-input-medium " required></td>
+                            </tr>
+                            <tr> 
+                                <td>Company Link*</td>
+                                <td><input type="text " id="company_link" placeholder=" enter company link ... " class="ui-component-input ui-component-input-medium " required></td>
+                            </tr>
+                            <tr>
+                                <td>Summary about your Company*</td>
+                                <td><textarea id="company_summary" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter summary ... "></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Skills Required*</td>
+                                <td><textarea id="job_skills_required" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter skills required ... " required></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Search Categories*</td>
+                                <td><textarea id="job_search_categories" class="ui-component-input ui-component-input-medium " width="15 " height="30 " placeholder="enter search categories ... " required></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Work Type*</td>
+                                <td>
+                                    <select class="ui-component-input ui-component-input-medium " id="job_work_type">
+                                        <option value="Contract">Contract</option>
+                                        <option value="Full-time " selected>Full-time</option>
+                                        <option value="Part-time ">Part-time</option>
+                                        <option value="Intern ">Intern</option>
+                                        <option value="Volunteer ">Volunteer</option>                                        
+                                        <option value="Associate ">Associate</option>
+                                        <option value="Alternative ">Alternative</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Payment Type*</td>
+                                <td><select class="ui-component-input ui-component-input-medium " id="job_payment_type">
+                                    <option value="crypto ">Cryptocurrency</option>
+                                    <option value="fiat " selected>Fiat</option>
+                                    <option value="mixed ">Mixed Mode</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td>Job Description*</td>
+                                <td>
+                                    <textarea id="job_description" class="ui-component-input " width="15 " height="30 " placeholder="about the job " required></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Job Application Link*</td>
+                                <td><input type="text " id="job_application_link" placeholder="link or email " class="ui-component-input ui-component-input-medium " required></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="reset_draft_posting_button" type="button " value="reset ">
+                                </td>
+                                <td>
+                                    <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="save_draft_posting_button" type="button " value="save your job posting ">
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Pay For Posting -->
+        <section class="ui-section-content">
+            <div class="ui-layout-container">
+                <div class="ui-layout-column-10 ui-layout-column-center ">
+
+                    <div class="ui-component-card ">
+                        <h3>Pay for Job Posting</h3>
+                        <center>
+                        <table>
+                            <tr> 
+                                <td><span id="job_posting_pay_display"></span></td>
+                            </tr>
+                            <tr> 
+                                <td><small>Note: Listings duration only starts after posting.</small></td>
+                            </tr>
+                        </table>
+                    </center>                                                
+                        <center>
+                            <table style="text-align: left; ">
+                                <tr>
+                                    <td>Selected Duration
+                                    </td>
+                                    <td>
+                                        <span id="job_posting_duration_view">3 Weeks</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Posting Fee
+                                    </td>
+                                    <td>
+                                        <span id="job_posting_fee_view">10 USDC</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Currency</td>
+                                    <td>
+                                        <span id="job_posting_currency_view">USDC</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Currency Contract</td>
+                                    <td>
+                                        <span id="job_posting_currency_erc20_address_view">0x...</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="approve_payment_currency_button" type="button " value="approve payment currency ">
+                                    </td>
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="buy_job_posting_button" type="button " value="buy your listing ">
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- POST JOB -->
+        <section class="ui-section-content ">
+            <div class="ui-layout-container ">
+                <div class="ui-layout-column-10 ui-layout-column-center ">
+
+                    <div class="ui-component-card " style="text-align: center; ">
+
+                        <h2>Post your job</h2><br> 
+                        NOTE: Approval of two transactions required, first to save latest changes to your job second to post your job to JobCrypt
+                        
+                        <span id="job_posting_post_display"></span>
+                        <center>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post ">
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer role="contentinfo " class="ui-section-footer ">
+        <div class="ui-layout-container ">
+            <div class="ui-section-footer__layout ui-layout-flex ">
+
+                <!-- COPYRIGHT -->
+                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2022 Job Crypt</small>
+                    <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
+                    <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank ">Open Block EI</a></small>
+                </p>
+                <p>
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="pages/app/jc/01_about.html ">about | </a>
+                            </td>
+                            <td>
+                                <a href="pages/app/jc/03_terms.html ">terms | </a>
+                            </td>
+                            <td>
+                                <a href="pages/app/jc/02_privacy.html ">privacy policy | </a>
+                            </td>
+                            <td>
+                                <a href="pages/app/jc/06_cookies.html ">cookie policy </a>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
+    <script src="../../assets/abi/i_jc_employer_dashboard_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_seeker_dashboard_abi.js"></script>
+    <script src="../../assets/abi/i_jc_payment_manager_abi.js"></script>
+    <script src="../../assets/abi/i_jc_dashboard_factory_abi.js"></script>
+    <script src="../../assets/abi/i_jc_posting_factory_abi.js"></script>
+    <script src="../../assets/abi/i_open_product_abi.js"></script>
+    <script src="../../assets/abi/i_open_product_core_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_posting_editor_abi.js"></script>
+    <script src="../../assets/abi/i_erc20_abi.js"></script>
+    <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+    <script src="../../assets/abi/i_open_register_abi.js"></script>
+
+    <script>
+        console.log(iJCJobCryptAbi);
+    </script>
+
+    <script src="../../assets/js/i_jc_post.js"></script>
+    <script src="../../assets/js/jobcrypt.js "></script>
+
+</body>
+
+</html>
