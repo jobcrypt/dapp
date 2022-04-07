@@ -2,14 +2,12 @@
 pragma solidity >=0.8.0 <0.9.0;
 
  import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
- import "https://github.com/Block-Star-Logic/open-roles/blob/00f0632adcc11d981f374ff24bfc6a47ec3456af/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
+ import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
 
  import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
  import "https://github.com/Block-Star-Logic/open-roles/blob/da64281ff9a0be20c800f1c3e61a17bce99fc90d/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesDerivativeAdmin.sol";
  
  import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
-
- 
 
  import "../interfaces/IJobCryptPostingFactory.sol";
  import "../interfaces/IJobCryptSecuritization.sol";
@@ -25,16 +23,15 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
     using LOpenUtilities for string;
     
     string name                         = "RESERVED_JOBCRYPT_JOB_POSTING_FACTORY"; 
-    uint256 version                     = 6; 
-    bool securityActive                 = false;  
+    uint256 version                     = 7; 
 
     string coreRole                     = "JOBCRYPT_CORE_ROLE"; 
 
     string jobPostingType               = "JOBCRYPT_JOB_POSTING_TYPE";
     string employerDashboardType        = "EMPLOYER_DASHBOARD_TYPE";
 
-    string registerCA                   = "RESERVED_OPEN_REGISTER";
-    string roleManagerCA                = "RESERVED_OPEN_ROLES";
+    string registerCA                   = "RESERVED_OPEN_REGISTER_CORE";
+    string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
     
     string securitizationCA             = "RESERVED_JOBCRYPT_DERIVATIVE_CONTRACT_SECURITIZATION";
     string dashboardFactoryCA           = "RESERVED_JOBCRYPT_DASHBOARD_FACTORY";
@@ -52,6 +49,7 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         
     address [] postings; 
     mapping(address=>address[]) postingsByOwner; 
+    mapping(address=>bool) hasPostingsByOwner; 
 
     constructor(address _registryAddress) {      
         registryAddress = _registryAddress;   
@@ -60,10 +58,10 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         dashboardFactory = IJobCryptDashboardFactory(registry.getAddress(dashboardFactoryCA));
         setRoleManager(registry.getAddress(roleManagerCA));
 
-        addConfigurationItem(registerCA, _registryAddress, 0);   
-        addConfigurationItem(roleManagerCA, address(roleManager), 0);   
-        addConfigurationItem(securitizationCA, address(securitization), 0);
-        addConfigurationItem(dashboardFactoryCA, address(dashboardFactory), 0);
+        addConfigurationItem(_registryAddress);   
+        addConfigurationItem(address(roleManager));   
+        addConfigurationItem(address(securitization));
+        addConfigurationItem(address(dashboardFactory));
         addConfigurationItem(name, self, version);
 
         initDefaultFunctionsForRoles();         
@@ -98,18 +96,25 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
     }
 
     function findPostings(address _postingOwner) override view external returns (address [] memory _postings){
-        return postingsByOwner[_postingOwner];
+        if(hasPostingsByOwner[_postingOwner]){
+            return  postingsByOwner[_postingOwner];
+        }
+        return new address[](0);
     }
 
     function createJobPosting(address _postingOwner, 
                                 address _product) override external returns (address _jobPostingAddress){      
-        require(isSecure(coreRole, "createJobPosting"), "jobcrypt core only ");       
+        require(isSecure(coreRole, "createJobPosting"), "jobcrypt core only ");  
+         
         JcJobPosting posting_ = new JcJobPosting( registryAddress, _postingOwner, _product); 
         posting_.setPostingStatus("DRAFT");
-        _jobPostingAddress = address(posting_);       
         
+        _jobPostingAddress = address(posting_);       
         postingsByOwner[_postingOwner].push(_jobPostingAddress);
-         securitization.secureJobPosting(_jobPostingAddress, _postingOwner);
+        hasPostingsByOwner[_postingOwner] = true; 
+        registry.registerDerivativeAddress(_jobPostingAddress, jobPostingType);
+        
+        securitization.secureJobPosting(_jobPostingAddress, _postingOwner);
         // post the draft           
         
         IEmployerDashboard dashboard;
@@ -121,6 +126,7 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         }        
         dashboard.addJobPosting(_jobPostingAddress);
         postings.push(_jobPostingAddress);      
+        
         return _jobPostingAddress;       
     }
 
@@ -129,9 +135,16 @@ contract JobCryptPostingFactory is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address       
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));
         securitization          = IJobCryptSecuritization(registry.getAddress(securitizationCA));
+        dashboardFactory        = IJobCryptDashboardFactory(registry.getAddress(dashboardFactoryCA));
+
+        addConfigurationItem(address(registry));   
+        addConfigurationItem(address(roleManager));   
+        addConfigurationItem(address(securitization));
+        addConfigurationItem(address(dashboardFactory));
         return true; 
     }
    //=============================================== Internal =================
+
 
   
     function initDefaultFunctionsForRoles() internal { 

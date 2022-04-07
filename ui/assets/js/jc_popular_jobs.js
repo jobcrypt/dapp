@@ -12,7 +12,6 @@ async function getPopularJobs() {
 }
 
 function buildPopularJobs(postingAddresses) {
-
     for (var x = 0; x < postingAddresses.length; x++) {
         postingAddress = postingAddresses[x]
         var row = popularJobsTable.insertRow();
@@ -20,7 +19,6 @@ function buildPopularJobs(postingAddresses) {
 
         iJobPostingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
         buildPopularEntry(iJobPostingContract, cell);
-
     }
 }
 

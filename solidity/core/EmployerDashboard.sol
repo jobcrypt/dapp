@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
-import "https://github.com/Block-Star-Logic/open-roles/blob/00f0632adcc11d981f374ff24bfc6a47ec3456af/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
+import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
 
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
@@ -24,36 +24,35 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
 
     mapping(address=>bool) removedPostingsByAddress; 
 
-    uint256 version = 4; 
+    uint256 version = 5; 
     string name = "EMPLOYER_DASHBOARD";
 
     address employer; 
     
     IOpenRegister registry; 
     
-    string registerCA           = "RESERVED_OPEN_REGISTER";
-    string roleManagerCA        = "RESERVED_OPEN_ROLES"; 
+    string registerCA           = "RESERVED_OPEN_REGISTER_CORE";
+    string roleManagerCA        = "RESERVED_OPEN_ROLES_CORE"; 
 
-    string localViewerRole      = "LOCAL_DASHBOARD_VIEWER_ROLE";
-    string localEditorRole      = "LOCAL_DASHBOARD_EDITOR_ROLE";
-    string localModeratorRole   = "LOCAL_MODERATOR_ROLE";
-    string coreRole             = "JOBCRYPT_CORE_ROLE"; 
+    string localDashboardViewerRole      = "LOCAL_DASHBOARD_VIEWER_ROLE";
+    string localDashboardEditorRole      = "LOCAL_DASHBOARD_EDITOR_ROLE";
+    string localDashboardModeratorRole   = "LOCAL_DASHBOARD_MODERATOR_ROLE";
+    string jobCryptAdminRole             = "JOBCRYPT_ADMIN_ROLE";
 
     string dashboardType        = "EMPLOYER_DASHBOARD_TYPE";
 
     constructor (address _employer, address _registryAddress)  {
         employer = _employer; 
-        self = address(this);
         registry = IOpenRegister(_registryAddress);
         roleManager = IOpenRoles(registry.getAddress(roleManagerCA)); 
 
-        addConfigurationItem(registerCA, _registryAddress, 0);   
-        addConfigurationItem(roleManagerCA, address(roleManager), 0);   
+        addConfigurationItem(_registryAddress);   
+        addConfigurationItem(address(roleManager));   
         addConfigurationItem(name, self, version);
     }
     
     function getPostings() override view external returns (address [] memory _jobPostings) {
-        require(isSecure(localViewerRole, "getPostings"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local viewer only"); // employer only                 
+        require(isSecure(localDashboardViewerRole, "getPostings"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local viewer only"); // employer only                 
         return viewableJobPostings; 
     }
 
@@ -65,19 +64,8 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
         return draftJobPostings; 
     }
 
-    function removePosting(address _address) external returns (bool _removed) {
-        require(isSecure(localEditorRole, "removePosting"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local editor only"); // employer only     
-        viewableJobPostings = _address.remove(viewableJobPostings);
-        return true; 
-    }
-
-    function getPostingHistory() view external returns (address [] memory _postingHistory) {
-        require(isSecure(localModeratorRole, "getPostingHistory"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local moderator only"); // employer only  
-        return jobPostings;    
-    }
-
     function findPostedJobs(uint256 _startDate, uint256 _endDate) override view external returns (address [] memory _postedJobs){
-        require(isSecure(localViewerRole, "findPostedJobs"), "JC EMPLOYER DASHBOARD : findPostedJobs : 00 - local viewer only"); // employer only         
+        require(isSecure(localDashboardViewerRole, "findPostedJobs"), "JC EMPLOYER DASHBOARD : findPostedJobs : 00 - local viewer only"); // employer only         
               
         address [] memory temp_ = new address[](jobPostings.length);
         uint256 y = 0; 
@@ -97,8 +85,19 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
         return _postedJobs;
     }
 
+    function removePosting(address _address) external returns (bool _removed) {
+        require(isSecure(localDashboardEditorRole, "removePosting"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local editor only"); // employer only     
+        viewableJobPostings = _address.remove(viewableJobPostings);
+        return true; 
+    }
+
+    function getPostingHistory() view external returns (address [] memory _postingHistory) {
+        require(isSecure(localDashboardModeratorRole, "getPostingHistory"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local moderator only"); // employer only  
+        return jobPostings;    
+    }
+
     function addJobPosting(address _jobPostingAddress ) override external returns (bool _added) {   
-        require(isSecure(localModeratorRole, "addJobPosting"), "JOBCRYPT_EMPLOYER_DASHBOARD : addJobPosting : 00 - local moderator only"); // moderator  
+        require(isSecure(localDashboardModeratorRole, "addJobPosting"), "JOBCRYPT_EMPLOYER_DASHBOARD : addJobPosting : 00 - local moderator only"); // moderator         
         jobPostings.push(_jobPostingAddress);  
         IJobPosting posting = IJobPosting(_jobPostingAddress);
         string memory status_ = posting.getPostingStatus(); 
@@ -110,9 +109,11 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
     }          
 
     function notifyChangeOfAddress() external returns (bool _recieved){
-        require(isSecure(coreRole, "notifyChangeOfAddress")," admin only ");    
+        require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");    
         registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address               
-        roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));        
+        roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));  
+        addConfigurationItem(address(registry));   
+        addConfigurationItem(address(roleManager));         
         return true; 
     }
     // ======================== INTERNAL ==================================

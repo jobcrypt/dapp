@@ -5,6 +5,13 @@ pragma solidity >=0.8.0 <0.9.0;
 
 interface IJobPosting { 
 
+   struct Applicant { 
+        address applicant;
+        uint256 id; 
+        uint256 applicationDate; 
+        string link; 
+    }
+
     function getOwner() view external returns (address _owner);
 
     function getCategories() view external returns (string [] memory _categories );
@@ -25,7 +32,7 @@ interface IJobPosting {
 
     function getApplyLink() view external returns (string memory _applyLink);
 
-    function getApplicantData(address _applicant) view external returns (uint256 _applicationDate, uint256 _applicantNumber, string memory _applyLink);
+    function getApplicantData(address _applicantAddress) view external returns (Applicant memory _applicant);
         
     function getApplicantCount() view external returns (uint256 _applicantCount);    
 

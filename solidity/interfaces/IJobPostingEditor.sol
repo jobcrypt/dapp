@@ -21,4 +21,5 @@ interface IJobPostingEditor {
 
     function populatePosting(string [] memory _featureNames, string [] memory _featureValues, string [] memory _categories, string [] memory _skills, string memory _applyLink ) external returns (bool _populated);
 
+    function deactivate() external returns (bool _deactivated);
 }

@@ -1,19 +1,45 @@
 const searchResultsSpan = ge("search_results_span");
+
 function loadPageData() {
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    var searchField = urlParams.get("search");
-    var searchTerm = urlParams.get("value");
-
 
     console.log("running load data on results");
     getPopularJobs();
     getFeaturedJobs(); 
-    buildResults(searchField, searchTerm)
+    getHotSearchTerms(); 
+
+    console.log(queryString);
+
+    if(queryString.contains("search") && queryString.contains("value")){
+        var searchField = urlParams.get("search");
+        var searchTerm = urlParams.get("value");
+        buildResults(searchField, searchTerm);
+    }    
+    if(queryString.contains("searchTerm")){
+        var term = urlParams.get("searchTerm");
+        console.log(term);
+        buildResults(term);
+    }
     
 }
 
+function buildResults(term) {
+    jcJobCryptContract.methods.findJobs(term).call({from : account})
+    .then(function(response){
+        console.log(response);
+        var postingAddresses = response; 
+        for(var x = 0; x < postingAddresses.length; x++) {
+            var postingAddress = postingAddresses[x];
+            processRow(postingAddress);
+        }
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+
+}
 
 function buildResults(searchTerm, searchValue) {
     console.log(" field :: " + searchTerm + " value :: " + searchValue);

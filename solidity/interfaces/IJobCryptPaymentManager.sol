@@ -4,13 +4,45 @@ pragma solidity >=0.8.0 <0.9.0;
 
 interface IJobCryptPaymentManager { 
 
-    function getPaymentData(uint256 _txRef) view external returns (address _posting, address _product, uint256 _fee, address _erc20, string memory _reference);
+    struct Payment { 
+        address payer; 
+        address posting; 
+        address product; 
+        uint256 fee; 
+        address erc20; 
+        string ref;
+        uint256 date; 
+    }
+
+    struct ProductPostingPayment {
+        address productAddress; 
+        address postingAddress; 
+        uint256 paymentDate;
+        uint256 txRef;  
+    }
+
+    function getMinimumStakeAmount() view external returns (uint256 _amount); 
+
+    function getStakedAmount() view external returns(uint256 _stakedAmount);
+     
+    function stake(uint256 _amount) payable external returns (bool _staked);
+
+    function unstake() external returns (uint256 _unstakedAmount);
+
+    function getStakeErc20Address() external returns (address _stakeToken);
+
+    function getPaymentData(uint256 _txRef) view external returns (Payment memory _payment);
     
-    function payForPostingFeature(string memory _feature, address _posting) payable external returns ( uint256 _txRef);
+    function getPaidPostings(address _postingOwner) view external returns (address [] memory _postingAddreses);
+    
+    function isPaid(address _posting ) view external returns (bool _isPaid);
+
+    function isProductPaidForPosting(address _posting, address _product) view external returns (bool isPaid);
+
+    function whenPaid(address _posting) view external returns (uint256 _paymentDate);
 
     function payForPosting(address _postingAddress) payable external returns (uint256 _txRef);
 
-    function getPaidPostings(address _postingOwner) view external returns (address [] memory _postingAddreses);
-    
-    function isPaid(address _posting ) view external returns (uint256 _paidOn);
+    function payForProductForPosting(address _postingAddress, address _product) payable external returns (uint256 _txRef);
+
 }
