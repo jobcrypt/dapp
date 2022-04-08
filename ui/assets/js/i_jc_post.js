@@ -1,47 +1,47 @@
-const createDraftPostingButton = document.getElementById("create_draft_job_posting");
+const createDraftPostingButton = ge("create_draft_job_posting");
 createDraftPostingButton.addEventListener('click', createPosting);
 
-const editDraftPostingButton = document.getElementById("edit_draft_posting_button");
+const editDraftPostingButton = ge("edit_draft_posting_button");
 editDraftPostingButton.addEventListener('click', editListing);
 
-const saveDraftPostingButton = document.getElementById("save_draft_posting_button");
+const saveDraftPostingButton = ge("save_draft_posting_button");
 saveDraftPostingButton.addEventListener('click', saveJob);
 
-const resetDraftPostingButton = document.getElementById("reset_draft_posting_button");
+const resetDraftPostingButton = ge("reset_draft_posting_button");
 resetDraftPostingButton.addEventListener('click', editListing);
 
-const approvePaymentCurrencyButton = document.getElementById("approve_payment_currency_button");
+const approvePaymentCurrencyButton = ge("approve_payment_currency_button");
 approvePaymentCurrencyButton.addEventListener('click', approveCurrency);
 
-const buyJobPostingButton = document.getElementById("buy_job_posting_button");
+const buyJobPostingButton = ge("buy_job_posting_button");
 buyJobPostingButton.addEventListener('click', buyPosting);
 
-const postJobButton = document.getElementById("post_job_button");
+const postJobButton = ge("post_job_button");
 postJobButton.addEventListener('click', postJobToJobCrypt);
 
-const jobPostingCreateDisplay = document.getElementById("job_posting_create_display");
+const jobPostingCreateDisplay = ge("job_posting_create_display");
 
-const jobPostingEdittDisplay = document.getElementById("job_posting_edit_display");
+const jobPostingEdittDisplay = ge("job_posting_edit_display");
 
-const jobPostingPaytDisplay = document.getElementById("job_posting_pay_display");
+const jobPostingPaytDisplay = ge("job_posting_pay_display");
 
-const jobPostingSaveDisplay = document.getElementById("job_posting_save_display");
+const jobPostingSaveDisplay = ge("job_posting_save_display");
 
-const jobPostingPostDisplay = document.getElementById("job_posting_post_display");
+const jobPostingPostDisplay = ge("job_posting_post_display");
 
-const jobPostingProductSelect = document.getElementById("job_posting_product_select");
+const jobPostingProductSelect = ge("job_posting_product_select");
 
-const jobPostingPaymentCurrencySelect = document.getElementById("job_posting_payment_currency_select");
+const jobPostingPaymentCurrencySelect = ge("job_posting_payment_currency_select");
 
-const jobPostingDraftSelect = document.getElementById("edit_draft_job_posting_select");
+const jobPostingDraftSelect = ge("edit_draft_job_posting_select");
 
-const jobPostingDuration = document.getElementById("job_posting_duration_view");
+const jobPostingDuration = ge("job_posting_duration_view");
 
-const jobPostingFee = document.getElementById("job_posting_fee_view");
+const jobPostingFee = ge("job_posting_fee_view");
 
-const jobPostingCurrency = document.getElementById("job_posting_currency_view");
+const jobPostingCurrency = ge("job_posting_currency_view");
 
-const jobPostingCurrencyErc20Address = document.getElementById("job_posting_currency_erc20_address_view");
+const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_view");
 
 var selectedPostingAddress;
 var selectedERC20Address;
@@ -195,10 +195,6 @@ function processDraftPosting(postingAddress) {
         })
 }
 
-
-
-var o = new String("").valueOf();
-
 function addDraftPostingOption(postingContract, postingAddress, status) {
     var option = document.createElement("option");
     option.setAttribute("value", postingAddress);
@@ -219,19 +215,20 @@ function editListing() {
     var postingAddress = jobPostingDraftSelect.value;
     jobPostingEdittDisplay.innerHTML = "Editing Draft :: " + postingAddress;
     selectedPostingAddress = postingAddress;
-    var title = document.getElementById("job_title");
-    var locationType = document.getElementById("job_location_type");
-    var locationSupport = document.getElementById("job_location_support");
-    var workLocation = document.getElementById("job_work_location");
-    var companyName = document.getElementById("company_name");
-    var companyLink = document.getElementById("company_link");
-    var companySummary = document.getElementById("company_summary");
-    var skillsRequired = document.getElementById("job_skills_required");
-    var searchCategories = document.getElementById("job_search_categories");
-    var workType = document.getElementById("job_work_type");
-    var salaryPaymenttype = document.getElementById("job_payment_type");
-    var jobDescription = document.getElementById("job_description");
-    var jobApplicationlink = document.getElementById("job_application_link");
+    var title = ge("job_title");
+    var locationType = ge("job_location_type");
+    var locationSupport = ge("job_location_support");
+    var workLocation = ge("job_work_location");
+    var companyName = ge("company_name");
+    var companyLink = ge("company_link");
+    var companySummary = ge("company_summary");
+    var skillsRequired = ge("job_skills_required");
+    var searchCategories = ge("job_search_categories");
+    var workType = ge("job_work_type");
+    var salaryPaymenttype = ge("job_payment_type");
+    var jobDescription = ge("job_description");
+    var jobApplicationlink = ge("job_application_link");
+    var userSearchTerms = ge("user_search_terms");
 
     postingContract = getContract(iJCJobPostingAbi, postingAddress);
 
@@ -327,15 +324,23 @@ function editListing() {
             console.log(err);
         })
 
+    postingContract.methods.getFeature("USER_SEARCH_TERMS").call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            userSearchTerms.value = response;
+        })
+        .catch(function(err) {
+            console.log(err);
+        })          
     
     postingContract.methods.getApplyLink().call({from : account})
-    .then(function(response){
-        console.log(response);
-        jobApplicationlink.value = response; 
-    })
-    .catch(function(err){
-        console.log(err);
-    })
+        .then(function(response){
+            console.log(response);
+            jobApplicationlink.value = response; 
+        })
+        .catch(function(err){
+            console.log(err);
+        })
     
 
     postingContract.methods.getSkillsRequired().call({ from: account })
@@ -355,6 +360,8 @@ function editListing() {
         .catch(function(err) {
             console.log(err);
         })
+
+
 
     postingContract.methods.getProduct().call({ from: account })
         .then(function(response) {
@@ -487,13 +494,16 @@ async function saveJob() {
 }
 
 async function saveToEVM(jobJSON, hash) {
-    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION"];
-    var featureValues = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companyLink, jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+"", hash+""];
+    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS"];
+    var featureValues = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companyLink, jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+"", hash+"", jobJSON.userSearchTerms+""];
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
-
-    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, jobJSON.applicationLink).send({ from: account })
+    var terms = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+""]
+    
+    var searchTerms = unique(terms.concat(decomposeText(jobJSON.description).concat(decomposeText(jobJSON.companySummary)).concat(decomposeText(jobJSON.userSearchTerms))));    
+    
+    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, jobJSON.applicationLink, searchTerms).send({ from: account })
             .then(function(response) {
                 console.log(response);
                 jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;
@@ -506,40 +516,40 @@ async function saveToEVM(jobJSON, hash) {
 }
 
 function getJobToPost() {
-        var jobTitle = document.getElementById("job_title");
-        console.log("jt: " + jobTitle);
-        var locationType = document.getElementById("job_location_type");
+    var jobTitle            = ge("job_title");
+    console.log("jt: " + jobTitle);
+    var locationType        = ge("job_location_type");
+    var locationSupport     = ge("job_location_support");
+    var workLocation        = ge("job_work_location");
+    var companyName         = ge("company_name");
+    var companyLink         = ge("company_link");
+    var companySummary      = ge("company_summary");
+    var skillsRequired      = ge("job_skills_required");
+    var searchCategories    = ge("job_search_categories");
+    var workType            = ge("job_work_type");
+    var paymentType         = ge("job_payment_type");
+    var description         = ge("job_description");
+    var userSearchTerms     = ge("user_search_terms");
+    console.log(" jd : " + description);
+    var applicationLink     = ge("job_application_link");
 
-        var locationSupport = document.getElementById("job_location_support");
-        var workLocation = document.getElementById("job_work_location");
-        var companyName = document.getElementById("company_name");
-        var companyLink = document.getElementById("company_link");
-        var companySummary = document.getElementById("company_summary");
-        var skillsRequired = document.getElementById("job_skills_required");
-        var searchCategories = document.getElementById("job_search_categories");
-        var workType = document.getElementById("job_work_type");
-        var paymentType = document.getElementById("job_payment_type");
-        var description = document.getElementById("job_description");
-        console.log(" jd : " + description);
-
-        var applicationLink = document.getElementById("job_application_link");
-
-        var jString = "{ \"jobTitle\" : \"" + jobTitle.value + "\"," +
-        "\"locationType\" : \"" + locationType.value + "\"," +
-        "\"locationSupport\" : \"" + locationSupport.value + "\"," +
-        "\"workLocation\" : \"" + workLocation.value + "\"," +
-        "\"companyName\" : \"" + companyName.value + "\"," +
-        "\"companyLink\" : \"" + companyLink.value + "\"," +
-        "\"companySummary\" : \"" + companySummary.value + "\"," +
-        "\"skillsRequired\" : [" + toJSONStringArray(skillsRequired.value) + "]," +
-        "\"searchCategories\" : [" + toJSONStringArray(searchCategories.value) + "]," +
-        "\"workType\" : \"" + workType.value + "\"," +
-        "\"paymentType\" : \"" + paymentType.value + "\"," +
-        "\"description\" : \"" + description.value + "\"," +
-        "\"applicationLink\" : \"" + applicationLink.value + "\"}"; 
-        console.log(jString);
-        var jobJSON = JSON.parse(jString);
-        return jobJSON;
+    var jString = "{ \"jobTitle\" : \"" + jobTitle.value + "\"," +
+    "\"locationType\" : \"" + locationType.value + "\"," +
+    "\"locationSupport\" : \"" + locationSupport.value + "\"," +
+    "\"workLocation\" : \"" + workLocation.value + "\"," +
+    "\"companyName\" : \"" + companyName.value + "\"," +
+    "\"companyLink\" : \"" + companyLink.value + "\"," +
+    "\"companySummary\" : \"" + companySummary.value + "\"," +
+    "\"skillsRequired\" : [" + toJSONStringArray(skillsRequired.value) + "]," +
+    "\"searchCategories\" : [" + toJSONStringArray(searchCategories.value) + "]," +
+    "\"workType\" : \"" + workType.value + "\"," +
+    "\"paymentType\" : \"" + paymentType.value + "\"," +
+    "\"description\" : \"" + description.value + "\"," +
+    "\"applicationLink\" : \"" + applicationLink.value + "\","+
+    "\"userSearchTerms\" : \"" + userSearchTerms.value + "\"}"; 
+    console.log(jString);
+    var jobJSON = JSON.parse(jString);
+    return jobJSON;
 }
 
 function toJSONStringArray(str) {
@@ -582,5 +592,30 @@ async function fetchFromIPFS(cid, messageSpan) {
         .then(function(text) {
             messageSpan.innerHTML = text;
         });
+}
+
+function unique(array) {
+    var q = new Set(); 
+    for (var x = 0; x < array.length; x++) {
+        q.add(array[x]);
+    }
+    return q.values();
+}
+
+function decomposeText(text) {
+    // to lower case 
+    var lower = text.toLowerCase(); 
+    // split
+    var array = lower.split(" ");
+    // de-duplicate 
+    var q = new Set(); 
+    for (var x = 0; x < array.length; x++) {
+        q.add(array[x]);
+    }
+    return q.values(); 
+}
+
+function ge(element) {
+    return ge(element);
 }
 
