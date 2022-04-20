@@ -222,12 +222,18 @@ function buildJobDescription() {
                     reader.read()
                     .then(function(data){
                         console.log(data)
-                        var description = new TextDecoder().decode(data.value);                        
-                        var jobDescriptionTxt = document.createTextNode(description);    
-                        jobDescriptionSpan.appendChild(jobDescriptionTxt);
+                        var description = JSON.parse(new TextDecoder().decode(data.value));                        
+                        var quills = new Quill(jobDescriptionSpan);
+                        quills.setContents(description);
+                        quills.enable(false);
+                        //var jobDescriptionTxt = document.createTextNode(description);    
+                        //jobDescriptionSpan.appendChild(jobDescriptionTxt);
                     })
                     .catch(function(err){
                         console.log(err);
+                        var description = new TextDecoder().decode(data.value);                        
+                        var jobDescriptionTxt = document.createTextNode(description);    
+                        jobDescriptionSpan.appendChild(jobDescriptionTxt);
                     }) ;                                                                               
                 })
                 .catch(function(err) {

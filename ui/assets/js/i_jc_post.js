@@ -318,7 +318,7 @@ function editListing() {
     postingContract.methods.getFeature("JOB_DESCRIPTION").call({ from: account })
         .then(function(response) {
             console.log(response);
-            fetchFromIPFS(response, jobDescription);
+            fetchDescriptionFromIPFS(response, jobDescription);
         })
         .catch(function(err) {
             console.log(err);
@@ -481,7 +481,7 @@ async function buyPosting() {
 async function saveJob() {
     jobJSON = getJobToPost();
     var hash;
-    await ipfs.add(jobJSON.description)
+    await ipfs.add(strfy(jobJSON.description))
         .then(function(response) {
             console.log(response);
             hash = response[0].hash;
@@ -493,17 +493,26 @@ async function saveJob() {
         });
 }
 
+
+
 async function saveToEVM(jobJSON, hash) {
     var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS"];
     var featureValues = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companyLink, jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+"", hash+"", jobJSON.userSearchTerms+""];
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
-    var terms = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+""]
     
-    var searchTerms = unique(terms.concat(decomposeText(jobJSON.description).concat(decomposeText(jobJSON.companySummary)).concat(decomposeText(jobJSON.userSearchTerms))));    
-    
-    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, jobJSON.applicationLink, searchTerms).send({ from: account })
+    var terms = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.workType+"", jobJSON.paymentType+""]
+    var c = decomposeText(jobJSON.companySummary); 
+    var u = decomposeText(jobJSON.userSearchTerms);
+    var n = decomposeDescription(jobJSON.description);
+    console.log(c);
+    console.log(u);
+    console.log(n);
+    var searchTerms = unique(terms.concat(c).concat(u).concat(n));    
+    console.log(searchTerms);
+
+    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms, jobJSON.applicationLink).send({ from: account })
             .then(function(response) {
                 console.log(response);
                 jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;
@@ -529,27 +538,32 @@ function getJobToPost() {
     var workType            = ge("job_work_type");
     var paymentType         = ge("job_payment_type");
     var description         = ge("job_description");
+    var quills              = new Quill(description);
     var userSearchTerms     = ge("user_search_terms");
     console.log(" jd : " + description);
     var applicationLink     = ge("job_application_link");
 
-    var jString = "{ \"jobTitle\" : \"" + jobTitle.value + "\"," +
-    "\"locationType\" : \"" + locationType.value + "\"," +
-    "\"locationSupport\" : \"" + locationSupport.value + "\"," +
-    "\"workLocation\" : \"" + workLocation.value + "\"," +
-    "\"companyName\" : \"" + companyName.value + "\"," +
-    "\"companyLink\" : \"" + companyLink.value + "\"," +
-    "\"companySummary\" : \"" + companySummary.value + "\"," +
-    "\"skillsRequired\" : [" + toJSONStringArray(skillsRequired.value) + "]," +
-    "\"searchCategories\" : [" + toJSONStringArray(searchCategories.value) + "]," +
-    "\"workType\" : \"" + workType.value + "\"," +
-    "\"paymentType\" : \"" + paymentType.value + "\"," +
-    "\"description\" : \"" + description.value + "\"," +
-    "\"applicationLink\" : \"" + applicationLink.value + "\","+
-    "\"userSearchTerms\" : \"" + userSearchTerms.value + "\"}"; 
+    var jString = "{" +strfy("jobTitle") +  ":" + strfy(jobTitle.value) + "," +
+    strfy("locationType")      + " : " + strfy(locationType.value) + "," +
+    strfy("locationSupport")   + " : " + strfy(locationSupport.value) + "," +
+    strfy("workLocation")      + " : " + strfy(workLocation.value) + "," +
+    strfy("companyName")       + " : " + strfy(companyName.value) + "," +
+    strfy("companyLink")       + " : " + strfy(companyLink.value) + "," +
+    strfy("companySummary")    + " : " + strfy(companySummary.value) + "," +
+    strfy("skillsRequired")    + " : ["+ toJSONStringArray(skillsRequired.value) + "]," +
+    strfy("searchCategories")  + " : ["+ toJSONStringArray(searchCategories.value) + "]," +
+    strfy("workType")          + " : " + strfy(workType.value) + "," +
+    strfy("paymentType")       + " : " + strfy(paymentType.value) + "," +
+    strfy("description")       + " : " + strfy(quills.getContents()) + "," +
+    strfy("applicationLink")   + " : " + strfy(applicationLink.value) + ","+
+    strfy("userSearchTerms")   + " : " + strfy(userSearchTerms.value) + "}"; 
     console.log(jString);
     var jobJSON = JSON.parse(jString);
     return jobJSON;
+}
+
+function strfy(value) {
+    return JSON.stringify(value);
 }
 
 function toJSONStringArray(str) {
@@ -582,6 +596,27 @@ function postJobToJobCrypt() {
 }
 
 
+async function fetchDescriptionFromIPFS(cid, quillDescription) {
+    url = "https://ipfs.io/ipfs/" + cid;
+    console.log(" url: " + url);
+     let response = await fetch(url)
+        .then(function(response) {
+            console.log("ipfs");
+            console.log(response);
+            return response.text();            
+        })
+        .then(function(text){
+            console.log(text);
+            var quills = new Quill(quillDescription);
+            quills.setContents(JSON.parse(text));
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+        
+}
+
+
 async function fetchFromIPFS(cid, messageSpan) {
     url = "https://ipfs.io/ipfs/" + cid;
     console.log(" url: " + url);
@@ -599,10 +634,25 @@ function unique(array) {
     for (var x = 0; x < array.length; x++) {
         q.add(array[x]);
     }
-    return q.values();
+    return Array.from(q.values());
+}
+
+const filter = ["this","is","an","role","that","will","see","you","and","highly","active","in",",","the","a","how","when","where","who","why","then","into","insert","as","for","to","too","two","\n","new","out"];
+
+function decomposeDescription(desc) {
+    var ops = desc.ops; 
+    var duppedTerms = []; 
+    for(var x = 0; x < ops.length; x++) {
+         var insert = ops[x].insert;
+         console.log(insert);
+         duppedTerms.concat(decomposeText(insert));
+    }
+    return unique(duppedTerms);
 }
 
 function decomposeText(text) {
+    console.log(filter.length);
+    console.log(text);
     // to lower case 
     var lower = text.toLowerCase(); 
     // split
@@ -610,12 +660,21 @@ function decomposeText(text) {
     // de-duplicate 
     var q = new Set(); 
     for (var x = 0; x < array.length; x++) {
-        q.add(array[x]);
+        var val = array[x];
+        
+        if(val.includes(",")){
+            val = val.replace(",","");
+        }
+        console.log( "value: " + val + " filter " + filter.includes(val));
+
+        if(!filter.includes(val)){ 
+            q.add(val);                       
+        }
     }
-    return q.values(); 
+    return Array.from(q.values()); 
 }
 
 function ge(element) {
-    return ge(element);
+    return document.getElementById(element);
 }
 

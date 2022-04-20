@@ -92,10 +92,10 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
              });
  
  
-         postingContract.methods.getFeature('WORK_TYPE').call({ from: account })
+         postingContract.methods.getFeature('JOB_WORK_TYPE').call({ from: account })
              .then(function(response) {
                  var workType = response;
-                 postingContract.methods.getFeature('LOCATION_TYPE').call({ from: account })
+                 postingContract.methods.getFeature('JOB_LOCATION_TYPE').call({ from: account })
                      .then(function(response) {
                          console.log(response);
                          var locationType = response;

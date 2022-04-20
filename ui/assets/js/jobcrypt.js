@@ -26,7 +26,7 @@ const web3 = new Web3(window.ethereum);
 
 console.log("web 3 " + web3.currentProvider);
 
-const openRegisterAddress = "0xA26618eab14a8c54daa4ebd024DA97a1ba27CF35";
+const openRegisterAddress = "0xc890253F98072ef23f4a5E8EB42a97284887c78A";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
 const ipfs = window.IpfsHttpClientLite('https://ipfs.infura.io:5001')

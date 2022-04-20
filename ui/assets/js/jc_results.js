@@ -12,20 +12,26 @@ function loadPageData() {
 
     console.log(queryString);
 
-    if(queryString.contains("search") && queryString.contains("value")){
+    if(queryString.includes("searchTerm")){
+        console.log("getting search term");
+        var term = urlParams.get("searchTerm");
+        console.log(term);
+        buildResultsOne(term);
+        return;
+    }
+    
+    if(queryString.includes("value") && queryString.includes("search")){
+        console.log("getting search  & value");
         var searchField = urlParams.get("search");
         var searchTerm = urlParams.get("value");
         buildResults(searchField, searchTerm);
+        return; 
     }    
-    if(queryString.contains("searchTerm")){
-        var term = urlParams.get("searchTerm");
-        console.log(term);
-        buildResults(term);
-    }
+
     
 }
 
-function buildResults(term) {
+function buildResultsOne(term) {
     jcJobCryptContract.methods.findJobs(term).call({from : account})
     .then(function(response){
         console.log(response);

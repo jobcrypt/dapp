@@ -201,6 +201,19 @@ const iJCJobPostingAbi = [
 	},
 	{
 		"inputs": [],
+		"name": "getSearchTerms",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "_searchTerms",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getSkillsRequired",
 		"outputs": [
 			{

@@ -35,6 +35,11 @@ const iJCJobPostingEditorAbi = [
 				"type": "string[]"
 			},
 			{
+				"internalType": "string[]",
+				"name": "_searchTerms",
+				"type": "string[]"
+			},
+			{
 				"internalType": "string",
 				"name": "_applyLink",
 				"type": "string"
@@ -154,6 +159,25 @@ const iJCJobPostingEditorAbi = [
 			}
 		],
 		"name": "setPostingStatus",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_set",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string[]",
+				"name": "_searchTerms",
+				"type": "string[]"
+			}
+		],
+		"name": "setSearchTerms",
 		"outputs": [
 			{
 				"internalType": "bool",
