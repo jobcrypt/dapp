@@ -43,102 +43,198 @@ const jobPostingCurrency = ge("job_posting_currency_view");
 
 const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_view");
 
+const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
+const wethfaucetButtonSpan = ge("weth_faucet_button_span");
+
 var selectedPostingAddress;
 var selectedERC20Address;
 var selectedPostingFee;
 
+
 function loadPageData() {
     loadProducts();
     updateDraftListings();
+    // REMOVE FOR LIVE
+    loadFaucet();
 }
+
+// REMOVE FOR LIVE
+const testUSDCAddress = "0xa836Abbbe9603665A2D86157D6ffde62AF98fD47";
+const testWETHAddress = "0x42BE3516F6E3FfD233CeD5e01a036681aE11085D";
+
+var usdcContract;
+var wethContract;
+
+async function loadFaucet() {
+    usdcContract = new web3.eth.Contract(iErc20USDCAbi, testUSDCAddress);
+    wethContract = new web3.eth.Contract(iErc20WETHAbi, testWETHAddress);
+    console.log("checking faucet");
+    // check the account has enough balance 
+    usdcContract.methods.balanceOf(account).call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            if (response < (300 * 1e18)) {
+                showUSDCFaucetButton();
+            }
+        })
+        .catch(function(err) {
+            console.log(err)
+        });
+
+    wethContract.methods.balanceOf(account).call({ from: account })
+        .then(function(response) {
+            if (response < (0.1 * 1e18)) {
+                showWETHFaucetButton();
+            }
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+
+
+}
+
+
+function showUSDCFaucetButton() {
+
+    var faucetButton = ce("a");
+    var icon = ce("i");
+    icon.setAttribute("class", "fas fa-faucet");
+    faucetButton.appendChild(icon);
+    faucetButton.appendChild(text("USDC FAUCET"));
+    faucetButton.setAttribute("href", "#");
+    faucetButton.setAttribute("class", "btn-secondary");
+    faucetButton.addEventListener('click', reloadFaucetFundsUSDC);
+    usdcfaucetButtonSpan.appendChild(faucetButton);
+}
+
+function showWETHFaucetButton() {
+
+    var faucetButton = ce("a");
+    var icon = ce("i");
+    icon.setAttribute("class", "fas fa-faucet");
+    faucetButton.appendChild(icon);
+    faucetButton.appendChild(text("WETH FAUCET"));
+    faucetButton.setAttribute("href", "#");
+    faucetButton.setAttribute("class", "btn-secondary");
+    faucetButton.addEventListener('click', reloadFaucetFundsWETH);
+    wethfaucetButtonSpan.appendChild(faucetButton);
+}
+
+async function reloadFaucetFundsUSDC() {
+    // call mint function 
+    usdcContract.methods.mint(account).send({ from: account })
+        .then(function(response) {
+            console.log(response);
+            usdcfaucetButtonSpan.innerHTML = "USDC CREDITED- TOKEN CONTRACT : " + testUSDCAddress;
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+}
+
+async function reloadFaucetFundsWETH() {
+    // call mint function 
+    wethContract.methods.mint(account).send({ from: account })
+        .then(function(response) {
+            console.log(response);
+            wethfaucetButtonSpan.innerHTML ="WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+}
+
+
+// END REMOVE FOR LIVE
 
 async function loadProducts() {
     clearSelect(jobPostingProductSelect);
     console.log(openProductCoreContract);
-    openProductCoreContract.methods.getProducts().call({from :account})
-    .then(function(response){
-        console.log(response);
-        var productAddresses = response; 
-        for(var x = 0; x < productAddresses.length; x++){ 
-            var productAddress = productAddresses[x];
-            console.log(productAddress);
-            populateProductSelect(productAddress, jobPostingProductSelect);
-        }
-    })
-    .catch(function(err){
-        console.log(err);
-    })
+    openProductCoreContract.methods.getProducts().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var productAddresses = response;
+            for (var x = 0; x < productAddresses.length; x++) {
+                var productAddress = productAddresses[x];
+                console.log(productAddress);
+                populateProductSelect(productAddress, jobPostingProductSelect);
+            }
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
 }
 
-async function populateProductSelect(productAddress, jobPostingProductSelect){
+async function populateProductSelect(productAddress, jobPostingProductSelect) {
     console.log(productAddress);
     productContract = getContract(iOpenProductAbi, productAddress);
     console.log(productContract.options.address);
     populateProductSelectName(productContract, jobPostingProductSelect, productAddress);
 }
 
-async function populateProductSelectName(productContract, jobPostingProductSelect, productAddress){
-    productContract.methods.getName().call({from : account})
-    .then(function(response){
-        console.log(response);
-        var name = response; 
-        console.log(productContract.options.address);
-        populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
-    })
-    .catch(function(err){
-        console.log(err);
-    });
+async function populateProductSelectName(productContract, jobPostingProductSelect, productAddress) {
+    productContract.methods.getName().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var name = response;
+            console.log(productContract.options.address);
+            populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 }
 
-async function populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress){
-    var price = 0; 
+async function populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress) {
+    var price = 0;
     console.log(productContract.options.address);
-    await productContract.methods.getPrice().call({from : account})
-    .then(function(response){
-        console.log(response + " :: " + name );
-        price = response; 
-        populateProductSelectCurrency(productContract, name, price, jobPostingProductSelect, productAddress);
-    })
-    .catch(function(err){
-        console.log(err);
-    })
+    await productContract.methods.getPrice().call({ from: account })
+        .then(function(response) {
+            console.log(response + " :: " + name);
+            price = response;
+            populateProductSelectCurrency(productContract, name, price, jobPostingProductSelect, productAddress);
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
 
 }
 
-async function populateProductSelectCurrency(productContract, name, price, jobPostingProductSelect, productAddress){
-    productContract.methods.getCurrency().call({from : account})
-    .then(function(response){
-        console.log(response);
-        var currency = response;
-        var option = document.createElement("option");
-        var optionTxt = name + " - " + formatPrice(price) + " ("+currency+")";
-        var txt = document.createTextNode(optionTxt);
-        option.appendChild(txt);
-        option.setAttribute("value", productAddress);
-        jobPostingProductSelect.appendChild(option);
-    })
-    .catch(function(err){
-        console.log(err);
-    });
+async function populateProductSelectCurrency(productContract, name, price, jobPostingProductSelect, productAddress) {
+    productContract.methods.getCurrency().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var currency = response;
+            var option = document.createElement("option");
+            var optionTxt = name + " - " + formatPrice(price) + " (" + currency + ")";
+            var txt = document.createTextNode(optionTxt);
+            option.appendChild(txt);
+            option.setAttribute("value", productAddress);
+            jobPostingProductSelect.appendChild(option);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 }
 
 function formatPrice(price) {
-    return price / 1e18; 
+    return price / 1e18;
 }
 
 async function createPosting() {
-    var productAddress = jobPostingProductSelect.value; 
-    console.log("product address :: "+ productAddress);
+    var productAddress = jobPostingProductSelect.value;
+    console.log("product address :: " + productAddress);
 
-    jcPostingFactoryContract.methods.createJobPosting(account,productAddress ).send({ from: account })
-    .then(function(response) {
-        console.log(response);
-        jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
-        updateDraftListings();
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
+    jcPostingFactoryContract.methods.createJobPosting(account, productAddress).send({ from: account })
+        .then(function(response) {
+            console.log(response);
+            jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
+            updateDraftListings();
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 }
 
 var t = new String("POSTED").valueOf();
@@ -150,14 +246,13 @@ async function updateDraftListings() {
         .then(function(response) {
             console.log(response);
             var allPostings = response;
-            if(allPostings.length > 0){
+            if (allPostings.length > 0) {
                 jobPostingDraftSelect.disabled = false;
                 for (var x = 0; x < allPostings.length; x++) {
                     var postingAddress = allPostings[x];
-                    processDraftPosting(postingAddress);                
+                    processDraftPosting(postingAddress);
                 }
-            }
-            else {
+            } else {
                 appendNoDraftsFound(jobPostingDraftSelect);
             }
         })
@@ -167,13 +262,13 @@ async function updateDraftListings() {
         })
 }
 
-function appendNoDraftsFound(select){
+function appendNoDraftsFound(select) {
     var option = document.createElement("option");
-    titleTxt = "No Drafts Found" ;
+    titleTxt = "No Drafts Found";
     var txt = document.createTextNode(titleTxt);
     option.appendChild(txt);
     select.appendChild(option);
-    select.disabled = true; 
+    select.disabled = true;
 }
 
 function processDraftPosting(postingAddress) {
@@ -202,8 +297,8 @@ function addDraftPostingOption(postingContract, postingAddress, status) {
         .then(function(response) {
             console.log(response);
             var titleTxt = response;
-            
-            titleTxt = "Title :: "+ titleTxt + " :: status :: " + status +" :: "+ postingAddress ;
+
+            titleTxt = "Title :: " + titleTxt + " :: status :: " + status + " :: " + postingAddress;
             var txt = document.createTextNode(titleTxt);
             option.appendChild(txt);
             jobPostingDraftSelect.appendChild(option);
@@ -279,7 +374,7 @@ function editListing() {
             console.log(err);
         })
 
-        postingContract.methods.getFeature("COMPANY_LINK").call({ from: account })
+    postingContract.methods.getFeature("COMPANY_LINK").call({ from: account })
         .then(function(response) {
             console.log(response);
             companyLink.value = response;
@@ -331,17 +426,17 @@ function editListing() {
         })
         .catch(function(err) {
             console.log(err);
-        })          
-    
-    postingContract.methods.getApplyLink().call({from : account})
-        .then(function(response){
-            console.log(response);
-            jobApplicationlink.value = response; 
         })
-        .catch(function(err){
+
+    postingContract.methods.getApplyLink().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            jobApplicationlink.value = response;
+        })
+        .catch(function(err) {
             console.log(err);
         })
-    
+
 
     postingContract.methods.getSkillsRequired().call({ from: account })
         .then(function(response) {
@@ -375,6 +470,7 @@ function editListing() {
 }
 
 var productContract;
+
 function updatePaymentBox(productAddress, postingAddress) {
     console.log(postingAddress);
     productContract = getContract(iOpenProductAbi, productAddress);
@@ -416,40 +512,40 @@ function updatePaymentBox(productAddress, postingAddress) {
 
 async function approveCurrency() {
 
-    productContract.methods.getPrice().call({from : account})
-    .then(function(response){
-        console.log(response);
-        var price = response; 
-        approve_1(productContract, price);
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
+    productContract.methods.getPrice().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var price = response;
+            approve_1(productContract, price);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 
 }
 
-async function approve_1(productContract, price){
-    productContract.methods.getErc20().call({from : account})
-    .then(function(response){
-        console.log(response);
-        var erc20Address = response; 
-        approve_2(erc20Address, price);
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
+async function approve_1(productContract, price) {
+    productContract.methods.getErc20().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var erc20Address = response;
+            approve_2(erc20Address, price);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 }
 
-async function approve_2(erc20Address, price){
+async function approve_2(erc20Address, price) {
     var erc20Contract = getContract(iERC20Abi, erc20Address);
-    erc20Contract.methods.approve(jcPaymentManagerAddress, price).send({from : account})
-    .then(function(response) {
-        console.log(response);
-        jobPostingPaytDisplay.innerHTML = "Approved : " + response.blockHash;
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
+    erc20Contract.methods.approve(jcPaymentManagerAddress, price).send({ from: account })
+        .then(function(response) {
+            console.log(response);
+            jobPostingPaytDisplay.innerHTML = "Approved : " + response.blockHash;
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 }
 
 
@@ -497,66 +593,66 @@ async function saveJob() {
 
 async function saveToEVM(jobJSON, hash) {
     var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS"];
-    var featureValues = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.companyLink, jobJSON.companySummary+"", jobJSON.workType+"", jobJSON.paymentType+"", hash+"", jobJSON.userSearchTerms+""];
+    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.companyLink, jobJSON.companySummary + "", jobJSON.workType + "", jobJSON.paymentType + "", hash + "", jobJSON.userSearchTerms + ""];
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
-    
-    var terms = [jobJSON.jobTitle+"", jobJSON.locationType+"", jobJSON.locationSupport+"", jobJSON.workLocation+"", jobJSON.companyName+"", jobJSON.workType+"", jobJSON.paymentType+""]
-    var c = decomposeText(jobJSON.companySummary); 
+
+    var terms = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.workType + "", jobJSON.paymentType + ""]
+    var c = decomposeText(jobJSON.companySummary);
     var u = decomposeText(jobJSON.userSearchTerms);
     var n = decomposeDescription(jobJSON.description);
     console.log(c);
     console.log(u);
     console.log(n);
-    var searchTerms = unique(terms.concat(c).concat(u).concat(n));    
+    var searchTerms = unique(terms.concat(c).concat(u).concat(n));
     console.log(searchTerms);
 
     postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms, jobJSON.applicationLink).send({ from: account })
-            .then(function(response) {
-                console.log(response);
-                jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;
-            })
-            .catch(function(err) {
-                console.log(err);
+        .then(function(response) {
+            console.log(response);
+            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;
+        })
+        .catch(function(err) {
+            console.log(err);
 
-            });
-   
+        });
+
 }
 
 function getJobToPost() {
-    var jobTitle            = ge("job_title");
+    var jobTitle = ge("job_title");
     console.log("jt: " + jobTitle);
-    var locationType        = ge("job_location_type");
-    var locationSupport     = ge("job_location_support");
-    var workLocation        = ge("job_work_location");
-    var companyName         = ge("company_name");
-    var companyLink         = ge("company_link");
-    var companySummary      = ge("company_summary");
-    var skillsRequired      = ge("job_skills_required");
-    var searchCategories    = ge("job_search_categories");
-    var workType            = ge("job_work_type");
-    var paymentType         = ge("job_payment_type");
-    var description         = ge("job_description");
-    var quills              = new Quill(description);
-    var userSearchTerms     = ge("user_search_terms");
+    var locationType = ge("job_location_type");
+    var locationSupport = ge("job_location_support");
+    var workLocation = ge("job_work_location");
+    var companyName = ge("company_name");
+    var companyLink = ge("company_link");
+    var companySummary = ge("company_summary");
+    var skillsRequired = ge("job_skills_required");
+    var searchCategories = ge("job_search_categories");
+    var workType = ge("job_work_type");
+    var paymentType = ge("job_payment_type");
+    var description = ge("job_description");
+    var quills = new Quill(description);
+    var userSearchTerms = ge("user_search_terms");
     console.log(" jd : " + description);
-    var applicationLink     = ge("job_application_link");
+    var applicationLink = ge("job_application_link");
 
-    var jString = "{" +strfy("jobTitle") +  ":" + strfy(jobTitle.value) + "," +
-    strfy("locationType")      + " : " + strfy(locationType.value) + "," +
-    strfy("locationSupport")   + " : " + strfy(locationSupport.value) + "," +
-    strfy("workLocation")      + " : " + strfy(workLocation.value) + "," +
-    strfy("companyName")       + " : " + strfy(companyName.value) + "," +
-    strfy("companyLink")       + " : " + strfy(companyLink.value) + "," +
-    strfy("companySummary")    + " : " + strfy(companySummary.value) + "," +
-    strfy("skillsRequired")    + " : ["+ toJSONStringArray(skillsRequired.value) + "]," +
-    strfy("searchCategories")  + " : ["+ toJSONStringArray(searchCategories.value) + "]," +
-    strfy("workType")          + " : " + strfy(workType.value) + "," +
-    strfy("paymentType")       + " : " + strfy(paymentType.value) + "," +
-    strfy("description")       + " : " + strfy(quills.getContents()) + "," +
-    strfy("applicationLink")   + " : " + strfy(applicationLink.value) + ","+
-    strfy("userSearchTerms")   + " : " + strfy(userSearchTerms.value) + "}"; 
+    var jString = "{" + strfy("jobTitle") + ":" + strfy(jobTitle.value) + "," +
+        strfy("locationType") + " : " + strfy(locationType.value) + "," +
+        strfy("locationSupport") + " : " + strfy(locationSupport.value) + "," +
+        strfy("workLocation") + " : " + strfy(workLocation.value) + "," +
+        strfy("companyName") + " : " + strfy(companyName.value) + "," +
+        strfy("companyLink") + " : " + strfy(companyLink.value) + "," +
+        strfy("companySummary") + " : " + strfy(companySummary.value) + "," +
+        strfy("skillsRequired") + " : [" + toJSONStringArray(skillsRequired.value) + "]," +
+        strfy("searchCategories") + " : [" + toJSONStringArray(searchCategories.value) + "]," +
+        strfy("workType") + " : " + strfy(workType.value) + "," +
+        strfy("paymentType") + " : " + strfy(paymentType.value) + "," +
+        strfy("description") + " : " + strfy(quills.getContents()) + "," +
+        strfy("applicationLink") + " : " + strfy(applicationLink.value) + "," +
+        strfy("userSearchTerms") + " : " + strfy(userSearchTerms.value) + "}";
     console.log(jString);
     var jobJSON = JSON.parse(jString);
     return jobJSON;
@@ -568,16 +664,16 @@ function strfy(value) {
 
 function toJSONStringArray(str) {
     var a = str.split(",");
-    var b = ""; 
-    for(var x = 0; x < a.length; x++){
-        b += "\""+a[x]+"\"";
-        if(x != a.length-1){
-            b+=",";
+    var b = "";
+    for (var x = 0; x < a.length; x++) {
+        b += "\"" + a[x] + "\"";
+        if (x != a.length - 1) {
+            b += ",";
         }
     }
     return b;
 }
-    
+
 function postJobToJobCrypt() {
     console.log("posting job");
     saveJob();
@@ -599,21 +695,21 @@ function postJobToJobCrypt() {
 async function fetchDescriptionFromIPFS(cid, quillDescription) {
     url = "https://ipfs.io/ipfs/" + cid;
     console.log(" url: " + url);
-     let response = await fetch(url)
+    let response = await fetch(url)
         .then(function(response) {
             console.log("ipfs");
             console.log(response);
-            return response.text();            
+            return response.text();
         })
-        .then(function(text){
+        .then(function(text) {
             console.log(text);
             var quills = new Quill(quillDescription);
             quills.setContents(JSON.parse(text));
         })
-        .catch(function(err){
+        .catch(function(err) {
             console.log(err);
         });
-        
+
 }
 
 
@@ -630,22 +726,22 @@ async function fetchFromIPFS(cid, messageSpan) {
 }
 
 function unique(array) {
-    var q = new Set(); 
+    var q = new Set();
     for (var x = 0; x < array.length; x++) {
         q.add(array[x]);
     }
     return Array.from(q.values());
 }
 
-const filter = ["this","is","an","role","that","will","see","you","and","highly","active","in",",","the","a","how","when","where","who","why","then","into","insert","as","for","to","too","two","\n","new","out"];
+const filter = ["this", "is", "an", "role", "that", "will", "see", "you", "and", "highly", "active", "in", ",", "the", "a", "how", "when", "where", "who", "why", "then", "into", "insert", "as", "for", "to", "too", "two", "\n", "new", "out"];
 
 function decomposeDescription(desc) {
-    var ops = desc.ops; 
-    var duppedTerms = []; 
-    for(var x = 0; x < ops.length; x++) {
-         var insert = ops[x].insert;
-         console.log(insert);
-         duppedTerms.concat(decomposeText(insert));
+    var ops = desc.ops;
+    var duppedTerms = [];
+    for (var x = 0; x < ops.length; x++) {
+        var insert = ops[x].insert;
+        console.log(insert);
+        duppedTerms.concat(decomposeText(insert));
     }
     return unique(duppedTerms);
 }
@@ -654,27 +750,34 @@ function decomposeText(text) {
     console.log(filter.length);
     console.log(text);
     // to lower case 
-    var lower = text.toLowerCase(); 
+    var lower = text.toLowerCase();
     // split
     var array = lower.split(" ");
     // de-duplicate 
-    var q = new Set(); 
+    var q = new Set();
     for (var x = 0; x < array.length; x++) {
         var val = array[x];
-        
-        if(val.includes(",")){
-            val = val.replace(",","");
-        }
-        console.log( "value: " + val + " filter " + filter.includes(val));
 
-        if(!filter.includes(val)){ 
-            q.add(val);                       
+        if (val.includes(",")) {
+            val = val.replace(",", "");
+        }
+        console.log("value: " + val + " filter " + filter.includes(val));
+
+        if (!filter.includes(val)) {
+            q.add(val);
         }
     }
-    return Array.from(q.values()); 
+    return Array.from(q.values());
+}
+
+function ce(element) {
+    return document.createElement(element);
+}
+
+function text(txt) {
+    return document.createTextNode(txt);
 }
 
 function ge(element) {
     return document.getElementById(element);
 }
-
