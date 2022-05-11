@@ -22,9 +22,17 @@ var openProductCoreAddress;
 var ierc20MetaDataAddress;
 
 
+var provider = "https://cloudflare-eth.com/";
+var web3Provider = new Web3.providers.HttpProvider(provider);
+console.log(web3Provider);
+
 const web3 = new Web3(window.ethereum);
+console.log(web3);
 
 console.log("web 3 " + web3.currentProvider);
+
+// check network 
+const supportedNetId = 44787;
 
 const openRegisterAddress = "0xc890253F98072ef23f4a5E8EB42a97284887c78A";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
@@ -32,6 +40,12 @@ const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegiste
 const ipfs = window.IpfsHttpClientLite('https://ipfs.infura.io:5001')
 const buffer = window.IpfsHttpClientLite.Buffer;
 console.log("got ipfs: " + ipfs);
+
+var connected; 
+function autoconnect() { 
+
+}
+
 
 //Created check function to see if the MetaMask extension is installed
 const isMetaMaskInstalled = () => {
@@ -58,8 +72,53 @@ const MetaMaskClientCheck = () => {
 
         console.log("metamask installed");
         onboardButton.addEventListener('click', () => {
-            getAccount();
-            onboardButton.innerText = "Web 3 Connected";
+            web3.eth.net.getId()
+            .then(function(response){
+                var currentChainId = response; 
+                if (currentChainId !== supportedNetId) {                                          
+                    web3.currentProvider.request({
+                        method: 'wallet_switchEthereumChain',
+                          params: [{ chainId: Web3.utils.toHex(supportedNetId) }],
+                    })
+                    .then(function(response){
+                        console.log(response);                        
+                        loadConnect();
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                        // This error code indicates that the chain has not been added to MetaMask
+                        if (err.code === 4902) {
+                            window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                chainName: 'Celo (Alfajores Testnet)',
+                                chainId: web3.utils.toHex(supportedNetId),
+                                nativeCurrency: { name: 'CELO', decimals: 18, symbol: 'CELO' },
+                                rpcUrls: ['https://alfajores-forno.celo-testnet.org'],
+                                blockExplorerUrls : ['https://alfajores-blockscout.celo-testnet.org']
+                                }
+                            ]
+                            })
+                            .then(function(response){
+                                console.log(response);
+                            })
+                            .catch(function(err){
+                                console.log(err);
+                            });
+                        }
+
+                    });                    
+                }
+                else { 
+                    loadConnect();
+                }
+                
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+           
         });
     }
 };
@@ -69,11 +128,19 @@ const initialize = () => {
 
 window.addEventListener('DOMContentLoaded', initialize);
 
+function loadConnect() { 
+    if(!connected) {
+        getAccount();
+        onboardButton.innerText = "Web 3 Connected";
+    }
+}
+
 async function getAccount() {
     const accounts = await ethereum.request({
         method: 'eth_requestAccounts'
     });
     account = accounts[0];
+    connected = true; 
     showWallet.innerHTML = "<b>Connected Wallet :: " + account + "</b>";
     configureCoreContracts()
     .then(function(response){

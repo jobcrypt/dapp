@@ -129,26 +129,33 @@ function getJobAge(cell, iJobPostingContract) {
         console.log(response);
         var postingTime = response * 1000; 
         var duration = Date.now() - postingTime; 
+        console.log("duration : " + duration + " now " + Date.now() + " posting time " + postingTime);
         if( 60000 > duration && duration > 1000){ // second
             cell.append(text("Posted "+(Math.round(duration / 1000)) + " s ago"));
+            return;
         }
         if( 3600000 > duration && duration > 60000){ // minute
             cell.append(text("Posted "+(Math.round(duration / 60000)) + " mins ago"));
+            return;
         }
 
         if(86400000 > duration && duration > 3600000) { // hour
             cell.append(text("Posted "+(Math.round(duration / 3600000)) + " hours ago"));
+            return;
         }
-
+     
         if(604800000 > duration && duration > 86400000){ // day 
             cell.append(text("Posted "+(Math.round(duration / 86400000)) + " days ago"));
+            return;
         }
-
+            
         if( 2419200000 > duration && duration > 604800000) {// week
             cell.append(text("Posted "+(Math.round(duration / 604800000)) + " weeks ago"));
+            return;
         }
         if(duration > 2419200000){ // month
             cell.append(text("Posted "+(Math.round(duration / 2419200000)) + " months ago"));
+            return;
         }        
     })
     .catch(function(err){

@@ -2,24 +2,54 @@ const latestJobsView = document.getElementById("latest_jobs_view");
 
 async function getLatestJobs() {
     console.log(jcJobCryptContract);
+    jcJobCryptContract.methods.getActiveJobPage(0).call({ from: account })
+	.then(function(response) {
+		console.log(response);
+		var jobAddresses = response._activeJobAddresses;
+
+        console.log(jobAddresses);
+
+		buildLatestJobs(trimZeroAddresses(jobAddresses), latestJobsView);
+	})
+	.catch(function(err){
+		console.log(err);
+	});
+    /*
     jcJobCryptContract.methods.getLatestJobs().call({ from: account })
 	.then(function(response) {
 		console.log(response);
 		var jobAddresses = response;
+
 		buildLatestJobs(jobAddresses, latestJobsView);
 
 	})
 	.catch(function(err){
 		console.log(err);
 	});
+    */
 }	
+
+function trimZeroAddresses(list){
+    var a = new Array();  
+    for(var x = 0; x <list.length; x++) {
+        if(list[x] != "0x0000000000000000000000000000000000000000"){
+            console.log("pushing " + list[x]);
+            a.push(list[x]);
+        }
+        else {
+            console.log("zero address :" + list[x] );
+
+        }
+    }
+    return a; 
+}
 
 function buildLatestJobs(postingAddresses, latestJobsView) {
 
     console.log(postingAddresses);
-    console.log("building jobs");
+    console.log("building jobs count: " + postingAddresses.length);
 
-    for (var x = 0; x < postingAddresses.length; x++) {
+    for (var x = postingAddresses.length-1; x >=0 ; x--) {
 
         console.log(" x is "+ x);
         var postingAddress = postingAddresses[x];
