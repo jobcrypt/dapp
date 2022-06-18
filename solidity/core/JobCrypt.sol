@@ -1,21 +1,23 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.14;
 
 /**
  * @title JobCrypt Core
  * @dev 
  */
 
+import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol"; 
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
-import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
 
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
-import "https://github.com/Block-Star-Logic/open-search/blob/9aeb257f6fa18d4d1b0252b69c22305ee9f5215b/blockchain_ethereum/solidity/V1/interfaces/IOpenSearch.sol"; 
+import "https://github.com/Block-Star-Logic/open-search/blob/49ada720eee8ef5feccdaa29481bcbbe04576e2c/blockchain_ethereum/solidity/V1/interfaces/IOpenSearch.sol"; 
 
 import "https://github.com/Block-Star-Logic/open-ranking/blob/0e468d4680147bbb71c01bdeae1e799d96ff62db/blockchain_ethereum/solidity/V1/interfaces/IOpenRanking.sol"; 
+
+import "https://github.com/Block-Star-Logic/open-libraries/blob/703b21257790c56a61cd0f3d9de3187a9012e2b3/blockchain_ethereum/solidity/V1/libraries/LOpenUtilities.sol";
 
 import "../interfaces/IJobCrypt.sol";
 import "../interfaces/IJobPosting.sol";
@@ -23,14 +25,16 @@ import "../interfaces/IJobPostingEditor.sol";
 import "../interfaces/IEmployerDashboard.sol";
 import "../interfaces/IJobSeekerDashboard.sol";
 import "../interfaces/IJobCryptDashboardFactory.sol";
+import "../interfaces/IJobCryptPaymentManager.sol";
 
-contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged { 
+contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesManaged { 
 
     using LOpenUtilities for string;
+    using LOpenUtilities for string[];
     using LOpenUtilities for address; 
     using LOpenUtilities for address[];
 
-    uint256 private version = 20; 
+    uint256 private version = 22; 
 
     string private name                 = "RESERVED_JOBCRYPT_CORE";    
 
@@ -41,6 +45,7 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
     string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
     string registryCA                   = "RESERVED_OPEN_REGISTER_CORE";
     string jobSeekerDashboardFactoryCA  = "RESERVED_JOBCRYPT_DASHBOARD_FACTORY";
+    string jobCryptPaymentManagerCA     = "RESERVED_JOBCRYPT_PAYMENT_MANAGER";
 
     string popularJobsRankingList        = "POPULAR_JOBS_RANKING_LIST";
 
@@ -57,12 +62,16 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
     string postingTitleSearchField      = "POSTING_TITLE_SEARCH_FIELD";
     string postingCompanySearchField    = "POSTING_COMPANY_SEARCH_FIELD";
 
-    string coreRole                     = "JOBCRYPT_CORE_ROLE"; 
-    string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
-    string barredUserRole               = "JOBCRYPT_BARRED_USER_ROLE";
-    //string jobPostingRole              = "JOBCRYPT_JOB_POSTING_ROLE";
+    string postingFeatureExpiryDateKey      = "EXPIRY_DATE_FEATURE";
+    string postingFeatureApplicantCountKey  = "APPLICANT_COUNT_FEATURE";
+    string postingFeatureProductKey         = "PRODUCT_FEATURE";
+    string postingFeatureCompanyNameKey     = "COMPANY_NAME";
+    string postingFeatureTitleKey           = "TITLE";
 
-    string [] roleNames = [coreRole, jobCryptAdminRole, barredUserRole]; 
+    string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
+    string jobCryptBusinessAdminRole    = "JOBCRYPT_BUSINESS_ADMIN_ROLE";
+
+    string [] roleNames = [jobCryptAdminRole, jobCryptBusinessAdminRole]; 
 
     string localPostingEditorRole       = "LOCAL_POSTING_EDITOR_ROLE";
     string localPostingPostRole         = "LOCAL_POSTING_POST_ROLE";
@@ -76,13 +85,14 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
     IOpenSearch                 searchManager;
     IOpenRanking                rankingManager; 
     IOpenRegister               registry; 
-    IJobCryptDashboardFactory   dashboardFactory; 
 
-    IJobPosting [] jobs; 
+    IJobCryptDashboardFactory   dashboardFactory; 
+    IJobCryptPaymentManager     paymentManager; 
 
     address [] latestJobs;      
     address [] activeJobs;     
     address [] featuredJobs; 
+    address [] allJobs; 
 
     string [] hotSearchTerms;   
 
@@ -98,22 +108,17 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
     mapping(address=>bool) hasEmployerDashboardByEmployerAddress;
     mapping(address=>bool) hasJobSeekreDashboardByJobSeekerAddress;
 
-    mapping(address=>bool) paidPostingByPosting;
-
-    mapping(address=>mapping(address=>bool)) paidProductForPostingByPosting; 
-
     mapping(address=>bool) isMigratedByAddress;
 
-    mapping(address=>bool) isStakedByAddress; 
-
     
-    constructor(address _registryAddress) {          
+    constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT") {          
       
         registry                = IOpenRegister(_registryAddress);
         searchManager           = IOpenSearch(registry.getAddress(searchManagerCA));
         rankingManager          = IOpenRanking(registry.getAddress(rankingManagerCA));
       
         dashboardFactory        = IJobCryptDashboardFactory(registry.getAddress(jobSeekerDashboardFactoryCA));
+        paymentManager          = IJobCryptPaymentManager(registry.getAddress(jobCryptPaymentManagerCA));
 
         setRoleManager(registry.getAddress(roleManagerCA));
         
@@ -122,6 +127,8 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         addConfigurationItem(address(searchManager));
         addConfigurationItem(address(rankingManager));
         addConfigurationItem(address(dashboardFactory));
+        addConfigurationItem(address(paymentManager));
+
         addConfigurationItem(name, self, version);
 
         initJobCryptFunctionsForRoles();
@@ -161,112 +168,108 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         _activeJobAddresses = getPage(_page);
         return (_activeJobAddresses, _pageCount ); 
     }
+    
+    function getActiveJobs() view external returns (address [] memory _activeJobs) {
+        return getJobsInternal(activeJobs, activeJobs.length );
+    }
+
+    function getAllJobs() view external returns (address[] memory _allJobs){
+        require(isSecure(jobCryptAdminRole, "getAllJobs") || isSecure(jobCryptBusinessAdminRole, "getAllJobs"), " biz admin or admin only");
+        return allJobs; 
+    }
 
     function getLatestJobs() override view external returns (address [] memory _latestJobAddresses){
        
-        uint256 jobsLimit_ = limitsByName[popularJobDisplayLimitKey]; 
+        uint256 start_; 
+        uint256 end_;
+        uint256 jobsLimit_ = limitsByName[latestJobDisplayLimitKey]; 
         if(latestJobs.length > jobsLimit_){
-            
-            uint256 jobAgeLimit_ = limitsByName[jobAgeLimitKey]; 
 
-            uint256 dateLimit_ = block.timestamp - jobAgeLimit_; 
-            _latestJobAddresses = new address[](jobsLimit_);
-
-            uint256 start = latestJobs.length-1;
-            uint256 end = latestJobs.length - jobsLimit_; 
-
-            uint256 y = 0; 
-            for(uint256 x = start; x >= end ; x--){
-                address p = latestJobs[x];
-                IJobPosting posting = IJobPosting(p);
-                if(posting.getPostingDate() > dateLimit_ ){
-                 _latestJobAddresses[y] = p; 
-                 y++;
-                }                                    
-            }
-            return _latestJobAddresses; 
+            uint256 terminalJobIndex = latestJobs.length-1; 
+            start_ = terminalJobIndex;
+            end_ = terminalJobIndex - (jobsLimit_-1); 
         }
-        return latestJobs; 
+        else { 
+            start_ = latestJobs.length -1; 
+            end_ = 0;
+        }
+        return getJobsInternal(start_, end_); 
     }
 
-    function getFeaturedJobs() override view external returns (address [] memory _featuredJobAddresses ){
-        return featuredJobs; 
+    function getFeaturedJobs() override view external returns (address [] memory _featuredJobs ){
+        return getJobsInternal(featuredJobs, limitsByName[featuredJobDisplayLimitKey]);
     }
 
     function getPopularJobs() override view external returns (address [] memory _popularJobAddresses){        
-        return rankingManager.getRanking( popularJobsRankingList, limitsByName[popularJobDisplayLimitKey]);  
+        return getJobsInternal(rankingManager.getRanking( popularJobsRankingList, limitsByName[popularJobDisplayLimitKey]), limitsByName[popularJobDisplayLimitKey]);  
     }
 
     function getHotSearchTerms() override view external returns (string [] memory _hotSearchTerms){     
         return hotSearchTerms;
     }    
     function isStaked() override view external returns (bool _staked){
-        return isStakedByAddress[msg.sender];
+        return paymentManager.isStaked(msg.sender);
     }
 
-    function isPaidPosting(address _posting) override view external returns(bool _paid) { 
-        return paidPostingByPosting[_posting];
-    }
-
-    function notifyPayment(address _posting) override external returns (bool _recieved) {
-        require(isSecure(coreRole, "notifyPayment"), "jobcrypt only");
-        paidPostingByPosting[_posting] = true;
-        return true; 
-    }
-
-    function notifyProductPayment(address _posting, address _productAddress ) override external returns (bool _recieved){
-        require(isSecure(coreRole, "notifyPayment"), "jobcrypt only");
-        paidProductForPostingByPosting[_posting][_productAddress] = true;  
-        return true; 
-    }
-
-    function notifyUserStaked(address _user, bool _isStaked) override external returns (bool _recieved ){
-        require(isSecure(coreRole, "notifyUserStaked"), "jobcrypt only");
-        isStakedByAddress[_user] = _isStaked;
-        return true; 
+    function isPaidPosting(address _posting) override view external returns(bool _paid) {
+        address productAddress_ = IJobPosting(_posting).getFeatureADDRESS(postingFeatureProductKey); 
+        return paymentManager.isProductPaidForPosting(_posting, productAddress_);
     }
 
     function notifyDelistJob(address _jobPosting) override external returns (bool _delisted) {
-        require(isSecure(coreRole, "notifyUserStaked"), "jobcrypt only");
+        require( (addressMatch(_jobPosting) && postingOnly()) || isSecure(jobCryptBusinessAdminRole, "notifyDelistJob") || isSecure(jobCryptAdminRole, "notifyDelistJob"), " postings / biz admin / admin only");
         return deList(_jobPosting);        
     }
 
     function postJob( address _jobPostingAddress ) override external returns (bool _posted){
-        require(msg.sender == _jobPostingAddress, "msg.sender <-> posting address mis-match ");
-        require(registry.isDerivativeAddress(_jobPostingAddress) && registry.getDerivativeAddressType(_jobPostingAddress).isEqual(jobPostingType)," jobcrypt postings only");
-        require(paidPostingByPosting[_jobPostingAddress]," posting not paid. ");
-        // check posting paid if so set the posting to expire according to the product duration 
+        addressMatch(_jobPostingAddress); 
+        postingOnly();         
+    
         IJobPosting posting_ = IJobPosting(_jobPostingAddress); 
-        require(!posting_.getPostingStatus().isEqual("POSTED"), " already posted ");
-
-        jobs.push(posting_);
-        latestJobs.push(_jobPostingAddress);
-        activeJobs.push(_jobPostingAddress);
-        updateSearchTerms(_jobPostingAddress);
         
-        IOpenProduct product = IOpenProduct(posting_.getProduct());
+        // check posting paid 
+        require(paymentManager.isProductPaidForPosting(_jobPostingAddress, posting_.getFeatureADDRESS(postingFeatureProductKey))," posting not paid. ");
+        
+        // only draft postings can be posted
+        require(posting_.getStatus() == IJobPosting.PostStatus.DRAFT, " invalid post status ");
 
-        if(product.hasFeature("PRODUCT_FEATURED")){
-            featuredJobs.push(_jobPostingAddress);
-        }
-        uint256 postingStartTime = block.timestamp; 
-        uint256 postingEndTime = postingStartTime + product.getFeatureUINTValue("DURATION");
-        IJobPostingEditor editablePosting_ = IJobPostingEditor(_jobPostingAddress);
-        editablePosting_.setExpiryDate(postingEndTime);
-        string memory companyName_ = posting_.getFeature("COMPANY_NAME");
+        // add to the complete record of all posts for this instance
+        allJobs.push(_jobPostingAddress);
+        
+        // list the job for immediate display
+        list(_jobPostingAddress);
 
-        emit JobPosted(_jobPostingAddress, companyName_, postingStartTime );
+        string memory companyName_ = posting_.getFeatureSTR(postingFeatureCompanyNameKey);
+        // emit chain notification event 
+        emit JobEvent(_jobPostingAddress, companyName_, "POST" , block.timestamp );
       
-        editablePosting_.setPostingStatus("POSTED");
+        return true; 
+    }
+
+    function repostJob(address _jobPostingAddress) override external returns (bool _reposted){
+        addressMatch(_jobPostingAddress); 
+        postingOnly();  
+        
+        IJobPosting posting_ = IJobPosting(_jobPostingAddress); 
+        
+        require(paymentManager.isProductPaidForPosting(_jobPostingAddress, IOpenProduct(posting_.getFeatureADDRESS(postingFeatureProductKey)).getFeatureUADDRESSValue("EXTENSION"))," repost not paid. ");
+        // list the job for repost
+        list(_jobPostingAddress);
+
+        string memory companyName_ = posting_.getFeatureSTR(postingFeatureCompanyNameKey);
+
+        emit JobEvent(_jobPostingAddress, companyName_, "REPOST" , block.timestamp );
+
         return true; 
     }
 
     function logJobApplication(address _jobApplicantAddress, address _postingAddress) override external returns (bool _logged){
-        require(msg.sender == _postingAddress, "msg.sender <-> posting address mis-match. ");            
-        require(registry.isDerivativeAddress(_postingAddress) && registry.getDerivativeAddressType(_postingAddress).isEqual(jobPostingType)," jobcrypt postings only");
-        require(isStakedByAddress[_jobApplicantAddress], " applicant stake required. ");  
+        addressMatch(_postingAddress);          
+        postingOnly();
+        // check the job applicant is staked 
+        require(paymentManager.isStaked(_jobApplicantAddress), " applicant stake required. ");  
     
-    //    update dashboard stats 
+        //  update dashboard stats 
         IJobSeekerDashboard jsDashboard;
         if(dashboardFactory.hasDashboard(_jobApplicantAddress, jobSeekerDashboardType)){
             jsDashboard = IJobSeekerDashboard(dashboardFactory.findDashboard(_jobApplicantAddress, jobSeekerDashboardType));
@@ -274,8 +277,14 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         else { 
             jsDashboard = IJobSeekerDashboard(dashboardFactory.createJobSeekerDashboard(_jobApplicantAddress));  
         }
+
         jsDashboard.addJobApplication(_postingAddress);  
-        updatePopularJobs(_postingAddress);     
+        
+        updatePopularJobs(_postingAddress);
+            
+         // emit chain notification event 
+        emit JobApplied(_postingAddress, block.timestamp, IJobPosting(_postingAddress).getFeatureUINT(postingFeatureApplicantCountKey) );
+
         return true; 
     }
 
@@ -286,12 +295,14 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         rankingManager          = IOpenRanking(registry.getAddress(rankingManagerCA));       
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));
         dashboardFactory        = IJobCryptDashboardFactory(registry.getAddress(jobSeekerDashboardFactoryCA));
+        paymentManager          = IJobCryptPaymentManager(registry.getAddress(jobCryptPaymentManagerCA));
 
         addConfigurationItem(address(registry));   
         addConfigurationItem(address(roleManager));         
         addConfigurationItem(address(searchManager));
         addConfigurationItem(address(rankingManager));
         addConfigurationItem(address(dashboardFactory));
+        addConfigurationItem(address(paymentManager));
         return true; 
     }
 
@@ -319,7 +330,6 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
             if(!isMigratedByAddress[toMigrate_]){
                 if(migrate(toMigrate_)){
                     _migratedJobCount++;
-                    isMigratedByAddress[toMigrate_] = true;
                 }
                 else{
                     _notMigrated[y] = toMigrate_;
@@ -331,7 +341,7 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
                 y++;
             }
         }
-        _notMigrated = _notMigrated.trim(y);
+        _notMigrated = trim(_notMigrated, y);
         return (_migratedJobCount, _notMigrated); 
     }
 
@@ -343,25 +353,82 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
             _delistedCount++;
          }
     }
-
-
+    
 
     //============================== INTERNAL =============================
 
+    function isExpired(address _posting) view internal returns (bool) {
+        IJobPosting posting_ = IJobPosting(_posting); 
+        return (block.timestamp > posting_.getFeatureUINT(postingFeatureExpiryDateKey));
+    }
+
+    function getJobsInternal(uint256 _start, uint256 _end)view  internal returns (address [] memory _jobs) {
+        _jobs = new address[](_start-_end);
+       uint256 y = 0; 
+            for(uint256 x = _start; x >= _end ; x--){
+                address p_ = latestJobs[x];
+                IJobPosting posting_ = IJobPosting(p_);
+                if(isExpired(p_) && (posting_.getStatus() == IJobPosting.PostStatus.POSTED || posting_.getStatus() == IJobPosting.PostStatus.EXTENDED )) {
+                    _jobs[y] = p_; 
+                    y++;
+                }                                    
+            }
+        return _jobs; 
+    }
+
+    function getJobsInternal(address [] memory _list, uint256 _limit) view internal returns (address [] memory _jobs) {
+        _jobs = new address[](_list.length);        
+        uint256 y = 0; 
+        for(uint256 x = 0; x < _list.length; x++) {
+            if(!isExpired(_list[x])) {
+                _jobs[y] = _list[x];
+                y++;
+                if(y >= _limit) {
+                    break; 
+                }
+            } 
+        }
+        return _jobs;
+    }
+
+    function addressMatch(address _postingAddress) view internal returns (bool) {
+        require(msg.sender == _postingAddress, "msg.sender <-> posting address mis-match. ");  
+        return true; 
+    }
+
+    function postingOnly() view internal returns (bool) {
+        require(registry.isDerivativeAddress(msg.sender) && registry.getDerivativeAddressType(msg.sender).isEqual(jobPostingType)," jobcrypt postings only");
+        return true; 
+    }
+
+    function list(address _posting) internal returns (bool) {
+        
+        latestJobs.push(_posting);
+        updateSearchTerms(_posting);
+        activeJobs.push(_posting);    
+        
+        IJobPosting posting_ = IJobPosting(_posting);      
+        IOpenProduct product = IOpenProduct(posting_.getFeatureADDRESS(postingFeatureProductKey));
+        if(product.hasFeature("PRODUCT_FEATURED")){
+            featuredJobs.push(_posting);
+        }
+        return true; 
+    }
+
     function migrate(address _posting) internal returns (bool _migrated) {
         if(registry.isDerivativeAddress(_posting) && registry.getDerivativeAddressType(_posting).isEqual(jobPostingType)){
+            allJobs.push(_posting);
             IJobPosting posting_ = IJobPosting(_posting);
-            if(posting_.getExpiryDate() <= block.timestamp){
+
+            if(posting_.getStatus() != IJobPosting.PostStatus.POSTED || posting_.getStatus() != IJobPosting.PostStatus.EXTENDED){
                 return false; 
             }
-            paidPostingByPosting[_posting] = true;
-            latestJobs.push(_posting);
-            updateSearchTerms(_posting);
-            activeJobs.push(_posting);         
-            IOpenProduct product = IOpenProduct(posting_.getProduct());
-            if(product.hasFeature("PRODUCT_FEATURED")){
-                featuredJobs.push(_posting);
+
+            if(posting_.getFeatureUINT(postingFeatureProductKey) <= block.timestamp){
+                return false; 
             }
+
+            list(_posting);
             isMigratedByAddress[_posting] = true; 
             return true; 
         }
@@ -371,17 +438,15 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
     }
 
     function deList(address _postingAddress) internal returns (bool _deListed) {
-            IJobPostingEditor posting_ = IJobPostingEditor(_postingAddress);
-            latestJobs = _postingAddress.remove(latestJobs);
-            activeJobs = _postingAddress.remove(activeJobs); 
-            featuredJobs = _postingAddress.remove(featuredJobs);
-            posting_.deactivate(); 
-            searchManager.removeSearchableAddress(_postingAddress);
-            rankingManager.removeRankedAddress(_postingAddress);
-            return true; 
+        latestJobs = _postingAddress.remove(latestJobs);
+        activeJobs = _postingAddress.remove(activeJobs); 
+        featuredJobs = _postingAddress.remove(featuredJobs);
+        searchManager.removeSearchableAddress(_postingAddress);
+        rankingManager.removeRankedAddress(_postingAddress);
+        return true; 
     }
 
-    function pruneList(address [] memory _jobPostingList) internal returns(address [] memory _prunedList, uint256 _count){
+    function pruneList(address [] memory _jobPostingList) internal returns(address [] memory _prunedList, uint256 _pruneCount){
         _prunedList = new address[](_jobPostingList.length);
         uint256 y = 0;
         uint256 z = 0; 
@@ -389,37 +454,38 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         for(uint256 x =0; x < _jobPostingList.length; x++){
             address postingAddress_ = _jobPostingList[x];
             IJobPosting posting_ = IJobPosting(postingAddress_);
-            if(timeNow > posting_.getExpiryDate() || !posting_.getPostingStatus().isEqual("ACTIVE")){
-                searchManager.removeSearchableAddress(postingAddress_);
-                rankingManager.removeRankedAddress(postingAddress_);
-                z++; 
-            }
+            if(timeNow > (posting_.getFeatureUINT(postingFeatureProductKey))){
+                IJobPostingEditor(postingAddress_).executePostingAction(IJobPosting.PostStatus.EXPIRED);  
+                z++;
+            } 
             else {
                 _prunedList[y] = postingAddress_;
                 y++; 
             }
         }
-        _prunedList = _prunedList.trim(_jobPostingList.length - z);
+        _prunedList = trim(_prunedList, (_jobPostingList.length - z));
         return (_prunedList, z); 
     }
 
     function updateSearchTerms(address _jobPostingAddress) internal returns (bool) {
         IJobPosting posting_ = IJobPosting(_jobPostingAddress);
-        searchManager.addSearchableAddress(_jobPostingAddress, postingCategoriesSearchField , posting_.getCategories());
-        searchManager.addSearchableAddress(_jobPostingAddress, postingSkillsSearchField , posting_.getSkillsRequired());
+        searchManager.addSearchableAddress(_jobPostingAddress, postingCategoriesSearchField , posting_.getFeatureSTRARRAY("CATEGORY_FEATURE"));
+        searchManager.addSearchableAddress(_jobPostingAddress, postingSkillsSearchField , posting_.getFeatureSTRARRAY("SKILLS_FEATURE"));
         string [] memory title_ = new string[](1);
-        title_[0] =  posting_.getFeature("TITLE");
+        title_[0] =  posting_.getFeatureSTR(postingFeatureTitleKey);
         searchManager.addSearchableAddress(_jobPostingAddress, postingTitleSearchField, title_);
         string [] memory company_ = new string[](1);
-        company_[0] = posting_.getFeature("COMPANY");
+        company_[0] = posting_.getFeatureSTR(postingFeatureCompanyNameKey);
         searchManager.addSearchableAddress(_jobPostingAddress, postingCompanySearchField, company_);
+        string [] memory terms_ = posting_.getFeatureSTRARRAY("SEARCH_TERMS_FEATURE");        
+        searchManager.addGeneralSearchTermsForAddress(_jobPostingAddress, terms_);
         return true; 
     }
 
     function updatePopularJobs(address _jobPostingAddress) internal returns(bool) {
         rankingManager.addAddressToRank(_jobPostingAddress, popularJobsRankingList);
         address topJob_ = rankingManager.getRanking( popularJobsRankingList, 1)[0]; 
-        hotSearchTerms = IJobPosting(topJob_).getCategories(); 
+        hotSearchTerms = IJobPosting(topJob_).getFeatureSTRARRAY("CATEGORY_FEATURE"); 
         return true; 
     }
 
@@ -448,38 +514,40 @@ contract JobCrypt is OpenRolesSecure, IJobCrypt, IOpenRolesManaged {
         return _activeJobAddresses; 
     }
 
-
+    function trim(address [] memory a, uint256 limit) pure internal returns (address [] memory){
+        address [] memory b = new address[](limit);        
+        for(uint256 x = 0; x < limit; x++) {
+            b[x] = a[x];            
+        }
+        return b; 
+    }
 
     function initDisplayDefaults() internal { 
 
         limitsByName[latestJobDisplayLimitKey]      = 20; 
         limitsByName[popularJobDisplayLimitKey]     = 10;
-        limitsByName[featuredJobDisplayLimitKey]    = 20; 
+        limitsByName[featuredJobDisplayLimitKey]    = 20;         
         limitsByName[jobAgeLimitKey]                = 1209600; //two weeks
         limitsByName[searchResultLimitKey]          = 100; 
         limitsByName[pageLimitKey]                  = 100;		
     }  
 
     function initJobCryptFunctionsForRoles() internal returns (bool _initiated) {
-        hasDefaultFunctionsByRole[coreRole] = true; 
-        hasDefaultFunctionsByRole[jobCryptAdminRole] = true; 
-        hasDefaultFunctionsByRole[barredUserRole] = true; 
+      
+        hasDefaultFunctionsByRole[jobCryptBusinessAdminRole] = true; 
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getAllJobs");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("notifyDelistJob");
+
+        hasDefaultFunctionsByRole[jobCryptAdminRole] = true;         
         defaultFunctionsByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
         defaultFunctionsByRole[jobCryptAdminRole].push("postMigratedJobs");
         defaultFunctionsByRole[jobCryptAdminRole].push("forceDelist");
         defaultFunctionsByRole[jobCryptAdminRole].push("pruneJobs");
         defaultFunctionsByRole[jobCryptAdminRole].push("setLimit");
-        defaultFunctionsByRole[jobCryptAdminRole].push("forceDelist");
-        defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstake");
-        defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstakeOwner");
-
-        defaultFunctionsByRole[barredUserRole].push("stake");
-        
-        //defaultFunctionsByRole[jobPostingRole].push("");
-        //defaultFunctionsByRole[jobPostingRole].push("");
-
-        defaultFunctionsByRole[coreRole].push("updateHotSearchTerms");
+        defaultFunctionsByRole[jobCryptAdminRole].push("notifyDelistJob");
 
         return true; 
     }
 }
+
+

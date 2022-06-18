@@ -14,4 +14,6 @@ interface IJobCryptDashboardFactory {
 
     function findDashboard(address _user, string memory _dashboardType) view external returns (address _dashboardAddress);
 
+    function linkToEmployerDashboard(address _jobPosting) external returns (bool _linked);
+
 }

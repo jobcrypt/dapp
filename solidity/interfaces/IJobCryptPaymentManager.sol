@@ -14,16 +14,11 @@ interface IJobCryptPaymentManager {
         uint256 date; 
     }
 
-    struct ProductPostingPayment {
-        address productAddress; 
-        address postingAddress; 
-        uint256 paymentDate;
-        uint256 txRef;  
-    }
-
     function getMinimumStakeAmount() view external returns (uint256 _amount); 
 
     function getStakedAmount() view external returns(uint256 _stakedAmount);
+
+    function isStaked(address _staker) view external returns (bool _staked);
      
     function stake(uint256 _amount) payable external returns (bool _staked);
 
@@ -34,12 +29,10 @@ interface IJobCryptPaymentManager {
     function getPaymentData(uint256 _txRef) view external returns (Payment memory _payment);
     
     function getPaidPostings(address _postingOwner) view external returns (address [] memory _postingAddreses);
-    
-    function isPaid(address _posting ) view external returns (bool _isPaid);
 
     function isProductPaidForPosting(address _posting, address _product) view external returns (bool isPaid);
 
-    function whenPaid(address _posting) view external returns (uint256 _paymentDate);
+    function getPaymentDate(address _posting) view external returns (uint256 _paymentDate);
 
     function payForPosting(address _postingAddress) payable external returns (uint256 _txRef);
 

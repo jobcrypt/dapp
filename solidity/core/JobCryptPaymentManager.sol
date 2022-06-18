@@ -1,61 +1,65 @@
 // SPDX-License-Identifier: Apache-2.0
 
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.14;
 /**
- * @dev 
+ * @dev  
  */
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
 
-import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
+
+import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";
+
+
+import "https://github.com/Block-Star-Logic/open-roles/blob/93764de97d40c04b150f51b92bf2a448f22fbd1f/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
+import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
+
 
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+
 
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProductCore.sol";
 
-import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
+
 import "https://github.com/Block-Star-Logic/open-bank/blob/d4d48357b75030706a7f04e8721ba84ed2be33cc/blockchain_ethereum/solidity/V2/contracts/interfaces/IOpenBank.sol";
+
 
 import "../interfaces/IJobPosting.sol";
 import "../interfaces/IJobCryptPaymentManager.sol";
 import "../interfaces/IJobCrypt.sol";
 
-contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCryptPaymentManager{ 
+contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRolesManaged, IJobCryptPaymentManager{ 
 
     using LOpenUtilities for string; 
     using LOpenUtilities for address;
 
     string name                 = "RESERVED_JOBCRYPT_PAYMENT_MANAGER";
-    uint256 version             = 7;
+    uint256 version             = 10;
 
     IOpenRegister               registry; 
     IOpenProductCore            productManager; 
     IOpenBank                   bank; 
-    IJobCrypt                   jobCrypt; 
 
-    string productManagerCA     = "RESERVED_OPEN_PRODUCT_CORE";
-    string bankCA               = "RESERVED_OPEN_BANK_CORE";
-    string registerCA           = "RESERVED_OPEN_REGISTER_CORE";
+    string productManagerCA          = "RESERVED_OPEN_PRODUCT_CORE";
+    string bankCA                    = "RESERVED_OPEN_BANK_CORE";
+    string registerCA                = "RESERVED_OPEN_REGISTER_CORE";
     
-    string jobcryptCA           = "RESERVED_JOBCRYPT_CORE";
-    string roleManagerCA        = "RESERVED_OPEN_ROLES_CORE";
+    string jobcryptCA                = "RESERVED_JOBCRYPT_CORE";
+    string roleManagerCA             = "RESERVED_OPEN_ROLES_CORE";
 
-    string stakeErc20CA         = "JOBCRYPT_STAKE_ERC20_CA";
+    string stakeErc20CA              = "JOBCRYPT_STAKE_ERC20_CA";
     
-    string barredPublicUserRole = "BARRED_PUBLIC_USER_ROLE";
-    string coreRole             = "JOBCRYPT_CORE_ROLE"; 
-    string jobcryptBusinessRole = "JOBCRYPT_BUSINESS_ROLE";
-    string jobCryptAdminRole    = "JOBCRYPT_ADMIN_ROLE";
-    string barredUserRole       = "JOBCRYPT_BARRED_USER_ROLE";
+    string barredPublicUserRole      = "BARRED_PUBLIC_USER_ROLE";    
+    string jobCryptBusinessAdminRole = "JOBCRYPT_BUSINESS_ADMIN_ROLE";    
+    string jobCryptAdminRole         = "JOBCRYPT_ADMIN_ROLE";
+    
+    string jobPostingType            = "JOB_POSTING_TYPE";
 
-  
-    string jobPostingType       = "JOB_POSTING_TYPE";
+    string stakeLimitKey             = "STAKE_LIMIT_KEY";
 
-    string stakeLimitKey        = "STAKE_LIMIT_KEY";
+    bool NATIVE_STAKING              = false; 
 
-    bool NATIVE_STAKING         = false; 
-
-    string [] defaultRoles = [barredPublicUserRole, coreRole, jobcryptBusinessRole, jobCryptAdminRole, barredUserRole];
+    string [] defaultRoles = [barredPublicUserRole, jobCryptBusinessAdminRole, jobCryptAdminRole];
 
     address stakeErc20Address; 
 
@@ -85,15 +89,14 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
 
     
     address [] stakedUsers; 
+    mapping(address=>bool) isStakedByAddress; 
     mapping(address=>uint256) stakeAmountsByAddress; 
 
     mapping(string=>uint256) limitsByName; 
     
     bool bankingActive = false; 
 
-    ProductPostingPayment [] productPostingPaymentList;
-
-    constructor(address _registryAddress) {
+    constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT") {
         registry                = IOpenRegister(_registryAddress);
         productManager          = IOpenProductCore(registry.getAddress(productManagerCA));
         stakeErc20Address       = registry.getAddress(stakeErc20CA);
@@ -108,14 +111,11 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
             bankingActive = true; 
         }
 
-
-        jobCrypt = IJobCrypt(registry.getAddress(jobcryptCA));
         setRoleManager(registry.getAddress(roleManagerCA));
         
         addConfigurationItem(_registryAddress);   
         addConfigurationItem(address(roleManager));   
-        addConfigurationItem(address(productManager));
-        addConfigurationItem(address(jobCrypt));    
+        addConfigurationItem(address(productManager));  
         
         addConfigurationItem(stakeErc20CA, stakeErc20Address, 0);
         addConfigurationItem(name, self, version);
@@ -154,56 +154,27 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         return stakeAmountsByAddress[msg.sender]; 
     }
 
-    function getPaymentData(uint256 _txRef) override view external returns (Payment memory _payment) {    
-        require(isSecureBarring(barredPublicUserRole, "getPaymentData"),"JCPM 00 - user barred.");   
-        _payment = paymentByTxRef[_txRef];
-        if(msg.sender == _payment.payer || isSecure(jobcryptBusinessRole, "getPaymentData") ){
-            return  _payment; 
-        }      
-        return Payment({
-            payer   : address(0), 
-            posting : address(0),
-            product : address(0),
-            fee     : 0,
-            erc20   : address(0),
-            ref     : "",
-            date    : 0
-        });
+    function getPaymentData(uint256 _txRef) override view external returns (Payment memory _payment) {  
+        _payment = paymentByTxRef[_txRef];  
+        require(msg.sender == _payment.payer || isSecure(jobCryptBusinessAdminRole, "getPaymentData") , " payer or business admin only ");
+        return _payment; 
     }
 
-    function whenPaid(address _posting) override view external returns(uint256 _paymentDate) {
+    function getPaymentDate(address _posting) override view external returns(uint256 _paymentDate) {
         return paymentByAddress[_posting].date;
     }
 
-
-    function isPaid(address _posting ) override view external returns (bool _isPaid) {
-        return isPaidPostingByAddress[_posting];
-    }
-
-    function getPaidPostings(address _postingOwner) override view external returns (address [] memory _postingAddresses) {
-        require(msg.sender == _postingOwner || isSecure(jobcryptBusinessRole, "getPaidPostings"), " owner <-> sender mis-match. owner or admin only");
-        if(hasPaidPostingsByOwner[_postingOwner]){
-            return paidPostingsByOwner[_postingOwner];
-        }
-        _postingAddresses = new address[](0);
-    
-        return _postingAddresses; 
-    }
-
-    function getPaymentTxRefs(address _payer) view external returns (uint256 [] memory _txRefs) {    
-        require(msg.sender == _payer || isSecure(jobcryptBusinessRole, "getPaymentTxRefs"), " owner <-> sender mis-match. owner or admin only");    
-        return txRefsByPayer[_payer];
-    }
-
-
-    function getPaymentRefs() view external returns (uint256 [] memory _txRefs){
-        require(isSecure(jobcryptBusinessRole, "getPaymentRefs")," admin only ");
-        return txRefs; 
+    function isProductPaidForPosting(address _posting, address _product) view external returns (bool _isPaid){
+        return isPaidForProductByAddress[_posting][_product];
     }
 
     function stake(uint256 _amount) override payable external returns (bool _staked){
-        require(isSecureBarring(barredUserRole, "stake"), " user barred ");
+        require(isSecureBarring(barredPublicUserRole, "stake"), " user barred ");
         return stakeInternal(msg.sender, _amount); 
+    }
+
+    function isStaked(address _address) override view external returns (bool _staked) {
+        return isStakedByAddress[_address];
     }
 
     function unstake() override external returns (uint256 _unstakedAmount) {
@@ -214,92 +185,59 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         require(isSecureBarring(barredPublicUserRole, "payForPosting"),"JCPM 00 - user barred.");        
         require(!isPaidPostingByAddress[_postingAddress], " posting already paid for ");
         
-
         IJobPosting posting_ = IJobPosting(_postingAddress);
-        require(posting_.getPostingStatus().isEqual("DRAFT") , " draft postings only ");
+        require(posting_.getStatus() == IJobPosting.PostStatus.DRAFT, " draft postings only ");
 
-        address productAddress_ = posting_.getProduct();
+        address productAddress_ = posting_.getFeatureADDRESS("PRODUCT_FEATURE");
        
         _txRef = processPaymentInternal(_postingAddress, productAddress_); 
              
         // add to paid postings
-        paidPostingsByOwner[posting_.getOwner()].push(_postingAddress); 
-        hasPaidPostingsByOwner[posting_.getOwner()]  = true;  
+        paidPostingsByOwner[posting_.getFeatureADDRESS("OWNER_FEATURE")].push(_postingAddress); 
+        
         isPaidPostingByAddress[_postingAddress] = true; 
-        txRefsByPayer[posting_.getOwner()].push(_txRef);
         paidPostingList.push(_postingAddress);
-        jobCrypt.notifyPayment(_postingAddress);
+
         return (_txRef);
     }
 
     function payForProductForPosting(address _postingAddress, address _productAddress) override payable external returns (uint256 _txRef){
-        require(isSecureBarring(barredPublicUserRole, "payForPosting"),"JCPM 00 - user barred.");        
-        require(jobCrypt.isPaidPosting(_postingAddress), " no paid postings, pay for posting then add product ");
-        _txRef = processPaymentInternal(_postingAddress, _productAddress); 
-        isPaidForProductByAddress[_postingAddress][_productAddress] = true; 
-        ProductPostingPayment memory productPostingPayment_ = ProductPostingPayment({
-            productAddress :_productAddress,
-            postingAddress : _postingAddress,
-            paymentDate : block.timestamp,
-            txRef : _txRef
-        });
-        productPostingPaymentList.push(productPostingPayment_);
-        jobCrypt.notifyProductPayment(_postingAddress, _productAddress);
-        return _txRef; 
+        require(isSecureBarring(barredPublicUserRole, "payForProductForPosting"),"JCPM 00 - user barred.");        
+        return processPaymentInternal(_postingAddress, _productAddress); 
     }
 
-    function isProductPaidForPosting(address _posting, address _product) view external returns (bool _isPaid){
-        return isPaidForProductByAddress[_posting][_product];
+    function getPaidPostings(address _postingOwner) override view external returns (address [] memory _postingAddresses) {
+        require(msg.sender == _postingOwner || isSecure(jobCryptBusinessAdminRole, "getPaidPostings"), " owner <-> sender mis-match. owner or business admin only");
+        require(hasPaidPostingsByOwner[_postingOwner], " no postings ");
+        return paidPostingsByOwner[_postingOwner];
     }
 
-
-    function setLimit(string memory _limit, uint256 _amount) external returns (bool _set) {
-        limitsByName[_limit] = _amount; 
-        return true; 
+    function getPaymentTxRefs(address _payer) view external returns (uint256 [] memory _txRefs) {    
+        require(msg.sender == _payer || isSecure(jobCryptBusinessAdminRole, "getPaymentTxRefs"), " owner <-> sender mis-match. owner or business admin only");    
+        return txRefsByPayer[_payer];
     }
 
-    function deactivateBanking() external returns (bool _bankingDeactivated){
-        require(isSecure(jobCryptAdminRole, "getPaymentRefs")," admin only ");
-        bankingActive = false; 
-        return _bankingDeactivated; 
+    //================================== BIZ ADMIN ==============================================================
+
+    function getPaymentRefs() view external returns (uint256 [] memory _txRefs){
+        require(isSecure(jobCryptBusinessAdminRole, "getPaymentRefs")," biz admin only ");
+        return txRefs; 
     }
 
-
-    function notifyChangeOfAddress() external returns(bool _nofified) {
-        require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");
-        registry = IOpenRegister(registry.getAddress(registerCA));
-        productManager = IOpenProductCore(registry.getAddress(productManagerCA));        
-        jobCrypt = IJobCrypt(registry.getAddress(jobcryptCA));
-        setRoleManager(registry.getAddress(roleManagerCA));
-        address bankAddress_    = registry.getAddress(bankCA); 
-        stakeErc20Address       = registry.getAddress(stakeErc20CA); 
-        if(stakeErc20Address == NATIVE_CURRENCY){
-            NATIVE_STAKING = true; 
-        } 
-        if(bankAddress_ != address(0)){
-            bank = IOpenBank(bankAddress_);
-            addConfigurationItem(address(bank));
-            bankingActive = true; 
-        }
-
-        addConfigurationItem(address(registry));   
-        addConfigurationItem(address(roleManager));   
-        addConfigurationItem(address(productManager));
-        addConfigurationItem(address(jobCrypt));
-        addConfigurationItem(stakeErc20CA, stakeErc20Address, 0);
-        return true; 
+    function getAllPaidPostings() view external returns (address [] memory _paidPostings) {
+        require(isSecure(jobCryptBusinessAdminRole, "getAllPaidPostings")," biz admin only ");
+        return paidPostingList;
     }
 
-
+   
     function safeWithdraw(address _erc20Address) external returns (bool withdrawn) {
-        require(isSecure(jobCryptAdminRole, "safeWithdraw")," admin only ");
+        require(isSecure(jobCryptBusinessAdminRole, "safeWithdraw")," biz admin only ");
         return safeHarbourTransfer(_erc20Address);
     }
 
-
     function withdraw() external returns (bool _withdrawn) {
         // transfer to safe harbour all monies in batches of 5 
-        require(isSecure(jobCryptAdminRole, "withdraw")," admin only ");
+        require(isSecure(jobCryptBusinessAdminRole, "withdraw")," biz admin only ");
         uint256 batchSize = 5; 
         uint256 length_ = batchSize; 
         if(batchSize > erc20Funds.length){
@@ -318,23 +256,45 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
         return true; 
     }
 
-    function syncJobCrypt() external returns (bool _synced){
-        for(uint x = 0; x < paidPostingList.length; x++){
-            address posting_ = paidPostingList[x];
-            jobCrypt.notifyPayment(posting_);
-        }
-        for(uint y = 0; y < stakedUsers.length; y++){
-            address user_ = stakedUsers[y];
-            jobCrypt.notifyUserStaked(user_, true);
-        }
+    // ===================================================== DIT ADMIN ======================================================
 
-        for(uint256 z = 0; z < productPostingPaymentList.length ;z++){
-             ProductPostingPayment memory productPostingPayment_ = productPostingPaymentList[z];
-             jobCrypt.notifyProductPayment(productPostingPayment_.postingAddress, productPostingPayment_.productAddress);
-        }
-
+    function setLimit(string memory _limit, uint256 _amount) external returns (bool _set) {
+        require(isSecure(jobCryptAdminRole, "setLimit")," admin only ");
+        limitsByName[_limit] = _amount; 
         return true; 
     }
+
+    function deactivateBanking() external returns (bool _bankingDeactivated){
+        require(isSecure(jobCryptAdminRole, "deactivateBanking")," admin only ");
+        bankingActive = false; 
+        return _bankingDeactivated; 
+    }
+
+    function notifyChangeOfAddress() external returns(bool _nofified) {
+        require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");
+        registry = IOpenRegister(registry.getAddress(registerCA));
+        productManager = IOpenProductCore(registry.getAddress(productManagerCA));        
+
+        setRoleManager(registry.getAddress(roleManagerCA));
+        address bankAddress_    = registry.getAddress(bankCA); 
+        stakeErc20Address       = registry.getAddress(stakeErc20CA); 
+        if(stakeErc20Address == NATIVE_CURRENCY){
+            NATIVE_STAKING = true; 
+        } 
+        if(bankAddress_ != address(0)){
+            bank = IOpenBank(bankAddress_);
+            addConfigurationItem(address(bank));
+            bankingActive = true; 
+        }
+
+        addConfigurationItem(address(registry));   
+        addConfigurationItem(address(roleManager));   
+        addConfigurationItem(address(productManager));
+
+        addConfigurationItem(stakeErc20CA, stakeErc20Address, 0);
+        return true; 
+    }
+
 
     function forceUnstake() external returns (uint256 _unstakedUserCount, uint256 _stakedUserCount) {   
         require(isSecure(jobCryptAdminRole, "forceUnstake")," admin only ");      
@@ -432,7 +392,7 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
     }
 
     function stakeInternal(address _owner, uint256 _amount) internal returns (bool) {        
-        require(stakeAmountsByAddress[_owner] == 0, " already staked ");
+        require(!isStakedByAddress[_owner], " already staked ");
         if(NATIVE_STAKING) {
             require(msg.value >= _amount, " sent value <-> declared value mis-match "); 
             require(_amount >= limitsByName[stakeLimitKey], " in sufficient stake ");
@@ -446,13 +406,13 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
             stakeAmountsByAddress[_owner] = _amount; 
         }
         stakedUsers.push(_owner);      
-        jobCrypt.notifyUserStaked(_owner, true);
+        isStakedByAddress[_owner] = true;
         return true; 
     }
 
     function unstakeInternal(address _owner) internal returns (uint256 _unstakedAmount) {        
         _unstakedAmount = stakeAmountsByAddress[_owner];
-        if(_unstakedAmount > 0){
+        if(isStakedByAddress[_owner]){
             stakeAmountsByAddress[_owner] -= _unstakedAmount; 
             if(NATIVE_STAKING){
                 address payable leaver = payable(_owner);
@@ -463,7 +423,7 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
                 erc20_.transfer(_owner, _unstakedAmount);
             }
             stakedUsers = _owner.remove(stakedUsers);
-            jobCrypt.notifyUserStaked(_owner, false); 
+            delete isStakedByAddress[_owner];
         }
         return _unstakedAmount; 
     }
@@ -481,11 +441,12 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
             _txRef = makeBankPayment(erc20Address_, fee_, reference_);
         }
         else { 
-            _txRef =recievePayment(erc20Address_, fee_);
+            _txRef = recievePayment(erc20Address_, fee_);
         }
         IJobPosting posting_ = IJobPosting(_postingAddress);
+        address owner_ = posting_.getFeatureADDRESS("OWNER_FEATURE");
         Payment memory payment_ = Payment({
-                                    payer : posting_.getOwner(), 
+                                    payer : owner_, 
                                     posting : _postingAddress,
                                     product : _productAddress,
                                     fee : fee_,
@@ -495,20 +456,45 @@ contract JobCryptPaymentManager is OpenRolesSecure, IOpenRolesManaged, IJobCrypt
                                     });
         paymentByTxRef[_txRef] = payment_; 
         txRefs.push(_txRef);
+
+        isPaidForProductByAddress[_postingAddress][_productAddress] = true; 
+        txRefsByPayer[owner_].push(_txRef);
+        if(!hasPaidPostingsByOwner[owner_]){
+            hasPaidPostingsByOwner[owner_]  = true; 
+        } 
         return _txRef; 
     }
-
 
     function initLimitDefaults() internal { 
         limitsByName[stakeLimitKey] = 1000000000000000000; 
     }
+    
     function initDefaultFunctionsForRoles() internal { 
         hasDefaultFunctionsByRole[barredPublicUserRole] = true; 
-        defaultFunctionsByRole[barredPublicUserRole].push("payForPosting");
-        defaultFunctionsByRole[barredPublicUserRole].push("payForPostingFeature");
+        hasDefaultFunctionsByRole[jobCryptAdminRole]    = true; 
+        hasDefaultFunctionsByRole[jobCryptBusinessAdminRole] = true; 
+     
+     
+        defaultFunctionsByRole[jobCryptAdminRole].push("payForPosting");
+        defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstake");
+        defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstakeOwner");
+        defaultFunctionsByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
+        defaultFunctionsByRole[jobCryptAdminRole].push("deactivateBanking");
+        defaultFunctionsByRole[jobCryptAdminRole].push("setLimit");
 
-        hasDefaultFunctionsByRole[coreRole] = true; 
-        defaultFunctionsByRole[coreRole].push("getPaidPostings");
+
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("safeWithdraw");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("withdraw");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getAllPaidPostings");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentRefs");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentTxRefs");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaidPostings");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentData");
+
+
+        defaultFunctionsByRole[barredPublicUserRole].push("payForPosting");
+        defaultFunctionsByRole[barredPublicUserRole].push("payForProductForPosting");
+        defaultFunctionsByRole[barredPublicUserRole].push("stake");      
     }
 
 }

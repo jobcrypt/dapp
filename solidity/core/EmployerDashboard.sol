@@ -1,30 +1,31 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.14;
+
+import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";
+
+import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureDerivative.sol";
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
-import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
 
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 import "../interfaces/IJobPosting.sol";
 import "../interfaces/IEmployerDashboard.sol";
 
-contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
+contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployerDashboard {
 
     using LOpenUtilities for address;
     using LOpenUtilities for string;
 
     address [] jobPostings; 
 
-    address [] viewableJobPostings; 
-
-    address [] postedJobs; 
+    address [] viewableJobPostings;
 
     address [] draftJobPostings; 
 
     mapping(address=>bool) removedPostingsByAddress; 
 
-    uint256 version = 5; 
+    uint256 version = 7; 
     string name = "EMPLOYER_DASHBOARD";
 
     address employer; 
@@ -39,7 +40,8 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
     string localDashboardModeratorRole   = "LOCAL_DASHBOARD_MODERATOR_ROLE";
     string jobCryptAdminRole             = "JOBCRYPT_ADMIN_ROLE";
 
-    string dashboardType        = "EMPLOYER_DASHBOARD_TYPE";
+    string dashboardType                 = "EMPLOYER_DASHBOARD_TYPE";
+    string jobPostingType                = "JOBCRYPT_JOB_POSTING_TYPE";
 
     constructor (address _employer, address _registryAddress)  {
         employer = _employer; 
@@ -51,38 +53,41 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
         addConfigurationItem(name, self, version);
     }
     
+    function getName() view external returns (string memory _name) {
+        return name; 
+    }
+
+    function getVersion() view external returns (uint256 _version) {
+        return version; 
+    }
+
     function getPostings() override view external returns (address [] memory _jobPostings) {
         require(isSecure(localDashboardViewerRole, "getPostings"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local viewer only"); // employer only                 
         return viewableJobPostings; 
     }
 
-    function getPostedJobs() override view external returns (address [] memory _jobPostings) {
-        return postedJobs;
+    function getPostedJobs() override view external returns (address [] memory _jobPostings){
+        return findWithStatus(IJobPosting.PostStatus.POSTED); 
     }
 
     function getDraftPostings() override view external returns (address [] memory _jobPostings){
-        return draftJobPostings; 
+        return findWithStatus(IJobPosting.PostStatus.DRAFT); 
     }
 
-    function findPostedJobs(uint256 _startDate, uint256 _endDate) override view external returns (address [] memory _postedJobs){
+    function findPostings(uint256 _startDate, uint256 _endDate) override view external returns (address [] memory _postings){
         require(isSecure(localDashboardViewerRole, "findPostedJobs"), "JC EMPLOYER DASHBOARD : findPostedJobs : 00 - local viewer only"); // employer only         
               
         address [] memory temp_ = new address[](jobPostings.length);
         uint256 y = 0; 
         for(uint256 x = 0; x < jobPostings.length; x++){
             IJobPosting posting = IJobPosting(jobPostings[x]);
-            uint256 postingDate = posting.getPostingDate();
+            uint256 postingDate = posting.getFeatureUINT("POSTING_DATE_FEATURE");
             if(postingDate >= _startDate && postingDate <= _endDate){
                 temp_[y] = jobPostings[x];
                 y++;
             }
         }
-        
-        _postedJobs = new address[](y);
-        for(uint256 c = 0; c < y ; c++){
-            _postedJobs[c] = temp_[c];
-        }
-        return _postedJobs;
+        return trim(temp_, y);
     }
 
     function removePosting(address _address) external returns (bool _removed) {
@@ -98,12 +103,8 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
 
     function addJobPosting(address _jobPostingAddress ) override external returns (bool _added) {   
         require(isSecure(localDashboardModeratorRole, "addJobPosting"), "JOBCRYPT_EMPLOYER_DASHBOARD : addJobPosting : 00 - local moderator only"); // moderator         
+        postingOnly(_jobPostingAddress);
         jobPostings.push(_jobPostingAddress);  
-        IJobPosting posting = IJobPosting(_jobPostingAddress);
-        string memory status_ = posting.getPostingStatus(); 
-        if(status_.isEqual("DRAFT")) {
-            draftJobPostings.push(_jobPostingAddress);
-        }
         viewableJobPostings.push(_jobPostingAddress);
         return true; 
     }          
@@ -117,5 +118,33 @@ contract EmployerDashboard is OpenRolesSecure, IEmployerDashboard {
         return true; 
     }
     // ======================== INTERNAL ==================================
+
+    function postingOnly(address _posting) view internal returns (bool) {
+            require(registry.isDerivativeAddress(_posting) && registry.getDerivativeAddressType(_posting).isEqual(jobPostingType)," jobcrypt postings only");
+        return true; 
+    }
+
+
+    function findWithStatus(IJobPosting.PostStatus _status) view internal returns (address [] memory _results) {
+        uint256 y = 0; 
+        _results = new address[](viewableJobPostings.length);
+        for(uint256 x = 0; x < _results.length; x++){
+            address a_ = viewableJobPostings[x];
+            IJobPosting posting_ = IJobPosting(a_);
+            if(posting_.getStatus() == _status) {
+                _results[y] = a_;
+                y++;
+            }
+        }
+        return trim(_results, y); 
+    }
+
+    function trim(address [] memory a, uint256 limit) pure internal returns (address [] memory){
+        address [] memory b = new address[](limit);        
+        for(uint256 x = 0; x < limit; x++) {
+            b[x] = a[x];            
+        }
+        return b; 
+    }
 
 }

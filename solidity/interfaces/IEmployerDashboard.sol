@@ -17,6 +17,6 @@ interface IEmployerDashboard {
 
     function getDraftPostings() view external returns (address [] memory _jobPostings);
 
-    function findPostedJobs(uint256 _startDate, uint256 _endDate) view external returns (address [] memory _postedJobs);           
-    
+    function findPostings(uint256 _startDate, uint256 _endDate) view external returns (address [] memory _postings);    
+
 }

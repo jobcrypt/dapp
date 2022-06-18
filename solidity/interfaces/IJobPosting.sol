@@ -12,30 +12,26 @@ interface IJobPosting {
         string link; 
     }
 
-    function getOwner() view external returns (address _owner);
 
-    function getCategories() view external returns (string [] memory _categories );
+    enum PostStatus {DRAFT, POSTED, FILLED, CANCELLED, EXPIRED, EXTENDED, DEACTIVATED, BARRED, ARCHIVED}
+  
+    // categorfies, skills, searchterms
+    function getFeatureSTRARRAY(string memory _featureName) view external returns (string [] memory _featureValues);
 
-    function getSkillsRequired() view external returns (string [] memory _skills );
+    // title, company name, company description ipfs hash, job description ipfs hash, 
+    // location, work type, payment type, location type, location support, company link 
+    function getFeatureSTR(string memory _featureName) view external returns (string memory _featureValue);
 
-    function getFeature(string memory _featureName) view external returns (string memory _featureValue);
+    // expiry date, posting date, applicant count 
+    function getFeatureUINT(string memory _featureName) view external returns (uint256 _featureValue);
 
-    function getPostingDate() view external returns (uint256 _postingDate);
+    // owner, product
+    function getFeatureADDRESS(string memory _featureName) view external returns (address _featureValue);
 
-    function getExpiryDate() view external returns (uint256 _expiryDate);
-
-    function getProduct() view external returns (address _product);
-
-    function getPostingStatus() view external returns (string memory _postingStatus);
+    function getStatus() view external returns (PostStatus _status);
 
     function applyForJob() external returns (string memory _applicationURL);
 
-    function getApplyLink() view external returns (string memory _applyLink);
-
-    function getApplicantData(address _applicantAddress) view external returns (Applicant memory _applicant);
-        
-    function getApplicantCount() view external returns (uint256 _applicantCount);    
-
-    function getFee() view external returns (uint256 _fee, string memory _erc20Currency, address _erc20Address);
+    function getApplicantData(address _applicantAddress) view external returns (Applicant memory _applicant);   
 
 }

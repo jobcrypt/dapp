@@ -2,24 +2,17 @@
 
 pragma solidity >=0.8.0 <0.9.0;
 
+import  "./IJobPosting.sol";
 
 interface IJobPostingEditor { 
 
     function post() external returns (bool _posted);
 
-    function setFeatures(string [] memory _featureNames, string [] memory _featureValues ) external returns (bool _set);
+    function executePostingAction(IJobPosting.PostStatus _targetStatus) external returns (bool _success);
 
-    function setCategories(string [] memory _categories) external returns (bool _set );
+    // search categories, skills, search terms 
+    // title, company name, company description ipfs hash, job description ipfs hash, 
+    // location, work type, payment type, location type, location support, company link
+    function populatePosting(string [] memory _featureNames, string [] memory _featureValues, string [] memory _categories, string [] memory _skills, string [] memory _searchTerms, string memory _applyLink ) external returns (bool _populated);
 
-    function setSkillsRequired(string [] memory _skills) external returns (bool _set );
-  
-    function setExpiryDate(uint256 _expiryDate) external returns (bool _set);
-
-    function setPostingStatus(string memory _status) external returns (bool _set);
-
-    function setApplyLink(string memory _applyLink) external returns (bool _set);
-
-    function populatePosting(string [] memory _featureNames, string [] memory _featureValues, string [] memory _categories, string [] memory _skills, string memory _applyLink ) external returns (bool _populated);
-
-    function deactivate() external returns (bool _deactivated);
 }

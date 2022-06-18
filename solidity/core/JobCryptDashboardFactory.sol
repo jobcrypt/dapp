@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.14;
 /**
  * @dev 
  */
 
- import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
- import "https://github.com/Block-Star-Logic/open-roles/blob/e7813857f186df0043c84f0cca42478584abe09c/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecure.sol";
+ import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
+ import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
  
  import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
  import "https://github.com/Block-Star-Logic/open-roles/blob/da64281ff9a0be20c800f1c3e61a17bce99fc90d/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesDerivativeAdmin.sol";
@@ -16,41 +16,46 @@ pragma solidity >=0.8.0 <0.9.0;
 
  import "../interfaces/IJobCryptDashboardFactory.sol";
  import "../interfaces/IJobCryptSecuritization.sol";
+ import "../interfaces/IEmployerDashboard.sol";
+ import "../interfaces/IJobPosting.sol";
 
- import "./EmployerDashboard.sol";
- import "./JobSeekerDashboard.sol";
- import "./JcJobPosting.sol";
+ import "../interfaces/IDashboardInstantiator.sol";
 
 
-contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCryptDashboardFactory {
+contract JobCryptDashboardFactory is OpenRolesSecureCore, IOpenVersion, IOpenRolesManaged, IJobCryptDashboardFactory {
 
     using LOpenUtilities for string;
     
     string name                         = "RESERVED_JOBCRYPT_DASHBOARD_FACTORY"; 
-    uint256 version                     = 4; 
-    bool securityActive                 = false;  
+    uint256 version                     = 6;     
 
-    string coreRole                     = "JOBCRYPT_CORE_ROLE"; 
+    string jobCryptCoreRole             = "JOBCRYPT_CORE_ROLE"; 
+    string jobcryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
+
+    // JobCrypt dApp Roles 
+    string [] roleNames = [jobCryptCoreRole, jobcryptAdminRole];
+
+    mapping(string=>bool) hasDefaultFunctionsByRole;
+    mapping(string=>string[]) defaultFunctionsByRole;
 
     string employerDashboardType        = "EMPLOYER_DASHBOARD_TYPE";
     string jobSeekerDashboardType       = "JOBSEEKER_DASHBOARD_TYPE";
 
     string registerCA                   = "RESERVED_OPEN_REGISTER_CORE";
     string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
+
+    string employerInstantiatorCA       = "RESERVED_JOBCRYPT_EMPLOYER_DASHBOARD_INSTANTIATOR";
+    string jobSeekerInstantiatorCA      = "RESERVED_JOBCRYPT_JOBSEEKER_DASHBOARD_INSTANTIATOR";
     
     string securitizationCA             = "RESERVED_JOBCRYPT_DERIVATIVE_CONTRACT_SECURITIZATION";
 
     address [] employerDashboards; 
     address [] jobSeekerDashboards; 
 
-     // JobCrypt dApp Roles 
-    string [] roleNames = [coreRole];
-
-    mapping(string=>bool) hasDefaultFunctionsByRole;
-    mapping(string=>string[]) defaultFunctionsByRole;
-
     IOpenRegister registry;  
-    IJobCryptSecuritization securitization;             
+    IJobCryptSecuritization securitization; 
+    IDashboardInstantiator employerInstantiator; 
+    IDashboardInstantiator jobSeekerInstantiator;             
     
     mapping(address=>bool) hasEmployerDashboardByEmployerAddress;
     mapping(address=>bool) hasJobSeekreDashboardByJobSeekerAddress;
@@ -58,14 +63,19 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
     mapping(address=>address) employerDashboardByEmployer; 
     mapping(address=>address) jobSeekerDashboardByJobSeeker; 
 
-    constructor(address _registryAddress) {      
+    constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT") {      
         registry = IOpenRegister(_registryAddress); 
         securitization = IJobCryptSecuritization(registry.getAddress(securitizationCA));
         setRoleManager(registry.getAddress(roleManagerCA));
+        
+        employerInstantiator = IDashboardInstantiator((registry.getAddress(employerInstantiatorCA)));
+        jobSeekerInstantiator = IDashboardInstantiator((registry.getAddress(jobSeekerInstantiatorCA)));
 
         addConfigurationItem(_registryAddress);   
         addConfigurationItem(address(roleManager));   
-        addConfigurationItem(address(securitization));    
+        addConfigurationItem(address(securitization));  
+        addConfigurationItem(address(employerInstantiator));
+        addConfigurationItem(address(jobSeekerInstantiator));  
         addConfigurationItem(name, self, version);
 
         initDefaultFunctionsForRoles();         
@@ -103,22 +113,31 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
         return registry.getDapp(); 
     }
 
+    function linkToEmployerDashboard(address _jobPosting) external returns (bool _linked){
+        require(isSecure(jobCryptCoreRole, "linkToEmployerDashboard"), "jobcrypt core only ");
+        require(registry.isDerivativeAddress(_jobPosting), " unknown derivative address ");
+        IEmployerDashboard employerDashboard = IEmployerDashboard(findOrCreateDashboard(IJobPosting(_jobPosting).getFeatureADDRESS("OWNER_FEATURE"), employerDashboardType));
+        employerDashboard.addJobPosting(_jobPosting);
+        return true; 
+    }
+
     function hasDashboard(address _user, string memory _dashboardType) override view external returns (bool _hasDashboard) {
-        if(_dashboardType.isEqual("EMPLOYER_DASHBOARD_TYPE")){
+        if(_dashboardType.isEqual(employerDashboardType)){
             return hasEmployerDashboardByEmployerAddress[_user];
         }
-        if(_dashboardType.isEqual("JOBSEEKER_DASHBOARD_TYPE")){
+        if(_dashboardType.isEqual(jobSeekerDashboardType)){
             return hasJobSeekreDashboardByJobSeekerAddress[_user];
         }
         return false; 
     }
 
     function findDashboard(address _user, string memory _dashboardType) override view external returns (address _dashboard) {
+        require(isSecure(jobCryptCoreRole, "findDashboard"), "jobcrypt core only ");
         return findDashboardInternal(_user, _dashboardType);
     }
 
     function createEmployerDashboard(address _employer) override external returns (address _dashboardAddress){
-        require(isSecure(coreRole, "createEmployerDashboard"), "jobcrypt core only ");
+        require(isSecure(jobCryptCoreRole, "createEmployerDashboard"), "jobcrypt core only ");
         address dashboard_ = createEmployerDashboardInternal(_employer);
         securitization.secureEmployerDashboard(dashboard_, _employer);
         
@@ -126,7 +145,7 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
     }
 
     function createJobSeekerDashboard(address _jobSeeker) override external returns (address _dashboardAddress){
-        require(isSecure(coreRole, "createJobSeekerDashboard"), "jobcrypt core only ");
+        require(isSecure(jobCryptCoreRole, "createJobSeekerDashboard"), "jobcrypt core only ");
         address dashboard_ = createJobSeekerDashboardInternal(_jobSeeker);
         securitization.secureJobSeekerDashboard(dashboard_, _jobSeeker);
         
@@ -134,7 +153,7 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
     }
 
     function notifyChangeOfAddress() external returns (bool _recieved){
-        require(isSecure(coreRole, "notifyChangeOfAddress")," admin only ");    
+        require(isSecure(jobcryptAdminRole, "notifyChangeOfAddress")," admin only ");    
         registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address       
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));
         securitization          = IJobCryptSecuritization(registry.getAddress(securitizationCA));
@@ -148,7 +167,7 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
 
     function createJobSeekerDashboardInternal(address _jobSeeker) internal returns(address _dashboardAddress ){
         
-        _dashboardAddress = address(new JobSeekerDashboard(_jobSeeker, address(registry)));
+        _dashboardAddress = jobSeekerInstantiator.instantiateDashboard(_jobSeeker);
         jobSeekerDashboardByJobSeeker[_jobSeeker] = _dashboardAddress; 
         jobSeekerDashboards.push(_dashboardAddress);
         hasJobSeekreDashboardByJobSeekerAddress[_jobSeeker] = true; 
@@ -158,7 +177,7 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
 
     function createEmployerDashboardInternal(address _employer) internal returns (address _dashboardAddress) {
 
-        _dashboardAddress = address(new EmployerDashboard(_employer, address(registry)));    
+        _dashboardAddress = employerInstantiator.instantiateDashboard(_employer);    
         employerDashboardByEmployer[_employer] = _dashboardAddress;
         employerDashboards.push(_dashboardAddress);
         hasEmployerDashboardByEmployerAddress[_employer] = true;    
@@ -168,11 +187,11 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
     
     function findDashboardInternal(address _userAddress, string memory _dashboardType ) view internal returns (address _dashboard){
         if(_dashboardType.isEqual(employerDashboardType) && hasEmployerDashboardByEmployerAddress[_userAddress]) {
-            return address(employerDashboardByEmployer[_userAddress]);
+            return employerDashboardByEmployer[_userAddress];
         }
 
         if (_dashboardType.isEqual(jobSeekerDashboardType) && hasJobSeekreDashboardByJobSeekerAddress[_userAddress]){
-            return address(jobSeekerDashboardByJobSeeker[_userAddress]);
+            return jobSeekerDashboardByJobSeeker[_userAddress];
         }      
         return address(0);
     }
@@ -195,9 +214,14 @@ contract JobCryptDashboardFactory is OpenRolesSecure, IOpenRolesManaged, IJobCry
     }
 
     function initDefaultFunctionsForRoles() internal { 
-        hasDefaultFunctionsByRole[coreRole]  = true; 
-        defaultFunctionsByRole[coreRole].push("createJobSeekerDashboard");
-        defaultFunctionsByRole[coreRole].push("createEmployerDashboard");
+        hasDefaultFunctionsByRole[jobCryptCoreRole]  = true; 
+        defaultFunctionsByRole[jobCryptCoreRole].push("createJobSeekerDashboard");
+        defaultFunctionsByRole[jobCryptCoreRole].push("createEmployerDashboard");
+        defaultFunctionsByRole[jobCryptCoreRole].push("linkToEmployerDashboard");
+        defaultFunctionsByRole[jobCryptCoreRole].push("findDashboard");
+
+        hasDefaultFunctionsByRole[jobcryptAdminRole] = true; 
+        defaultFunctionsByRole[jobcryptAdminRole].push("notifyChangeOfAddress");
     }
 
 }

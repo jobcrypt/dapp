@@ -9,7 +9,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
  interface IJobCrypt {
 
-     event JobPosted(address _postingAddress, string _companyName, uint256 _postedTime ); 
+     event JobEvent(address _postingAddress, string _companyName, string _action,  uint256 _postedTime ); 
 
      event JobApplied(address _postingAddress, uint256 _appliedTime, uint256 _applicationCount); 
 
@@ -31,15 +31,11 @@ pragma solidity >=0.8.0 <0.9.0;
      
      function isStaked() view external returns (bool _staked);
 
-     function notifyPayment(address _posting) external returns (bool _recieved);
-
-     function notifyProductPayment(address _posting, address _productAddress ) external returns (bool _recieved);
-
-     function notifyUserStaked(address _user, bool _isStaked) external returns (bool _recieved);
-
      function notifyDelistJob(address _jobPosting) external returns (bool _delisted);
 
-     function postJob( address _postingAddress ) external returns (bool _possted);
+     function postJob( address _postingAddress ) external returns (bool _posted);
+
+     function repostJob( address _postingAddress) external returns (bool _reposted);
 
      function logJobApplication(address _jobApplicantAddress, address _jobPostingAddress) external returns (bool _logged);
 
