@@ -15,7 +15,7 @@ var openProductCoreAddress;
 var ierc20MetaDataAddress;
 
 //
-const openRegisterAddress = "0xc890253F98072ef23f4a5E8EB42a97284887c78A";
+const openRegisterAddress = "0x4d7AC8C6602083F1f9b56fe6B4fb0BCD2C44eC41";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
 async function configureCoreContracts() {

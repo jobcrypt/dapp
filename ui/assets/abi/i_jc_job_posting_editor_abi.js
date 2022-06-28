@@ -1,210 +1,119 @@
-const iJCJobPostingEditorAbi = [
-	{
-		"inputs": [],
-		"name": "deactivate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_deactivated",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string[]",
-				"name": "_featureNames",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "_featureValues",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "_categories",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "_skills",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "_searchTerms",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string",
-				"name": "_applyLink",
-				"type": "string"
-			}
-		],
-		"name": "populatePosting",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_populated",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "post",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_posted",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_applyLink",
-				"type": "string"
-			}
-		],
-		"name": "setApplyLink",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string[]",
-				"name": "_categories",
-				"type": "string[]"
-			}
-		],
-		"name": "setCategories",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_expiryDate",
-				"type": "uint256"
-			}
-		],
-		"name": "setExpiryDate",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string[]",
-				"name": "_featureNames",
-				"type": "string[]"
-			},
-			{
-				"internalType": "string[]",
-				"name": "_featureValues",
-				"type": "string[]"
-			}
-		],
-		"name": "setFeatures",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_status",
-				"type": "string"
-			}
-		],
-		"name": "setPostingStatus",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string[]",
-				"name": "_searchTerms",
-				"type": "string[]"
-			}
-		],
-		"name": "setSearchTerms",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string[]",
-				"name": "_skills",
-				"type": "string[]"
-			}
-		],
-		"name": "setSkillsRequired",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_set",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	}
+const iJCJobPostingEditorAbi = [{
+        "inputs": [],
+        "name": "applyForJob",
+        "outputs": [{
+            "internalType": "string",
+            "name": "_applicationURL",
+            "type": "string"
+        }],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "address",
+            "name": "_applicantAddress",
+            "type": "address"
+        }],
+        "name": "getApplicantData",
+        "outputs": [{
+            "components": [{
+                    "internalType": "address",
+                    "name": "applicant",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "applicationDate",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "link",
+                    "type": "string"
+                }
+            ],
+            "internalType": "struct IJobPosting.Applicant",
+            "name": "_applicant",
+            "type": "tuple"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "_featureName",
+            "type": "string"
+        }],
+        "name": "getFeatureADDRESS",
+        "outputs": [{
+            "internalType": "address",
+            "name": "_featureValue",
+            "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "_featureName",
+            "type": "string"
+        }],
+        "name": "getFeatureSTR",
+        "outputs": [{
+            "internalType": "string",
+            "name": "_featureValue",
+            "type": "string"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "_featureName",
+            "type": "string"
+        }],
+        "name": "getFeatureSTRARRAY",
+        "outputs": [{
+            "internalType": "string[]",
+            "name": "_featureValues",
+            "type": "string[]"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+            "internalType": "string",
+            "name": "_featureName",
+            "type": "string"
+        }],
+        "name": "getFeatureUINT",
+        "outputs": [{
+            "internalType": "uint256",
+            "name": "_featureValue",
+            "type": "uint256"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getStatus",
+        "outputs": [{
+            "internalType": "enum IJobPosting.PostStatus",
+            "name": "_status",
+            "type": "uint8"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+    }
 ]
