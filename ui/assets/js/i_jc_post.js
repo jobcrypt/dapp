@@ -138,7 +138,7 @@ async function reloadFaucetFundsWETH() {
     wethContract.methods.mint(account).send({ from: account })
         .then(function(response) {
             console.log(response);
-            wethfaucetButtonSpan.innerHTML ="WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
+            wethfaucetButtonSpan.innerHTML = "WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
         })
         .catch(function(err) {
             console.log(err);
@@ -198,7 +198,6 @@ async function populateProductSelectPrice(productContract, name, jobPostingProdu
         .catch(function(err) {
             console.log(err);
         })
-
 }
 
 async function populateProductSelectCurrency(productContract, name, price, jobPostingProductSelect, productAddress) {
@@ -226,7 +225,8 @@ async function createPosting() {
     var productAddress = jobPostingProductSelect.value;
     console.log("product address :: " + productAddress);
 
-    jcPostingFactoryContract.methods.createJobPosting(account, productAddress).send({ from: account })
+    // update from factory
+    jobCryptFactoryFacadeContract.methods.createJobPosting(productAddress).send({ from: account })
         .then(function(response) {
             console.log(response);
             jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
@@ -242,7 +242,8 @@ var n = new String("CLOSED").valueOf();
 
 async function updateDraftListings() {
     clearSelect(jobPostingDraftSelect);
-    jcPostingFactoryContract.methods.findPostings(account).call({ from: account })
+    // update from factory
+    employerDashboardContract.methods.getDraftPostings().call({ from: account })
         .then(function(response) {
             console.log(response);
             var allPostings = response;
@@ -274,7 +275,7 @@ function appendNoDraftsFound(select) {
 function processDraftPosting(postingAddress) {
     console.log(postingAddress);
     var postingContract = getContract(iJCJobPostingAbi, postingAddress);
-    postingContract.methods.getPostingStatus().call({ from: account })
+    postingContract.methods.getStatus().call({ from: account })
         .then(function(response) {
             console.log(response);
             var status = response;
@@ -293,7 +294,7 @@ function processDraftPosting(postingAddress) {
 function addDraftPostingOption(postingContract, postingAddress, status) {
     var option = document.createElement("option");
     option.setAttribute("value", postingAddress);
-    postingContract.methods.getFeature("JOB_TITLE").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var titleTxt = response;
@@ -327,7 +328,7 @@ function editListing() {
 
     postingContract = getContract(iJCJobPostingAbi, postingAddress);
 
-    postingContract.methods.getFeature("JOB_TITLE").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
         .then(function(response) {
             console.log(response);
             title.value = response;
@@ -336,7 +337,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("JOB_LOCATION_TYPE").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_LOCATION_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             locationType.value = response;
@@ -346,7 +347,7 @@ function editListing() {
         })
 
 
-    postingContract.methods.getFeature("JOB_LOCATION_SUPPORT").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_LOCATION_SUPPORT").call({ from: account })
         .then(function(response) {
             console.log(response);
             locationSupport.value = response;
@@ -356,7 +357,7 @@ function editListing() {
         })
 
 
-    postingContract.methods.getFeature("JOB_WORK_LOCATION").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_WORK_LOCATION").call({ from: account })
         .then(function(response) {
             console.log(response);
             workLocation.value = response;
@@ -365,7 +366,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("COMPANY_NAME").call({ from: account })
+    postingContract.methods.getFeatureSTR("COMPANY_NAME").call({ from: account })
         .then(function(response) {
             console.log(response);
             companyName.value = response;
@@ -374,7 +375,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("COMPANY_LINK").call({ from: account })
+    postingContract.methods.getFeatureSTR("COMPANY_LINK").call({ from: account })
         .then(function(response) {
             console.log(response);
             companyLink.value = response;
@@ -383,16 +384,16 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("COMPANY_SUMMARY").call({ from: account })
+    postingContract.methods.getFeatureSTR("COMPANY_SUMMARY").call({ from: account })
         .then(function(response) {
             console.log(response);
-            companySummary.value = response;
+            fetchDescriptionFromIPFS(response, companySummary);
         })
         .catch(function(err) {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("JOB_WORK_TYPE").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_WORK_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             workType.value = response;
@@ -401,7 +402,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("JOB_PAYMENT_TYPE").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_PAYMENT_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             salaryPaymenttype.value = response;
@@ -410,7 +411,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("JOB_DESCRIPTION").call({ from: account })
+    postingContract.methods.getFeatureSTR("JOB_DESCRIPTION").call({ from: account })
         .then(function(response) {
             console.log(response);
             fetchDescriptionFromIPFS(response, jobDescription);
@@ -419,7 +420,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getFeature("USER_SEARCH_TERMS").call({ from: account })
+    postingContract.methods.getFeatureSTR("USER_SEARCH_TERMS").call({ from: account })
         .then(function(response) {
             console.log(response);
             userSearchTerms.value = response;
@@ -428,7 +429,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getApplyLink().call({ from: account })
+    postingContract.methods.getFeatureSTR("APPLY_LINK").call({ from: account })
         .then(function(response) {
             console.log(response);
             jobApplicationlink.value = response;
@@ -438,7 +439,7 @@ function editListing() {
         })
 
 
-    postingContract.methods.getSkillsRequired().call({ from: account })
+    postingContract.methods.getFeatureSTRARRAY("SKILLS_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             skillsRequired.value = response;
@@ -447,7 +448,7 @@ function editListing() {
             console.log(err);
         })
 
-    postingContract.methods.getCategories().call({ from: account })
+    postingContract.methods.getFeatureSTRARRAY("CATEGORY_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             searchCategories.value = response;
@@ -489,25 +490,45 @@ function updatePaymentBox(productAddress, postingAddress) {
             console.log(err);
         });
 
-    postingContract = getContract(iJCJobPostingAbi, postingAddress);
-    postingContract.methods.getFee().call({ from: account })
+    productContract.methods.getPrice().call({ from: account })
         .then(function(response) {
             console.log(response);
-            var fee = response._fee;
-            var currency = response._erc20Currency;
-            var erc20 = response._erc20Address;
-            jobPostingFee.innerHTML = fee / 1e18;
-            jobPostingCurrency.innerHTML = currency;
-            jobPostingCurrencyErc20Address.innerHTML = erc20;
-
+            var price = response;
+            jobPostingFee.innerHTML = price / 1e18;
+            selectedPostingFee = price;
+            getErc20(productContract);
+            getCurrency(productContract);
             selectedPostingAddress = postingAddress;
-            selectedERC20Address = erc20;
-            selectedPostingFee = fee;
         })
         .catch(function(err) {
             console.log(err);
         })
 
+}
+
+function getErc20(productContract) {
+    productContract.methods.getCurrency().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var erc20 = response._erc20Address;
+            jobPostingCurrencyErc20Address.innerHTML = erc20;
+            selectedERC20Address = erc20;
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+}
+
+function getCurrency(productContract) {
+    productContract.methods.getErc20().call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var currency = response._erc20Currency;
+            jobPostingCurrency.innerHTML = currency;
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
 }
 
 async function approveCurrency() {
@@ -580,9 +601,17 @@ async function saveJob() {
     await ipfs.add(strfy(jobJSON.description))
         .then(function(response) {
             console.log(response);
-            hash = response[0].hash;
-            console.log(hash);
-            saveToEVM(jobJSON, hash);
+            jobDescriptionHash = response[0].hash;
+            console.log(jobDescriptionHash);
+            ipfs.add(strfy(jobJSON.description))
+                .then(function(res) {
+                    console.log(res);
+                    companySummaryHash = res;
+                    saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         })
         .catch(function(err) {
             console.log(err);
@@ -591,9 +620,9 @@ async function saveJob() {
 
 
 
-async function saveToEVM(jobJSON, hash) {
-    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS"];
-    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.companyLink, jobJSON.companySummary + "", jobJSON.workType + "", jobJSON.paymentType + "", hash + "", jobJSON.userSearchTerms + ""];
+async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
+    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
+    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.companyLink, companySummaryHash + "", jobJSON.workType + "", jobJSON.paymentType + "", jobDescriptionHash + "", jobJSON.userSearchTerms + "", jobJSON.applicationLink + ""];
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
@@ -608,7 +637,7 @@ async function saveToEVM(jobJSON, hash) {
     var searchTerms = unique(terms.concat(c).concat(u).concat(n));
     console.log(searchTerms);
 
-    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms, jobJSON.applicationLink).send({ from: account })
+    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
             jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;

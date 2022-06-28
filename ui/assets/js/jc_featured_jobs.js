@@ -26,16 +26,16 @@ function buildFeaturedJobs(jobAddresses) {
 function addFeaturedJob(postingAddress) {
     jcJobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
 
-    jcJobPostingContract.methods.getFeature("JOB_TITLE").call({from : account})
+    jcJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({from : account})
     .then(function(response){
         console.log(response);
         var jobTitle = response; 
         var jobDetailLinkDestination = "/pages/app/job_detail_template.html?postingAddress=" + postingAddress;
-        jcJobPostingContract.methods.getFeature("COMPANY_NAME").call({from : account})
+        jcJobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({from : account})
         .then(function(response){
             console.log(response);
                 var companyName = response; 
-            jcJobPostingContract.methods.getFeature("COMPANY_LINK").call({from : account})
+            jcJobPostingContract.methods.getFeatureSTR("COMPANY_LINK").call({from : account})
             .then(function(response){
                 console.log(response);
                 var companyWeb = response; 

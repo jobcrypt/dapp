@@ -26,7 +26,7 @@ function buildJobTitle() {
     var h3Format = document.createElement("h3");
     titleCell.appendChild(h3Format);
 
-    jobPostingContract.methods.getFeature("JOB_TITLE").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var jobTitle = response;
@@ -44,11 +44,11 @@ function buildCompany() {
     var companyCell = companyRow.insertCell();
     var h4Format = document.createElement("h4");
     companyCell.appendChild(h4Format);
-    jobPostingContract.methods.getFeature("COMPANY_NAME").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({ from: account })
         .then(function(response) {
             console.log(response);
             var companyName = response;
-            jobPostingContract.methods.getFeature("COMPANY_LINK").call({ from: account })
+            jobPostingContract.methods.getFeatureSTR("COMPANY_LINK").call({ from: account })
                 .then(function(response) {
                     console.log(response);
                     var companyLink = response;
@@ -69,17 +69,29 @@ function buildCompany() {
     var companySummaryCell = companySummaryRow.insertCell();
     var smallFormat = document.createElement("small");
     companySummaryCell.appendChild(smallFormat);
-    jobPostingContract.methods.getFeature("COMPANY_SUMMARY").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("COMPANY_SUMMARY").call({ from: account })
         .then(function(response) {
             console.log(response);
             var companySummary = response;
-            var companySummaryText = getTextNode(companySummary);
-            smallFormat.appendChild(companySummaryText);
+            fetchFromIPFS(companySummary, smallFormat);
         })
         .catch(function(err) {
             console.log(err);
         });
 
+}
+
+async function fetchFromIPFS(cid, messageSpan) {
+    url = "https://ipfs.io/ipfs/" + cid;
+    console.log(" url: " + url);
+    let response = await fetch(url)
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(text) {
+            var txt = getTextNode(text);
+            messageSpan.appendChild(txt);
+        });
 }
 
 function buildLocation() {
@@ -101,7 +113,7 @@ function buildLocation() {
     h6Format.appendChild(locationTypeSpan);
     h6Format.appendChild(locationSupportSpan);
 
-    jobPostingContract.methods.getFeature("JOB_LOCATION_TYPE").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_LOCATION_TYPE").call({ from: account })
         .then(function(response) {
             console.log("location");
             console.log(response);
@@ -113,7 +125,7 @@ function buildLocation() {
             console.log(err);
         })
 
-    jobPostingContract.methods.getFeature("JOB_WORK_TYPE").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_WORK_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var workType = response;
@@ -124,7 +136,7 @@ function buildLocation() {
             console.log(err);
         })
 
-    jobPostingContract.methods.getFeature("JOB_PAYMENT_TYPE").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_PAYMENT_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var paymentType = response;
@@ -135,7 +147,7 @@ function buildLocation() {
             console.log(err);
         })
 
-    jobPostingContract.methods.getFeature("JOB_LOCATION_TYPE").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_LOCATION_TYPE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var locationType = response;
@@ -147,7 +159,7 @@ function buildLocation() {
             console.log(err);
         })
 
-    jobPostingContract.methods.getFeature("JOB_LOCATION_SUPPORT").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_LOCATION_SUPPORT").call({ from: account })
         .then(function(response) {
             console.log(response);
             var locationSupport =  response;
@@ -162,7 +174,7 @@ function buildLocation() {
 function buildCategories() {
 
     var jobCategoriesSpan = document.getElementById("job_categories");
-    jobPostingContract.methods.getCategories().call({ from: account })
+    jobPostingContract.methods.getFeatureSTRARRAY("CATEGORY_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var jobCategories = response;
@@ -178,7 +190,7 @@ function buildCategories() {
 function buildKeySkills() {
 
     var keySkillSpan = document.getElementById("key_skills");
-    jobPostingContract.methods.getSkillsRequired().call({ from: account })
+    jobPostingContract.methods.getFeatureSTRARRAY("SKILLS_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var keySkills = response;
@@ -195,7 +207,7 @@ function buildPostedDate() {
     var postedDateSpan = document.getElementById("posted_date_span");
     var h4Format2 = document.createElement("h4");
     postedDateSpan.appendChild(h4Format2);
-    jobPostingContract.methods.getPostingDate().call({ from: account })
+    jobPostingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var postedDate = response;
@@ -206,7 +218,7 @@ function buildPostedDate() {
 
 function buildJobDescription() {
     var jobDescriptionSpan = document.getElementById("job_description_span");
-    jobPostingContract.methods.getFeature("JOB_DESCRIPTION").call({ from: account })
+    jobPostingContract.methods.getFeatureSTR("JOB_DESCRIPTION").call({ from: account })
         .then(function(response) {
             console.log(response);
             var ipfsHash = response;
@@ -250,7 +262,7 @@ function buildJobDescription() {
 var applyLinkSpan = document.getElementById("apply_link");
 
 function buildApplyLink() { 
-    jobPostingContract.methods.getApplyLink().call({from : account})
+    jobPostingContract.methods.getFeatureSTR("APPLY_LINK").call({from : account})
     .then(function(response){
         console.log(response);
         applyLinkSpan.innerHTML = "<small style=\"color:green\">Apply Details: " + response + "</small>"; 

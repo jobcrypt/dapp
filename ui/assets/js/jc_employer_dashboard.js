@@ -23,50 +23,43 @@ const extensionModal = ge("extension_modal");
 
 
 function loadPageData() { 
-	getDashboard(); 
-}
-
-function getDashboard() {
-	jcDashboardFactoryContract.methods.hasDashboard(account, "EMPLOYER_DASHBOARD_TYPE").call({
-		from: account
-	})
-	.then(function(response) {
-		if (response === true) {
-			findDashboard(); 
-		} else {
-			createDashboard();
-		}
-	})
-	.catch(function(err) {
-		console.log(err);
-	});
-}
-
-function createDashboard() {
-	jcDashboardFactoryContract.methods.createEmployerDashboard(account).send({
-		from: account
-	})
-	.then(function(response) {
-		console.log(response);
-		getDashboard();
-	})
-	.catch(function(err) {
-		console.log(err);
-	})
+	findDashboard();
 }
 
 function findDashboard() { 
-	jcDashboardFactoryContract.methods.findDashboard(account,"EMPLOYER_DASHBOARD_TYPE" ).call({from : account})
+	jobCryptFactoryFacadeContract.methods.findDashboard(account,"EMPLOYER_DASHBOARD_TYPE" ).call({from : account})
 	.then(function(response){
 		console.log(response);
-		var dashboardAddress = response; 
-		iEmployerDashboardContract = new web3.eth.Contract(iJCEmployerDashboardAbi, dashboardAddress);
-		buildEmployerDashboardTable(iEmployerDashboardContract);
+		var dashboardAddress = response; 							   
+		if(dashboardAddress != 0x0000000000000000000000000000000000000000) {
+			loadDashboard(dashboardAddress);
+		}
+		else { 
+			getDashboard();
+		}
 	})
 	.catch(function(err){
 		console.log(err);
 	})
 }
+
+function getDashboard() {
+	jobCryptFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE" ).call({from : account})
+	.then(function(response){
+		console.log(response);
+		var dashboardAddress = response;
+		loadDashboard(dashboardAddress);
+	})
+	.catch(function(err){
+		console.log(err);
+	}) 
+}
+
+function loadDashboard(dashboardAddress){
+	iEmployerDashboardContract = new web3.eth.Contract(iJCEmployerDashboardAbi, dashboardAddress);
+	buildEmployerDashboardTable(iEmployerDashboardContract);
+}
+
 
 function buildEmployerDashboardTable(iEmployerDashboardContract) {
 	iEmployerDashboardContract.methods.getPostings().call({from : account})
@@ -132,7 +125,7 @@ function buildPostingTableRow(postingAddress){
 
 
 function getStartDate(cell, iJCPostingContract){
-	iJobPostingContract.methods.getPostingDate().call({from : account})
+	iJobPostingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({from : account})
 	.then(function(response){
 		console.log(response);
 		var startDate = new Date(response*1000);
@@ -146,7 +139,7 @@ function getStartDate(cell, iJCPostingContract){
 }
 
 function getTitle(cell, iJCPostingContract, postingAddress){
-	iJobPostingContract.methods.getFeature("JOB_TITLE").call({from : account})
+	iJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({from : account})
 	.then(function(response){
 		console.log(response);
 		var title = response; 
@@ -167,7 +160,7 @@ function getTitle(cell, iJCPostingContract, postingAddress){
 }
 
 function getApplicantCount(cell, iJCPostingContract){
-	iJobPostingContract.methods.getApplicantCount().call({from : account})
+	iJobPostingContract.methods.getFeatureUINT("APPLICANT_COUNT_FEATURE").call({from : account})
 	.then(function(response){
 		console.log(response);
 		var applicantCount = response; 
@@ -181,7 +174,7 @@ function getApplicantCount(cell, iJCPostingContract){
 }
 
 function getExpiryDate(cell, iJCPostingContract){
-	iJobPostingContract.methods.getExpiryDate().call({from : account})
+	iJobPostingContract.methods.getFeatureUINT("EXPIRY_DATE_FEATURE").call({from : account})
 	.then(function(response){
 		console.log(response);
 		var expiryDate = new Date(response*1000);
@@ -195,10 +188,10 @@ function getExpiryDate(cell, iJCPostingContract){
 }
 
 function getStatus(cell, iJCPostingContract, postinAddress, selectCell){
-	iJobPostingContract.methods.getPostingStatus().call({from : account})
+	iJobPostingContract.methods.getStatus().call({from : account})
 	.then(function(response){
 		console.log(response);
-		var status = response;            
+		var status = resolvePostStatus(response);            
 		cell.append(bold(text(status)));
 
 		var actionSelect = ce("select");
@@ -241,6 +234,41 @@ function getStatus(cell, iJCPostingContract, postinAddress, selectCell){
 	})      
 }
 
+function resolvePostStatus(x) {
+	var status; 
+	switch(x){
+		case 0: 
+			status = "DRAFT";
+			break; 
+		case 1:
+			status ="POSTED";
+			break; 
+		case 2:
+			status = "FILLED";	
+			break; 
+		case 3:
+			status = "CANCELLED";
+			break; 
+		case 4:
+			status = "EXPIRED";
+			break;
+		case 5:
+			status = "EXTENDED";
+			break;
+		case 6:
+			status = "DEACTIVATED";
+			break;
+		case 7: 
+			status = "BARRED"; 
+			break; 
+		case 8: 
+			status = "ARCHIVED"; 
+			break; 
+	}
+	return status; 
+}
+
+
 function getActionButton(cell, postingAddress){        
 	var submitButton = ce("button");
 	cell.append(submitButton) ;
@@ -265,7 +293,7 @@ function processAction(postingAddress){
 
 	if(action === "FILL") {
 		// call posting
-		iJobPostingContract.methods.fillJob().send({from : account})
+		iJobPostingContract.methods.executePostingAction(2).send({from : account})
 		.then(function(response){
 			console.log(response);
 			actionResultSpan.innerHTML = "FILLED :: "+ response.blockhash
@@ -277,7 +305,7 @@ function processAction(postingAddress){
 
 	if(action === "CANCEL") {
 		// call posting
-		iJobPostingContract.methods.cancelJob().send({from : account})
+		iJobPostingContract.methods.executePostingAction(3).send({from : account})
 		.then(function(response){
 			console.log(response);
 			actionResultSpan.innerHTML = "CANCELLED :: "+ response.blockhash
@@ -289,7 +317,7 @@ function processAction(postingAddress){
 
 	if(action === "ARCHIVE") {
 		// call posting 
-		iJobPostingContract.methods.archive().send({from : account})
+		iJobPostingContract.methods.executePostingAction(8).send({from : account})
 		.then(function(response){
 			console.log(response);
 			actionResultSpan.innerHTML = "ARCHIVED :: "+ response.blockhash

@@ -91,7 +91,7 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
          console.log("posting address :- " + postingAddress);
          var postingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
  
-         postingContract.methods.getFeature("JOB_TITLE").call({ from: account })
+         postingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
              .then(function(response) {
                  console.log("building title");
                  console.log(response);
@@ -103,11 +103,11 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
                  console.log(err);
              });
  
-         postingContract.methods.getFeature('COMPANY_NAME').call({ from: account })
+         postingContract.methods.getFeatureSTR('COMPANY_NAME').call({ from: account })
              .then(function(response) {
                  console.log(response);
                  var companyName = response;
-                 postingContract.methods.getFeature('COMPANY_LINK').call({ from: account })
+                 postingContract.methods.getFeatureSTR('COMPANY_LINK').call({ from: account })
                      .then(function(response) {
                          console.log(response);
                          var companyLink = response;
@@ -122,33 +122,30 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
              });
  
  
-         postingContract.methods.getFeature('JOB_WORK_TYPE').call({ from: account })
+         postingContract.methods.getFeatureSTR('JOB_WORK_TYPE').call({ from: account })
              .then(function(response) {
                  var workType = response;
-                 postingContract.methods.getFeature('JOB_LOCATION_TYPE').call({ from: account })
+                 postingContract.methods.getFeatureSTR('JOB_LOCATION_TYPE').call({ from: account })
                      .then(function(response) {
                          console.log(response);
                          var locationType = response;
-                         postingContract.methods.getPostingDate().call({ from: account })
-                             .then(function(response) {
-                                 console.log(response);
-                                 var postingDate = response;
-                                 var jobSummaryText = " | Location :: " + locationType + " | Work Type :: " + workType + " | Posted ::  " + formatDate(new Date(postingDate*1000)) + " | ";
-                                 var jsText = document.createTextNode(jobSummaryText);
-                                 
-                                 span.appendChild(jsText);
-                                
-                                 var moreLink = createLink(jobDetailLinkDestination, "more...");
-                                 jobSummary.appendChild(moreLink);
-                             })
- 
+                         postingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({ from: account })
+                        .then(function(response) {
+                            console.log(response);
+                            var postingDate = response;
+                            var jobSummaryText = " | Location :: " + locationType + " | Work Type :: " + workType + " | Posted ::  " + formatDate(new Date(postingDate*1000)) + " | ";
+                            var jsText = document.createTextNode(jobSummaryText);
+                            
+                            span.appendChild(jsText);
+                        
+                            var moreLink = createLink(jobDetailLinkDestination, "more...");
+                            jobSummary.appendChild(moreLink);
+                        })
                      })
                      .catch(function(err){
                          console.log(err);
                      });
- 
              })
-
     }
 
 }

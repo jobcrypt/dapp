@@ -2,7 +2,7 @@ const applicantDashboardTable = ge("applicant_dashboard_table");
 var iJobSeekerDashboardContract;  
 
 function loadPageData() {
-	getDashboard(); 
+	findDashboard(); 
 }
 
 function getDashboard() {
@@ -35,18 +35,38 @@ function createDashboard() {
 }
 
 function findDashboard() { 
-	jcDashboardFactoryContract.methods.findDashboard(account,"JOBSEEKER_DASHBOARD_TYPE" ).call({from : account})
+	jobCryptFactoryFacadeContract.methods.findDashboard(account,"JOBSEEKER_DASHBOARD_TYPE" ).call({from : account})
 	.then(function(response){
 		console.log(response);
 		var dashboardAddress = response; 
-		iJobSeekerDashboardContract = new web3.eth.Contract(iJCJobSeekerDashboardAbi, dashboardAddress);
-		buildAppliantDashboardTable();
+		if(dashboardAddress != 0x0000000000000000000000000000000000000000 ){
+			loadDashboard(dashboardAddress);
+		}
+		else { 
+			getDashboard();
+		}
 	})
 	.catch(function(err){
 		console.log(err);
 	})
 }
 
+function getDashboard() {
+	jobCryptFactoryFacadeContract.methods.getDashboard("JOBSEEKER_DASHBOARD_TYPE" ).call({from : account})
+	.then(function(response){
+		console.log(response);
+		var dashboardAddress = response;
+		loadDashboard(dashboardAddress);
+	})
+	.catch(function(err){
+		console.log(err);
+	}) 
+}
+
+function loadDashboard(dashboardAddress) {
+	iJobSeekerDashboardContract = new web3.eth.Contract(iJCJobSeekerDashboardAbi, dashboardAddress);
+	buildAppliantDashboardTable();
+}
 
 
 function buildAppliantDashboardTable() {

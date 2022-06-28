@@ -1,15 +1,16 @@
 // initialise JobCrypt Core
 var jcPaymentManagerContract;
 var jcJobCryptContract;
-var jcPostingFactoryContract;
-var jcDashboardFactoryContract;
+var jcFactoryFacadeContract;
+var jcStakeManagerContract; 
 var openProductCoreContract;
 var ierc20MetaDataContract;
 
+
 var jcPaymentManagerAddress;
 var jcJobCryptAddress;
-var jcPostingFactoryAddress;
-var jcDashboardFactoryAddress;
+var jcFactoryFacadeAddress; 
+var jcStakeManagerAddress; 
 var openProductCoreAddress;
 var ierc20MetaDataAddress;
 
@@ -42,21 +43,21 @@ async function configureCoreContracts() {
         .catch(function(err) {
             console.log(err);
         });
-    openRegistryContract.methods.getAddress("RESERVED_JOBCRYPT_JOB_POSTING_FACTORY").call({ from: account })
+    openRegistryContract.methods.getAddress("RESERVED_JOBCRYPT_FACTORY_FACADE_CORE").call({ from: account })
         .then(function(response) {
             console.log(response);
-            jcPostingFactoryAddress = response;
-            jcPostingFactoryContract = getContract(iJCPostingFactoryAbi, jcPostingFactoryAddress);
+            jcFactoryFacadeAddress = response;
+            jcPostingFactoryContract = getContract(iJCFactoryFacadeAbi, jcFactoryFacadeAddress);
             loadCount++;
         })
         .catch(function(err) {
             console.log(err);
         });
-    openRegistryContract.methods.getAddress("RESERVED_JOBCRYPT_DASHBOARD_FACTORY").call({ from: account })
+    openRegistryContract.methods.getAddress("RESERVED_JOBCRYPT_STAKE_MANAGER_CORE").call({ from: account })
         .then(function(response) {
             console.log(response);
-            jcDashboardFactoryAddress = response;
-            jcDashboardFactoryContract = getContract(iJCDashboardFactoryAbi, jcDashboardFactoryAddress);
+            jcStakeManagerAddress = response;
+            jcStakeManagerContract = getContract(iJCStakeManagerAbi, jcStakeManagerAddress);
             loadCount++;
         })
         .catch(function(err) {
@@ -105,7 +106,7 @@ async function initStakeValues() {
 }
 
 async function getStakeStatus() { 
-    jcJobCryptContract.methods.isStaked().call({from : account})
+    jcStakeManagerContract.methods.isStaked(account).call({from : account})
     .then(function(response){
         console.log("checking stake");
         console.log(response);
@@ -128,7 +129,7 @@ async function getStakeStatus() {
 }
 
 async function getStakedAmount(span) {
-    jcPaymentManagerContract.methods.getStakedAmount().call({from : account})
+    jcStakeManagerContract.methods.getStakedAmount().call({from : account})
     .then(function(response){
         console.log(response);
         stakeStatusSpan.innerHTML = "<b><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+") </b>";
@@ -139,7 +140,7 @@ async function getStakedAmount(span) {
 }
 
 async function getMinStakeAmount() { 
-    jcPaymentManagerContract.methods.getMinimumStakeAmount().call({from : account})
+    jcStakeManagerContract.methods.getMinimumStakeAmount().call({from : account})
     .then(function(response){
         console.log(response);
         minStakeAmount = response; 
@@ -151,7 +152,7 @@ async function getMinStakeAmount() {
 }
 
 async function getStakeErc20Currency(){
-    jcPaymentManagerContract.methods.getStakeErc20Address().call({from : account}) 
+    jcStakeManagerContract.methods.getStakeErc20Address().call({from : account}) 
     .then(function(response) {
         console.log(response);
         stakeCurrencyAddress = response; 
@@ -190,7 +191,7 @@ async function approveStake() {
 }
 
 async function stake(){
-    jcPaymentManagerContract.methods.stake(minStakeAmount).send({from : account})
+    jcStakeManagerContract.methods.stake(minStakeAmount).send({from : account})
     .then(function(response){
         console.log(response);
         stakeStatusSpan.innerHTML = "<small style=\"color:green\"> STAKED :: "+formatCurrency(response)+"</small>"; 
@@ -202,7 +203,7 @@ async function stake(){
 }
 
 async function unstake() { 
-    jcPaymentManagerContract.methods.unstake().send({from : account})
+    jcStakeManagerContract.methods.unstake().send({from : account})
     .then(function(response){
         console.log(response);
         stakeStatusSpan.innerHTML = "<small style=\"color:orange\"> UNSTAKED :: "+formatCurrency(response)+"</small>";

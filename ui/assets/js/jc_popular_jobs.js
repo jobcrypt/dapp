@@ -23,7 +23,7 @@ function buildPopularJobs(postingAddresses) {
 }
 
 function buildPopularEntry(iJobPostingContract, cell){
-    iJobPostingContract.methods.getFeature("JOB_TITLE").call({
+    iJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({
         from: account
     })
     .then(function(response) {

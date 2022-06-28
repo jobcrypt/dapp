@@ -88,7 +88,7 @@ function processRow(postingAddress){
 }
 
 function getCompany(cell, iJobPostingContract) {
-    iJobPostingContract.methods.getFeature("COMPANY_NAME").call({from : account})
+    iJobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({from : account})
     .then(function(response){
         console.log(response);
         cell.append(text(response));
@@ -99,7 +99,7 @@ function getCompany(cell, iJobPostingContract) {
 }
 
 function getTitle(cell, iJobPostingContract) {
-    iJobPostingContract.methods.getFeature("JOB_TITLE").call({from : account})
+    iJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({from : account})
     .then(function(response){
         console.log(response);
         var title = response; 
@@ -112,7 +112,7 @@ function getTitle(cell, iJobPostingContract) {
 }
 
 function getLocation(cell, iJobPostingContract) {
-    iJobPostingContract.methods.getFeature("JOB_WORK_LOCATION").call({from : account})
+    iJobPostingContract.methods.getFeatureSTR("JOB_WORK_LOCATION").call({from : account})
     .then(function(response){
         console.log(response);
         cell.append(text(response));
@@ -124,7 +124,7 @@ function getLocation(cell, iJobPostingContract) {
 
 function getJobAge(cell, iJobPostingContract) {
 
-    iJobPostingContract.methods.getPostingDate().call({from : account})
+    iJobPostingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({from : account})
     .then(function(response){
         console.log(response);
         var postingTime = response * 1000; 
