@@ -1,60 +1,52 @@
-const latestJobsView = document.getElementById("latest_jobs_view");
+    const latestJobsView = document.getElementById("latest_jobs_view");
 
-async function getLatestJobs() {
-    console.log(jcJobCryptContract);
-    jcJobCryptContract.methods.getActiveJobPage(0).call({ from: account })
-	.then(function(response) {
-		console.log(response);
-		var jobAddresses = response._activeJobAddresses;
+    async function getLatestJobs() {
+        console.log(jcJobCryptContract);
+        jcJobCryptContract.methods.getActiveJobPage(0).call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var jobAddresses = response._activeJobAddresses;
 
-        console.log(jobAddresses);
+            console.log(jobAddresses);
 
-		buildLatestJobs(trimZeroAddresses(jobAddresses), latestJobsView);
-	})
-	.catch(function(err){
-		console.log(err);
-	});
-    /*
-    jcJobCryptContract.methods.getLatestJobs().call({ from: account })
-	.then(function(response) {
-		console.log(response);
-		var jobAddresses = response;
+            buildLatestJobs(trimZeroAddresses(jobAddresses), latestJobsView);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }	
 
-		buildLatestJobs(jobAddresses, latestJobsView);
+    function trimZeroAddresses(list){
+        var a = new Array();  
+        for(var x = 0; x <list.length; x++) {
+            if(list[x] != "0x0000000000000000000000000000000000000000"){
+                console.log("pushing " + list[x]);
+                a.push(list[x]);
+            }
+            else {
+                console.log("zero address :" + list[x] );
 
-	})
-	.catch(function(err){
-		console.log(err);
-	});
-    */
-}	
-
-function trimZeroAddresses(list){
-    var a = new Array();  
-    for(var x = 0; x <list.length; x++) {
-        if(list[x] != "0x0000000000000000000000000000000000000000"){
-            console.log("pushing " + list[x]);
-            a.push(list[x]);
+            }
         }
-        else {
-            console.log("zero address :" + list[x] );
+        return a; 
+    }
 
+    function buildLatestJobs(postingAddresses, latestJobsView) {
+
+        console.log(postingAddresses);
+        console.log("building jobs count: " + postingAddresses.length);
+
+        for (var x = postingAddresses.length-1; x >=0 ; x--) {
+            console.log(" x is "+ x);
+            var postingAddress = postingAddresses[x];
+            processRow(postingAddress);
         }
     }
-    return a; 
-}
 
-function buildLatestJobs(postingAddresses, latestJobsView) {
-
-    console.log(postingAddresses);
-    console.log("building jobs count: " + postingAddresses.length);
-
-    for (var x = postingAddresses.length-1; x >=0 ; x--) {
-
-        console.log(" x is "+ x);
-        var postingAddress = postingAddresses[x];
-
+    function processRow(postingAddress){
         var jobDetailLinkDestination = "pages/app/job_detail_template.html?postingAddress=" + postingAddress;
+
+        console.log(jobDetailLinkDestination);
 
         var layoutDiv = document.createElement("div");
         layoutDiv.setAttribute("class", "ui-component-card ui-layout-column-6");
@@ -80,12 +72,10 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
         var span = document.createElement("span");
         jobSummary.appendChild(span);
         
-        populateJob(jobTitle, jobSummary, span, hiringCompany);
-       
-
+        populateJob(jobTitle, jobSummary, span, hiringCompany,  jobDetailLinkDestination, postingAddress);
     }
 
-    function populateJob(jobTitle, jobSummary, span, hiringCompany){
+    function populateJob(jobTitle, jobSummary, span, hiringCompany, jobDetailLinkDestination, postingAddress){
 
          // ======= START CONTRACT WORK =====
          console.log("posting address :- " + postingAddress);
@@ -148,4 +138,3 @@ function buildLatestJobs(postingAddresses, latestJobsView) {
              })
     }
 
-}

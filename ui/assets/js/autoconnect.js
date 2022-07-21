@@ -13,6 +13,7 @@ const buffer = window.IpfsHttpClientLite.Buffer;
 console.log("got ipfs: " + ipfs);
 
 // chain connect 
+/*
 var chain = {};
 chain.name = 'Celo (Alfajores Testnet)';
 chain.id =  44787;
@@ -23,7 +24,18 @@ nativeCurrency.name = 'CELO';
 nativeCurrency.decimals = 18;
 nativeCurrency.symbol = 'CELO';
 chain.nativeCurrency = nativeCurrency; 
+*/
 
+var chain = {};
+chain.name = 'Optimistic Ethereum Testnet Kovan (OKOV)';
+chain.id =  69;
+chain.rpcUrls = ['https://kovan.optimism.io/'];
+chain.blockExplorerUrls = ['https://kovan-optimistic.etherscan.io/'];
+var nativeCurrency = {}; 
+nativeCurrency.name = 'KOR';
+nativeCurrency.decimals = 18;
+nativeCurrency.symbol = 'KOR';
+chain.nativeCurrency = nativeCurrency; 
 
 var provider = "https://cloudflare-eth.com/";
 var web3Provider = new Web3.providers.HttpProvider(provider);
@@ -34,9 +46,12 @@ console.log(web3);
 
 console.log("web 3 " + web3.currentProvider);
 
-var sessionTimeout = 3000000; // five minutes
+var sessionTimeout = 30000; // five minutes
 
+var loadCount = 0; 
+var pageloadTimeout = 5000;
 var connected; 
+
 function autoconnect() { 
 	if(!connected) {
 		var sessionExpiry = storage.getItem("sessionExpiry");
@@ -46,8 +61,12 @@ function autoconnect() {
 		else{ 
 			loadConnect(); 
 			setSessionTimeout();
-			connected = true; 
+			
 		}
+	}
+	else { 
+		loadConnect();
+		setSessionTimeout();
 	}	
 }
 
@@ -66,11 +85,11 @@ function disconnect() {
 	}
 }
 
-var loadCount = 0; 
+
 
 function loadWait() { 
     console.log("load count :: " + loadCount);
-    setTimeout(loadPageData, 3000);
+    setTimeout(loadPageData, pageloadTimeout);
     console.log("loadCount :: " + loadCount);  
 }  
 
@@ -169,6 +188,7 @@ function loadConnect() {
         onboardButton.innerText = "Web 3 Connected";
 		onboardButton.addEventListener('click', disconnect);
 		setSessionTimeout();
+		connected = true; 
     }
 }
 
@@ -180,8 +200,9 @@ async function getAccount() {
     connected = true; 
     showWallet.innerHTML = "<b>Connected Wallet :: " + account + "</b>";
     configureCoreContracts()
-    .then(function(response){
-        loadWait();    
+	.then(function(response){
+		console.log(response);		
+        loadWait(); 		
     })
     .catch(function(err){
         console.log(err);

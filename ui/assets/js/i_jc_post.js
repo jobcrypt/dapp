@@ -43,110 +43,20 @@ const jobPostingCurrency = ge("job_posting_currency_view");
 
 const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_view");
 
-const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
-const wethfaucetButtonSpan = ge("weth_faucet_button_span");
-
 var selectedPostingAddress;
 var selectedERC20Address;
 var selectedPostingFee;
 
+async function configureCoreContracts() {
+    var requiredContracts = ["FACTORY_FACADE", "PAYMENT_MANAGER", "STAKE_MANAGER","OPEN_PRODUCT"];
+    configureContracts(requiredContracts);
+}
 
 function loadPageData() {
     loadProducts();
     updateDraftListings();
-    // REMOVE FOR LIVE
-    loadFaucet();
+    getStakeStatus();   
 }
-
-// REMOVE FOR LIVE
-const testUSDCAddress = "0xa836Abbbe9603665A2D86157D6ffde62AF98fD47";
-const testWETHAddress = "0x42BE3516F6E3FfD233CeD5e01a036681aE11085D";
-
-var usdcContract;
-var wethContract;
-
-async function loadFaucet() {
-    usdcContract = new web3.eth.Contract(iErc20USDCAbi, testUSDCAddress);
-    wethContract = new web3.eth.Contract(iErc20WETHAbi, testWETHAddress);
-    console.log("checking faucet");
-    // check the account has enough balance 
-    usdcContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            if (response < (300 * 1e18)) {
-                showUSDCFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err)
-        });
-
-    wethContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            if (response < (0.1 * 1e18)) {
-                showWETHFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-
-
-}
-
-
-function showUSDCFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("USDC FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsUSDC);
-    usdcfaucetButtonSpan.appendChild(faucetButton);
-}
-
-function showWETHFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("WETH FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsWETH);
-    wethfaucetButtonSpan.appendChild(faucetButton);
-}
-
-async function reloadFaucetFundsUSDC() {
-    // call mint function 
-    usdcContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            usdcfaucetButtonSpan.innerHTML = "USDC CREDITED- TOKEN CONTRACT : " + testUSDCAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-async function reloadFaucetFundsWETH() {
-    // call mint function 
-    wethContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            wethfaucetButtonSpan.innerHTML = "WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-
-// END REMOVE FOR LIVE
 
 async function loadProducts() {
     clearSelect(jobPostingProductSelect);
@@ -226,7 +136,7 @@ async function createPosting() {
     console.log("product address :: " + productAddress);
 
     // update from factory
-    jobCryptFactoryFacadeContract.methods.createJobPosting(productAddress).send({ from: account })
+    jcFactoryFacadeContract.methods.createJobPosting(productAddress).send({ from: account })
         .then(function(response) {
             console.log(response);
             jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
@@ -243,6 +153,34 @@ var n = new String("CLOSED").valueOf();
 async function updateDraftListings() {
     clearSelect(jobPostingDraftSelect);
     // update from factory
+    jcFactoryFacadeContract.methods.findDashboard("EMPLOYER_DASHBOARD_TYPE").call({ from : account})
+    .then(function(response){
+        console.log(response);
+        if(response === '0x0000000000000000000000000000000000000000') {
+            jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({from : account})
+            .then(function(response){
+                console.log(response);
+                loadFromEmployerDashboard(response);
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+        }
+        else { 
+            loadFromEmployerDashboard(response);
+        }
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+
+
+}
+
+function loadFromEmployerDashboard(employerDashboardAddress) {
+
+    var employerDashboardContract = getContract(iJCEmployerDashboardAbi, employerDashboardAddress);
+    
     employerDashboardContract.methods.getDraftPostings().call({ from: account })
         .then(function(response) {
             console.log(response);
@@ -262,6 +200,7 @@ async function updateDraftListings() {
             appendNoDraftsFound(jobPostingDraftSelect);
         })
 }
+
 
 function appendNoDraftsFound(select) {
     var option = document.createElement("option");
@@ -387,7 +326,7 @@ function editListing() {
     postingContract.methods.getFeatureSTR("COMPANY_SUMMARY").call({ from: account })
         .then(function(response) {
             console.log(response);
-            fetchDescriptionFromIPFS(response, companySummary);
+            fetchCompanySummaryFromIPFS(response, companySummary);
         })
         .catch(function(err) {
             console.log(err);
@@ -459,7 +398,7 @@ function editListing() {
 
 
 
-    postingContract.methods.getProduct().call({ from: account })
+    postingContract.methods.getFeatureADDRESS("PRODUCT_FEATURE").call({ from: account })
         .then(function(response) {
             console.log(response);
             var productAddress = response;
@@ -507,10 +446,11 @@ function updatePaymentBox(productAddress, postingAddress) {
 }
 
 function getErc20(productContract) {
-    productContract.methods.getCurrency().call({ from: account })
+    console.log("product erc20 " + productContract);
+    productContract.methods.getErc20().call({ from: account })
         .then(function(response) {
             console.log(response);
-            var erc20 = response._erc20Address;
+            var erc20 = response;
             jobPostingCurrencyErc20Address.innerHTML = erc20;
             selectedERC20Address = erc20;
         })
@@ -520,10 +460,11 @@ function getErc20(productContract) {
 }
 
 function getCurrency(productContract) {
-    productContract.methods.getErc20().call({ from: account })
+    console.log("product currency " + productContract);
+    productContract.methods.getCurrency().call({ from: account })
         .then(function(response) {
             console.log(response);
-            var currency = response._erc20Currency;
+            var currency = response;
             jobPostingCurrency.innerHTML = currency;
         })
         .catch(function(err) {
@@ -559,6 +500,8 @@ async function approve_1(productContract, price) {
 
 async function approve_2(erc20Address, price) {
     var erc20Contract = getContract(iERC20Abi, erc20Address);
+    console.log("Erc20 Address :: " + erc20Address);
+    console.log("payment manager approve :: " + jcPaymentManagerAddress);
     erc20Contract.methods.approve(jcPaymentManagerAddress, price).send({ from: account })
         .then(function(response) {
             console.log(response);
@@ -571,6 +514,7 @@ async function approve_2(erc20Address, price) {
 
 
 async function buyPosting() {
+    console.log("buying posting: " + selectedPostingAddress);
 
     if (selectedERC20Address == 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE) {
         jcPaymentManagerContract.methods.payForPosting(selectedPostingAddress).send({ from: account, value: selectedPostingFee })
@@ -598,15 +542,19 @@ async function buyPosting() {
 async function saveJob() {
     jobJSON = getJobToPost();
     var hash;
+    // save job description 
     await ipfs.add(strfy(jobJSON.description))
         .then(function(response) {
             console.log(response);
             jobDescriptionHash = response[0].hash;
             console.log(jobDescriptionHash);
-            ipfs.add(strfy(jobJSON.description))
+            // save company summary
+            ipfs.add(strfy(jobJSON.companySummary))
                 .then(function(res) {
                     console.log(res);
-                    companySummaryHash = res;
+                    companySummaryHash = res[0].hash;
+                    jobJSON.companySummaryHash = companySummaryHash; 
+                    console.log("company hash : " + companySummaryHash);
                     saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
                 })
                 .catch(function(err) {
@@ -637,10 +585,10 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     var searchTerms = unique(terms.concat(c).concat(u).concat(n));
     console.log(searchTerms);
 
-    postingEditorContract.methods.populatePosting(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
+    postingEditorContract.methods.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS :: " + hash;
+            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash;
         })
         .catch(function(err) {
             console.log(err);
@@ -722,25 +670,46 @@ function postJobToJobCrypt() {
 
 
 async function fetchDescriptionFromIPFS(cid, quillDescription) {
-    url = "https://ipfs.io/ipfs/" + cid;
-    console.log(" url: " + url);
-    let response = await fetch(url)
-        .then(function(response) {
-            console.log("ipfs");
-            console.log(response);
-            return response.text();
-        })
-        .then(function(text) {
-            console.log(text);
-            var quills = new Quill(quillDescription);
-            quills.setContents(JSON.parse(text));
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+    if(cid != ""){
+        url = "https://ipfs.io/ipfs/" + cid;
+        console.log(" url: " + url);
+        let response = await fetch(url)
+            .then(function(response) {
+                console.log("ipfs");
+                console.log(response);
+                return response.text();
+            })
+            .then(function(text) {
+                console.log(text);
+                var quills = new Quill(quillDescription);
+                quills.setContents(JSON.parse(text));
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
 
 }
 
+async function fetchCompanySummaryFromIPFS(cid, companySummary) {
+    if(cid != ""){
+        url = "https://ipfs.io/ipfs/" + cid;
+        console.log(" url: " + url);
+        let response = await fetch(url)
+            .then(function(response) {
+                console.log("ipfs");
+                console.log(response);
+                return response.text();
+            })
+            .then(function(text) {
+               companySummary.value = text; 
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
+
+}
 
 async function fetchFromIPFS(cid, messageSpan) {
     url = "https://ipfs.io/ipfs/" + cid;

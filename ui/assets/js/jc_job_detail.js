@@ -1,11 +1,17 @@
 var jobPostingContract;
+async function configureCoreContracts() {
+    var requiredContracts = ["STAKE_MANAGER","JOBCRYPT_CORE","PAYMENT_MANAGER"];
+    configureContracts(requiredContracts);
+}
 
 function loadPageData() {
+    console.log("loading page data");
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     postingAddress = urlParams.get("postingAddress");
     jobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
-
+    
+    getStakeStatus(); 
     buildJobTitle();
     buildCompany();
     buildLocation();
@@ -73,7 +79,22 @@ function buildCompany() {
         .then(function(response) {
             console.log(response);
             var companySummary = response;
-            fetchFromIPFS(companySummary, smallFormat);
+            url = "https://ipfs.io/ipfs/" + companySummary;
+            console.log(" url: " + url);
+            fetch(url)
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(text) {
+                console.log(text);
+                var c = JSON.parse(text);
+                console.log(c);
+                var txt = getTextNode(c);
+                smallFormat.appendChild(txt);
+             })
+             .catch(function(err) {
+                console.log(err);
+            });
         })
         .catch(function(err) {
             console.log(err);
@@ -117,7 +138,7 @@ function buildLocation() {
         .then(function(response) {
             console.log("location");
             console.log(response);
-            var jobLocation =  response;
+            var jobLocation = response;
             jobLocationSpan.append(getTextNode("Job Location : "));
             jobLocationSpan.appendChild(getSmall(jobLocation));
         })
@@ -162,7 +183,7 @@ function buildLocation() {
     jobPostingContract.methods.getFeatureSTR("JOB_LOCATION_SUPPORT").call({ from: account })
         .then(function(response) {
             console.log(response);
-            var locationSupport =  response;
+            var locationSupport = response;
             locationSupportSpan.append(getTextNode(" | Location Support : "));
             locationSupportSpan.appendChild(getSmall(locationSupport));
         })
@@ -211,7 +232,7 @@ function buildPostedDate() {
         .then(function(response) {
             console.log(response);
             var postedDate = response;
-            var postedDateText = document.createTextNode("First posted : " + new Date(postedDate *1000));
+            var postedDateText = document.createTextNode("First posted : " + new Date(postedDate * 1000));
             h4Format2.appendChild(getSmallNode(postedDateText));
         });
 }
@@ -227,26 +248,31 @@ function buildJobDescription() {
             fetch(url)
                 .then(function(response) {
                     console.log(response);
-                  
-                    var readable = response.body; 
-                    var reader = readable.getReader(); 
+
+                    var readable = response.body;
+                    var reader = readable.getReader();
                     console.log(reader);
                     reader.read()
-                    .then(function(data){
-                        console.log(data)
-                        var description = JSON.parse(new TextDecoder().decode(data.value));                        
-                        var quills = new Quill(jobDescriptionSpan);
-                        quills.setContents(description);
-                        quills.enable(false);
-                        //var jobDescriptionTxt = document.createTextNode(description);    
-                        //jobDescriptionSpan.appendChild(jobDescriptionTxt);
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                        var description = new TextDecoder().decode(data.value);                        
-                        var jobDescriptionTxt = document.createTextNode(description);    
-                        jobDescriptionSpan.appendChild(jobDescriptionTxt);
-                    }) ;                                                                               
+                        .then(function(data) {
+                            console.log("processing description data");
+                            console.log(data)
+                            var description = JSON.parse(new TextDecoder().decode(data.value));
+                            console.log(description);
+                            var quills = new Quill(jobDescriptionSpan);
+                            
+                            console.log(quills);
+                            console.log(description);
+                            quills.setContents(description);
+                            quills.enable(false);
+                          //  var jobDescriptionTxt = document.createTextNode(description.job_description);    
+                           // jobDescriptionSpan.appendChild(jobDescriptionTxt);
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                            var description = new TextDecoder().decode(data.value);
+                            var jobDescriptionTxt = document.createTextNode(description);
+                            jobDescriptionSpan.appendChild(jobDescriptionTxt);
+                        });
                 })
                 .catch(function(err) {
                     console.log(err)
@@ -261,19 +287,19 @@ function buildJobDescription() {
 
 var applyLinkSpan = document.getElementById("apply_link");
 
-function buildApplyLink() { 
-    jobPostingContract.methods.getFeatureSTR("APPLY_LINK").call({from : account})
-    .then(function(response){
-        console.log(response);
-        applyLinkSpan.innerHTML = "<small style=\"color:green\">Apply Details: " + response + "</small>"; 
-    })
-    .catch(function(err){
-        console.log(err);
-        applyLink();
-    });
+function buildApplyLink() {
+    jobPostingContract.methods.getFeatureSTR("APPLY_LINK").call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            applyLinkSpan.innerHTML = "<small style=\"color:green\">Apply Details: " + response + "</small>";
+        })
+        .catch(function(err) {
+            console.log(err);
+            applyLink();
+        });
 }
 
-function applyLink() { 
+function applyLink() {
     var applyLink = createTextButton("apply()", "Apply HERE");
     applyLinkSpan.appendChild(applyLink);
 }
@@ -282,14 +308,10 @@ function apply() {
     jobPostingContract.methods.applyForJob().send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingContract.methods.getApplyLink().call({ from: account })
-                .then(function(response) {
-                    console.log(response);
-                    buildApplyLink();
-                })
-                .catch(function(err) {
-                    console.log(err);
-                 });
+            buildApplyLink();
+        })
+        .catch(function(err){
+            console.log(err);
         });
 
 }
@@ -298,11 +320,11 @@ function getSmall(str) {
     var small = document.createElement("small");
     small.appendChild(getTextNode(str));
     small.setAttribute("style", "color:blue")
-    return small; 
+    return small;
 }
 
 function getSmallNode(node) {
     var small = document.createElement("small");
-    small.appendChild(node);    
-    return small; 
+    small.appendChild(node);
+    return small;
 }

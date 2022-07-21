@@ -65,7 +65,7 @@ function buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, compa
 
     var jobLink = createLink(jobDetailLinkDestination, "");
     jobLink.appendChild(boldFormat);
-    jobLink.setAttribute("target", "_blank");
+    
     jobCell.append(jobLink);
 
     var rowCompany = featuredJobsView.insertRow();
@@ -74,7 +74,8 @@ function buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, compa
 
     var companyLink = createLink(companyWeb, companyName);
     companyLink.setAttribute("style", "color: cadetblue;");
-    var br = document.createElement("br");
+    companyLink.setAttribute("target", "_blank");
+    var br = document.createElement("br");    
     cell.append(companyLink);
     cell.append(br);
     cell.appendChild(jobLink);

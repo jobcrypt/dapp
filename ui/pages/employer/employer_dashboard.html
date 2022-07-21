@@ -73,10 +73,10 @@
                 </a>
                 <table>
                     <tr>
-                        <td><a href="https://docs.celo.org/getting-started/wallets/using-metamask-with-celo/manual-setup#:~:text=Network%20Name%3A%20Celo%20(Alfajores%20Testnet)" target="_blank"><i class="fa fa-info-circle" title="Network Connect Details" ></i></a>&nbsp; <a id="connect_web_3">Connect Web 3</a></td>
+                        <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" title="Network Connect Details" ></i></a>&nbsp; <a id="connect_web_3">Connect Web 3</a></td>
                     </tr>
                     <tr> 
-                        <td></td>
+                        <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
                     </tr>
                     <tr>
                         <td align="center">
@@ -114,6 +114,7 @@
                     <div class=" ui-component-card ui-layout-column-8 ">
                         <h2>Your Latest Job Postings</h2>
                         <center>
+                            <span id="employer_dashboard_message"></span>
                             <span id="action_result_span"></span>
                             
                             <table id="employer_dashboard_table">
@@ -215,7 +216,7 @@
 
 <!-- JobCrypt Core ABIs -->        
 <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
-<script src="../../assets/abi/i_jc_factory_facade_abi.js"></script>
+<script src="../../assets/abi/i_jc_factory_facade_core_abi.js"></script>
 
 <!-- Open Block EI Derivative ABIs -->        
 <script src="../../assets/abi/i_open_product_abi.js"></script>
@@ -227,6 +228,10 @@
 
 <!-- OpenZeppelin ABIs -->        
 <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+
+<!-- TEST NET ONLY FAUCET CODE-->
+<script src="../../assets/abi/i_erc20USDC_abi.js"></script>
+<script src="../../assets/abi/i_erc20WETH_abi.js"></script>
 
 <!-- JobCrypt JS -->        
 <script src="../../assets/js/autoconnect.js"></script>
