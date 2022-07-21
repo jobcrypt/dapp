@@ -1,10 +1,11 @@
-// SPDX-License-Identifier: APACHE 2.0
+// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.15;
 
 import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";
 
-import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+
 
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol"; 
 
@@ -20,12 +21,12 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
     using LOpenUtilities for string; 
 
     string name                     = "JOBCRYPT_JOB_POSTING"; 
-    uint256 version                 = 9; 
+    uint256 version                 = 18; 
 
     string registerCA               = "RESERVED_OPEN_REGISTER_CORE";
     string roleManagerCA            = "RESERVED_OPEN_ROLES_CORE";
     string jobCryptCA               = "RESERVED_JOBCRYPT_CORE";
-    string jobCryptPaymentManagerCA = "RESERVED_JOBCRYPT_PAYMENT_MANAGER";
+    string jobCryptPaymentManagerCA = "RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE";
 
     string jobCryptAdminRole        = "JOBCRYPT_ADMIN_ROLE";
     
@@ -83,6 +84,7 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
         addConfigurationItem(address(jobCryptPaymentManager));
         addConfigurationItem(name, self, version);
         status = PostStatus.DRAFT; 
+        featureUintByFeatureName[applicantCountFeature] = 0;
     }
 
     function getName()  view external returns (string memory _name) {
@@ -101,7 +103,7 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
     // job summary, company summary, job description ipfs hash 
     function getFeatureSTR(string memory _featureName) view external returns (string memory _featureValue){
         if(_featureName.isEqual("APPLY_LINK")) {
-            require(isApplicant[msg.sender] || isSecure(localEditorRole, "getFeatureSTR"), " not authorised ");
+            require(isApplicant[msg.sender] || isSecure(localEditorRole, "getFeatureSTR"), "na");
         }
         return featureByName[_featureName];
     }
@@ -116,22 +118,18 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
         return featureAddressByFeatureName[_featureName];
     }
     
-    function getApplicantData(address _applicantAddress) override view external returns (Applicant memory _applicant){
-        if(!isSecure(localViewerRole, "getApplicantData")){
-            require(msg.sender == _applicantAddress && isApplicant[_applicantAddress]," error ");            
-        }    
-        return applicantByAddress[_applicantAddress];
-    }
-
     function getStatus() override view external returns (PostStatus _status){         
         return status; 
     }
 
+    function getApplicantData(address _applicantAddress) override view external returns (Applicant memory _applicant){
+        require((msg.sender == _applicantAddress && isApplicant[_applicantAddress]) || isSecure(localViewerRole, "getApplicantData"), "ao");
+        return applicantByAddress[_applicantAddress];
+    }
+
     function applyForJob() override external returns (string memory _applicationURL){
         
-        require(!deactivated && isSecureBarring(localBarredApplicantRole, "applyForJob"), " barred "); 
-        require(!isApplicant[msg.sender] && !(msg.sender == featureAddressByFeatureName[ownerFeature]), " error ");        
-        require((status == PostStatus.POSTED || status == PostStatus.EXTENDED), " expired ");
+        require(!deactivated && isSecureBarring(localBarredApplicantRole, "applyForJob") && isSecureBarring(localEditorRole, "applyForJob") && !isApplicant[msg.sender], "bar");                require(isStatus(PostStatus.POSTED) || isStatus(PostStatus.EXTENDED), "exp");
         
         uint256 applicantId = featureUintByFeatureName[applicantCountFeature]++;
         _applicationURL = featureByName[applyLinkFeature]; 
@@ -142,35 +140,37 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
                                                 link : _applicationURL
                                                 });
         applicantByAddress[msg.sender] = applicant; 
+
         jobCrypt.logJobApplication(msg.sender, self);
+        
         isApplicant[msg.sender] = true;
 
         if(featureUintByFeatureName[expiryDateFeature] < block.timestamp) { // expire the job after the last applicant 
             status = PostStatus.EXPIRED;
             jobCrypt.notifyDelistJob(self);
         }
+
         return _applicationURL; 
     }
 
-    function populatePosting(string [] memory _featureNames, string [] memory _featureValues, string [] memory _categories, string [] memory _skills, string [] memory _searchTerms, string memory _applyLink ) override  external returns (bool _populated){
-        
-        editorOnly("populatePosting");        
-        setFeaturesInternal(_featureNames, _featureValues);
-        featureArrayByFeatureName[categoryFeature]  = _categories;
-        featureArrayByFeatureName[skillsFeature]  = _skills;
-        featureArrayByFeatureName[searchTermsFeature]  = _searchTerms; 
-        featureByName[applyLinkFeature] = _applyLink;
+    function populate(string [] memory _featureNames, string [] memory _featureValues, string [] memory _categories, string [] memory _skills, string [] memory _searchTerms ) override  external returns (bool _populated){
+        editorOnly("populate");  
+        for(uint256 x = 0; x < _featureNames.length; x++){
+            featureByName[_featureNames[x]] = _featureValues[x];
+        }             
+        featureArrayByFeatureName[categoryFeature]      = _categories; 
+        featureArrayByFeatureName[skillsFeature]        = _skills;
+        featureArrayByFeatureName[searchTermsFeature]   = _searchTerms;
         return true; 
     }
-
-
+    
     function post() override external returns (bool _posted){
         
         editorOnly("post"); 
-        if(status == PostStatus.DRAFT){
+        if(isStatus(PostStatus.DRAFT)){
             featureUintByFeatureName[postingDateFeature] = block.timestamp; 
             featureUintByFeatureName[expiryDateFeature] = featureUintByFeatureName[postingDateFeature] + product.getFeatureUINTValue("DURATION");
-            require(jobCryptPaymentManager.isProductPaidForPosting(self, address(product)) , " not paid ");
+            require(jobCryptPaymentManager.isProductPaidForPosting(self, address(product)) , "np");
             if(jobCrypt.postJob(self)){
                 return setStatusInternal(PostStatus.POSTED);
             } 
@@ -194,7 +194,7 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
                 return setStatusAndDeactivate(_targetStatus);
             }
         }
-        if(IJobPosting.PostStatus.EXTENDED  == _targetStatus && (status == PostStatus.FILLED || status == PostStatus.CANCELLED || status == PostStatus.EXPIRED || status == PostStatus.EXTENDED)) {
+        if(IJobPosting.PostStatus.EXTENDED  == _targetStatus && (isStatus(PostStatus.FILLED) || isStatus(PostStatus.CANCELLED) || isStatus(PostStatus.EXPIRED) || isStatus(PostStatus.EXTENDED))) {
             return extend(); 
         }
 
@@ -207,8 +207,8 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
 
     function notifyChangeOfAddress() external returns (bool _recieved){
         
-        require(!deactivated && isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");    
-        registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address       
+        require(!deactivated && isSecure(jobCryptAdminRole, "notifyChangeOfAddress"),"ado");    
+        registry                = IOpenRegister(registry.getAddress(registerCA));      
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA)); 
         jobCrypt                = IJobCrypt(registry.getAddress(jobCryptCA));       
         jobCryptPaymentManager  = IJobCryptPaymentManager(registry.getAddress(jobCryptPaymentManagerCA));
@@ -221,26 +221,26 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
     }
 
     function setExpiryDate(uint256 _expiryDateOverride) external returns (bool _set) {        
-        require(!deactivated && isSecure(jobCryptAdminRole, "setExpiryDate"), " admin only ");
+        require(!deactivated && isSecure(jobCryptAdminRole, "setExpiryDate"), "ado");
         featureUintByFeatureName[expiryDateFeature]= _expiryDateOverride;
         return true; 
     }
     // ============================= INTERNAL ====================
 
-     function extend() internal returns (bool _extended) {
+    function extend() internal returns (bool _extended) {
       
         if(product.hasFeature("EXTENSION")){
             
-            if(status == PostStatus.EXTENDED && featureUintByFeatureName[expiryDateFeature] > block.timestamp){ // job still in a valid extension
+            if(isStatus(PostStatus.EXTENDED) && featureUintByFeatureName[expiryDateFeature] > block.timestamp){ // job still in a valid extension
                 return false; 
             }
 
             address extensionProductAddress_    = product.getFeatureUADDRESSValue("EXTENSION"); 
             IOpenProduct extensionProduct_      = IOpenProduct(extensionProductAddress_);
-            require(extensionProduct_.getFeatureSTRValue("PRODUCT_TYPE").isEqual(jobCryptExtensionProduct), " wrong product ");
+            require(extensionProduct_.getFeatureSTRValue("PRODUCT_TYPE").isEqual(jobCryptExtensionProduct), "wp");
             
             // verify extension product paid 
-            require(jobCryptPaymentManager.isProductPaidForPosting(self, extensionProductAddress_), " not paid ");        
+            require(jobCryptPaymentManager.isProductPaidForPosting(self, extensionProductAddress_), "np");        
             
             // updated expiry date from now; 
             featureUintByFeatureName[expiryDateFeature] = block.timestamp + extensionProduct_.getFeatureUINTValue("EXTENSION_DURATION");
@@ -254,11 +254,8 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
     }
 
 
-    function setFeaturesInternal(string [] memory _featureNames, string [] memory _featureValues) internal returns (bool){
-       for(uint256 x = 0; x < _featureNames.length; x++){
-            featureByName[_featureNames[x]] = _featureValues[x];
-        }
-        return true; 
+    function isStatus(PostStatus _status) view internal returns (bool) {
+        return status == _status; 
     }
 
     function setStatusAndDeactivate(PostStatus _status) internal returns(bool) {
@@ -272,7 +269,7 @@ contract JcJobPosting is IJobPosting, IJobPostingEditor, IOpenVersion, OpenRoles
     }
 
     function editorOnly(string memory _function) view internal { 
-        require(!deactivated && isSecure(localEditorRole, _function), " editor only "); 
+        require(!deactivated && (isSecure(localEditorRole, _function) || isSecure(jobCryptAdminRole, _function)), "eo"); 
     }
 
 }

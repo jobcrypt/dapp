@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: APACHE 2.0
+// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.15;
 /**
  * @dev IOpenRanking is about ranking addresses of interest. 
  */
@@ -13,7 +13,4 @@ interface IJobCryptDashboardFactory {
     function hasDashboard(address _user, string memory _dashboardType) view external returns (bool _hasDashboard);
 
     function findDashboard(address _user, string memory _dashboardType) view external returns (address _dashboardAddress);
-
-    function linkToEmployerDashboard(address _jobPosting) external returns (bool _linked);
-
 }

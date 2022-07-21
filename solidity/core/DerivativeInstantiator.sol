@@ -1,15 +1,17 @@
-// SPDX-License-Identifier: APACHE-2.0
-pragma solidity >=0.8.0 <0.9.0;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
 
  
  import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";    
 
  import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
+ 
  import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
-
+ 
  import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
  
- import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+ import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+ 
 
 
  abstract contract DerivativeInstantiator is OpenRolesSecureCore, IOpenRolesManaged, IOpenVersion {
@@ -26,7 +28,6 @@ pragma solidity >=0.8.0 <0.9.0;
     // register configuration addresses
     string registerCA                   = "RESERVED_OPEN_REGISTER_CORE";
     string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
-
  
     string jobCryptFactoryRole          = "JOBCRYPT_FACTORY_ROLE";
     string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
@@ -80,12 +81,12 @@ pragma solidity >=0.8.0 <0.9.0;
     }
 
     function getInstanceAddresses() view external returns (address [] memory _instances) {
-        require(isSecure(jobCryptAdminRole, "getInstanceAddresses")," jobcrypt admin only "); 
+        require(isSecure(jobCryptAdminRole, "getInstanceAddresses"),"ao"); 
         return instances; 
     }
 
     function notifyChangeOfAddress() external returns (bool _recieved){
-        require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");    
+        require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress"),"ao");    
         registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address       
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));
         
@@ -96,8 +97,9 @@ pragma solidity >=0.8.0 <0.9.0;
 
     // ============================ INTERNAL =====================================================    
 
-    function registerDerivativeType(address _address, string memory _type) internal {
+    function registerDerivativeType(address _address, string memory _type, address _owner, string memory _ownerType) internal {
         registry.registerDerivativeAddress(_address, _type);
+        registry.registerUserAddress(_owner, _ownerType);
         instances.push(_address);
     }
 

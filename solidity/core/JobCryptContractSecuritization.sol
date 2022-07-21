@@ -1,34 +1,41 @@
-// SPDX-License-Identifier: APACHE 2.0
-pragma solidity ^0.8.14;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
 
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
+
+
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesDerivativeTypesAdmin.sol";
+
+
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesDerivativesAdmin.sol";
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
 
-import "https://github.com/Block-Star-Logic/open-register/blob/a14334297b2953d3531001bb8624239866d346be/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+
+import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 
 import "../interfaces/IJobCryptSecuritization.sol";
 
 contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRolesManaged, IJobCryptSecuritization { 
 
+    using LOpenUtilities for string; 
+
     IOpenRegister registry; 
     IOpenRolesDerivativeTypesAdmin iordta; 
     IOpenRolesDerivativesAdmin iorda; 
 
-    uint256 version                     = 5; 
+    uint256 version                     = 15;
     string name                         = "RESERVED_JOBCRYPT_DERIVATIVE_CONTRACT_SECURITIZATION"; 
 
     string registerCA                   = "RESERVED_OPEN_REGISTER_CORE";
     string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
     string derivativeContractTypesAdminCA = "RESERVED_OPEN_ROLES_DERIVATIVE_TYPES_ADMIN";
 
-    string jobCryptFactoryRole          = "JOBCRYPT_FACTORY_ROLE";
-    string jobCryptCoreRole             = "JOBCRYPT_CORE_ROLE"; 
-
-    string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
+    string jobCryptFactoryRole              = "JOBCRYPT_FACTORY_ROLE";
+    string jobCryptCoreRole                 = "JOBCRYPT_CORE_ROLE"; 
+    string jobCryptDashboardModeratorRole   = "JOBCRYPT_DASHBOARD_MODERATOR_ROLE";
+    string jobCryptAdminRole                = "JOBCRYPT_ADMIN_ROLE";
 
     string localViewerRole              = "LOCAL_POSTING_VIEWER_ROLE";
     string localEditorRole              = "LOCAL_POSTING_EDITOR_ROLE"; 
@@ -40,9 +47,7 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     string localDashboardEditor         = "LOCAL_DASHBOARD_EDITOR_ROLE";
     string localDashboardViewer         = "LOCAL_DASHBOARD_VIEWER_ROLE";
 
-    string localDashboardModerator      = "LOCAL_DASHBOARD_MODERATOR_ROLE";
-
-    string [] dashboardRoles            = [localDashboardEditor, localDashboardViewer, localDashboardModerator];
+    string [] dashboardRoles            = [localDashboardEditor, localDashboardViewer];
 
     string jobPostingType               = "JOBCRYPT_JOB_POSTING_TYPE";
     string employerDashboardType        = "EMPLOYER_DASHBOARD_TYPE";
@@ -66,8 +71,8 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
     // derivatives
     mapping(string=>string[]) jobPostingFunctionsForPostingByRole;
-    mapping(string=>string[]) employerDashboardFunctionsForPostingByRole;
-    mapping(string=>string[]) jobSeekerDashboardFunctionsForPostingByRole;
+    mapping(string=>string[]) employerDashboardFunctionsForDashboardByRole;
+    mapping(string=>string[]) jobSeekerDashboardFunctionsForDashboardByRole;
 
 
     constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT"){ 
@@ -80,15 +85,15 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
         iorda = IOpenRolesDerivativesAdmin(roleManager.getDerivativeContractsAdmin(registry.getDapp()));                   
 
-        addConfigurationItem(_registryAddress);   
-        
-        addConfigurationItem(address(roleManager));   
-        
+        addConfigurationItem(_registryAddress);           
+        addConfigurationItem(address(roleManager));           
         addConfigurationItem(address(iorda));   
+        addConfigurationItem(address(iordta));
         
         addConfigurationItem(name, self, version);
         
         initDefaultFunctionsForRoles();
+        initDerivativeContractTypeFunctionsForRoles();        
         initDerivativeFunctionsForRoles();       
     }
 
@@ -115,14 +120,49 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return derivativeManagementInitialised; 
     }
 
+
+    
+    function isContained(string memory _type) view external returns (bool) {
+        return _type.isContained(derivativeContractTypes);
+    }
+
+    function getTypes() view external returns (string [] memory) {
+        return iordta.listDerivativeContractTypes();
+    }
+
+    function clean() external returns (bool) {
+        require(!derivativeManagementInitialised, "types initialised");
+        require(isSecure(jobCryptAdminRole, "clean")," admin only "); 
+        string [] memory derivativeContractTypes_ = iordta.listDerivativeContractTypes();
+        for(uint256 x = 0; x < derivativeContractTypes_.length; x++) {
+            string memory type_ = derivativeContractTypes_[x];
+            if(type_.isContained(derivativeContractTypes)){
+                string [] memory r = new string[](1);
+                r[0] = type_;
+                iordta.removeDerivativeContractTypes(r);
+            }
+        }
+        return true; 
+    }
+
+    function removeType(string memory _type) external returns (bool) {
+        require(isSecure(jobCryptAdminRole, "removeType")," admin only "); 
+        string [] memory r = new string[](1);
+        r[0] = _type;
+        iordta.removeDerivativeContractTypes(r);
+        return true; 
+    }
+
     function initializeDerivativeManagement() external returns (bool _derivativeManagementInitialized) {
-         require(isSecure(jobCryptAdminRole, "initializeDerivativeManagement")," admin only ");  
-        if(!derivativeManagementInitialised){
+        require(isSecure(jobCryptAdminRole, "initializeDerivativeManagement")," admin only ");  
+        require(!derivativeManagementInitialised, "derivative management initialised ");
             // register derivative types 
+            
             iordta.addDerivativeContractTypes(derivativeContractTypes);
 
             // configurae derivative types 
             for(uint x = 0; x < derivativeContractTypes.length; x++) {
+            
                 string memory type_ = derivativeContractTypes[x];
                 string [] memory roles_ = rolesByDerivativeContractType[type_];
                 iordta.mapRolesToContractType(type_, roles_);
@@ -132,9 +172,7 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
                     iordta.addFunctionsForRoleForDerivativeContactType(type_, role_, functions_);
                 }
             }
-            return true; 
-        }
-        return false; 
+            return derivativeManagementInitialised = true;             
     }
 
     function notifyChangeOfAddress() external returns (bool _recieved){
@@ -142,8 +180,12 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         registry                = IOpenRegister(registry.getAddress(registerCA)); // make sure this is NOT a zero address       
         roleManager             = IOpenRoles(registry.getAddress(roleManagerCA));
         iorda = IOpenRolesDerivativesAdmin(roleManager.getDerivativeContractsAdmin(registry.getDapp()));   
-        iordta = IOpenRolesDerivativeTypesAdmin(registry.getAddress(derivativeContractTypesAdminCA));
         
+        address oldIordtaAddress = address(iordta);
+        iordta = IOpenRolesDerivativeTypesAdmin(registry.getAddress(derivativeContractTypesAdminCA));
+        if(oldIordtaAddress != address(iordta)){ // derivative types need to be re-initialised
+            derivativeManagementInitialised = false;
+        }        
         addConfigurationItem(address(registry));   
         addConfigurationItem(address(roleManager));   
         addConfigurationItem(address(iorda));   
@@ -154,16 +196,12 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     function secureEmployerDashboard(address _dashboard, address _dashboardOwner) override external returns (bool _secured) {
         require(isSecure(jobCryptFactoryRole, "secureEmployerDashboard"), "jobcrypt factory only ");  
 
-        registry.registerUserAddress(_dashboardOwner, "EMPLOYER_DASHBOARD_OWNER");
-
-        registry.registerDerivativeAddress(_dashboard, employerDashboardType );
-
         iorda.addDerivativeContract(_dashboard, employerDashboardType);        
         
         iorda.addRolesForDerivativeContract(_dashboard, dashboardRoles);
 
         for(uint x = 0; x < dashboardRoles.length; x++){
-            iorda.addFunctionsForRoleForDerivativeContract(_dashboard, dashboardRoles[x], employerDashboardFunctionsForPostingByRole[dashboardRoles[x]]);
+            iorda.addFunctionsForRoleForDerivativeContract(_dashboard, dashboardRoles[x], employerDashboardFunctionsForDashboardByRole[dashboardRoles[x]]);
         }
 
         address [] memory users_ = new address[](1);
@@ -178,18 +216,12 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     function secureJobSeekerDashboard(address _dashboard, address _dashboardOwner) override external returns (bool _secured) {
         require(isSecure(jobCryptFactoryRole, "secureJobSeekerDashboard"), "jobcrypt factory only ");  
 
-        
-        registry.registerUserAddress(_dashboardOwner, "JOBSEEKER_DASHBOARD_OWNER");
-        
-        registry.registerDerivativeAddress(_dashboard, jobSeekerDashboardType);
-
         iorda.addDerivativeContract(_dashboard, jobSeekerDashboardType);        
-
         
         iorda.addRolesForDerivativeContract(_dashboard, dashboardRoles);
 
         for(uint x = 0; x < dashboardRoles.length; x++){
-            iorda.addFunctionsForRoleForDerivativeContract(_dashboard, dashboardRoles[x], jobSeekerDashboardFunctionsForPostingByRole[dashboardRoles[x]]);
+            iorda.addFunctionsForRoleForDerivativeContract(_dashboard, dashboardRoles[x], jobSeekerDashboardFunctionsForDashboardByRole[dashboardRoles[x]]);
         }
 
         address [] memory users_ = new address[](1);
@@ -203,12 +235,7 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
     function secureJobPosting(address _jobPosting, address _postingOwner) override external returns (bool _secured) {
         require(isSecure(jobCryptFactoryRole, "secureJobPosting"), "jobcrypt factory only ");  
-        
-        // register the posting as a known address 
-        registry.registerUserAddress(_jobPosting, "POSTING_OWNER");
-               
-        registry.registerDerivativeAddress(_postingOwner, jobPostingType);
-        
+              
         // create role default lists for the posting including owner        
         iorda.addDerivativeContract(_jobPosting, jobPostingType);
 
@@ -227,12 +254,9 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     }
 
     // =============================== INTERNAL =================================================
-
-
-
+ 
     function initDefaultFunctionsForRoles() internal returns (bool _initiated) {
-        hasDefaultFunctionsByRole[jobCryptFactoryRole] = true; 
-        
+        hasDefaultFunctionsByRole[jobCryptFactoryRole] = true;         
         defaultFunctionsByRole[jobCryptFactoryRole].push("secureEmployerDashboard");
         defaultFunctionsByRole[jobCryptFactoryRole].push("secureJobSeekerDashboard");
         defaultFunctionsByRole[jobCryptFactoryRole].push("secureJobPosting");    
@@ -240,44 +264,60 @@ contract JobCryptSecuritization is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         hasDefaultFunctionsByRole[jobCryptAdminRole] = true; 
         defaultFunctionsByRole[jobCryptAdminRole].push("initializeDerivativeManagement");
         defaultFunctionsByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
+        defaultFunctionsByRole[jobCryptAdminRole].push("clean");
+        defaultFunctionsByRole[jobCryptAdminRole].push("removeType");
 
         return true; 
     }
     
-    function initDerivativeFunctionsForRoles() internal returns (bool _initiated) {
-        // employer dashboard
-        employerDashboardFunctionsForPostingByRole[localDashboardViewer].push("getPostings");
-        employerDashboardFunctionsForPostingByRole[localDashboardViewer].push("findPostedJobs");
+    function initDerivativeContractTypeFunctionsForRoles() internal returns (bool _initialised) {
         
-        employerDashboardFunctionsForPostingByRole[localDashboardEditor].push("removePosting");
+        rolesByDerivativeContractType[jobPostingType]           = [jobCryptAdminRole]; 
+        rolesByDerivativeContractType[employerDashboardType]    = [jobCryptAdminRole, jobCryptFactoryRole,jobCryptCoreRole,jobCryptDashboardModeratorRole];
+        rolesByDerivativeContractType[jobSeekerDashboardType]   = [jobCryptAdminRole, jobCryptCoreRole,jobCryptDashboardModeratorRole];
+        
+        functionsByRoleByDerivativeContractType[jobPostingType][jobCryptAdminRole].push("notifyChangeOfAddress"); 
+        functionsByRoleByDerivativeContractType[jobPostingType][jobCryptAdminRole].push("setExpiryDate"); 
+        functionsByRoleByDerivativeContractType[jobPostingType][jobCryptAdminRole].push("executePostingAction");         
+                    
+        functionsByRoleByDerivativeContractType[employerDashboardType][jobCryptAdminRole].push("notifyChangeOfAddress");                                                        
+        functionsByRoleByDerivativeContractType[employerDashboardType][jobCryptFactoryRole].push("addJobPosting"); 
+        functionsByRoleByDerivativeContractType[employerDashboardType][jobCryptCoreRole].push("addJobPosting"); 
+        functionsByRoleByDerivativeContractType[employerDashboardType][jobCryptDashboardModeratorRole].push("addJobPosting"); 
+        functionsByRoleByDerivativeContractType[employerDashboardType][jobCryptDashboardModeratorRole].push("getPostingHistory"); 
+        
+        functionsByRoleByDerivativeContractType[jobSeekerDashboardType][jobCryptAdminRole].push("notifyChangeOfAddress");     
+        functionsByRoleByDerivativeContractType[jobSeekerDashboardType][jobCryptFactoryRole].push("addJobApplication"); 
+        functionsByRoleByDerivativeContractType[jobSeekerDashboardType][jobCryptDashboardModeratorRole].push("addJobApplication"); 
+        functionsByRoleByDerivativeContractType[jobSeekerDashboardType][jobCryptDashboardModeratorRole].push("getApplicationHistory"); 
+                
+        return true; 
+    }
 
-        employerDashboardFunctionsForPostingByRole[localDashboardModerator].push("getPostingHistory");
-        employerDashboardFunctionsForPostingByRole[localDashboardModerator].push("addJobPosting");
+    function initDerivativeFunctionsForRoles() internal returns (bool _initialised) {
+        // employer dashboard | dashboard moderation is at the dapp level
+        employerDashboardFunctionsForDashboardByRole[localDashboardViewer].push("getPostings");
+        employerDashboardFunctionsForDashboardByRole[localDashboardViewer].push("findPostings");
+        
+        employerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("removePosting");
+        employerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("getPostings");
+        employerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("findPostings");
+        employerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("getDraftPostings");
 
-        employerDashboardFunctionsForPostingByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
+        // Job seeker dashboard | dashboard moderation is at the dapp level
+        jobSeekerDashboardFunctionsForDashboardByRole[localDashboardViewer].push("getAppliedJobs");
 
-
-        // Job seeker dashboard
-        jobSeekerDashboardFunctionsForPostingByRole[localDashboardViewer].push("getAppliedJobs");
-
-        jobSeekerDashboardFunctionsForPostingByRole[localDashboardEditor].push("removeAppliedJob");
-                        
-        jobSeekerDashboardFunctionsForPostingByRole[localDashboardModerator].push("addJobApplication");
-
-        jobSeekerDashboardFunctionsForPostingByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
+        jobSeekerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("removeAppliedJob");                    
+        jobSeekerDashboardFunctionsForDashboardByRole[localDashboardEditor].push("getAppliedJobs");                    
         
         // job posting
-        jobPostingFunctionsForPostingByRole[localViewerRole].push("populatePosting");
+        jobPostingFunctionsForPostingByRole[localViewerRole].push("getApplicantData");        
 
-        jobPostingFunctionsForPostingByRole[localEditorRole].push("populatePosting");
-        jobPostingFunctionsForPostingByRole[localEditorRole].push("executePostingAction");
+        jobPostingFunctionsForPostingByRole[localEditorRole].push("populate");        
         jobPostingFunctionsForPostingByRole[localEditorRole].push("post"); 
+        jobPostingFunctionsForPostingByRole[localEditorRole].push("executePostingAction");
         jobPostingFunctionsForPostingByRole[localEditorRole].push("getFeatureSTR");
-
-        jobPostingFunctionsForPostingByRole[jobCryptAdminRole].push("setExpiryDate");        
-
-        jobPostingFunctionsForPostingByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
-        jobPostingFunctionsForPostingByRole[jobCryptAdminRole].push("deactivate");
+        jobPostingFunctionsForPostingByRole[localEditorRole].push("applyForJob");
 
         jobPostingFunctionsForPostingByRole[localBarredApplicantRole].push("applyForJob");
 

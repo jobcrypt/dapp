@@ -1,6 +1,5 @@
-// SPDX-License-Identifier: APACHE 2.0
-
-pragma solidity >=0.8.0 <0.9.0;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
 
 /**
  * @title IJobCrypt
@@ -22,8 +21,6 @@ pragma solidity >=0.8.0 <0.9.0;
      function getLatestJobs() view external returns (address [] memory _latestJobAddresses);
 
      function getFeaturedJobs() view external returns (address [] memory _featuredJobAddresses );
-
-     function getPopularJobs() view external returns (address [] memory _popularJobAddresses );
 
      function getHotSearchTerms() view external returns (string [] memory _hotSearchTerms);
 

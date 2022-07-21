@@ -1,10 +1,12 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.8.14;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
  
  import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";    
 
  import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
+ 
  import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
+ 
 
  import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
  
@@ -24,12 +26,10 @@ contract JobCryptPostingFactory is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     using LOpenUtilities for string;
     
     string name                         = "RESERVED_JOBCRYPT_JOB_POSTING_FACTORY"; 
-    uint256 version                     = 11;
-    string barredPublicUserRole         = "BARRED_PUBLIC_USER_ROLE";
+    uint256 version                     = 16;
+
+    string jobCryptFacadeRole           = "JOBCRYPT_FACADE_ROLE";
     string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
-    
-    
-    string employerDashboardType        = "EMPLOYER_DASHBOARD_TYPE";
 
     string registerCA                   = "RESERVED_OPEN_REGISTER_CORE";
     string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
@@ -39,7 +39,7 @@ contract JobCryptPostingFactory is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     string instantiatorCA               = "RESERVED_JOBCRYPT_POSTING_INSTANTIATOR";
 
      // JobCrypt dApp Roles 
-    string [] roleNames = [barredPublicUserRole, jobCryptAdminRole];
+    string [] roleNames = [jobCryptFacadeRole, jobCryptAdminRole];
 
     mapping(string=>bool) hasDefaultFunctionsByRole;
     mapping(string=>string[]) defaultFunctionsByRole;
@@ -101,18 +101,14 @@ contract JobCryptPostingFactory is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return  postingsByOwner[_postingOwner];
     }
 
-    function createJobPosting(address _postingOwner, 
-                                address _product) override external returns (address _jobPostingAddress){      
-        require(isSecureBarring(barredPublicUserRole, "createJobPosting"),"JCPM 00 - user barred.");             
-            
+    function createJobPosting(address _postingOwner, address _product) override external returns (address _jobPostingAddress){   
+
+        require(isSecure(jobCryptFacadeRole, "createJobPosting")," core only ");                      
         _jobPostingAddress = instantiator.getPostingAddress(_postingOwner, _product);        
         postingsByOwner[_postingOwner].push(_jobPostingAddress);
-        hasPostingsByOwner[_postingOwner] = true; 
-        
+        hasPostingsByOwner[_postingOwner] = true;         
         securitization.secureJobPosting(_jobPostingAddress, _postingOwner);
-        // post the draft           
-        dashboardFactory.linkToEmployerDashboard(_jobPostingAddress);  
-        
+
         return _jobPostingAddress;       
     }
 
@@ -135,12 +131,11 @@ contract JobCryptPostingFactory is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
   
     function initDefaultFunctionsForRoles() internal { 
-        hasDefaultFunctionsByRole[barredPublicUserRole]  = true; 
-        defaultFunctionsByRole[barredPublicUserRole].push("createJobPosting");
+        hasDefaultFunctionsByRole[jobCryptFacadeRole]  = true; 
+        defaultFunctionsByRole[jobCryptFacadeRole].push("createJobPosting");
 
         hasDefaultFunctionsByRole[jobCryptAdminRole]  = true; 
         defaultFunctionsByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
-        defaultFunctionsByRole[jobCryptAdminRole].push("createJobPosting");
         defaultFunctionsByRole[jobCryptAdminRole].push("findPostings");
     }
 

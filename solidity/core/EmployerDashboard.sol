@@ -1,13 +1,14 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity ^0.8.14;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
 
 import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureDerivative.sol";
 
+
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
 
-import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 import "../interfaces/IJobPosting.sol";
 import "../interfaces/IEmployerDashboard.sol";
@@ -25,7 +26,7 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
 
     mapping(address=>bool) removedPostingsByAddress; 
 
-    uint256 version = 7; 
+    uint256 version = 12; 
     string name = "EMPLOYER_DASHBOARD";
 
     address employer; 
@@ -37,11 +38,14 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
 
     string localDashboardViewerRole      = "LOCAL_DASHBOARD_VIEWER_ROLE";
     string localDashboardEditorRole      = "LOCAL_DASHBOARD_EDITOR_ROLE";
-    string localDashboardModeratorRole   = "LOCAL_DASHBOARD_MODERATOR_ROLE";
-    string jobCryptAdminRole             = "JOBCRYPT_ADMIN_ROLE";
 
-    string dashboardType                 = "EMPLOYER_DASHBOARD_TYPE";
-    string jobPostingType                = "JOBCRYPT_JOB_POSTING_TYPE";
+    string jobCryptDashboardModeratorRole    = "JOBCRYPT_DASHBOARD_MODERATOR_ROLE"; // mapped to type
+    string jobCryptCoreRole                  = "JOBCRYPT_CORE_ROLE"; // mapped to type
+    string jobCryptAdminRole                 = "JOBCRYPT_ADMIN_ROLE"; // mapped to type
+    string jobCryptFactoryRole               = "JOBCRYPT_FACTORY_ROLE"; // mapped to type
+
+    string dashboardType                     = "EMPLOYER_DASHBOARD_TYPE";
+    string jobPostingType                    = "JOBCRYPT_JOB_POSTING_TYPE";
 
     constructor (address _employer, address _registryAddress)  {
         employer = _employer; 
@@ -62,7 +66,8 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
     }
 
     function getPostings() override view external returns (address [] memory _jobPostings) {
-        require(isSecure(localDashboardViewerRole, "getPostings"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local viewer only"); // employer only                 
+        require(isSecure(localDashboardViewerRole, "getPostings") ||
+        isSecure(localDashboardEditorRole, "getPostings"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local viewer / editor only"); // employer only                 
         return viewableJobPostings; 
     }
 
@@ -71,12 +76,14 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
     }
 
     function getDraftPostings() override view external returns (address [] memory _jobPostings){
+        require(isSecure(localDashboardEditorRole, "getDraftPostings"), "JC EMPLOYER DASHBOARD : getDraftPostings : 00 - local editor only"); // employer only    
         return findWithStatus(IJobPosting.PostStatus.DRAFT); 
     }
 
     function findPostings(uint256 _startDate, uint256 _endDate) override view external returns (address [] memory _postings){
-        require(isSecure(localDashboardViewerRole, "findPostedJobs"), "JC EMPLOYER DASHBOARD : findPostedJobs : 00 - local viewer only"); // employer only         
-              
+        require(isSecure(localDashboardViewerRole, "findPostings") || 
+                isSecure(localDashboardEditorRole, "findPostings"), "JC EMPLOYER DASHBOARD : findPostedJobs : 00 - local viewer / editor only"); // employer only         
+               
         address [] memory temp_ = new address[](jobPostings.length);
         uint256 y = 0; 
         for(uint256 x = 0; x < jobPostings.length; x++){
@@ -97,12 +104,14 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
     }
 
     function getPostingHistory() view external returns (address [] memory _postingHistory) {
-        require(isSecure(localDashboardModeratorRole, "getPostingHistory"), "JC EMPLOYER DASHBOARD : getPostings : 00 - local moderator only"); // employer only  
+        require(isSecure(jobCryptDashboardModeratorRole, "getPostingHistory"), "JC EMPLOYER DASHBOARD : getPostings : 00 - moderator only"); // moderator only  
         return jobPostings;    
     }
 
     function addJobPosting(address _jobPostingAddress ) override external returns (bool _added) {   
-        require(isSecure(localDashboardModeratorRole, "addJobPosting"), "JOBCRYPT_EMPLOYER_DASHBOARD : addJobPosting : 00 - local moderator only"); // moderator         
+        require(isSecure(jobCryptDashboardModeratorRole, "addJobPosting") || 
+                isSecure(jobCryptCoreRole, "addJobPosting") ||
+                isSecure(jobCryptFactoryRole, "addJobPosting"), "JOBCRYPT_EMPLOYER_DASHBOARD : addJobPosting : 00 - moderator / core / factory only"); // moderator         
         postingOnly(_jobPostingAddress);
         jobPostings.push(_jobPostingAddress);  
         viewableJobPostings.push(_jobPostingAddress);
@@ -120,7 +129,7 @@ contract EmployerDashboard is OpenRolesSecureDerivative, IOpenVersion, IEmployer
     // ======================== INTERNAL ==================================
 
     function postingOnly(address _posting) view internal returns (bool) {
-            require(registry.isDerivativeAddress(_posting) && registry.getDerivativeAddressType(_posting).isEqual(jobPostingType)," jobcrypt postings only");
+        require(registry.isDerivativeAddress(_posting) && registry.getDerivativeAddressType(_posting).isEqual(jobPostingType)," jobcrypt postings only");
         return true; 
     }
 

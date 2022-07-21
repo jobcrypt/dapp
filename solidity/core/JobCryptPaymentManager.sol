@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.15;
 /**
  * @dev  
  */
@@ -11,17 +11,19 @@ import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14
 
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/93764de97d40c04b150f51b92bf2a448f22fbd1f/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRolesManaged.sol";
+
+
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureCore.sol";
-
-
+ 
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
+
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProductCore.sol";
 
-
 import "https://github.com/Block-Star-Logic/open-bank/blob/d4d48357b75030706a7f04e8721ba84ed2be33cc/blockchain_ethereum/solidity/V2/contracts/interfaces/IOpenBank.sol";
+
 
 
 import "../interfaces/IJobPosting.sol";
@@ -33,8 +35,8 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     using LOpenUtilities for string; 
     using LOpenUtilities for address;
 
-    string name                 = "RESERVED_JOBCRYPT_PAYMENT_MANAGER";
-    uint256 version             = 10;
+    string name                 = "RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE";
+    uint256 version             = 23;
 
     IOpenRegister               registry; 
     IOpenProductCore            productManager; 
@@ -44,10 +46,9 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     string bankCA                    = "RESERVED_OPEN_BANK_CORE";
     string registerCA                = "RESERVED_OPEN_REGISTER_CORE";
     
-    string jobcryptCA                = "RESERVED_JOBCRYPT_CORE";
     string roleManagerCA             = "RESERVED_OPEN_ROLES_CORE";
 
-    string stakeErc20CA              = "JOBCRYPT_STAKE_ERC20_CA";
+   
     
     string barredPublicUserRole      = "BARRED_PUBLIC_USER_ROLE";    
     string jobCryptBusinessAdminRole = "JOBCRYPT_BUSINESS_ADMIN_ROLE";    
@@ -55,13 +56,11 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     
     string jobPostingType            = "JOB_POSTING_TYPE";
 
-    string stakeLimitKey             = "STAKE_LIMIT_KEY";
 
-    bool NATIVE_STAKING              = false; 
 
     string [] defaultRoles = [barredPublicUserRole, jobCryptBusinessAdminRole, jobCryptAdminRole];
 
-    address stakeErc20Address; 
+    
 
     mapping(string=>bool) hasDefaultFunctionsByRole;
     mapping(string=>string[]) defaultFunctionsByRole;
@@ -87,11 +86,6 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     mapping(uint256=>Payment) paymentByTxRef; 
     mapping(address=>uint256[]) txRefsByPayer;
 
-    
-    address [] stakedUsers; 
-    mapping(address=>bool) isStakedByAddress; 
-    mapping(address=>uint256) stakeAmountsByAddress; 
-
     mapping(string=>uint256) limitsByName; 
     
     bool bankingActive = false; 
@@ -99,10 +93,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT") {
         registry                = IOpenRegister(_registryAddress);
         productManager          = IOpenProductCore(registry.getAddress(productManagerCA));
-        stakeErc20Address       = registry.getAddress(stakeErc20CA);
-        if(stakeErc20Address == NATIVE_CURRENCY){
-            NATIVE_STAKING = true; 
-        }      
+         
         address bankAddress_    = registry.getAddress(bankCA); 
         
         if(bankAddress_ != address(0)){
@@ -117,9 +108,8 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         addConfigurationItem(address(roleManager));   
         addConfigurationItem(address(productManager));  
         
-        addConfigurationItem(stakeErc20CA, stakeErc20Address, 0);
-        addConfigurationItem(name, self, version);
-        initLimitDefaults();
+ 
+        addConfigurationItem(name, self, version);        
         initDefaultFunctionsForRoles();
     }
     
@@ -142,18 +132,6 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return defaultFunctionsByRole[_role];
     }
 
-    function getStakeErc20Address() override view external returns (address _erc20){
-        return stakeErc20Address; 
-    }
-
-    function getMinimumStakeAmount() override view external returns (uint256 _amount) {
-        return limitsByName[stakeLimitKey];
-    }
-
-    function getStakedAmount() override view external returns(uint256 _stakedAmount) {
-        return stakeAmountsByAddress[msg.sender]; 
-    }
-
     function getPaymentData(uint256 _txRef) override view external returns (Payment memory _payment) {  
         _payment = paymentByTxRef[_txRef];  
         require(msg.sender == _payment.payer || isSecure(jobCryptBusinessAdminRole, "getPaymentData") , " payer or business admin only ");
@@ -166,19 +144,6 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
     function isProductPaidForPosting(address _posting, address _product) view external returns (bool _isPaid){
         return isPaidForProductByAddress[_posting][_product];
-    }
-
-    function stake(uint256 _amount) override payable external returns (bool _staked){
-        require(isSecureBarring(barredPublicUserRole, "stake"), " user barred ");
-        return stakeInternal(msg.sender, _amount); 
-    }
-
-    function isStaked(address _address) override view external returns (bool _staked) {
-        return isStakedByAddress[_address];
-    }
-
-    function unstake() override external returns (uint256 _unstakedAmount) {
-        return unstakeInternal(msg.sender);
     }
 
     function payForPosting(address _postingAddress) override payable external returns (uint256 _txRef){
@@ -277,10 +242,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
         setRoleManager(registry.getAddress(roleManagerCA));
         address bankAddress_    = registry.getAddress(bankCA); 
-        stakeErc20Address       = registry.getAddress(stakeErc20CA); 
-        if(stakeErc20Address == NATIVE_CURRENCY){
-            NATIVE_STAKING = true; 
-        } 
+        
         if(bankAddress_ != address(0)){
             bank = IOpenBank(bankAddress_);
             addConfigurationItem(address(bank));
@@ -291,26 +253,10 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         addConfigurationItem(address(roleManager));   
         addConfigurationItem(address(productManager));
 
-        addConfigurationItem(stakeErc20CA, stakeErc20Address, 0);
+        
         return true; 
     }
 
-
-    function forceUnstake() external returns (uint256 _unstakedUserCount, uint256 _stakedUserCount) {   
-        require(isSecure(jobCryptAdminRole, "forceUnstake")," admin only ");      
-        _stakedUserCount = stakedUsers.length; 
-        for(uint256 x = 0; x < stakedUsers.length; x++) {
-            address stakedUser = stakedUsers[x];
-            unstakeInternal(stakedUser);
-            _unstakedUserCount++;
-        }
-        return (_unstakedUserCount, _stakedUserCount); 
-    }
-
-    function forceUnstakeOwner(address _owner) external returns (uint256 _unstakedAmount) {   
-        require(isSecure(jobCryptAdminRole, "forceUnstakeOwner")," admin only ");      
-        return unstakeInternal(_owner);
-    }
     // ======================================= INTERNAL ===========================
     
     function toAsciiString(address x) pure internal returns (string memory) {
@@ -391,42 +337,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return block.timestamp; 
     }
 
-    function stakeInternal(address _owner, uint256 _amount) internal returns (bool) {        
-        require(!isStakedByAddress[_owner], " already staked ");
-        if(NATIVE_STAKING) {
-            require(msg.value >= _amount, " sent value <-> declared value mis-match "); 
-            require(_amount >= limitsByName[stakeLimitKey], " in sufficient stake ");
-            stakeAmountsByAddress[_owner] = msg.value; 
-          
-        }
-        else {
-            IERC20 erc20 = IERC20(stakeErc20Address);
-            require(erc20.allowance(_owner, self) >= _amount, " insufficient approval ");
-            erc20.transferFrom(_owner, self, _amount);
-            stakeAmountsByAddress[_owner] = _amount; 
-        }
-        stakedUsers.push(_owner);      
-        isStakedByAddress[_owner] = true;
-        return true; 
-    }
-
-    function unstakeInternal(address _owner) internal returns (uint256 _unstakedAmount) {        
-        _unstakedAmount = stakeAmountsByAddress[_owner];
-        if(isStakedByAddress[_owner]){
-            stakeAmountsByAddress[_owner] -= _unstakedAmount; 
-            if(NATIVE_STAKING){
-                address payable leaver = payable(_owner);
-                leaver.transfer(_unstakedAmount);
-            }
-            else {
-                IERC20 erc20_ = IERC20(stakeErc20Address);
-                erc20_.transfer(_owner, _unstakedAmount);
-            }
-            stakedUsers = _owner.remove(stakedUsers);
-            delete isStakedByAddress[_owner];
-        }
-        return _unstakedAmount; 
-    }
+   
     
 
     function processPaymentInternal(address _postingAddress, address _productAddress) internal returns(uint256 _txRef) {
@@ -463,10 +374,6 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
             hasPaidPostingsByOwner[owner_]  = true; 
         } 
         return _txRef; 
-    }
-
-    function initLimitDefaults() internal { 
-        limitsByName[stakeLimitKey] = 1000000000000000000; 
     }
     
     function initDefaultFunctionsForRoles() internal { 

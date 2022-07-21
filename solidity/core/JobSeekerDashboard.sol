@@ -1,14 +1,15 @@
-// SPDX-License-Identifier: APACHE-2.0
-pragma solidity ^0.8.14;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.15;
 
 import "https://github.com/Block-Star-Logic/open-version/blob/e161e8a2133fbeae14c45f1c3985c0a60f9a0e54/blockchain_ethereum/solidity/V1/interfaces/IOpenVersion.sol";
 
-import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
+import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
 
 import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53bd0873076771e90da7d5/blockchain_ethereum/solidity/v2/contracts/core/OpenRolesSecureDerivative.sol";
 
+ 
 import "../interfaces/IJobSeekerDashboard.sol";
 
 contract JobSeekerDashboard is OpenRolesSecureDerivative, IOpenVersion, IJobSeekerDashboard {
@@ -16,7 +17,7 @@ contract JobSeekerDashboard is OpenRolesSecureDerivative, IOpenVersion, IJobSeek
     using LOpenUtilities for address; 
     using LOpenUtilities for string; 
 
-    uint256 version             = 7; 
+    uint256 version             = 11; 
     string name                 = "JOB_SEEKER_DASHBOARD";
 
     string registerCA           = "RESERVED_OPEN_REGISTER_CORE";
@@ -31,8 +32,10 @@ contract JobSeekerDashboard is OpenRolesSecureDerivative, IOpenVersion, IJobSeek
  
     string localViewerRole      = "LOCAL_DASHBOARD_VIEWER_ROLE";
     string localEditorRole      = "LOCAL_DASHBOARD_EDITOR_ROLE";
-    string localDashboardModeratorRole   = "LOCAL_DASHBOARD_MODERATOR_ROLE";
-    string jobcryptAdminRole    = "JOBCRYPT_ADMIN_ROLE";
+    
+    string jobCryptDashboardModeratorRole   = "JOBCRYPT_DASHBOARD_MODERATOR_ROLE";    // mapped to type
+    string jobCryptFactoryRole              = "JOBCRYPT_FACTORY_ROLE";  // mapped to type
+    string jobcryptAdminRole                = "JOBCRYPT_ADMIN_ROLE";  // mapped to type
     
     string dashboardType        = "JOBSEEKER_DASHBOARD_TYPE";
     string jobPostingType       = "JOBCRYPT_JOB_POSTING_TYPE";
@@ -56,18 +59,20 @@ contract JobSeekerDashboard is OpenRolesSecureDerivative, IOpenVersion, IJobSeek
     }
 
     function getAppliedJobs() override view external returns (address [] memory _appliedJobAddresses){
-        require(isSecure(localViewerRole, "getAppliedJobs"), "JC JOBSEEKER DASHBOARD : getAppliedJobs : 00 - Local Viewer Role only"); // job seeker only 
+        require(isSecure(localViewerRole, "getAppliedJobs") ||
+                isSecure(localEditorRole, "getAppliedJobs"), "JC JOBSEEKER DASHBOARD : getAppliedJobs : 00 - Local Viewer Role only"); // job seeker only 
         return viewableAppliedPostings; 
     }
 
     function removeAppliedJob(address _appliedJob) external returns (bool _removed){
-        require(isSecure(localEditorRole, "removeAppliedJob"), "JC JOBSEEKER DASHBOARD : removeAppliedJob : 00 - Local Viewer Role only"); // job seeker only 
+        require(isSecure(localEditorRole, "removeAppliedJob"), "JC JOBSEEKER DASHBOARD : removeAppliedJob : 00 - Local Editor Role only"); // job seeker only 
         viewableAppliedPostings = _appliedJob.remove(viewableAppliedPostings);
         return true; 
     }
 
     function addJobApplication(address _jobPosting) override external returns (bool _added){
-        require(isSecure(localDashboardModeratorRole, "addJobApplication"), "JC JOBSEEKER DASHBOARD : addJobApplication : 00 - local moderator only ");     
+        require(isSecure(jobCryptDashboardModeratorRole, "addJobApplication") ||
+                isSecure(jobCryptFactoryRole, "addJobApplication"), "JC JOBSEEKER DASHBOARD : addJobApplication : 00 - moderator or core only ");     
         postingOnly(_jobPosting);   
         appliedPostings.push(_jobPosting);
         viewableAppliedPostings.push(_jobPosting);
@@ -75,7 +80,7 @@ contract JobSeekerDashboard is OpenRolesSecureDerivative, IOpenVersion, IJobSeek
     }
    
     function getApplicationHistory() view external returns (address [] memory _postingHistory) {
-        require(isSecure(localDashboardModeratorRole, "getApplicationHistory"), "JC EMPLOYER DASHBOARD : getApplicationHistory : 00 - local moderator only "); // employer only  
+        require(isSecure(jobCryptDashboardModeratorRole, "getApplicationHistory"), "JC EMPLOYER DASHBOARD : getApplicationHistory : 00 - moderator only "); // employer only  
         return appliedPostings;    
     }
 
