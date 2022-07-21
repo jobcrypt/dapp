@@ -1,4 +1,5 @@
 const searchResultsSpan = ge("search_results_span");
+const pageRoot = "";
 
 async function configureCoreContracts() {
     var requiredContracts = ["JOBCRYPT_CORE", "STAKE_MANAGER", "OPEN_RANKING"];

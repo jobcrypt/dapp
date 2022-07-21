@@ -1,6 +1,7 @@
 const dashboardMessageSpan = ge("dashboard_message_span");
 const applicantDashboardTable = ge("applicant_dashboard_table");
 var iJobSeekerDashboardContract;
+const pageRoot = ""; 
 
 async function configureCoreContracts() {
     var requiredContracts = ["FACTORY_FACADE", "STAKE_MANAGER"];
@@ -47,6 +48,7 @@ function findAgain() {
 }
 
 function getDashboard() {
+    dashboardMessageSpan.innerHTML = "Creating your Job Search Dashboard please confirm your Wallet Transaction";
     jcFactoryFacadeContract.methods.getDashboard("JOBSEEKER_DASHBOARD_TYPE").send({ from: account })
         .then(function(response) {
             console.log(response); // send dashboard created message; 
@@ -60,11 +62,11 @@ function getDashboard() {
 
 function loadDashboard(dashboardAddress) {
     iJobSeekerDashboardContract = new web3.eth.Contract(iJCJobSeekerDashboardAbi, dashboardAddress);
-    buildAppliantDashboardTable();
+    buildApplicantDashboardTable();
 }
 
 
-function buildAppliantDashboardTable() {
+function buildApplicantDashboardTable() {
     clearTableLeaveHeader(applicantDashboardTable);
     // get all application posts 
     iJobSeekerDashboardContract.methods.getAppliedJobs().call({

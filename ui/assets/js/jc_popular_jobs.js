@@ -37,8 +37,6 @@ function buildPopularJobs(sortableAddress) {
 	});
 }
 
-var pageRoot = "pages/app/";
-
 function buildPopularEntry(iJobPostingContract, cell){
     iJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({
         from: account

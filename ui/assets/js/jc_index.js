@@ -6,6 +6,8 @@ const featuredJobsTitle = document.getElementById("featured_jobs_title");
 const latestJobsTitle = document.getElementById("latest_jobs_title");
 const popularJobsDiv = document.getElementById("popular_jobs_div");
 
+const pageRoot = "pages/app/";
+
 async function configureCoreContracts() { 
 	console.log("configuring contracts");
 	var requiredContracts = ["JOBCRYPT_CORE", "STAKE_MANAGER", "OPEN_RANKING"];
