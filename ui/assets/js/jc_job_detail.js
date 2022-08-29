@@ -79,7 +79,7 @@ function buildCompany() {
         .then(function(response) {
             console.log(response);
             var companySummary = response;
-            url = "https://ipfs.io/ipfs/" + companySummary;
+            url = "https://jobcrypt.infura-ipfs.io/ipfs/" + companySummary;
             console.log(" url: " + url);
             fetch(url)
             .then(function(response) {
@@ -103,7 +103,7 @@ function buildCompany() {
 }
 
 async function fetchFromIPFS(cid, messageSpan) {
-    url = "https://ipfs.io/ipfs/" + cid;
+    url = "https://jobcrypt.infura-ipfs.io/ipfs/" + cid;
     console.log(" url: " + url);
     let response = await fetch(url)
         .then(function(response) {
@@ -243,7 +243,7 @@ function buildJobDescription() {
         .then(function(response) {
             console.log(response);
             var ipfsHash = response;
-            url = "https://ipfs.io/ipfs/" + ipfsHash;
+            url = "https://jobcrypt.infura-ipfs.io/ipfs/" + ipfsHash;
             console.log(" url: " + url);
             fetch(url)
                 .then(function(response) {

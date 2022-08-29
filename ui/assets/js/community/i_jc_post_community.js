@@ -47,8 +47,6 @@ var selectedPostingAddress;
 var selectedERC20Address;
 var selectedPostingFee;
 
-const ipfsRoot = "https://jobcrypt.infura-ipfs.io/ipfs/";
-
 async function configureCoreContracts() {
     var requiredContracts = ["FACTORY_FACADE", "PAYMENT_MANAGER", "STAKE_MANAGER","OPEN_PRODUCT"];
     configureContracts(requiredContracts);
@@ -92,9 +90,7 @@ async function populateProductSelectName(productContract, jobPostingProductSelec
             var name = response;
             
             console.log(productContract.options.address);
-            if(!name.includes("Community") || !name.includes("Community")){
-                populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
-            }
+            populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
         })
         .catch(function(err) {
             console.log(err);
@@ -676,7 +672,7 @@ function postJobToJobCrypt() {
 
 async function fetchDescriptionFromIPFS(cid, quillDescription) {
     if(cid != ""){
-        url = ipfsRoot + cid;
+        url = "https://ipfs.io/ipfs/" + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -698,7 +694,7 @@ async function fetchDescriptionFromIPFS(cid, quillDescription) {
 
 async function fetchCompanySummaryFromIPFS(cid, companySummary) {
     if(cid != ""){
-        url = ipfsRoot + cid;
+        url = "https://ipfs.io/ipfs/" + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -717,7 +713,7 @@ async function fetchCompanySummaryFromIPFS(cid, companySummary) {
 }
 
 async function fetchFromIPFS(cid, messageSpan) {
-    url = ipfsRoot + cid;
+    url = "https://ipfs.io/ipfs/" + cid;
     console.log(" url: " + url);
     let response = await fetch(url)
         .then(function(response) {

@@ -8,8 +8,8 @@
             var jobAddresses = response._activeJobAddresses;
 
             console.log(jobAddresses);
-
-            buildLatestJobs(trimZeroAddresses(jobAddresses), latestJobsView);
+            latestJobsView.innerHTML = ""; // clear out 
+            buildLatestJobs(trimZeroAddresses(jobAddresses));
         })
         .catch(function(err){
             console.log(err);
@@ -31,7 +31,7 @@
         return a; 
     }
 
-    function buildLatestJobs(postingAddresses, latestJobsView) {
+    function buildLatestJobs(postingAddresses) {
 
         console.log(postingAddresses);
         console.log("building jobs count: " + postingAddresses.length);
@@ -82,34 +82,34 @@
          var postingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
  
          postingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
-             .then(function(response) {
-                 console.log("building title");
-                 console.log(response);
-                 var title = response;
-                 var titleText = document.createTextNode(title);
-                 jobTitle.appendChild(titleText);
-             })
-             .catch(function(err){
-                 console.log(err);
-             });
+        .then(function(response) {
+            console.log("building title");
+            console.log(response);
+            var title = response;
+            var titleText = document.createTextNode(title);
+            jobTitle.appendChild(titleText);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
  
          postingContract.methods.getFeatureSTR('COMPANY_NAME').call({ from: account })
-             .then(function(response) {
-                 console.log(response);
-                 var companyName = response;
-                 postingContract.methods.getFeatureSTR('COMPANY_LINK').call({ from: account })
-                     .then(function(response) {
-                         console.log(response);
-                         var companyLink = response;
-                         var cLink = createLink(companyLink, companyName);
-                         cLink.setAttribute("style", "color: cadetblue;");
-                         cLink.setAttribute("target", "_blank");
-                         hiringCompany.appendChild(cLink);
-                     })
-             })
-             .catch(function(err){
-                 console.log(err);
-             });
+        .then(function(response) {
+            console.log(response);
+            var companyName = response;
+            postingContract.methods.getFeatureSTR('COMPANY_LINK').call({ from: account })
+                .then(function(response) {
+                    console.log(response);
+                    var companyLink = response;
+                    var cLink = createLink(companyLink, companyName);
+                    cLink.setAttribute("style", "color: cadetblue;");
+                    cLink.setAttribute("target", "_blank");
+                    hiringCompany.appendChild(cLink);
+                })
+        })
+        .catch(function(err){
+            console.log(err);
+        });
  
  
          postingContract.methods.getFeatureSTR('JOB_WORK_TYPE').call({ from: account })

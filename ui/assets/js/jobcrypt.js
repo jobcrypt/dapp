@@ -11,10 +11,12 @@ var jcFactoryFacadeAddress;
 var jcStakeManagerAddress; 
 var openProductCoreAddress;
 
-const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
-const wethfaucetButtonSpan = ge("weth_faucet_button_span");
+// const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
+// const wethfaucetButtonSpan = ge("weth_faucet_button_span");
 //
-const openRegisterAddress = "0x4d7AC8C6602083F1f9b56fe6B4fb0BCD2C44eC41";
+// const openRegisterAddress = "0x4d7AC8C6602083F1f9b56fe6B4fb0BCD2C44eC41";
+
+const openRegisterAddress = "0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
 async function configureContracts(requiredContracts) {
@@ -114,13 +116,13 @@ async function configureContracts(requiredContracts) {
                 console.log(err);
             });
     }
-
+/*    
     if(requiredContracts.includes("STAKE_MANAGER")){
-         // REMOVE FOR LIVE
-        console.log("loading faucet");
-        loadFaucet();
+        // REMOVE FOR LIVE
+        // console.log("loading faucet");
+        // loadFaucet();
     }
-    
+*/  
 }
 
 const stakeApproveSpan = ge("stake_approve_span");
@@ -215,12 +217,6 @@ async function getStakedAmount() {
     });
 }
 
-
-
-
-
-
-
 async function approveStake() { 
     
     jcStakeManagerContract.methods.getStakeErc20Address().call({from : account}) 
@@ -270,6 +266,7 @@ async function unstake() {
 }
 
 // REMOVE FOR LIVE
+/*
 const testUSDCAddress = "0x41bDACc871Cbc8f3C9B410a868101dcE1BADcf33";
 const testWETHAddress = "0xa17D2895778ff13397DE6D37aBa44B0a34F0BB7E";
 
@@ -356,8 +353,11 @@ async function reloadFaucetFundsWETH() {
         });
 }
 
-
+*/
 // END REMOVE FOR LIVE
+
+
+
 
 function ce(element) {
     return document.createElement(element);
@@ -372,7 +372,7 @@ function ge(id){
 }
 
 function formatCurrency(number) {
-    return number / 1e18; 
+    return number / 1e6; 
 }
 
 function getContract(abi, address) {
