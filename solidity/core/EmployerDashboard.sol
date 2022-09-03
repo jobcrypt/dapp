@@ -9,7 +9,7 @@ import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
 
 import "https://github.com/Block-Star-Logic/open-register/blob/7b680903d8bb0443b9626a137e30a4d6bb1f6e43/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
-
+ 
 import "../interfaces/IJobPosting.sol";
 import "../interfaces/IEmployerDashboard.sol";
 

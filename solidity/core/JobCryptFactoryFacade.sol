@@ -21,7 +21,7 @@ contract JobCryptFactoryFacade is IJobCryptFactoryFacade, OpenRolesSecureCore, I
 
     using LOpenUtilities for string;
 
-    uint256 private version             = 6; 
+    uint256 private version             = 7; 
 
     string private name                 = "RESERVED_JOBCRYPT_FACTORY_FACADE_CORE"; 
 
@@ -38,7 +38,7 @@ contract JobCryptFactoryFacade is IJobCryptFactoryFacade, OpenRolesSecureCore, I
     string jobSeekerDashboardType       = "JOBSEEKER_DASHBOARD_TYPE";
     string employerDashboardType        = "EMPLOYER_DASHBOARD_TYPE";
     string jobPostingType               = "JOBCRYPT_JOB_POSTING_TYPE";
-    string openProductType              = "PRODUCT_TYPE";
+    string openProductType              = "OPEN_PRODUCT_TYPE";
 
 
     string [] roleNames                 = [jobCryptAdminRole, jobCryptCoreRole, barredPublicUserRole]; 

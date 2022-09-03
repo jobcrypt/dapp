@@ -12,7 +12,7 @@ import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea5
 import "https://github.com/Block-Star-Logic/open-roles/blob/fc410fe170ac2d608ea53e3760c8691e3c5b550e/blockchain_ethereum/solidity/v2/contracts/interfaces/IOpenRoles.sol";
 
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
-
+ 
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 import "https://github.com/Block-Star-Logic/open-search/blob/49ada720eee8ef5feccdaa29481bcbbe04576e2c/blockchain_ethereum/solidity/V1/interfaces/IOpenSearch.sol";
@@ -39,7 +39,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
     using LOpenUtilities for address; 
     using LOpenUtilities for address[];
 
-    uint256 private version = 39; 
+    uint256 private version = 41; 
 
     string private name                 = "RESERVED_JOBCRYPT_CORE";    
 
@@ -380,23 +380,29 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
             _jobs = new address[](_list.length-_start);       
             for(uint256 x = _start; x < _list.length; x++){
                 address p_ = _list[x];
-                IJobPosting posting_ = IJobPosting(p_);
-                if(!isExpired(p_) && (posting_.getStatus() == IJobPosting.PostStatus.POSTED || posting_.getStatus() == IJobPosting.PostStatus.EXTENDED )) {
-                    _jobs[x] = p_; 
-                }                 
-                else { 
-                    _jobs[x] = address(0);
-                }                                     
+                _jobs[x] = getCheckedJob(p_);                 
             }
         return _jobs; 
+    }
+
+    function getCheckedJob(address _p) view internal returns (address _checked) {
+        IJobPosting posting_ = IJobPosting(_p);     
+        if(isExpired(_p)){
+            return address(0);
+        } 
+        if(posting_.getStatus() == IJobPosting.PostStatus.POSTED || posting_.getStatus() == IJobPosting.PostStatus.EXTENDED){
+            return _p; 
+        } 
+        return address(0);       
     }
 
     function getJobsInternal(address [] memory _list, uint256 _limit) view internal returns (address [] memory _jobs) {
         _jobs = new address[](_list.length);        
         uint256 y = 0; 
         for(uint256 x = 0; x < _list.length; x++) {
-            if(!isExpired(_list[x])) {
-                _jobs[y] = _list[x];
+            address checked_ = getCheckedJob(_list[x]);
+            if(checked_ != address(0)) {
+                _jobs[y] = checked_;
                 y++;
                 if(y >= _limit) {
                     break; 
@@ -521,7 +527,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         _activeJobAddresses = new address[](pageLimit_);
         uint256 y = 0; 
         for(uint256 x = startIndex; x < activeJobs.length; x++) {
-            _activeJobAddresses[y] = activeJobs[x];
+            _activeJobAddresses[y] = getCheckedJob(activeJobs[x]);
             y++;
             if(y >= pageLimit_){
                 break; 

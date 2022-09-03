@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: UNLICENSED
-
 pragma solidity ^0.8.15;
 /**
  * @dev IOpenRanking is about ranking addresses of interest. 

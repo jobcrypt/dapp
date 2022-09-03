@@ -38,8 +38,11 @@
 
         for (var x = postingAddresses.length-1; x >=0 ; x--) {
             console.log(" x is "+ x);
+
             var postingAddress = postingAddresses[x];
-            processRow(postingAddress);
+            if(postingAddress != "0x9E15D0fFd6eBBf750eC96f2BD8a0e335A0Eb5490"){
+                processRow(postingAddress);
+            }
         }
     }
 

@@ -21,7 +21,7 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
     using LOpenUtilities for address;
 
     string name                      = "RESERVED_JOBCRYPT_STAKE_MANAGER_CORE";
-    uint256 version                  = 2;
+    uint256 version                  = 3;
 
     IOpenRegister               registry; 
     
@@ -198,7 +198,7 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
 
 
     function initLimitDefaults() internal { 
-        limitsByName[stakeLimitKey] = 1000000000000000000; 
+        limitsByName[stakeLimitKey] = 1000000; 
     }
     
     function initDefaultFunctionsForRoles() internal { 

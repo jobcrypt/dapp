@@ -17,14 +17,12 @@ import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53
  
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
-
-import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
-
 import "https://github.com/Block-Star-Logic/open-product/blob/b373f7f6ec11876bdd0aad863e0a80d6bbdef9d9/blockchain_ethereum/solidity/V1/interfaces/IOpenProductCore.sol";
 
 import "https://github.com/Block-Star-Logic/open-bank/blob/d4d48357b75030706a7f04e8721ba84ed2be33cc/blockchain_ethereum/solidity/V2/contracts/interfaces/IOpenBank.sol";
 
-
+import "../../../../Block-Star-Logic/open-product/blockchain_ethereum/solidity/V1/interfaces/IOpenProduct.sol";
+import "../../../../Block-Star-Logic/open-product/blockchain_ethereum/solidity/V1/interfaces/IOpenProductList.sol";
 
 import "../interfaces/IJobPosting.sol";
 import "../interfaces/IJobCryptPaymentManager.sol";
@@ -36,7 +34,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     using LOpenUtilities for address;
 
     string name                 = "RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE";
-    uint256 version             = 23;
+    uint256 version             = 27;
 
     IOpenRegister               registry; 
     IOpenProductCore            productManager; 
@@ -61,12 +59,11 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     string [] defaultRoles = [barredPublicUserRole, jobCryptBusinessAdminRole, jobCryptAdminRole];
 
     
-
     mapping(string=>bool) hasDefaultFunctionsByRole;
     mapping(string=>string[]) defaultFunctionsByRole;
 
     address NATIVE_CURRENCY = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
-    address private SAFE_HARBOUR = 0x0405A007Cf9Ef3D05E3C44058dD0A742ce1DE97C;
+    address payable private SAFE_HARBOUR = payable(0x6A4D96AAA567771e4fB64EE26170f403dCDb3aa8);
     
     mapping(address=>bool) hasPaidPostingsByOwner; 
     mapping(address=>address[]) paidPostingsByOwner; 
@@ -89,6 +86,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     mapping(string=>uint256) limitsByName; 
     
     bool bankingActive = false; 
+    bool shutdown      = false; 
 
     constructor(address _registryAddress) OpenRolesSecureCore("JOBCRYPT") {
         registry                = IOpenRegister(_registryAddress);
@@ -147,6 +145,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     }
 
     function payForPosting(address _postingAddress) override payable external returns (uint256 _txRef){
+        require(!shutdown, " system shutdown ");
         require(isSecureBarring(barredPublicUserRole, "payForPosting"),"JCPM 00 - user barred.");        
         require(!isPaidPostingByAddress[_postingAddress], " posting already paid for ");
         
@@ -167,6 +166,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
     }
 
     function payForProductForPosting(address _postingAddress, address _productAddress) override payable external returns (uint256 _txRef){
+        require(!shutdown, " system shutdown ");
         require(isSecureBarring(barredPublicUserRole, "payForProductForPosting"),"JCPM 00 - user barred.");        
         return processPaymentInternal(_postingAddress, _productAddress); 
     }
@@ -194,6 +194,11 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return paidPostingList;
     }
 
+
+    function safeWithdrawNative() external returns (bool withdrawn) {
+        require(isSecure(jobCryptBusinessAdminRole, "safeWithdrawNative")," biz admin only ");
+        return safeHarbourTransferNative();
+    }
    
     function safeWithdraw(address _erc20Address) external returns (bool withdrawn) {
         require(isSecure(jobCryptBusinessAdminRole, "safeWithdraw")," biz admin only ");
@@ -229,6 +234,13 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return true; 
     }
 
+    function activateBanking() external returns (bool _bankingActivated) {
+        require(isSecure(jobCryptAdminRole, "activateBanking")," admin only ");
+        require(address(bank) != address(0), " no bank set ");
+        bankingActive = true; 
+        return bankingActive; 
+    }
+
     function deactivateBanking() external returns (bool _bankingDeactivated){
         require(isSecure(jobCryptAdminRole, "deactivateBanking")," admin only ");
         bankingActive = false; 
@@ -246,7 +258,6 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         if(bankAddress_ != address(0)){
             bank = IOpenBank(bankAddress_);
             addConfigurationItem(address(bank));
-            bankingActive = true; 
         }
 
         addConfigurationItem(address(registry));   
@@ -255,6 +266,12 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
         
         return true; 
+    }
+
+    function shutdownPayaments() external returns (bool _shutdown) {
+        require(isSecure(jobCryptAdminRole, "shutdownPayaments")," admin only ");
+        shutdown = true; 
+        return shutdown; 
     }
 
     // ======================================= INTERNAL ===========================
@@ -283,14 +300,19 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         IERC20 erc20_ = IERC20(_erc20);
         uint256 balance_ = erc20_.balanceOf(self);
         if(balance_ > 0){
-            erc20_.transferFrom(self, SAFE_HARBOUR, balance_);
+            erc20_.transfer(SAFE_HARBOUR, balance_);
             return true; 
         }
         return false; 
     }
     
-    
-    // @withdraw mehod 
+    function safeHarbourTransferNative() internal returns (bool ) {
+        uint256 balance_ = self.balance;
+        SAFE_HARBOUR.transfer(balance_);
+        return true;  
+    }
+
+    // @withdraw method 
     function makeBankPayment(address _erc20Address, uint256 _fee, string memory _reference) internal returns (uint256 _txRef) {
         if(_erc20Address == NATIVE_CURRENCY) {
             require(msg.value >= _fee, " invalid amount transmitted ");                       
@@ -316,14 +338,16 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
 
     function recievePayment(address _erc20Address, uint256 _fee) internal returns (uint256 _txRef) {
         if(_erc20Address == NATIVE_CURRENCY) {
-            require(msg.value >= _fee, " invalid amount transmitted ");                               
+            require(msg.value >= _fee, " invalid amount transmitted ");  
+            safeHarbourTransferNative();    
         }
         else {             
         
             IERC20 erc20_ = IERC20(_erc20Address);
             require(erc20_.allowance(msg.sender, self) >= _fee, " insufficient ERC20 approval ");
             require(erc20_.balanceOf(msg.sender) >= _fee, " insufficient balance ");            
-            erc20_.transferFrom(msg.sender, self, _fee);            
+            erc20_.transferFrom(msg.sender, self, _fee);   
+            safeHarbourTransfer(_erc20Address);         
         }
        
         if(!knownByERC20Address[_erc20Address]){
@@ -337,25 +361,35 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         return block.timestamp; 
     }
 
-   
-    
-
     function processPaymentInternal(address _postingAddress, address _productAddress) internal returns(uint256 _txRef) {
          
         require(productManager.isVerified(_productAddress), " JCPM 01 unknown product ");
-        
+
         IOpenProduct product_ = IOpenProduct(_productAddress);
-        uint256 fee_ = product_.getPrice(); 
-        address erc20Address_ = product_.getErc20();
+
+        if(product_.hasFeature("PURCHASE_PERMISSIONS_LIST")){
+            IOpenProductList list_ = IOpenProductList(product_.getFeatureADDRESSValue("PURCHASE_PERMISSIONS_LIST"));
+            if(list_.getListType().isEqual("ALLOW")) {
+                require(list_.isOnList(msg.sender), "purchase not allowed");
+            }
+            if(list_.getListType().isEqual("BAR")) {
+                require(!list_.isOnList(msg.sender), "purchase barred");
+            }
+        }
+
+        uint256 fee_             = product_.getPrice(); 
+        address erc20Address_    = product_.getErc20();
         string memory reference_ = string("JOB POSTING PRODUCT : ").append(product_.getName()).append(" : ").append(toAsciiString(_postingAddress));
+       
         if(bankingActive){
             _txRef = makeBankPayment(erc20Address_, fee_, reference_);
         }
         else { 
             _txRef = recievePayment(erc20Address_, fee_);
         }
-        IJobPosting posting_ = IJobPosting(_postingAddress);
-        address owner_ = posting_.getFeatureADDRESS("OWNER_FEATURE");
+
+        IJobPosting posting_    = IJobPosting(_postingAddress);
+        address owner_          = posting_.getFeatureADDRESS("OWNER_FEATURE");
         Payment memory payment_ = Payment({
                                     payer : owner_, 
                                     posting : _postingAddress,
@@ -365,7 +399,7 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
                                     ref : reference_,
                                     date : block.timestamp
                                     });
-        paymentByTxRef[_txRef] = payment_; 
+        paymentByTxRef[_txRef]  = payment_; 
         txRefs.push(_txRef);
 
         isPaidForProductByAddress[_postingAddress][_productAddress] = true; 
@@ -380,24 +414,24 @@ contract JobCryptPaymentManager is OpenRolesSecureCore, IOpenVersion, IOpenRoles
         hasDefaultFunctionsByRole[barredPublicUserRole] = true; 
         hasDefaultFunctionsByRole[jobCryptAdminRole]    = true; 
         hasDefaultFunctionsByRole[jobCryptBusinessAdminRole] = true; 
-     
-     
+          
         defaultFunctionsByRole[jobCryptAdminRole].push("payForPosting");
         defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstake");
         defaultFunctionsByRole[jobCryptAdminRole].push("forceUnstakeOwner");
         defaultFunctionsByRole[jobCryptAdminRole].push("notifyChangeOfAddress");
+        defaultFunctionsByRole[jobCryptAdminRole].push("activateBanking");
         defaultFunctionsByRole[jobCryptAdminRole].push("deactivateBanking");
+        defaultFunctionsByRole[jobCryptAdminRole].push("shutdownPayaments");
         defaultFunctionsByRole[jobCryptAdminRole].push("setLimit");
 
-
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("safeWithdraw");
+        defaultFunctionsByRole[jobCryptBusinessAdminRole].push("safeWithdrawNative");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("withdraw");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getAllPaidPostings");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentRefs");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentTxRefs");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaidPostings");
         defaultFunctionsByRole[jobCryptBusinessAdminRole].push("getPaymentData");
-
 
         defaultFunctionsByRole[barredPublicUserRole].push("payForPosting");
         defaultFunctionsByRole[barredPublicUserRole].push("payForProductForPosting");
