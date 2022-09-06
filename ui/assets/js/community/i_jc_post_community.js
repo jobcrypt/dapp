@@ -19,43 +19,45 @@ buyJobPostingButton.addEventListener('click', buyPosting);
 const postJobButton = ge("post_job_button");
 postJobButton.addEventListener('click', postJobToJobCrypt);
 
-const jobPostingCreateDisplay = ge("job_posting_create_display");
+const jobPostingCreateDisplay           = ge("job_posting_create_display");
 
-const jobPostingEdittDisplay = ge("job_posting_edit_display");
+const jobPostingEdittDisplay            = ge("job_posting_edit_display");
 
-const jobPostingPaytDisplay = ge("job_posting_pay_display");
+const jobPostingPaytDisplay             = ge("job_posting_pay_display");
 
-const jobPostingSaveDisplay = ge("job_posting_save_display");
+const jobPostingSaveDisplay             = ge("job_posting_save_display");
 
-const jobPostingPostDisplay = ge("job_posting_post_display");
+const jobPostingPostDisplay             = ge("job_posting_post_display");
 
-const jobPostingProductSelect = ge("job_posting_product_select");
+const jobPostingProductSelect           = ge("job_posting_product_select");
 
-const jobPostingPaymentCurrencySelect = ge("job_posting_payment_currency_select");
+const jobPostingPaymentCurrencySelect   = ge("job_posting_payment_currency_select");
 
-const jobPostingDraftSelect = ge("edit_draft_job_posting_select");
+const jobPostingDraftSelect             = ge("edit_draft_job_posting_select");
 
-const jobPostingDuration = ge("job_posting_duration_view");
+const jobPostingDuration                = ge("job_posting_duration_view");
 
-const jobPostingFee = ge("job_posting_fee_view");
+const jobPostingFee                     = ge("job_posting_fee_view");
 
-const jobPostingCurrency = ge("job_posting_currency_view");
+const jobPostingCurrency                = ge("job_posting_currency_view");
 
-const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_view");
+const jobPostingCurrencyErc20Address    = ge("job_posting_currency_erc20_address_view");
+
+const saveBeforePostCheckbox            = ge("save_before_post_checkbox");
 
 var selectedPostingAddress;
 var selectedERC20Address;
 var selectedPostingFee;
 
 async function configureCoreContracts() {
-    var requiredContracts = ["FACTORY_FACADE", "PAYMENT_MANAGER", "STAKE_MANAGER","OPEN_PRODUCT"];
+    var requiredContracts = ["FACTORY_FACADE", "PAYMENT_MANAGER", "STAKE_MANAGER", "OPEN_PRODUCT"];
     configureContracts(requiredContracts);
 }
 
 function loadPageData() {
     loadProducts();
     updateDraftListings();
-    getStakeStatus();   
+    getStakeStatus();
 }
 
 async function loadProducts() {
@@ -88,7 +90,7 @@ async function populateProductSelectName(productContract, jobPostingProductSelec
         .then(function(response) {
             console.log(response);
             var name = response;
-            
+
             console.log(productContract.options.address);
             populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
         })
@@ -154,26 +156,25 @@ var n = new String("CLOSED").valueOf();
 async function updateDraftListings() {
     clearSelect(jobPostingDraftSelect);
     // update from factory
-    jcFactoryFacadeContract.methods.findDashboard("EMPLOYER_DASHBOARD_TYPE").call({ from : account})
-    .then(function(response){
-        console.log(response);
-        if(response === '0x0000000000000000000000000000000000000000') {
-            jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({from : account})
-            .then(function(response){
-                console.log(response);
+    jcFactoryFacadeContract.methods.findDashboard("EMPLOYER_DASHBOARD_TYPE").call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            if (response === '0x0000000000000000000000000000000000000000') {
+                jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({ from: account })
+                    .then(function(response) {
+                        console.log(response);
+                        loadFromEmployerDashboard(response);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            } else {
                 loadFromEmployerDashboard(response);
-            })
-            .catch(function(err){
-                console.log(err);
-            });
-        }
-        else { 
-            loadFromEmployerDashboard(response);
-        }
-    })
-    .catch(function(err){
-        console.log(err);
-    });
+            }
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 
 
 }
@@ -181,7 +182,7 @@ async function updateDraftListings() {
 function loadFromEmployerDashboard(employerDashboardAddress) {
     console.log("employer dashobard address: " + employerDashboardAddress);
     var employerDashboardContract = getContract(iJCEmployerDashboardAbi, employerDashboardAddress);
-    
+
     employerDashboardContract.methods.getDraftPostings().call({ from: account })
         .then(function(response) {
             console.log(response);
@@ -443,7 +444,6 @@ function updatePaymentBox(productAddress, postingAddress) {
         .catch(function(err) {
             console.log(err);
         })
-
 }
 
 function getErc20(productContract) {
@@ -554,7 +554,7 @@ async function saveJob() {
                 .then(function(res) {
                     console.log(res);
                     companySummaryHash = res[0].hash;
-                    jobJSON.companySummaryHash = companySummaryHash; 
+                    jobJSON.companySummaryHash = companySummaryHash;
                     console.log("company hash : " + companySummaryHash);
                     saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
                 })
@@ -589,7 +589,7 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     postingEditorContract.methods.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash;
+            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " + companySummaryHash + "IPFS JOB DESCRIPTION :: " + jobDescriptionHash;
         })
         .catch(function(err) {
             console.log(err);
@@ -654,7 +654,9 @@ function toJSONStringArray(str) {
 
 function postJobToJobCrypt() {
     console.log("posting job");
-    saveJob();
+    if(saveBeforePostCheckbox.checked == true){
+        saveJob();
+    }
     console.log("posting");
     console.log(jcJobCryptContract);
     console.log(selectedPostingAddress);
@@ -669,10 +671,11 @@ function postJobToJobCrypt() {
         });
 }
 
+const ipfsRoot = "https://jobcrypt.infura-ipfs.io/ipfs/";
 
 async function fetchDescriptionFromIPFS(cid, quillDescription) {
-    if(cid != ""){
-        url = "https://ipfs.io/ipfs/" + cid;
+    if (cid != "") {
+        url = ipfsRoot + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -693,8 +696,8 @@ async function fetchDescriptionFromIPFS(cid, quillDescription) {
 }
 
 async function fetchCompanySummaryFromIPFS(cid, companySummary) {
-    if(cid != ""){
-        url = "https://ipfs.io/ipfs/" + cid;
+    if (cid != "") {
+        url = ipfsRoot + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -703,7 +706,7 @@ async function fetchCompanySummaryFromIPFS(cid, companySummary) {
                 return response.text();
             })
             .then(function(text) {
-               companySummary.value = text; 
+                companySummary.value = text;
             })
             .catch(function(err) {
                 console.log(err);
@@ -713,7 +716,7 @@ async function fetchCompanySummaryFromIPFS(cid, companySummary) {
 }
 
 async function fetchFromIPFS(cid, messageSpan) {
-    url = "https://ipfs.io/ipfs/" + cid;
+    url = ipfsRoot + cid;
     console.log(" url: " + url);
     let response = await fetch(url)
         .then(function(response) {

@@ -383,14 +383,20 @@
                     <div class="ui-component-card " style="text-align: center; ">
 
                         <h2>Post your job</h2><br> 
-                        NOTE: Approval of two transactions required, first to save latest changes to your job second to post your job to JobCrypt
                         
                         <span id="job_posting_post_display"></span>
                         <center>
                             <table>
                                 <tr>
                                     <td>
+                                        Save before Posting: <input type="checkbox" id="save_before_post_checkbox">
+                                    <td>
                                         <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post ">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <small><br/>Note: Save before posting will trigger a second more expensive transaction</small>
                                     </td>
                                 </tr>
                             </table>

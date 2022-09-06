@@ -30,30 +30,40 @@ function addFeaturedJob(postingAddress) {
     .then(function(response){
         console.log(response);
         var jobTitle = response; 
-        var jobDetailLinkDestination = "/pages/app/job_detail_template.html?postingAddress=" + postingAddress;
-        jcJobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({from : account})
-        .then(function(response){
-            console.log(response);
-                var companyName = response; 
-            jcJobPostingContract.methods.getFeatureSTR("COMPANY_LINK").call({from : account})
-            .then(function(response){
-                console.log(response);
-                var companyWeb = response; 
-                buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, companyWeb);
-            })
-            .catch(function(err){
-                console.log(err);
-            });
-
-        })
-        .catch(function(err){
-            console.log(err);
-        });
+        getCompanyName(jobTitle, postingAddress);
     })
     .catch(function(err){
         console.log(err);
     });        
 
+}
+
+function getCompanyName(jobTitle, postingAddress) {
+    console.log("featured posting address " + postingAddress);
+    var jobDetailLinkDestination = "/pages/app/job_detail_template.html?postingAddress=" + postingAddress;
+  
+    var jcJobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
+    jcJobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({from : account})
+    .then(function(response){
+        console.log(response);
+            var companyName = response; 
+            getCompanyLink(jobTitle, companyName, jobDetailLinkDestination, jcJobPostingContract)
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
+function getCompanyLink(jobTitle, companyName, jobDetailLinkDestination, jcJobPostingContract) {
+    jcJobPostingContract.methods.getFeatureSTR("COMPANY_LINK").call({from : account})
+    .then(function(response){
+        console.log(response);
+        var companyWeb = response; 
+        buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, companyWeb);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
 }
 
 function buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, companyWeb) {
@@ -72,7 +82,11 @@ function buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, compa
     cell = rowCompany.insertCell();
     cell.setAttribute("style", "text-align: center;");
 
-    var companyLink = createLink(companyWeb, companyName);
+   // var companyLink = createLink(companyWeb, companyName);
+    console.log("FEATURED: " + companyName);
+    var companyLink = ce("a");
+    companyLink.append(document.createTextNode(companyName));
+    companyLink.setAttribute("href", companyWeb);
     companyLink.setAttribute("style", "color: cadetblue;");
     companyLink.setAttribute("target", "_blank");
     var br = document.createElement("br");    

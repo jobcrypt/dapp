@@ -40,9 +40,9 @@
             console.log(" x is "+ x);
 
             var postingAddress = postingAddresses[x];
-            if(postingAddress != "0x9E15D0fFd6eBBf750eC96f2BD8a0e335A0Eb5490"){
+            //if(postingAddress != "0x9E15D0fFd6eBBf750eC96f2BD8a0e335A0Eb5490"){
                 processRow(postingAddress);
-            }
+            //}
         }
     }
 
