@@ -65,7 +65,7 @@
                 </a>
                 <!-- MENU -->
                 <a href=".../../../../index.html"> <button type="submit" class="ui-component-button ui-component-button-medium ui-component-button-primary">Search Jobs</button> </a>
-                <a href="https://www.twitter.com/JobCrypt" role="link " aria-label="# ">
+                <a href="https://www.twitter.com/JobCrypt" target="_blank" role="link " aria-label="# ">
                     <svg viewBox="0 0 24 24 " height="18 " width="18 " fill="none " stroke="#353535 " stroke-linecap="round " stroke-linejoin="round " stroke-width="2 " role="img " aria-label="# ">
                         <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z "/>
                     </svg>
@@ -86,39 +86,52 @@
                     </svg>
                 </a>       
                 <table>
-                    <tr><td><a href="https://youtu.be/hID7InXDJQE" target="_blank"><i class="fab fa-youtube-square"></i>&nbsp;How to post a Job on JobCrypt</a></td></tr>
                     <tr>
-                        <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank"><i class="fa fa-info-circle" title="Network Connect Details" ></i></a>&nbsp; <a id="connect_web_3">Connect Web 3</a></td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span>                                                                      
+                        <td>
+                            <table>
+                                <tr>                        
+                                    <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank"><i class="fab fa-youtube-square"></i></td>
+                                    <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank">&nbsp; How to use JobCrypt</a></td>                        
+                                </tr>                    
+                                <tr>
+                                    <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank"><i class="fa fa-info-circle" title="Network Connect Details" ></i></a></td>
+                                    <td><a id="connect_web_3" class="ui-component-button ui-component-button-small ui-component-button-primary ">Connect Web 3</a></td>                        
+                                </tr>               
+                                <tr>
+                                    <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td align="center ">
                             <div class="ui-component-card ">
                                 <h6>Select Dashboard</h6>
-                                <table>
+                                <table> 
+                                    <tr> 
+                                        <td>Need Crypto?</td>
+                                        <td><a href="https://www.moonpay.com/buy" target="_blank" class="ui-component-button ui-component-button-small ui-component-button-primary"> Get Some Here</a></td>
+                                    </tr>                                   
                                     <tr>
                                         <td>                                           
                                                 <span id="stake_approve_span"></span> 
-                                        </td>
-                                        <td>
+                                           </td>
+                                           <td>
                                                 <span id="stake_button_span"></span>                                                
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <a href="../employer/employer_dashboard.html">Employer</a> </td>
+                                            <a href="../employer/employer_dashboard.html ">Employer</a> </td>
                                         <td>
-                                            <a href="../jobseeker/job_seeker_dashboard.html"> | Job Seeker
-                                                </a></td>
-                                    </tr>
+                                            <a href="../jobseeker/job_seeker_dashboard.html "> | Job Seeker</a>
+                                        </td>
+                                    </tr>                                    
                                 </table>
                             </div>
                         </td>
                     </tr>
+          
                 </table>
             </div>
         </div>
@@ -134,7 +147,8 @@
 
                     <div class="ui-component-card ">
                         <center>
-                        <h3>Create draft Job Posting</h3>
+                            <h4>Step 1</h4><br/>
+                        <h2>Create draft Job Posting</h2>
                         <table> 
                             <tr> 
                                 <td><span id="job_posting_create_display"></span></td>
@@ -175,7 +189,8 @@
             <div class="ui-layout-container ">
                 <div class="ui-layout-column-10 ui-layout-column-center ">
                     <div class="ui-component-card ">
-                        <h3>Select Draft Job Posting To Edit</h3>
+                        <h4>Step 2</h4><br/>
+                        <h2>Select Draft Job Posting To Edit</h2>
                         <span id="job_posting_edit_display"></span>
                         <center>
                         <table style="text-align: center; ">
@@ -203,7 +218,7 @@
                 <div class="ui-layout-column-10 ui-layout-column-center ">
 
                     <div class="ui-component-card " style="text-align: center; ">
-
+                        <h4>Step 3</h4><br/>
                         <h2>Enter Job Posting Details</h2>
                         <span id="job_posting_save_display"></span>
                         <table style="text-align: left; ">
@@ -322,7 +337,8 @@
                 <div class="ui-layout-column-10 ui-layout-column-center ">
 
                     <div class="ui-component-card ">
-                        <h3>Pay for Job Posting</h3>
+                        <h4>Step 4</h4><br/>
+                        <h2>Pay for Job Posting</h2>
                         <center>
                         <table>
                             <tr> 
@@ -382,7 +398,7 @@
                 <div class="ui-layout-column-10 ui-layout-column-center ">
 
                     <div class="ui-component-card " style="text-align: center; ">
-
+                        <h4>Step 5</h4><br/>
                         <h2>Post your job</h2><br> 
                         NOTE: Approval of two transactions required, first to save latest changes to your job second to post your job to JobCrypt
                         

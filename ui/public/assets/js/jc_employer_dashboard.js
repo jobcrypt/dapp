@@ -71,10 +71,14 @@ function buildEmployerDashboardTable(iEmployerDashboardContract) {
         .then(function(response) {
             console.log(response);
             var postingAddresses = response;
-            
-            for (var x = 0; x < postingAddresses.length; x++) {
-                var postingAddress = postingAddresses[x];
-                buildPostingTableRow(postingAddress);
+            if(postingAddress.length > 0){
+                for (var x = 0; x < postingAddresses.length; x++) {
+                    var postingAddress = postingAddresses[x];
+                    buildPostingTableRow(postingAddress);
+                }
+            }
+            else{ 
+                employerDashboardMessage.innerHTML = "You have no postings"; 
             }
         })
         .catch(function(err) {

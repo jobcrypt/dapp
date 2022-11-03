@@ -121,7 +121,7 @@ async function populateProductSelectCurrency(productContract, name, price, jobPo
             console.log(response);
             var currency = response;
             var option = document.createElement("option");
-            var optionTxt = name + " - " + formatPrice(price) + " (" + currency + ")";
+            var optionTxt = name + " - " + formatPrice(price*0.8) + " (ex VAT) [" +formatPrice(price*0.2) + " VAT] You pay: " +  formatPrice(price) +  " (" + currency + ")";
             var txt = document.createTextNode(optionTxt);
             option.appendChild(txt);
             option.setAttribute("value", productAddress);
@@ -235,6 +235,36 @@ function processDraftPosting(postingAddress) {
         })
 }
 
+function getPostingProduct(postingContract, option, title ){
+    postingContract.methods.getFeatureADDRESS("PRODUCT_FEATURE").call({from : account})
+    .then(function(response){
+            console.log(response);
+            var productAddress = response; 
+            getProductName(productAddress, option, title);
+
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
+}
+
+function getProductName(productAddress, option, title) {
+
+    var productContract = getContract(iOpenProductAbi, productAddress);
+    productContract.methods.getName().call({from : account})
+    .then(function(response){
+        console.log(response);
+        var name = response; 
+        var txt = document.createTextNode(title + name);
+        option.appendChild(txt);
+        jobPostingDraftSelect.appendChild(option);
+
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
+}
+
 function addDraftPostingOption(postingContract, postingAddress, status) {
     var option = document.createElement("option");
     option.setAttribute("value", postingAddress);
@@ -243,10 +273,11 @@ function addDraftPostingOption(postingContract, postingAddress, status) {
             console.log(response);
             var titleTxt = response;
 
-            titleTxt = "Title :: " + titleTxt + " :: status :: " + status + " :: " + postingAddress;
-            var txt = document.createTextNode(titleTxt);
-            option.appendChild(txt);
-            jobPostingDraftSelect.appendChild(option);
+            title = "Title :: " + titleTxt + " :: status :: " + status + " :: " + postingAddress + " :: ";
+            getPostingProduct(postingContract, option, title )
+        })
+        .catch(function(err) {
+            console.log(err);
         })
 }
 
