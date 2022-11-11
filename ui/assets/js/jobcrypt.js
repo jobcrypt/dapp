@@ -125,9 +125,7 @@ async function configureContracts(requiredContracts) {
 */  
 }
 
-const stakeApproveSpan = ge("stake_approve_span");
-const stakeButtonSpan = ge("stake_button_span");
-const stakeStatusSpan = ge("stake_status_span");  
+ 
 
 var stakeCurrencyAddress; 
 var stakeCurrencySymbol;
@@ -182,10 +180,18 @@ async function getMinStakeAmount() {
 }
 
 async function getStakeStatus() { 
+   
+
     console.log(jcStakeManagerContract);
     jcStakeManagerContract.methods.isStaked(account).call({from : account})
     .then(function(response){
         console.log("checking stake");
+        var stakeApproveSpan = ge("stake_approve_span");
+        console.log(stakeApproveSpan);
+        var stakeButtonSpan = ge("stake_button_span");
+        console.log(stakeButtonSpan);
+        var stakeStatusSpan = ge("stake_status_span"); 
+        console.log(stakeStatusSpan);
         console.log(response);
         var staked = response; 
         if(staked === true) {                    
@@ -210,6 +216,7 @@ async function getStakedAmount() {
     jcStakeManagerContract.methods.getStakedAmount().call({from : account})
     .then(function(response){
         console.log(response);
+        var stakeStatusSpan = ge("stake_status_span"); 
         stakeStatusSpan.innerHTML = "<b><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+") </b>";
     })
     .catch(function(err){
@@ -226,6 +233,8 @@ async function approveStake() {
             var stakeCurrencyContract = new web3.eth.Contract(ierc20MetadataAbi, stakeCurrencyAddress); 
             stakeCurrencyContract.methods.approve(jcStakeManagerAddress, minStakeAmount).send({from : account})
             .then(function(response){
+                var stakeApproveSpan = ge("stake_approve_span");
+                var stakeButtonSpan = ge("stake_button_span");
                 console.log(response);                
                 stakeApproveSpan.innerHTML = "<small>Approved NOW Stake</small>"; 
                 stakeButtonSpan.innerHTML = "<small><a type=\"submit\" id=\"stake_button\" onclick=\"stake()\" class=\"ui-component-button ui-component-button-small ui-component-button-secondary \">Stake</a></small></span>";                 
@@ -245,6 +254,7 @@ async function stake(){
     jcStakeManagerContract.methods.stake(minStakeAmount).send({from : account})
     .then(function(response){
         console.log(response);
+        var stakeStatusSpan = ge("stake_status_span"); 
         stakeStatusSpan.innerHTML = "<small style=\"color:green\"> STAKED :: "+formatCurrency(response)+"</small>"; 
         getStakeStatus();                
     })
@@ -257,6 +267,7 @@ async function unstake() {
     jcStakeManagerContract.methods.unstake().send({from : account})
     .then(function(response){
         console.log(response);
+        var stakeStatusSpan = ge("stake_status_span"); 
         stakeStatusSpan.innerHTML = "<small style=\"color:orange\"> UNSTAKED :: "+formatCurrency(response)+"</small>";
         getStakeStatus();
     })

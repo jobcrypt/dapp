@@ -1,5 +1,8 @@
 const dashboardMessageSpan = ge("dashboard_message_span");
 const applicantDashboardTable = ge("applicant_dashboard_table");
+
+const createOnchainJobSeekerDashboard = ge("create_jobseeker_onchain_dashboard_button_span");
+
 var iJobSeekerDashboardContract;
 const pageRoot = ""; 
 
@@ -22,7 +25,7 @@ function findDashboard() {
             if (dashboardAddress != 0x0000000000000000000000000000000000000000) {
                 loadDashboard(dashboardAddress);
             } else {
-                getDashboard();
+                createDashboardButton();
             }
         })
         .catch(function(err) {
@@ -47,7 +50,17 @@ function findAgain() {
         })
 }
 
+function createDashboardButton() { 
+    createOnchainJobSeekerDashboard.innerHTML = ""; 
+    var a = ce("a");
+    a.setAttribute("href","javascript:getDashboard();");
+    a.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+    a.append(text("click to create your dashboard onchain"));
+    createOnchainJobSeekerDashboard.append(a);
+}
+
 function getDashboard() {
+    createOnchainJobSeekerDashboard.innerHTML = "";
     dashboardMessageSpan.innerHTML = "Creating your Job Search Dashboard please confirm your Wallet Transaction";
     jcFactoryFacadeContract.methods.getDashboard("JOBSEEKER_DASHBOARD_TYPE").send({ from: account })
         .then(function(response) {

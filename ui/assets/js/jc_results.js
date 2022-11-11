@@ -1,9 +1,11 @@
 const searchResultsSpan = ge("search_results_span");
 const pageRoot = "";
+const docRoot = "../doc/"; 
 
 async function configureCoreContracts() {
     var requiredContracts = ["JOBCRYPT_CORE", "STAKE_MANAGER", "OPEN_RANKING"];
     configureContracts(requiredContracts);
+    getStaking(docRoot);
 }
 
 function loadPageData() {
@@ -12,9 +14,11 @@ function loadPageData() {
     const urlParams = new URLSearchParams(queryString);
 
     console.log("running load data on results");
+   
     getPopularJobs();
-    getFeaturedJobs();
-    getHotSearchTerms();
+    getFeaturedJobs();    
+    getMainSearch(); 
+    getHotSearchTerms("");
 
     console.log(queryString);
 
@@ -33,24 +37,21 @@ function loadPageData() {
         buildResults(searchField, searchTerm);
         return;
     }
-
-
 }
 
 function buildResultsOne(term) {
     jcJobCryptContract.methods.findJobs(term).call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            var postingAddresses = response;
-            for (var x = postingAddresses.length-1; x >=0 ; x--) {
-                var postingAddress = postingAddresses[x];
-                processRow(postingAddress);
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-
+    .then(function(response) {
+        console.log(response);
+        var postingAddresses = response;
+        for (var x = postingAddresses.length-1; x >=0 ; x--) {
+            var postingAddress = postingAddresses[x];
+            processRow(postingAddress);
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
 }
 
 function buildResults(searchTerm, searchValue) {
@@ -81,9 +82,15 @@ function processRow(postingAddress) {
 
     var companyCell = row.insertCell();
     var titleCell = row.insertCell();
-    var locationCell = row.insertCell();
-    var jobAgeCell = row.insertCell();
-    var jobLinkCell = row.insertCell();
+   
+    var row1 = resultTable.insertRow(); 
+    var locationCell = row1.insertCell();
+    var jobAgeCell = row1.insertCell();
+    var row2 = resultTable.insertRow(); 
+    row2.insertCell();
+    
+    var jobLinkCell = row2.insertCell();
+    
 
     getCompany(companyCell, iJobPostingContract);
     getTitle(titleCell, iJobPostingContract, postingAddress);

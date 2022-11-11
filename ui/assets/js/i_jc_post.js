@@ -19,19 +19,21 @@ buyJobPostingButton.addEventListener('click', buyPosting);
 const postJobButton = ge("post_job_button");
 postJobButton.addEventListener('click', postJobToJobCrypt);
 
-const jobPostingCreateDisplay = ge("job_posting_create_display");
+const jobPostingCreateMsgDisplay1 = ge("job_posting_create_msg_display_1");
+const jobPostingCreateMsgDisplay2 = ge("job_posting_create_msg_display_2");
 
 const jobPostingEdittDisplay = ge("job_posting_edit_display");
 
 const jobPostingPaytDisplay = ge("job_posting_pay_display");
 
-const jobPostingSaveDisplay = ge("job_posting_save_display");
+const jobPostingSaveMsgDisplay1 = ge("job_posting_save_msg_display_1");
+const jobPostingSaveMsgDisplay2 = ge("job_posting_save_msg_display_2");
 
 const jobPostingPostDisplay = ge("job_posting_post_display");
 
 const jobPostingProductSelect = ge("job_posting_product_select");
 
-const jobPostingPaymentCurrencySelect = ge("job_posting_payment_currency_select");
+
 
 const jobPostingDraftSelect = ge("edit_draft_job_posting_select");
 
@@ -42,6 +44,11 @@ const jobPostingFee = ge("job_posting_fee_view");
 const jobPostingCurrency = ge("job_posting_currency_view");
 
 const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_view");
+
+const createOnchainEmployerDashboardButtonSpan = ge("create_onchain_employer_dashboard_button_span");
+
+const saveBeforePostCheckBox = ge("save_before_post_checkbox");
+
 
 var selectedPostingAddress;
 var selectedERC20Address;
@@ -162,14 +169,7 @@ async function updateDraftListings() {
     .then(function(response){
         console.log(response);
         if(response === '0x0000000000000000000000000000000000000000') {
-            jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({from : account})
-            .then(function(response){
-                console.log(response);
-                loadFromEmployerDashboard(response);
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+            createDashboardButton();
         }
         else { 
             loadFromEmployerDashboard(response);
@@ -180,6 +180,88 @@ async function updateDraftListings() {
     });
 
 
+}
+
+function createEmployerDashboard() {
+    createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
+    jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({from : account})
+    .then(function(response){
+        console.log(response);
+        enableAll(); 
+        loadFromEmployerDashboard(response);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
+function createDashboardButton() { 
+    disableAll(); 
+    createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
+    var a = ce("a");
+    a.setAttribute("href","javascript:createEmployerDashboard();");
+    a.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+    a.append(text("click to create your employer dashboard onchain"));
+    createOnchainEmployerDashboardButtonSpan.append(a);
+}
+function disableAll() { 
+    console.log("disabling all");
+    createDraftPostingButton.disabled           = true; 
+    editDraftPostingButton.disabled             = true; 
+    saveDraftPostingButton.disabled             = true; 
+    resetDraftPostingButton.disabled            = true; 
+    approvePaymentCurrencyButton.disabled       = true; 
+    buyJobPostingButton.disabled                = true; 
+    postJobButton.disabled                      = true; 
+   
+    jobPostingDraftSelect.disabled              = true; 
+}
+
+function enableAll() { 
+    console.log("enabling all");
+    createDraftPostingButton.disabled           = false; 
+    editDraftPostingButton.disabled             = false; 
+    saveDraftPostingButton.disabled             = false; 
+    resetDraftPostingButton.disabled            = false; 
+    approvePaymentCurrencyButton.disabled       = false; 
+    buyJobPostingButton.disabled                = false; 
+    postJobButton.disabled                      = false; 
+  
+    jobPostingDraftSelect.disabled              = false; 
+}
+
+function clearAll() {
+    console.log("clearing all");
+
+    var title = ge("job_title");
+    title.value = ""; 
+    
+    var locationType = ge("job_location_type");    
+    var locationSupport = ge("job_location_support");
+    
+    var workLocation = ge("job_work_location");
+    workLocation.valueL = "";
+    var companyName = ge("company_name");
+    companyName.value = "";
+    var companyLink = ge("company_link");
+    companyLink.value = ""; 
+    var companySummary = ge("company_summary");
+    companySummary.value = ""; 
+    var skillsRequired = ge("job_skills_required");
+    skillsRequired.value = ""; 
+    var searchCategories = ge("job_search_categories");
+    searchCategories.value = ""; 
+
+    var workType = ge("job_work_type");    
+    var salaryPaymenttype = ge("job_payment_type");
+
+    var jobDescription = ge("job_description");
+    var quills = new QUill(jobDescription);
+    quills.setContents("");
+    var jobApplicationlink = ge("job_application_link");
+    jobApplicationlink.value = ""; 
+    var userSearchTerms = ge("user_search_terms");
+    userSearchTerms.value = ""; 
 }
 
 function loadFromEmployerDashboard(employerDashboardAddress) {
@@ -284,6 +366,7 @@ function addDraftPostingOption(postingContract, postingAddress, status) {
 function editListing() {
 
     var postingAddress = jobPostingDraftSelect.value;
+    clearAll();
     jobPostingEdittDisplay.innerHTML = "Editing Draft :: " + postingAddress;
     selectedPostingAddress = postingAddress;
     var title = ge("job_title");
@@ -560,7 +643,7 @@ async function buyPosting() {
             })
             .catch(function(err) {
                 console.log(err);
-                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err;
+                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err.message;
             })
     } else {
         jcPaymentManagerContract.methods.payForPosting(selectedPostingAddress).send({ from: account })
@@ -570,14 +653,14 @@ async function buyPosting() {
             })
             .catch(function(err) {
                 console.log(err);
-                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err;
+                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err.message;
             })
     }
 }
 
 async function saveJob() {
     jobJSON = getJobToPost();
-    var hash;
+  
     // save job description 
     await ipfs.add(strfy(jobJSON.description))
         .then(function(response) {
@@ -624,7 +707,7 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     postingEditorContract.methods.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingSaveDisplay.innerHTML = "Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash;
+            setSaveMsg("Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash);
         })
         .catch(function(err) {
             console.log(err);
@@ -632,6 +715,17 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
         });
 
 }
+
+function setCreateMsg(msg) {
+    jobPostingCreateMsgDisplay1.innerHTML = msg;
+    jobPostingCreateMsgDisplay2.innerHTML = msg;
+}
+
+function setSaveMsg(msg) {
+    jobPostingSaveMsgDisplay1.innerHTML = msg;
+    jobPostingSaveMsgDisplay2.innerHTML = msg;
+}
+
 
 function getJobToPost() {
     var jobTitle = ge("job_title");
@@ -689,7 +783,9 @@ function toJSONStringArray(str) {
 
 function postJobToJobCrypt() {
     console.log("posting job");
-    saveJob();
+    if(saveBeforePostCheckBox.value === 'checked'){
+        saveJob();
+    }    
     console.log("posting");
     console.log(jcJobCryptContract);
     console.log(selectedPostingAddress);
@@ -698,6 +794,7 @@ function postJobToJobCrypt() {
         .then(function(response) {
             console.log(response);
             jobPostingPostDisplay.innerHTML = " Job : " + selectedPostingAddress + " :: POSTED :: " + response.blockHash;
+            clearAll();
         })
         .catch(function(err) {
             console.log(err);

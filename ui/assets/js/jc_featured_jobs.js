@@ -1,6 +1,9 @@
-const featuredJobsView = document.getElementById("featured_jobs_table");
+const featuredJobsView = ge("featured_jobs_table");
+const featuredJobsDiv = ge("featured_jobs_div");
+const featuredJobsTitle = ge("featured_jobs_title");
 
 async function getFeaturedJobs(){
+    featuredJobsTitle.innerHTML = "<h6>Featured Jobs</h6>";
 	jcJobCryptContract.methods.getFeaturedJobs().call({ from: account })
 	.then(function(response) {
 		console.log(response);
@@ -15,8 +18,8 @@ async function getFeaturedJobs(){
 
 
 function buildFeaturedJobs(jobAddresses) {
-    //clearTableNoHeader(featuredJobsView);
-
+    clearTableNoHeader(featuredJobsView);
+    featuredJobsDiv.setAttribute("class","ui-component-card ui-layout-column-4");
     for( var x = 0; x < jobAddresses.length; x++){
         var postingAddress = jobAddresses[x];
         addFeaturedJob(postingAddress);
@@ -95,3 +98,7 @@ function buildFeaturedJob(jobTitle, jobDetailLinkDestination, companyName, compa
     cell.appendChild(jobLink);
 }
 
+
+function ge(element) {
+    return document.getElementById(element);
+}

@@ -1,18 +1,16 @@
-
-
-const hotSearchTitle = document.getElementById("hot_search_title");
-const popularJobsTitle = document.getElementById("popular_jobs_title");
-const featuredJobsTitle = document.getElementById("featured_jobs_title"); 
-const latestJobsTitle = document.getElementById("latest_jobs_title");
-const popularJobsDiv = document.getElementById("popular_jobs_div");
+const popularJobsTitle 	= ge("popular_jobs_title");
+const latestJobsTitle 	= ge("latest_jobs_title");
+const popularJobsDiv 	= ge("popular_jobs_div");
 
 const pageRoot = "pages/app/";
+const docRoot = "pages/doc/"; 
 
 async function configureCoreContracts() { 
 	console.log("configuring contracts");
 	var requiredContracts = ["JOBCRYPT_CORE", "STAKE_MANAGER", "OPEN_RANKING"];
 	console.log(requiredContracts);
 	configureContracts(requiredContracts);
+	getStaking(docRoot);
 }
 
 async function loadPageData() {
@@ -20,14 +18,18 @@ async function loadPageData() {
 	getLatestJobs(); 
 	getPopularJobs();
 	getFeaturedJobs();
-	getHotSearchTerms();
-	getStakeStatus(); 
+	getMainSearch(); 
+	getHotSearchTerms(pageRoot);
 	
-	popularJobsDiv.setAttribute("class","ui-component-card ui-layout-column-2");
-	hotSearchTitle.innerHTML           = "<small><b>Hot search</b></small>";   
+	getStakeStatus(); 
+	loadPromos();
+	
+	popularJobsDiv.setAttribute("class","ui-component-card ui-layout-column-2");	
 	latestJobsTitle.innerHTML          = "Latest Jobs"; 
-	popularJobsTitle.innerHTML         = "<h6>Popular Jobs</h6>";
-	featuredJobsTitle.innerHTML        = "<h6 align='center'>Featured Jobs</h6>";
+	popularJobsTitle.innerHTML         = "<h6>Popular Jobs</h6>";	
 }
-               
-    
+
+function ge(element){
+	return document.getElementById(element);
+}
+

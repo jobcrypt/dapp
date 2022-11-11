@@ -53,6 +53,28 @@
 <body>
     <header role="banner" class="ui-section-header">
         <div class="ui-layout-container">
+            <div>
+                <center>
+                <table>
+                    <tr>                        
+                        <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank"><i class="fab fa-youtube-square"></i></td>
+                        <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank">&nbsp; How to use JobCrypt</a></td>                        
+                    </tr>                    
+                    <tr>
+                        <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank"><i class="fa fa-info-circle" title="Network Connect Details" ></i></a></td>
+                        <td><a id="connect_web_3" class="ui-component-button ui-component-button-small ui-component-button-primary">Connect Web 3</a></td> 
+                        <td>&nbsp;Need Crypto?&nbsp;</td>
+                        <td><a href="https://www.moonpay.com/buy" target="_blank" class="ui-component-button ui-component-button-small ui-component-button-primary"> Get Some Here</a></td>                                       
+                    </tr>   
+                    <tr>
+                        <td colspan="4"> <center><span id="showAccount"></span></center></td>
+                    </tr>            
+                    <tr>
+                        <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
+                    </tr>
+                </table>
+            </center>
+            </div>
             <div class="ui-section-header__layout ui-layout-flex">
                 <!-- LOGO -->
                 <a href="../../index.html" role="link" aria-label="#">
@@ -80,118 +102,80 @@
                         <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
                     </svg>
                 </a>      
-                <table>
-                    <tr>
+         
+            </div>
+            <div>
+                <table> 
+                    <tr>                        
                         <td>
-                            <table>
-                                <tr>                        
-                                    <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank"><i class="fab fa-youtube-square"></i></td>
-                                    <td><a href="https://youtu.be/iW9EAOCsgJc" target="_blank">&nbsp; How to use JobCrypt</a></td>                        
-                                </tr>                    
-                                <tr>
-                                    <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank"><i class="fa fa-info-circle" title="Network Connect Details" ></i></a></td>
-                                    <td><a id="connect_web_3" class="ui-component-button ui-component-button-small ui-component-button-primary ">Connect Web 3</a></td>                        
-                                </tr>               
-                                <tr>
-                                    <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
-                                </tr>
-                            </table>
+                            <a href="../employer/employer_dashboard.html ">Employer</a> </td>
+                        <td>
+                            <a href="../jobseeker/job_seeker_dashboard.html "> | Job Seeker</a>
                         </td>
-                    </tr>
+         
+                    </tr>                                    
                     <tr>
-                        <td align="center ">
-                            <div class="ui-component-card ">
-                                <h6>Select Dashboard</h6>
-                                <table> 
-                                    <tr> 
-                                        <td>Need Crypto?</td>
-                                        <td><a href="https://www.moonpay.com/buy" target="_blank" class="ui-component-button ui-component-button-small ui-component-button-primary"> Get Some Here</a></td>
-                                    </tr>                                   
-                                    <tr>
-                                        <td>                                           
-                                                <span id="stake_approve_span"></span> 
-                                           </td>
-                                           <td>
-                                                <span id="stake_button_span"></span>                                                
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="../employer/employer_dashboard.html ">Employer</a> </td>
-                                        <td>
-                                            <a href="../jobseeker/job_seeker_dashboard.html "> | Job Seeker</a>
-                                        </td>
-                                    </tr>                                    
-                                </table>
-                            </div>
+                        <td colspan="2">
+                            <span id="front_page_promo_spot"></span>
                         </td>
                     </tr>
-                    <tr>
-                        <td align="center ">
-                            <div class="ui-component-card ">
-                                <a href="pages/promotions/munich/2022-11-22-Online-Talk.html"> <h2>UpComing Event</h2>
-                                <h3>JobCrypt Münchner Talkreihe Online</h3>
-                                <h4>(JobCrypt Munich Talk Series Online)</h4></a>
-                                <b>November 22 2022 @ 17:45 - 20:00 GMT +1</b>
-                                <p><a href="pages/promotions/munich/2022-11-22-Online-Talk.html">Click Here</a> for more info</p>
-
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                </table>              
             </div>
         </div>
-    </header>
-    <center><small><span id="stake_status_span"></span></center>
-    <center><span id="showAccount"></span></center>
+    </header>   
     <main role="main">
-        <section class="ui-section-hero">
-            <div class="ui-layout-container">
-                <!-- COPYWRITING -->
-                <div class="ui-layout-column-6 ui-layout-column-center">
-                    <h2>Your Decentralized Job Results.</h2>
-                    <div class="ui-component-cta ui-layout-flex">
-                        <form action="#" class="ui-component-form ui-layout-grid ui-layout-column-4">
-                            <input type="text " id="job_search" placeholder=" Search e.g. Solidity " class="ui-component-input ui-component-input-medium " required>
-                            <a type="text " id="job_search_button" class=" ui-component-button ui-component-button-medium ui-component-button-primary ">Search</a>
-                        </form>
-                        <p class="ui-text-note"></p>
-                        <table id="hot_search_table">
-                            <tr>
-                                <td colspan="4 "><small><b>Hot search</b></small></td>
-                            </tr>
-                            <!-- populate hot job searches -->
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section class="ui-section-content">
             <div class="ui-layout-container ">
                 <div class="ui-layout-column-10 ui-layout-column-center ">
                     <table>
+                        <tr>
+                            <td>    
+                                <center><span id="hot_search_title"><b>Connect Web 3 to view the latest jobs!!</b></span></center>
+                                    <table id="hot_search_table">
+                                        <tr>
+                                            <td colspan="4 "></td>
+                                        </tr>
+                                    </table>
+                                </center>
+                            </td>
+                            <td>
+                                <center><h4>Your Decentralized Job Results.</h4></center>
+                                <center>
+                                    <span id="stake_span"></span>
+                                </center>                                
+                                <center><small><span id="stake_status_span"></span></center>
+                            </td>
+                            <td>
+                                <span id="main_search_span"></span>
+                            </td>
+                        </tr>
 
                         <tr>
                             <td valign="top">
-                                <h6>Popular Jobs</h6>
+                               
                                 <div class=" ui-component-card ui-layout-column-2 " id="popular_jobs">
+                                    <h6>Popular Jobs</h6>
                                     <table id="popular_jobs_table">
                                         <!-- populate popular jobs -->
                                     </table>
                             </td>
                             <td valign="top">
-                                <h6 align="center">Search Results</h6>
+                               
+                            
                                 <span id="search_results_span"><!-- populate result --></span>
                               
                             </td>
                             <td valign="top">
-                                <h6 align="right">Featured Jobs</h6>
-                                <div class=" ui-component-card ui-layout-column-4 ">
+                               
+                                <div class=" ui-layout-column-4 ">                                    
                                     <center>
-                                        <table id="featured_jobs_table">
-                                            <!-- populate featured jobs-->
-                                        </table>
+                                        <div id="featured_jobs_div">
+                                            <span id="featured_jobs_title"></span>
+                                            <table id="featured_jobs_table">
+                                                <!-- populate featured jobs-->
+                                            </table>
+                                        </div>
                                     </center>
                                 </div>
                             </td>
@@ -303,10 +287,11 @@
 
     <!-- JobCrypt JS -->
     <script src="../../assets/js/autoconnect.js"></script>
+    <script src="../../assets/js/jc_stake.js"></script>
     <script src="../../assets/js/jc_popular_jobs.js"></script>
     <script src="../../assets/js/jc_featured_jobs.js"></script>
     <script src="../../assets/js/jc_search_jobs.js"></script>
-    <script src="../../assets/js/jc_results.js"></script>
+    <script src="../../assets/js/jc_results.js"></script>    
     <script src="../../assets/js/jobcrypt.js"></script>
 
 </body>

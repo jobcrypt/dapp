@@ -144,14 +144,14 @@
         <section class="ui-section-content">
             <div class="ui-layout-container">
                 <div class="ui-layout-column-10 ui-layout-column-center ">
-
+                    <span id="create_onchain_employer_dashboard_button_span"></span>
                     <div class="ui-component-card ">
                         <center>
                             <h4>Step 1</h4><br/>
-                        <h2>Create draft Job Posting</h2>
+                        <h2>Create draft Job Posting</h2>                        
                         <table> 
                             <tr> 
-                                <td><span id="job_posting_create_display"></span></td>
+                                <td><span id="job_posting_create_msg_display_1"></span></td>
                             </tr>
                             <tr> 
                                 <td><small>Note: Listings duration only starts after posting.</small></td>
@@ -162,19 +162,27 @@
                         <center>
                             <table style="text-align: left; ">
                                 <tr>
-                                    <td>Select Draft Job Posting Product (pay later)
+                                    <td>Select Draft Job Posting Product (pay in Step 4)
                                     </td>
                                     <td>
                                         <select class="ui-component-input ui-component-input-medium " id="job_posting_product_select" ) ">
                                             <option value="1-week "selected>Connect Metamask for Posting types</option>                                            
                                         </select>
-                                </td>
-                            </tr>
- 
-              
+                                    </td>
+                            </tr>             
                             <tr>
                                 <td> </td>
                                 <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="create_draft_job_posting" type="button " value="Create Draft Job Posting ">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"> 
+                                    <center><font color="red">Warning this action incurs gas fee.</font></center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span id="job_posting_create_msg_display_2"></span>
                                 </td>
                             </tr>
                         </table>
@@ -220,7 +228,7 @@
                     <div class="ui-component-card " style="text-align: center; ">
                         <h4>Step 3</h4><br/>
                         <h2>Enter Job Posting Details</h2>
-                        <span id="job_posting_save_display"></span>
+                        <span id="job_posting_save_msg_display_1"></span>
                         <table style="text-align: left; ">
 
                             <tr>
@@ -323,7 +331,12 @@
                                 </td>
 
                             </tr>
+                            <tr> 
+                                <td></td>
+                                <td><font color="red">This action incurs gas fee.</font></td>
+                            </tr>
                         </table>
+                        <span id="job_posting_save_msg_display_2"></span>
                     </div>
 
 
@@ -355,20 +368,20 @@
                                     <td>Selected Duration
                                     </td>
                                     <td>
-                                        <span id="job_posting_duration_view">3 Weeks</span>
+                                        <span id="job_posting_duration_view">Time in Weeks</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Posting Fee
                                     </td>
                                     <td>
-                                        <span id="job_posting_fee_view">10 USDC</span>
+                                        <span id="job_posting_fee_view">Total Price of Posting</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Payment Currency</td>
                                     <td>
-                                        <span id="job_posting_currency_view">USDC</span>
+                                        <span id="job_posting_currency_view">Crypto</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -381,6 +394,12 @@
                                     <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="approve_payment_currency_button" type="button " value="approve payment currency ">
                                     </td>
                                     <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="buy_job_posting_button" type="button " value="buy your listing ">
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td> </td>
+                                    <td>
+                                        <font color="red">You will be charged the full price of your listing plus gas</font>
                                     </td>
                                 </tr>
                             </table>
@@ -407,8 +426,18 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post ">
+                                        Save before Posting: <input type="checkbox" id="save_before_post_checkbox">
+                                    <td>
+                                    <td>
+                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post "><br/>
+                                        <font color="red">This action incurs gas fee.</font>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><center></center></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><small>Note: Save before posting will trigger an additional transaction</small></td>
                                 </tr>
                             </table>
                         </center>
