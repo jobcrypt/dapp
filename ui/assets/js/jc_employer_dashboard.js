@@ -41,7 +41,7 @@ function findDashboard() {
             if (dashboardAddress != 0x0000000000000000000000000000000000000000) {
                 loadDashboard(dashboardAddress);
             } else {
-                getDashboard();
+                createDashboardButton();
             }
         })
         .catch(function(err) {
@@ -58,7 +58,7 @@ function createDashboardButton() {
 }
 function getDashboard() {
     createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
-    jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").call({ from: account })
+    jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({ from: account })
         .then(function(response) {
             console.log(response);
             var dashboardAddress = response;
