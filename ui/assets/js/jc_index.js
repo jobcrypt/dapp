@@ -3,7 +3,7 @@ const latestJobsTitle 	= ge("latest_jobs_title");
 const popularJobsDiv 	= ge("popular_jobs_div");
 
 const pageRoot = "pages/app/";
-const docRoot = "pages/doc/"; 
+const docRoot = "pages/docs/"; 
 
 async function configureCoreContracts() { 
 	console.log("configuring contracts");

@@ -2,6 +2,8 @@ const mainSearchSpan  = ge("main_search_span");
 const mainSearchTitle = ge("main_search_title_span");
 const hotSearchTitle  = ge("hot_search_title");
 
+const headerSearchSpan = ge("header_search_span");
+
 async function getHotSearchTerms(root) {
     hotSearchTitle.innerHTML           = "<small><b>Hot search</b></small>";   
     jcJobCryptContract.methods.getHotSearchTerms().call({ from: account })
@@ -36,6 +38,11 @@ function buildHotSearch(root, hotSearchTerms) {
     }
 }
 
+function getHeaderSearch() { 
+    headerSearchSpan.innerHTML = ""; 
+    headerSearchSpan.append(getForm());
+}
+
 function getMainSearch() {
     var card = ce("div") ;
     card.setAttribute("class", " ui-layout-column-5");
@@ -49,7 +56,13 @@ function getMainSearch() {
     card.append(body);
 
 
-	var form = ce("form");
+    var form = getForm();
+	body.append(form);
+    mainSearchSpan.append(card);
+}
+
+function getForm() {
+    var form = ce("form");
 	form.setAttribute("action", "#");
 	form.setAttribute("class", "ui-component-form ui-layout-grid ui-layout-column-4");
 	var input = ce("input");
@@ -65,9 +78,9 @@ function getMainSearch() {
 	a.append(text("Search"));
     a.addEventListener('click', searchJobs);
 	form.append(a);	
-	body.append(form);
-    mainSearchSpan.append(card);
+    return form; 
 }
+
 
 function searchJobs() {
     console.log("searching jobs ");

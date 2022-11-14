@@ -12,6 +12,7 @@ function loadPageData() {
     jobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
     
     getStakeStatus(); 
+    getHeaderSearch();
     buildJobTitle();
     buildCompany();
     buildLocation();

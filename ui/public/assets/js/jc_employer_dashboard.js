@@ -22,6 +22,7 @@ const actionResultSpan = ge("action_result_span");
 const employerDashboardTable = ge("employer_dashboard_table");
 const extensionModal = ge("extension_modal");
 const employerDashboardMessage = ge("employer_dashboard_message");
+const createOnchainEmployerDashboardButtonSpan = ge("create_onchain_employer_dashboard_button_span");
 
 async function configureCoreContracts() {
     var requiredContracts = ["FACTORY_FACADE","STAKE_MANAGER"];
@@ -40,16 +41,24 @@ function findDashboard() {
             if (dashboardAddress != 0x0000000000000000000000000000000000000000) {
                 loadDashboard(dashboardAddress);
             } else {
-                getDashboard();
+                createDashboardButton();
             }
         })
         .catch(function(err) {
             console.log(err);
         })
 }
-
+function createDashboardButton() { 
+    createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
+    var a = ce("a");
+    a.setAttribute("href","javascript:getDashboard();");
+    a.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+    a.append(text("click to create your dashboard onchain"));
+    createOnchainEmployerDashboardButtonSpan.append(a);
+}
 function getDashboard() {
-    jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").call({ from: account })
+    createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
+    jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({ from: account })
         .then(function(response) {
             console.log(response);
             var dashboardAddress = response;
@@ -71,7 +80,7 @@ function buildEmployerDashboardTable(iEmployerDashboardContract) {
         .then(function(response) {
             console.log(response);
             var postingAddresses = response;
-            if(postingAddress.length > 0){
+            if(postingAddresses.length > 0){
                 for (var x = 0; x < postingAddresses.length; x++) {
                     var postingAddress = postingAddresses[x];
                     buildPostingTableRow(postingAddress);
