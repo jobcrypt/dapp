@@ -19,6 +19,7 @@ async function getHotSearchTerms(root) {
 
 function buildHotSearch(root, hotSearchTerms) {
     const hotSearchTable = document.getElementById("hot_search_table");
+    hotSearchTable.innerHTML = "";
     var row = hotSearchTable.insertRow();
 
     for (var x = 0; x < hotSearchTerms.length; x++) {
@@ -44,6 +45,7 @@ function getHeaderSearch() {
 }
 
 function getMainSearch() {
+    mainSearchSpan.innerHTML = "";
     var card = ce("div") ;
     card.setAttribute("class", " ui-layout-column-5");
     var titleCentre = ce("center");

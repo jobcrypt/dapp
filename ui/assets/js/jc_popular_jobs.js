@@ -1,4 +1,5 @@
 const popularJobsTable = document.getElementById("popular_jobs_table");
+
 async function getPopularJobs() { 
 	openRankingCoreContract.methods.getRanking("POPULAR_JOBS_RANKING_LIST",20).call({ from: account })
 	.then(function(response) {
@@ -12,6 +13,7 @@ async function getPopularJobs() {
 }
 
 function getPostingAddresses(jcSortableAddresses) { 
+    popularJobsTable.innerHTML = "";
     for (var x = 0; x < jcSortableAddresses.length; x++) {
         buildPopularJobs(jcSortableAddresses[x]);
     }

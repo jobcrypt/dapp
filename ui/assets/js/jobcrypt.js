@@ -187,22 +187,61 @@ async function getStakeStatus() {
     .then(function(response){
         console.log("checking stake");
         var stakeApproveSpan = ge("stake_approve_span");
+        stakeApproveSpan.innerHTML = "";
         console.log(stakeApproveSpan);
         var stakeButtonSpan = ge("stake_button_span");
         console.log(stakeButtonSpan);
-        var stakeStatusSpan = ge("stake_status_span"); 
+        var stakeStatusSpan = ge("stake_status_span");
+        stakeStatusSpan.innerHTML = ""; 
         console.log(stakeStatusSpan);
         console.log(response);
         var staked = response; 
-        if(staked === true) {                    
-            stakeButtonSpan.innerHTML = "<small><a type=\"submit\" id=\"stake_button\" onclick=\"unstake()\" class=\"ui-component-button ui-component-button-small ui-component-button-primary \">Un-stake</a></small></span>";                                
+        stakeButtonSpan.innerHTML = ""; 
+        var small = ce("small");
+        if(staked === true) {      
+            var font = ce("font");
+            font.setAttribute("color", "green");
+            var a = ce("a");
+            a.setAttribute("type", "submit");
+            a.setAttribute("id", "unstake_button");
+            a.setAttribute("onclick", "unstake()");
+            a.setAttribute("class", "ui-component-button ui-component-button-small");            
+            a.setAttribute("style", "color:green");
+            a.append(text("Un-stake"));            
+            font.append(a)
+            small.append(font);
+            stakeButtonSpan.append(font);                        
+
             getStakedAmount();            
             stakeApproveSpan.innerHTML = "";
         }
         else{
-            stakeButtonSpan.innerHTML = "<small>Approve FIRST to Stake</small>"
-            stakeStatusSpan.innerHTML = "<b><i class=\"fa fa-thumbs-down\"></i> NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol+ "</b>";
-            stakeApproveSpan.innerHTML = "<small><a type=\"submit\" id=\"stake_approve_button\" onclick=\"approveStake()\" class=\"ui-component-button ui-component-button-small ui-component-button-primary \">Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol+ "</a></small>";
+            var font = ce("font");
+            font.setAttribute("color", "red");
+            font.append(text("Approve FIRST to Stake"));
+            small.append(font);
+            stakeButtonSpan.append(small);
+            var b = ce("b");
+            var bFont = ce("font");
+            bFont.setAttribute("color", "red");
+            var i = ce("i");
+            i.setAttribute("class", "fa fa-thumbs-down");
+            bFont.append(i);
+            bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
+            b.append(bFont);
+            stakeStatusSpan.append(b);
+            var aSmall = ce("small");
+            var aA = ce("a");
+            aA.setAttribute("type", "submit");
+            aA.setAttribute("id", "stake_approve_button");
+            aA.setAttribute("onclick", "approveStake()");
+            aA.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+            var aFont = ce("font");
+            aFont.setAttribute("color", "orange");
+            aFont.append(text("Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol))
+            aA.append(aFont);
+            aSmall.append(aA);
+            stakeApproveSpan.append(aSmall);            
         }
     })
     .catch(function(err){
@@ -217,7 +256,7 @@ async function getStakedAmount() {
     .then(function(response){
         console.log(response);
         var stakeStatusSpan = ge("stake_status_span"); 
-        stakeStatusSpan.innerHTML = "<b><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+") </b>";
+        stakeStatusSpan.innerHTML = "<b><font colo=\"green\"><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+")</font> </b>";
     })
     .catch(function(err){
         console.log(err);

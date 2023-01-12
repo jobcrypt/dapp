@@ -1,10 +1,17 @@
 console.log("loading core js");
 
 /** standard elements  */
-const onboardButton = document.getElementById("connect_web_3");
-const showWallet = document.getElementById("showAccount");
+const onboardButton = ge("connect_web_3");
+const showWallet = ge("showAccount");
+
+const connectVideoLinkSpan = ge("connect_video_link_span");
+const connectVideoIconSpan = ge("connect_video_icon_span");
 
 const storage = window.sessionStorage;
+
+function ge(element) {
+	return document.getElementById(element);
+}
 
 var account;
 
@@ -106,6 +113,20 @@ const isMetaMaskInstalled = () => {
     return Boolean(ethereum && ethereum.isMetaMask);
 };
 
+const metamaskDownloadUrl = "https://metamask.io/download/"; 
+function startOnboarding() { 
+	window.open(metamaskDownloadUrl, '_blank');
+}
+
+
+//This will start the onboarding proccess
+const onClickInstall = () => {
+    onboardButton.innerText = 'Onboarding in progress';
+    onboardButton.disabled = true;
+    //On this object we have startOnboarding which will start the onboarding process for our end user
+    startOnboarding();
+};
+
 const MetaMaskClientCheck = () => {
     //Now we check to see if Metmask is installed
     if (!isMetaMaskInstalled()) {
@@ -116,14 +137,69 @@ const MetaMaskClientCheck = () => {
         onboardButton.onclick = onClickInstall;
         //The button is now disabled
         onboardButton.disabled = false;
+		setInstallPlayList();
     } else {
         //If it is installed we change our button text
+		onboardButton.disabled = false; 
         onboardButton.innerText = 'Click to Connect Metamask';
 
         console.log("metamask installed");
-		autoconnect(); 
+		autoconnect(); 		
     }
 };
+
+function clearVideos(){
+	connectVideoLinkSpan.innerHTML = ""; 
+	connectVideoIconSpan.innerHTML = "";
+}
+
+const howToUseJobCrypt = "https://www.youtube.com/playlist?list=PLdG1qxRmiG9N_RcS8E0Rmx5n4v0RnEOLL"
+const howToInstallMetamaskPlaylist = "https://www.youtube.com/playlist?list=PLdG1qxRmiG9P0Aihaauq8zSre8es_y_iH"; 
+
+function createVideoLink(link, txt, font) {
+	var a = ce("a");
+	a.setAttribute("href", link);
+	a.setAttribute("target", "_blank");
+	if(txt != "" ){
+		font.append(text(txt));
+		a.append(font);
+	}
+	return a; 
+}
+
+function createVideoIcon(link, font) {
+	var i = ce("i");
+	i.setAttribute("class", "fab fa-youtube-square");
+	font.append(i);
+	a = createVideoLink(link,"");
+	a.append(font);
+	return a; 
+}
+
+function getColoredNode(color) {
+	var font = ce("font");
+	font.setAttribute("color", color);
+	return font; 
+}
+
+function setInstallPlayList() { 
+	clearVideos(); 
+	var f = getColoredNode("red");
+	connectVideoLinkSpan.append(createVideoLink(howToInstallMetamaskPlaylist, "How to Install Metamask", f));
+
+	var c = getColoredNode("red");	
+	connectVideoIconSpan.append(createVideoIcon(howToInstallMetamaskPlaylist, c));
+}
+
+function setHowToPlayList() { 
+	clearVideos(); 
+	var f = getColoredNode("green");	
+	connectVideoLinkSpan.append(createVideoLink(howToUseJobCrypt, "How to Use JobCrypt", f));
+	var c = getColoredNode("green");	
+	connectVideoIconSpan.append(createVideoIcon(howToUseJobCrypt, c));
+
+}
+
 const initialize = () => {
     MetaMaskClientCheck();
 };
@@ -203,6 +279,7 @@ async function getAccount() {
     account = accounts[0];
     connected = true; 
     showWallet.innerHTML = "<b>Connected Wallet :: " + account + "</b>";
+	setHowToPlayList();
     configureCoreContracts()
 	.then(function(response){
 		console.log(response);		
@@ -213,16 +290,7 @@ async function getAccount() {
     })
 }
 
-//We create a new MetaMask onboarding object to use in our app
-//const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
 
-//This will start the onboarding proccess
-const onClickInstall = () => {
-    onboardButton.innerText = 'Onboarding in progress';
-    onboardButton.disabled = true;
-    //On this object we have startOnboarding which will start the onboarding process for our end user
-    onboarding.startOnboarding();
-};
 
 const onClickConnect = async() => {
     try {

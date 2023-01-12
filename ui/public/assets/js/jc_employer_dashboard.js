@@ -31,6 +31,7 @@ async function configureCoreContracts() {
 
 function loadPageData() {
     findDashboard();
+    loadPromos();
 }
 
 function findDashboard() {

@@ -291,18 +291,49 @@ var applyLinkSpan = document.getElementById("apply_link");
 function buildApplyLink() {
     jobPostingContract.methods.getFeatureSTR("APPLY_LINK").call({ from: account })
         .then(function(response) {
-            console.log(response);
+            console.log(response);            
             applyLinkSpan.innerHTML = "<small style=\"color:green\">Apply Details: " + response + "</small>";
         })
         .catch(function(err) {
             console.log(err);
+            console.log("rebuilding apply");
             applyLink();
         });
 }
 
 function applyLink() {
-    var applyLink = createTextButton("apply()", "Apply HERE");
-    applyLinkSpan.appendChild(applyLink);
+    jcStakeManagerContract.methods.isStaked(account).call({from : account})
+    .then(function(response){
+        var staked = response; 
+
+        console.log(" staked " + staked);
+        if(staked === true) {
+            var applyLink = createTextButton("apply()", "Apply HERE");
+            applyLinkSpan.appendChild(applyLink);
+        }
+        else {
+
+            var approveLink = ce("a");
+            approveLink.setAttribute("href", "#stake_approve_span");
+            approveLink.append(text("Stake FIRST to Apply"));
+            approveLink.setAttribute("style", "color : red");
+            var aboutStakingLink = ce("a");
+            aboutStakingLink.setAttribute("href", "../docs/staking.html");
+            aboutStakingLink.setAttribute("target", "_blank");
+            var i = ce("i");
+            i.setAttribute("class", "fa fa-info-circle");
+            aboutStakingLink.append(i);
+            applyLinkSpan.append(aboutStakingLink);
+            applyLinkSpan.append(approveLink);
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+        var a = ce("a");
+        a.setAttribute("href", "https://discord.gg/89DWAkEnWb");
+        a.append(text("Contact Support"));
+        applyLinkSpan.append(a);
+    });
 }
 
 function apply() {

@@ -256,7 +256,7 @@ function clearAll() {
     var salaryPaymenttype = ge("job_payment_type");
 
     var jobDescription = ge("job_description");
-    var quills = new QUill(jobDescription);
+    var quills = new Quill(jobDescription);
     quills.setContents("");
     var jobApplicationlink = ge("job_application_link");
     jobApplicationlink.value = ""; 
