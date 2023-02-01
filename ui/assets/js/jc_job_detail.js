@@ -1,7 +1,10 @@
+const docRoot = "../docs/"; 
+
 var jobPostingContract;
 async function configureCoreContracts() {
     var requiredContracts = ["STAKE_MANAGER","JOBCRYPT_CORE","PAYMENT_MANAGER"];
     configureContracts(requiredContracts);
+    getStaking(docRoot);
 }
 
 function loadPageData() {

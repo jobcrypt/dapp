@@ -6,6 +6,7 @@ const showWallet = ge("showAccount");
 
 const connectVideoLinkSpan = ge("connect_video_link_span");
 const connectVideoIconSpan = ge("connect_video_icon_span");
+const startPointSpan = ge("start_point_span");
 
 const storage = window.sessionStorage;
 
@@ -129,6 +130,7 @@ const onClickInstall = () => {
 
 const MetaMaskClientCheck = () => {
     //Now we check to see if Metmask is installed
+	
     if (!isMetaMaskInstalled()) {
         console.log("metamask not installed");
         //If it isn't installed we ask the user to click to install it
@@ -151,6 +153,7 @@ const MetaMaskClientCheck = () => {
 function clearVideos(){
 	connectVideoLinkSpan.innerHTML = ""; 
 	connectVideoIconSpan.innerHTML = "";
+	startPointSpan.innerHTML = "";
 }
 
 const howToUseJobCrypt = "https://www.youtube.com/playlist?list=PLdG1qxRmiG9N_RcS8E0Rmx5n4v0RnEOLL"
@@ -182,7 +185,8 @@ function getColoredNode(color) {
 	return font; 
 }
 
-function setInstallPlayList() { 
+function setInstallPlayList() {
+	 
 	clearVideos(); 
 	var f = getColoredNode("red");
 	connectVideoLinkSpan.append(createVideoLink(howToInstallMetamaskPlaylist, "How to Install Metamask", f));

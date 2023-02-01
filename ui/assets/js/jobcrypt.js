@@ -11,11 +11,6 @@ var jcFactoryFacadeAddress;
 var jcStakeManagerAddress; 
 var openProductCoreAddress;
 
-// const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
-// const wethfaucetButtonSpan = ge("weth_faucet_button_span");
-//
-// const openRegisterAddress = "0x4d7AC8C6602083F1f9b56fe6B4fb0BCD2C44eC41";
-
 const openRegisterAddress = "0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
@@ -116,13 +111,7 @@ async function configureContracts(requiredContracts) {
                 console.log(err);
             });
     }
-/*    
-    if(requiredContracts.includes("STAKE_MANAGER")){
-        // REMOVE FOR LIVE
-        // console.log("loading faucet");
-        // loadFaucet();
-    }
-*/  
+
 }
 
  
@@ -314,100 +303,6 @@ async function unstake() {
         console.log(err);
     });
 }
-
-// REMOVE FOR LIVE
-/*
-const testUSDCAddress = "0x41bDACc871Cbc8f3C9B410a868101dcE1BADcf33";
-const testWETHAddress = "0xa17D2895778ff13397DE6D37aBa44B0a34F0BB7E";
-
-var usdcContract;
-var wethContract;
-
-async function loadFaucet() {
-    usdcContract = new web3.eth.Contract(iErc20USDCAbi, testUSDCAddress);
-    wethContract = new web3.eth.Contract(iErc20WETHAbi, testWETHAddress);
-    console.log("checking faucet");
-    // check the account has enough balance 
-    usdcContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            if (response < (300 * 1e18)) {
-                showUSDCFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err)
-        });
-
-    wethContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            if (response < (0.1 * 1e18)) {
-                showWETHFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-
-
-}
-
-
-function showUSDCFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("USDC FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsUSDC);
-    usdcfaucetButtonSpan.appendChild(faucetButton);
-}
-
-function showWETHFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("WETH FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsWETH);
-    wethfaucetButtonSpan.appendChild(faucetButton);
-}
-
-async function reloadFaucetFundsUSDC() {
-    // call mint function 
-    usdcContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            usdcfaucetButtonSpan.innerHTML = "USDC CREDITED- TOKEN CONTRACT : " + testUSDCAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-async function reloadFaucetFundsWETH() {
-    // call mint function 
-    wethContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            wethfaucetButtonSpan.innerHTML = "WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-*/
-// END REMOVE FOR LIVE
-
-
-
 
 function ce(element) {
     return document.createElement(element);

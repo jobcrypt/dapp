@@ -178,7 +178,7 @@
                             </tr>
                             <tr>
                                 <td colspan="3"> 
-                                    <center><font color="red">Warning this action incurs gas fee.</font></center>
+                                    <center><font color="purple">This action incurs gas fee</font></center>
                                 </td>
                             </tr>
                             <tr>
@@ -334,7 +334,7 @@
                             </tr>
                             <tr> 
                                 <td></td>
-                                <td><font color="red">This action incurs gas fee.</font></td>
+                                <td><font color="purple">This action incurs gas fee</font></td>
                             </tr>
                         </table>
                         <span id="job_posting_save_msg_display_2"></span>
@@ -398,9 +398,9 @@
                                     </td>
                                 </tr>
                                 <tr> 
-                                    <td> </td>
+                                    <td><font color="purple">Approval action incurs gas fee.</font> </td>
                                     <td>
-                                        <font color="red">You will be charged the full price of your listing plus gas</font>
+                                        <font color="purple">You pay full price of listing plus gas</font>
                                     </td>
                                 </tr>
                             </table>
@@ -420,26 +420,22 @@
                     <div class="ui-component-card " style="text-align: center; ">
                         <h4>Step 5</h4><br/>
                         <h2>Post your job</h2><br> 
-                        NOTE: Approval of two transactions required, first to save latest changes to your job second to post your job to JobCrypt
+                        
                         
                         <span id="job_posting_post_display"></span>
                         <center>
                             <table>
                                 <tr>
                                     <td>
-                                        Save before Posting: <input type="checkbox" id="save_before_post_checkbox">
+                                        Save before Posting: <input type="checkbox" id="save_before_post_checkbox"><br/>
+                                        <small>Note: Save before posting will trigger an additional transaction</small>
                                     <td>
                                     <td>
                                         <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post "><br/>
-                                        <font color="red">This action incurs gas fee.</font>
+                                        <font color="purple">This action incurs gas fee.</font>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2"><center></center></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><small>Note: Save before posting will trigger an additional transaction</small></td>
-                                </tr>
+
                             </table>
                         </center>
                     </div>
