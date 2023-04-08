@@ -1,17 +1,21 @@
 // initialise JobCrypt Core
 var jcPaymentManagerContract;
+var jcVSPaymentManagerContract
 var jcJobCryptContract;
 var jcFactoryFacadeContract;    
 var jcStakeManagerContract; 
 var openProductCoreContract;
 
 var jcPaymentManagerAddress;
+var jcVSPaymentManagerAddress;
 var jcJobCryptAddress;
 var jcFactoryFacadeAddress; 
 var jcStakeManagerAddress; 
 var openProductCoreAddress;
 
-const openRegisterAddress = "0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32";
+const openRegisterAddress = "0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32"; /* LIVE */
+//const openRegisterAddress = "0xEfdeAC0C0778DED8eA0a72be3D93258F44Ff9627";  /*  SEPOLIA TESTNET */
+
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
 async function configureContracts(requiredContracts) {
@@ -105,6 +109,22 @@ async function configureContracts(requiredContracts) {
                 console.log("STAKE_MANAGER");
                 console.log(jcStakeManagerContract);
                 initStakeValues();
+                loadCount++;
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
+
+    if(requiredContracts.includes("VS_PAYMENT_MANAGER")){
+        openRegistryContract.methods.getAddress("RESERVED_JOBCRYPT_VERIFICATION_SERVICE_PAYMENT_MANAGER_CORE").call({ from: account })
+            .then(function(response) {
+                console.log(response);
+                jcVSPaymentManagerAddress = response;
+                console.log(iJCVSPaymentManagerAbi);
+                jcVSPaymentManagerContract = getContract(iJCVSPaymentManagerAbi, jcVSPaymentManagerAddress);
+                console.log("RESERVED_JOBCRYPT_VERIFICATION_SERVICE_PAYMENT_MANAGER_CORE");
+                console.log(jcVSPaymentManagerContract);
                 loadCount++;
             })
             .catch(function(err) {

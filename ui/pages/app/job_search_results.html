@@ -26,24 +26,27 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
     <link rel="preload" as="style" href="../../style.css">
     <link rel="stylesheet" href="../../style.css">
-    
+
     <!-- Web 3 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 
-   
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5LX7VP442M"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'G-5LX7VP442M');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-5LX7VP442M');
     </script>
 
     <!-- TITLE -->
@@ -53,29 +56,53 @@
 <body>
     <header role="banner" class="ui-section-header">
         <div class="ui-layout-container">
+            <!-- Start Top Site Nav-->
+            <p>
+                <a href="../../pages/programmes/job finder programme/index.html" ><font color="orange">For Job Seekers | </font></a>
+                <a href="../../pages/programmes/managed service programme/index.html" ><font color="orange">For Employers |</font></a>
+                <a href="../../pages/programmes/community programme/index.html" ><font color="orange">For Fresh Projects & Start-ups | </font></a>
+                <a href="../../pages/programmes/distinguished speakers programme/index.html" ><font color="orange">Distinguished Speakers Programme | </font></a>
+                <a href="../../pages/events/index.html"><font color="orange">Events | </font></a>
+                <a href="../../pages/app/jc/01_about.html " style="color:orange">About | </a>
+                <a href="../../pages/app/jc/03_terms.html " style="color:orange">Terms | </a>
+                <a href="../../pages/app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
+                <a href="../../pages/app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
+                <a href="../../pages/app/jc/07_faq.html " style="color:orange">F.A.Q. </a>
+            </p>
+            <!-- End Top Site Nav-->
             <div>
                 <center>
-                <table>
-                    <tr>                        
-                        <td><span id="connect_video_icon_span"></span></td>
-                        <td><span id="connect_video_link_span"></span></td>
-                        <td></td>        
-                        <td><span id="start_point_span"><a href="https://www.youtube.com/playlist?list=PLdG1qxRmiG9N_RcS8E0Rmx5n4v0RnEOLL" target="_blank"><font color="green">Start Here with JobCrypt</font></a></span></td>                        
-                    </tr>                    
-                    <tr>
-                        <td><a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank"><font color="red"><i class="fa fa-info-circle" title="Optimism Blockchain Network Connect Details" ></i></font></a></td>
-                        <td><a id="connect_web_3" class="ui-component-button ui-component-button-small ui-component-button-primary"><font color="blue">Connect Web 3</font></a></td> 
-                        <td>&nbsp;Need Crypto?&nbsp;</td>
-                        <td><a href="https://www.moonpay.com/buy" target="_blank" class="ui-component-button ui-component-button-small ui-component-button-primary"> Get Some Here</a></td>                                       
-                    </tr>   
-                    <tr>
-                        <td colspan="4"> <center><span id="showAccount"></span></center></td>
-                    </tr>            
-                    <tr>
-                        <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
-                    </tr>
-                </table>
-            </center>
+                    <table>
+                        <tr>
+                            <td><span id="connect_video_icon_span"></span></td>
+                            <td><span id="connect_video_link_span"></span></td>
+                            <td></td>
+                            <td><span id="start_point_span"><a href="https://www.youtube.com/playlist?list=PLdG1qxRmiG9N_RcS8E0Rmx5n4v0RnEOLL" target="_blank"><font color="green">Start Here with JobCrypt</font></a></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="https://help.optimism.io/hc/en-us/articles/4411903123483-Connecting-your-wallet-to-Optimism" target="_blank">
+                                    <font color="red"><i class="fa fa-info-circle" title="Optimism Blockchain Network Connect Details"></i></font>
+                                </a>
+                            </td>
+                            <td>
+                                <a id="connect_web_3" class="ui-component-button ui-component-button-small ui-component-button-primary">
+                                    <font color="blue">Connect Web 3</font>
+                                </a>
+                            </td>
+                            <td>&nbsp;Need Crypto?&nbsp;</td>
+                            <td><a href="https://www.moonpay.com/buy" target="_blank" class="ui-component-button ui-component-button-small ui-component-button-primary"> Get Some Here</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <center><span id="showAccount"></span></center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span id="usdc_faucet_button_span"></span>&nbsp;<span id="weth_faucet_button_span"></span></td>
+                        </tr>
+                    </table>
+                </center>
             </div>
             <div class="ui-section-header__layout ui-layout-flex">
                 <!-- LOGO -->
@@ -103,28 +130,28 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
                         <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
                     </svg>
-                </a>      
-         
+                </a>
+
             </div>
             <div>
-                <table> 
-                    <tr>                        
+                <table>
+                    <tr>
                         <td>
                             <a href="../employer/employer_dashboard.html " style="color:orange">Employer</a> </td>
                         <td>
                             <a href="../jobseeker/job_seeker_dashboard.html " style="color:orange"> | Job Seeker</a>
                         </td>
-         
-                    </tr>                                    
+
+                    </tr>
                     <tr>
                         <td colspan="2">
                             <span id="front_page_promo_spot"></span>
                         </td>
                     </tr>
-                </table>              
+                </table>
             </div>
         </div>
-    </header>   
+    </header>
     <main role="main">
 
         <section class="ui-section-content">
@@ -132,20 +159,22 @@
                 <div class="ui-layout-column-10 ui-layout-column-center ">
                     <table>
                         <tr>
-                            <td>    
+                            <td>
                                 <center><span id="hot_search_title"><b>Connect Web 3 to view the latest jobs!!</b></span></center>
-                                    <table id="hot_search_table">
-                                        <tr>
-                                            <td colspan="4 "></td>
-                                        </tr>
-                                    </table>
+                                <table id="hot_search_table">
+                                    <tr>
+                                        <td colspan="4 "></td>
+                                    </tr>
+                                </table>
                                 </center>
                             </td>
                             <td>
-                                <center><h4>Your Decentralized Job Results.</h4></center>
+                                <center>
+                                    <h4>Your Decentralized Job Results.</h4>
+                                </center>
                                 <center>
                                     <span id="stake_span"></span>
-                                </center>                                
+                                </center>
                                 <center><small><span id="stake_status_span"></span></center>
                             </td>
                             <td>
@@ -232,59 +261,60 @@
             <div class="ui-section-footer__layout ui-layout-flex ">
 
                 <!-- COPYRIGHT -->
-                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2022 Job Crypt</small>
-                    <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
-                    <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank " style="color:orange">Open Block EI</a></small>
-                </p>
-                <p>
-                    <a href="../../programmes/job finder programme/index.html" ><font color="orange">For Job Seekers | </font></a>
-                    <a href="../../programmes/community programme/index.html"><font color="orange">For Employers | </font></a>
-                    <a href="../../programmes/distinguished speakers programme/index.html" ><font color="orange">Distinguished Speakers Programme | </font></a>
-                    <a href="../../../pages/events/index.html"><font color="orange">Events | </font></a>
-                    <a href="../../app/jc/01_about.html " style="color:orange">About | </a>
-                    <a href="../../app/jc/03_terms.html " style="color:orange">Terms | </a>
-                    <a href="../../app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
-                    <a href="../../app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
-                    <a href="../../app/jc/07_faq.html " style="color:orange">F.A.Q. </a>
-                </p>
+                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2023 Job Crypt</small>
+                                    <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
+                                    <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank " style="color:orange">Open Block EI</a></small>
+                                    </p>
+                                    <p>
+                                        <a href="../../pages/programmes/job finder programme/index.html" ><font color="orange">For Job Seekers | </font></a>
+                                        <a href="../../pages/programmes/managed service programme/index.html" ><font color="orange">For Employers |</font></a>
+                                        <a href="../../pages/programmes/community programme/index.html" ><font color="orange">For Fresh Projects & Start-ups | </font></a>
+                                        <a href="../../pages/programmes/distinguished speakers programme/index.html" ><font color="orange">Distinguished Speakers Programme | </font></a>
+                                        <a href="../../pages/events/index.html"><font color="orange">Events | </font></a>
+                                        <a href="../../pages/app/jc/01_about.html " style="color:orange">About | </a>
+                                        <a href="../../pages/app/jc/03_terms.html " style="color:orange">Terms | </a>
+                                        <a href="../../pages/app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
+                                        <a href="../../pages/app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
+                                        <a href="../../pages/app/jc/07_faq.html " style="color:orange">F.A.Q. </a>
+                                    </p>
+                </div>
             </div>
-        </div>
-    </footer>
+            </footer>
 
-    <!-- JobCrypt Derivative ABIs -->
-    <script src="../../assets/abi/i_jc_job_posting_abi.js"></script> 
+            <!-- JobCrypt Derivative ABIs -->
+            <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
 
-    <!-- JobCrypt Core ABIs -->
-    <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>    
-    <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
-    <script src="../../assets/abi/i_jc_factory_facade_core_abi.js"></script>
+            <!-- JobCrypt Core ABIs -->
+            <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+            <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
+            <script src="../../assets/abi/i_jc_factory_facade_core_abi.js"></script>
 
-    <!-- Open Block EI Derivative ABIs -->
-    <script src="../../assets/abi/i_open_product_abi.js"></script>
-    <script src="../../assets/abi/i_jc_sortable_abi.js"></script>
+            <!-- Open Block EI Derivative ABIs -->
+            <script src="../../assets/abi/i_open_product_abi.js"></script>
+            <script src="../../assets/abi/i_jc_sortable_abi.js"></script>
 
-    <!-- Open Block EI Core ABIs -->
-    <script src="../../assets/abi/i_open_product_core_abi.js"></script>
-    
-    <script src="../../assets/abi/i_open_register_abi.js"></script>
-    <script src="../../assets/abi/i_open_ranking_core_abi.js"></script>
+            <!-- Open Block EI Core ABIs -->
+            <script src="../../assets/abi/i_open_product_core_abi.js"></script>
 
-    <!-- OpenZeppelin ABIs -->
-    <script src="../../assets/abi/i_erc20_abi.js"></script>
-    <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+            <script src="../../assets/abi/i_open_register_abi.js"></script>
+            <script src="../../assets/abi/i_open_ranking_core_abi.js"></script>
 
-    <!-- TEST NET ONLY FAUCET CODE-->
-    <script src="../../assets/abi/i_erc20USDC_abi.js"></script>
-    <script src="../../assets/abi/i_erc20WETH_abi.js"></script>
+            <!-- OpenZeppelin ABIs -->
+            <script src="../../assets/abi/i_erc20_abi.js"></script>
+            <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
 
-    <!-- JobCrypt JS -->
-    <script src="../../assets/js/autoconnect.js"></script>
-    <script src="../../assets/js/jc_stake.js"></script>
-    <script src="../../assets/js/jc_popular_jobs.js"></script>
-    <script src="../../assets/js/jc_featured_jobs.js"></script>
-    <script src="../../assets/js/jc_search_jobs.js"></script>
-    <script src="../../assets/js/jc_results.js"></script>    
-    <script src="../../assets/js/jobcrypt.js"></script>
+            <!-- TEST NET ONLY FAUCET CODE-->
+            <script src="../../assets/abi/i_erc20USDC_abi.js"></script>
+            <script src="../../assets/abi/i_erc20WETH_abi.js"></script>
+
+            <!-- JobCrypt JS -->
+            <script src="../../assets/js/autoconnect.js"></script>
+            <script src="../../assets/js/jc_stake.js"></script>
+            <script src="../../assets/js/jc_popular_jobs.js"></script>
+            <script src="../../assets/js/jc_featured_jobs.js"></script>
+            <script src="../../assets/js/jc_search_jobs.js"></script>
+            <script src="../../assets/js/jc_results.js"></script>
+            <script src="../../assets/js/jobcrypt.js"></script>
 
 </body>
 

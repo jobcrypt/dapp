@@ -54,7 +54,7 @@ var selectedPostingAddress;
 var selectedERC20Address;
 var selectedPostingFee;
 
-const ipfsRoot = "https://jobcrypt.infura-ipfs.io/ipfs/";
+var logoCid = null; 
 
 async function configureCoreContracts() {
     var requiredContracts = ["FACTORY_FACADE", "PAYMENT_MANAGER", "STAKE_MANAGER","OPEN_PRODUCT"];
@@ -99,7 +99,8 @@ async function populateProductSelectName(productContract, jobPostingProductSelec
             var name = response;
             
             console.log(productContract.options.address);
-            if(!name.includes("Community") || !name.includes("Community")){
+            console.log(!name.includes("Community") && !name.includes("Career"));
+            if(!name.includes("Community") && !name.includes("Career")){
                 populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
             }
         })
@@ -146,12 +147,12 @@ function formatPrice(price) {
 async function createPosting() {
     var productAddress = jobPostingProductSelect.value;
     console.log("product address :: " + productAddress);
-
+    setCreateMsg(getSpinner());
     // update from factory
     jcFactoryFacadeContract.methods.createJobPosting(productAddress).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
+            setCreateMsg(text("Draft Posting Created Txn :: " + response.blockHash));
             updateDraftListings();
         })
         .catch(function(err) {
@@ -245,6 +246,10 @@ function clearAll() {
     companyName.value = "";
     var companyLink = ge("company_link");
     companyLink.value = ""; 
+
+    var companyLogo = ge("company_logo");
+    companyLogo.value = ""; 
+
     var companySummary = ge("company_summary");
     companySummary.value = ""; 
     var skillsRequired = ge("job_skills_required");
@@ -376,6 +381,7 @@ function editListing() {
     var companyName = ge("company_name");
     var companyLink = ge("company_link");
     var companySummary = ge("company_summary");
+    var companyLogoDisplay = ge("company_logo_display");
     var skillsRequired = ge("job_skills_required");
     var searchCategories = ge("job_search_categories");
     var workType = ge("job_work_type");
@@ -441,6 +447,24 @@ function editListing() {
         .catch(function(err) {
             console.log(err);
         })
+    
+    postingContract.methods.getFeatureSTR("COMPANY_LOGO").call({ from: account })
+    .then(function(response) {
+        console.log(response);
+        companyLogoDisplay.innerHTML = "";
+        var cid = response; 
+        if(cid != "" && cid != null){ 
+            logoCid = cid; 
+        }
+        var logo = ce("img");
+        logo.setAttribute("src", IPFS+cid);
+        logo.setAttribute("width", "57");
+        logo.setAttribute("height", "57");
+        companyLogoDisplay.append(logo);
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
 
     postingContract.methods.getFeatureSTR("COMPANY_SUMMARY").call({ from: account })
         .then(function(response) {
@@ -532,6 +556,23 @@ var productContract;
 
 function updatePaymentBox(productAddress, postingAddress) {
     console.log(postingAddress);
+
+    jcPaymentManagerContract.methods.isProductPaidForPosting(postingAddress, productAddress).call({from : account})
+    .then(function(resp){
+        console.log("Already paid? " + resp);
+        if(resp+"" === "true"){
+            setBuyMsg(text("Product Already Paid"));
+            console.log("deactivating buy capability");
+            deactivateBuyCapability(); 
+        }
+        else { 
+            resetBuyProcess(); 
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
+
     productContract = getContract(iOpenProductAbi, productAddress);
     console.log("product contract");
     console.log(productContract);
@@ -564,13 +605,19 @@ function updatePaymentBox(productAddress, postingAddress) {
 
 }
 
+function setSelectedErc20(erc20) {
+    jobPostingCurrencyErc20Address.innerHTML = "";
+
+    jobPostingCurrencyErc20Address.append(erc20);
+}
+
 function getErc20(productContract) {
     console.log("product erc20 " + productContract);
     productContract.methods.getErc20().call({ from: account })
         .then(function(response) {
             console.log(response);
             var erc20 = response;
-            jobPostingCurrencyErc20Address.innerHTML = erc20;
+            setSelectedErc20(getAddressLink(erc20));            
             selectedERC20Address = erc20;
         })
         .catch(function(err) {
@@ -592,7 +639,7 @@ function getCurrency(productContract) {
 }
 
 async function approveCurrency() {
-
+    setBuyMsg(getSpinner());
     productContract.methods.getPrice().call({ from: account })
         .then(function(response) {
             console.log(response);
@@ -624,7 +671,11 @@ async function approve_2(erc20Address, price) {
     erc20Contract.methods.approve(jcPaymentManagerAddress, price).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingPaytDisplay.innerHTML = "Approved : " + response.blockHash;
+            var s = ce("span");
+            s.append(text("Approved :: "));
+            s.append(getTransactionHashLink(response.transactionHash));  
+            setBuyMsg(s);
+            activateBuyCapability();
         })
         .catch(function(err) {
             console.log(err);
@@ -634,28 +685,73 @@ async function approve_2(erc20Address, price) {
 
 async function buyPosting() {
     console.log("buying posting: " + selectedPostingAddress);
-
+    setBuyMsg(getSpinner());
+    var s = ce("span");
     if (selectedERC20Address == 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE) {
         jcPaymentManagerContract.methods.payForPosting(selectedPostingAddress).send({ from: account, value: selectedPostingFee })
             .then(function(response) {
                 console.log(response);
-                jobPostingPaytDisplay.innerHTML = "Paid :: " + response.blockHash;
+                s.append(text("Paid :: "));
+                s.append(getTransactionHashLink(response.transactionHash));
+                setBuyMsg(s);   
+                resetBuyProcess();             
             })
             .catch(function(err) {
                 console.log(err);
-                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err.message;
+                console.log(response);
+                s.append(text("Payment Error :: " + err.message));                
+                setBuyMsg(s);                
             })
     } else {
         jcPaymentManagerContract.methods.payForPosting(selectedPostingAddress).send({ from: account })
             .then(function(response) {
                 console.log(response);
-                jobPostingPaytDisplay.innerHTML = "Paid :: " + response.blockHash;
+                s.append(text("Paid :: "));
+                s.append(getTransactionHashLink(response.transactionHash));
+                setBuyMsg(s); 
+                resetBuyProcess();
             })
             .catch(function(err) {
                 console.log(err);
-                jobPostingPaytDisplay.innerHTML = "Payment Error :: " + err.message;
+                console.log(response);
+                s.append(text("Payment Error :: " + err.message));                
+                setBuyMsg(s);  
             })
     }
+}
+
+function setBuyMsg(msg) {
+    jobPostingPaytDisplay.innerHTML = ""; 
+
+    jobPostingPaytDisplay.append(msg);
+}
+
+function deactivateBuyCapability() { 
+    buyJobPostingButton.disabled = true; 
+    buyJobPostingButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-secondary ");
+    
+    approvePaymentCurrencyButton.disabled = true; 
+    approvePaymentCurrencyButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-secondary");
+    buying = true; 
+}
+
+function activateBuyCapability() { 
+    buyJobPostingButton.disabled = false; 
+    buyJobPostingButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-primary ");
+    
+    approvePaymentCurrencyButton.disabled = true; 
+    approvePaymentCurrencyButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-secondary");
+    buying = true; 
+}
+
+function resetBuyProcess() { 
+        
+    setBuyMsg(text(""));
+    buyJobPostingButton.disabled = true; 
+    buyJobPostingButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-secondary ");
+    
+    approvePaymentCurrencyButton.disabled = false; 
+    approvePaymentCurrencyButton.setAttribute("class","ui-component-button ui-component-button-medium ui-component-button-primary");
 }
 
 async function saveJob() {
@@ -674,7 +770,30 @@ async function saveJob() {
                     companySummaryHash = res[0].hash;
                     jobJSON.companySummaryHash = companySummaryHash; 
                     console.log("company hash : " + companySummaryHash);
-                    saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+
+                    var companyLogo = ge("company_logo");
+                    var image = companyLogo.files[0];
+                    console.log(image);
+                    if(image != null && image != "") {
+                        ipfs.add(image)
+                        .then(function(res2){
+                            companyLogoHash = res2[0].hash;
+                            jobJSON.companyLogoHash = companyLogoHash;  
+                            saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                    }
+                    else { 
+                        if(logoCid != null && logoCid != "" ){
+                            jobJSON.companyLogoHash = logoCid;                            
+                        }
+                        saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+                      
+                    }
+                   
                 })
                 .catch(function(err) {
                     console.log(err);
@@ -688,8 +807,9 @@ async function saveJob() {
 
 
 async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
-    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
-    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.companyLink, companySummaryHash + "", jobJSON.workType + "", jobJSON.paymentType + "", jobDescriptionHash + "", jobJSON.userSearchTerms + "", jobJSON.applicationLink + ""];
+    setSaveMsg(getSpinner());
+    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LOGO", "COMPANY_LINK", "COMPANY_SUMMARY",  "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
+    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "",jobJSON.companyLogoHash + "", jobJSON.companyLink, companySummaryHash + "", jobJSON.workType + "", jobJSON.paymentType + "", jobDescriptionHash + "", jobJSON.userSearchTerms + "", jobJSON.applicationLink + ""];
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
@@ -707,7 +827,17 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     postingEditorContract.methods.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
-            setSaveMsg("Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash);
+            var s = ce("span");
+            s.append(text("Saved @> EVM :: "));
+            s.append(getTransactionHashLink(response.blockHash));
+            s.append(text(" :: "));
+            s.append(text(" IPFS Company Summary Hash :: "));
+            s.append(getIPFSLink(companySummaryHash));
+            s.append(text(" IPFS Job Description :: "));
+            s.append(getIPFSLink(jobDescriptionHash));  
+            s.append(text(" IPFS Company Logo Hash :: "));
+            s.append(getIPFSLink(jobJSON.companyLogoHash));          
+            setSaveMsg(s);
         })
         .catch(function(err) {
             console.log(err);
@@ -716,14 +846,29 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
 
 }
 
-function setCreateMsg(msg) {
-    jobPostingCreateMsgDisplay1.innerHTML = msg;
-    jobPostingCreateMsgDisplay2.innerHTML = msg;
+function getSpinner() {
+    var spinner = ce("img");
+    spinner.setAttribute("src", "/assets/images/loader/spinner.gif");
+    spinner.setAttribute("width", "50");
+    spinner.setAttribute("height", "50");
+    return spinner; 
+}
+
+function setCreateMsg(msg) { 
+    jobPostingCreateMsgDisplay1.innerHTML = "";   
+    jobPostingCreateMsgDisplay2.innerHTML = "";   
+
+    jobPostingCreateMsgDisplay1.append(msg);
+    jobPostingCreateMsgDisplay2.append(msg.cloneNode());
 }
 
 function setSaveMsg(msg) {
-    jobPostingSaveMsgDisplay1.innerHTML = msg;
-    jobPostingSaveMsgDisplay2.innerHTML = msg;
+    jobPostingSaveMsgDisplay1.innerHTML = "";
+    jobPostingSaveMsgDisplay2.innerHTML = "";
+
+    var c = msg.cloneNode(); 
+    jobPostingSaveMsgDisplay1.append(msg);
+    jobPostingSaveMsgDisplay2.append(c);
 }
 
 
@@ -751,6 +896,7 @@ function getJobToPost() {
         strfy("locationSupport") + " : " + strfy(locationSupport.value) + "," +
         strfy("workLocation") + " : " + strfy(workLocation.value) + "," +
         strfy("companyName") + " : " + strfy(companyName.value) + "," +
+        strfy("companyLogoHash") + " : " + strfy("") +","+
         strfy("companyLink") + " : " + strfy(companyLink.value) + "," +
         strfy("companySummary") + " : " + strfy(companySummary.value) + "," +
         strfy("skillsRequired") + " : [" + toJSONStringArray(skillsRequired.value) + "]," +
@@ -781,7 +927,11 @@ function toJSONStringArray(str) {
     return b;
 }
 
+
+
+
 function postJobToJobCrypt() {
+    setPostToJobCryptMsg(getSpinner());
     console.log("posting job");
     if(saveBeforePostCheckBox.value === 'checked'){
         saveJob();
@@ -793,7 +943,13 @@ function postJobToJobCrypt() {
     postingEditorContract.methods.post().send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingPostDisplay.innerHTML = " Job : " + selectedPostingAddress + " :: POSTED :: " + response.blockHash;
+            
+            var s = ce("span");
+            s.append(text(" Job : "))
+            s.append(getAddressLink(selectedPostingAddress ));
+            s.append(" :: POSTED :: ");
+            s.append(getTransactionHashLink(response.transactionHash)); 
+            setPostToJobCryptMsg(s)           ;
             clearAll();
         })
         .catch(function(err) {
@@ -801,10 +957,15 @@ function postJobToJobCrypt() {
         });
 }
 
+function setPostToJobCryptMsg(msg) {
+    jobPostingPostDisplay.innerHTML = "";
+
+    jobPostingPostDisplay.append(msg);
+}
 
 async function fetchDescriptionFromIPFS(cid, quillDescription) {
     if(cid != ""){
-        url = ipfsRoot + cid;
+        url = IPFS + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -826,7 +987,7 @@ async function fetchDescriptionFromIPFS(cid, quillDescription) {
 
 async function fetchCompanySummaryFromIPFS(cid, companySummary) {
     if(cid != ""){
-        url = ipfsRoot + cid;
+        url = IPFS + cid;
         console.log(" url: " + url);
         let response = await fetch(url)
             .then(function(response) {
@@ -845,7 +1006,7 @@ async function fetchCompanySummaryFromIPFS(cid, companySummary) {
 }
 
 async function fetchFromIPFS(cid, messageSpan) {
-    url = ipfsRoot + cid;
+    url = IPFS + cid;
     console.log(" url: " + url);
     let response = await fetch(url)
         .then(function(response) {
@@ -899,6 +1060,27 @@ function decomposeText(text) {
         }
     }
     return Array.from(q.values());
+}
+
+function getIPFSLink(hash) {
+    return getHashLink(IPFS+hash, hash);
+}
+
+function getTransactionHashLink(hash) {
+    return getHashLink(chain.blockExplorerUrls[0]+"/tx/"+hash, hash);
+}
+
+function getAddressLink( address ){
+    return getHashLink(chain.blockExplorerUrls[0]+"/address/"+address, address);
+}
+
+function getHashLink(url, hash) {
+    var a = ce("a");
+    a.setAttribute("href", url);
+    a.setAttribute("target", "_blank");
+    a.setAttribute("style", "color:orange");
+    a.append(text(hash));
+    return a; 
 }
 
 function ce(element) {

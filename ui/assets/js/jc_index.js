@@ -24,7 +24,7 @@ async function loadPageData() {
 	getStakeStatus(); 
 	loadPromos();
 	
-	popularJobsDiv.setAttribute("class","ui-component-card ui-layout-column-2");	
+		
 	latestJobsTitle.innerHTML          = "Latest Jobs"; 
 	popularJobsTitle.innerHTML         = "<h6>Popular Jobs</h6>";	
 }

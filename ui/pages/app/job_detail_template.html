@@ -53,6 +53,20 @@
 <body>
     <header role="banner" class="ui-section-header">
         <div class="ui-layout-container">
+            <!-- Start Top Site Nav-->
+            <p>
+                <a href="../../pages/programmes/job finder programme/index.html"><font color="orange">For Job Seekers | </font></a>
+                <a href="../../pages/programmes/managed service programme/index.html" ><font color="orange">For Employers |</font></a>
+                <a href="../../pages/programmes/community programme/index.html" ><font color="orange">For Fresh Projects & Start-ups | </font></a>
+                <a href="../../pages/programmes/distinguished speakers programme/index.html" ><font color="orange">Distinguished Speakers Programme | </font></a>
+                <a href="../../pages/events/index.html"><font color="orange">Events | </font></a>
+                <a href="../../pages/app/jc/01_about.html " style="color:orange">About | </a>
+                <a href="../../pages/app/jc/03_terms.html " style="color:orange">Terms | </a>
+                <a href="../../pages/app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
+                <a href="../../pages/app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
+                <a href="../../pages/app/jc/07_faq.html " style="color:orange">F.A.Q. </a>
+            </p>
+            <!-- End Top Site Nav-->
             <div class="ui-section-header__layout ui-layout-flex">
                 <!-- LOGO -->
                 <a href="../../index.html" role="link" aria-label="#">
@@ -126,7 +140,7 @@
             </div>
         </div>
     </header>
-    <center><small><span id="stake_span"></span></small></center>
+    <center><small><span id="stake_span"><font color="RED" size="5"><b>BE SURE TO STAKE IF YOU WISH TO APPLY <br/> WHEN YOU HAVE FINISHED APPLYING TO ALL ROLES YOU ARE INTERESTED IN YOU CAN UNSTAKE TO GET YOUR MONEY BACK</b></font></span></small></center>
 
     <center><span id="showAccount"></span></center>
     <main role="main">
@@ -144,8 +158,11 @@
                                 <td>
                                     <div class=" ui-component-card ui-layout-column-6 ">
                                         <h4 class="ui-component-card--title ">About the Role</h4>
+                                        
+                                        <span id="connect_warning_span"><CENTER><font color="RED"><b>CONNECT YOUR METAMASK TO VIEW THE ROLE<br/>THIS IS A WEB3 SITE NOT WEB2</b></font></CENTER></span>
 
                                         <p style="text-align: justify;">
+                                            
                                             <span id="job_description_span"></span>
 
                                             <span id="posted_date_span"></span>
@@ -229,67 +246,65 @@
             <div class="ui-section-footer__layout ui-layout-flex ">
 
                 <!-- COPYRIGHT -->
-                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2022 Job Crypt</small>
+                <p class="ui-section-footer--copyright ui-text-note "><small>&copy; 2023 Job Crypt</small>
                     <br/><small>Framework by <a href="https://uisual.com/ " target="_blank ">Uisual</a></small>
                     <br/><small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank " style="color:orange">Open Block EI</a></small>
                 </p>
                 <p>
-                    <a href="../programmes/job finder programme/index.html" ><font color="orange">For Job Seekers | </font></a>
-                    <a href="../programmes/community programme/index.html"><font color="orange">For Employers |</font></a>
-                    <a href="../programmes/distinguished speakers programme/index.html"><font color="orange">Distinguished Speakers Programme | </font></a>
-                    <a href="../../events/index.html" ><font color="orange">Events | </font></a>
-                    <a href="../app/jc/01_about.html " style="color:orange">About | </a>
-                    <a href="../app/jc/03_terms.html " style="color:orange">Terms | </a>
-                    <a href="../app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
-                    <a href="../app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
-                    <a href="../app/jc/07_faq.html " style="color:orange">F.A.Q. </a>                                        			
+                    <a href="../../pages/programmes/job finder programme/index.html"><font color="orange">For Job Seekers | </font></a>
+                    <a href="../../pages/programmes/managed service programme/index.html" ><font color="orange">For Employers |</font></a>
+                    <a href="../../pages/programmes/community programme/index.html" ><font color="orange">For Fresh Projects & Start-ups | </font></a>
+                    <a href="../../pages/programmes/distinguished speakers programme/index.html" ><font color="orange">Distinguished Speakers Programme | </font></a>
+                    <a href="../../pages/events/index.html"><font color="orange">Events | </font></a>
+                    <a href="../../pages/app/jc/01_about.html " style="color:orange">About | </a>
+                    <a href="../../pages/app/jc/03_terms.html " style="color:orange">Terms | </a>
+                    <a href="../../pages/app/jc/02_privacy.html " style="color:orange">Privacy Policy | </a>
+                    <a href="../../pages/app/jc/06_cookies.html " style="color:orange">Cookie Policy | </a>
+                    <a href="../../pages/app/jc/07_faq.html " style="color:orange">F.A.Q. </a>                                    			
                 </p>
             </div>
         </div>
     </footer>
-        <div id="myModal" class="modal">
+    <div id="myModal" class="modal">
 
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
-            </div>
-
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
         </div>
 
-        <!-- JobCrypt Derivative ABIs -->
-        <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
+    </div>
 
-        <!-- JobCrypt Core ABIs -->        
-        <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
-        <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
-        <script src="../../assets/abi/i_jc_payment_manager_abi.js"></script>
+    <!-- JobCrypt Derivative ABIs -->
+    <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
 
-        <!-- Open Block EI Derivative ABIs -->
-        <script src="../../assets/abi/i_open_product_abi.js"></script>
+    <!-- JobCrypt Core ABIs -->        
+    <script src="../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+    <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
+    <script src="../../assets/abi/i_jc_payment_manager_abi.js"></script>
 
-        <!-- Open Block EI Core ABIs -->
-        <script src="../../assets/abi/i_open_product_core_abi.js"></script>
+    <!-- Open Block EI Derivative ABIs -->
+    <script src="../../assets/abi/i_open_product_abi.js"></script>
 
-        <script src="../../assets/abi/i_open_register_abi.js"></script>
+    <!-- Open Block EI Core ABIs -->
+    <script src="../../assets/abi/i_open_product_core_abi.js"></script>
 
-        <!-- OpenZeppelin ABIs -->
-        <script src="../../assets/abi/i_erc20_abi.js"></script>
-        <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+    <script src="../../assets/abi/i_open_register_abi.js"></script>
 
-        <!-- TEST NET ONLY FAUCET CODE-->
-        <script src="../../assets/abi/i_erc20USDC_abi.js"></script>
-        <script src="../../assets/abi/i_erc20WETH_abi.js"></script>
+    <!-- OpenZeppelin ABIs -->
+    <script src="../../assets/abi/i_erc20_abi.js"></script>
+    <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
 
-        <!-- JobCrypt JS -->
-        <script src="../../assets/js/autoconnect.js"></script> 
-        <script src="../../assets/js/jc_stake.js"></script>  
-        <script src="../../assets/js/jc_search_jobs.js"></script>               
-        <script src="../../assets/js/jobcrypt.js"></script>
-        <script src="../../assets/js/jc_job_detail.js"></script>                
-      
-        
-        
+    <!-- TEST NET ONLY FAUCET CODE-->
+    <script src="../../assets/abi/i_erc20USDC_abi.js"></script>
+    <script src="../../assets/abi/i_erc20WETH_abi.js"></script>
+
+    <!-- JobCrypt JS -->
+    <script src="../../assets/js/autoconnect.js"></script> 
+    <script src="../../assets/js/jc_stake.js"></script>  
+    <script src="../../assets/js/jc_search_jobs.js"></script>               
+    <script src="../../assets/js/jobcrypt.js"></script>
+    <script src="../../assets/js/jc_job_detail.js"></script>                                      
 </body>
 
 </html>

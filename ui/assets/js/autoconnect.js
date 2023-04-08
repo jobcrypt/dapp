@@ -1,5 +1,7 @@
 console.log("loading core js");
 
+const IPFS = "https://jobcrypt.infura-ipfs.io/ipfs/"; 
+
 /** standard elements  */
 const onboardButton = ge("connect_web_3");
 const showWallet = ge("showAccount");
@@ -22,19 +24,6 @@ var account;
 var chain = {};
 
 /*
-	var chain = {};
-	chain.name = 'Celo (Alfajores Testnet)';
-	chain.id =  44787;
-	chain.rpcUrls = ['https://alfajores-forno.celo-testnet.org'];
-	chain.blockExplorerUrls = ['https://alfajores-blockscout.celo-testnet.org'];
-	var nativeCurrency = {}; 
-	nativeCurrency.name = 'CELO';
-	nativeCurrency.decimals = 18;
-	nativeCurrency.symbol = 'CELO';
-	chain.nativeCurrency = nativeCurrency; 
-*/
-
-/*
 	chain.name = 'Optimistic Ethereum Testnet Kovan (OKOV)';
 	chain.id =  69;
 	chain.rpcUrls = ['https://kovan.optimism.io/'];
@@ -46,15 +35,28 @@ var chain = {};
 	chain.nativeCurrency = nativeCurrency; 
 */
 
-chain.name 				= 'Optimistim';
-chain.id 				= 10;
-chain.rpcUrls 			= ['https://mainnet.optimism.io'];
-chain.blockExplorerUrls = ['https://optimistic.etherscan.io/'];
-var nativeCurrency 		= {}; 
-nativeCurrency.name 	= 'ETH';
-nativeCurrency.decimals = 18;
-nativeCurrency.symbol 	= 'ETH';
-chain.nativeCurrency 	= nativeCurrency; 
+/*
+	chain.name = 'Sepolia test network';
+	chain.id =  11155111;
+	chain.rpcUrls = ['https://sepolia.infura.io/v3/'];
+	chain.blockExplorerUrls = ['https://sepolia.etherscan.io'];
+	var nativeCurrency = {}; 
+	nativeCurrency.name = 'SepoliaETH';
+	nativeCurrency.decimals = 18;
+	nativeCurrency.symbol = 'SepoliaETH';
+	chain.nativeCurrency = nativeCurrency; 
+*/
+
+	chain.name 				= 'Optimistim';
+	chain.id 				= 10;
+	chain.rpcUrls 			= ['https://mainnet.optimism.io'];
+	chain.blockExplorerUrls = ['https://optimistic.etherscan.io/'];
+	var nativeCurrency 		= {}; 
+	nativeCurrency.name 	= 'ETH';
+	nativeCurrency.decimals = 18;
+	nativeCurrency.symbol 	= 'ETH';
+	chain.nativeCurrency 	= nativeCurrency; 
+
 
 const web3 = new Web3(window.ethereum);
 console.log(web3);

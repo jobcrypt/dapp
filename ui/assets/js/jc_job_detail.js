@@ -22,8 +22,14 @@ function loadPageData() {
     buildCategories();
     buildKeySkills();
     buildPostedDate();
+    clearWarning(); 
     buildJobDescription();
     buildApplyLink();
+}
+
+function clearWarning() { 
+    var connectWarningSpan = document.getElementById("connect_warning_span");
+    connectWarningSpan.innerHTML = ""; 
 }
 
 const titleTable = document.getElementById("title_table");
@@ -243,6 +249,7 @@ function buildPostedDate() {
 
 function buildJobDescription() {
     var jobDescriptionSpan = document.getElementById("job_description_span");
+ 
     jobPostingContract.methods.getFeatureSTR("JOB_DESCRIPTION").call({ from: account })
         .then(function(response) {
             console.log(response);
