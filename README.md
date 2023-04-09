@@ -17,3 +17,16 @@ Current folders are available for:
  more chains are to follow. 
  Each folder is hosted on a fleek domain which uses continuous integration for deployment. Therefore when testing you should refer to the matching fleek domain to see
  the propagated changes. 
+ 
+ Below is the CI domain table
+ 
+ |Deployment | CI Link | 
+ -----------------------
+ | Optimism 			| https://jobcryptoptimism.on.fleek.co/ |
+ | Optimism Testnet 	|  | 
+ | Caduceus 			| https://jobcryptcaduceus.on.fleek.co/ |
+ | Caduceus Testnet 	| https://jobcryptcaduceustestnet.on.fleek.co/ |
+ | OK Chain 			| https://jobcryptokc.on.fleek.co/ | 
+ | OK Chain Testnet 	| | 
+ | Sepolia Testnet 		| https://sepoliajobcrypt.on.fleek.co/ | 
+ | Reference Testnet 	| https://jobcryptreference.on.fleek.co/ | 
