@@ -21,7 +21,7 @@ Current folders are available for:
  Below is the CI domain table
  
  |Deployment | CI Link | 
- -----------------------
+ |------------|-----------|
  | Optimism 			| https://jobcryptoptimism.on.fleek.co/ |
  | Optimism Testnet 	|  | 
  | Caduceus 			| https://jobcryptcaduceus.on.fleek.co/ |
