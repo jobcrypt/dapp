@@ -81,6 +81,112 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+    <style>
+        .ui-section-content {
+        padding: 20px;
+        }
+
+        .ui-layout-container {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        }
+
+        .ui-layout-column-10 {
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+        }
+
+        .ui-layout-column-center {
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .ui-component-card {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 30px;
+        }
+
+        h4 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 30px;
+        }
+
+        table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        }
+
+        td {
+        padding: 10px;
+        vertical-align: top;
+        }
+
+        .small {
+        font-size: 12px;
+        color: #999;
+        }
+
+        .ui-component-input {
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        width: 100%;
+        }
+
+        .ui-component-button {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: normal;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        color: #fff;
+        }
+
+        .ui-component-button-primary {
+        background-color: #106eea;
+        }
+
+        @media (max-width: 768px) {
+        .ui-layout-column-10 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        }
+
+    </style>
+        
 </head>
 
 <body>
@@ -190,14 +296,14 @@
                                     <td>Select Draft Job Posting Product (pay in Step 4)
                                     </td>
                                     <td>
-                                        <select class="ui-component-input ui-component-input-medium " id="job_posting_product_select" ) ">
+                                        <select class="ui-component-input ui-component-input-medium " id="job_posting_product_select">
                                             <option value="1-week "selected>Connect Metamask for Posting types</option>                                            
                                         </select>
                                     </td>
                             </tr>             
                             <tr>
                                 <td> </td>
-                                <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="create_draft_job_posting" type="button " value="Create Draft Job Posting ">
+                                <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="create_draft_job_posting" type="button " style="background-color: #106eea;" value="Create Draft Job Posting ">
                                 </td>
                             </tr>
                             <tr>
@@ -230,13 +336,15 @@
                             <tr>
                                
                                 <td>
-                                        <select class="ui-component-input ui-component-input-medium " id="edit_draft_job_posting_select") ">
-                                            <option value="1-week" selected>Connect Metamask to edit your draft Job Postings</option>                                        
+                                        <select class="ui-component-input ui-component-input-medium " id="edit_draft_job_posting_" select>
+                                            <option value="1-week" selected>
+                                                Connect Metamask to edit your draft Job Postings
+                                            </option>                                    
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="edit_draft_posting_button" type="button " value="Edit Draft Posting ">
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="edit_draft_posting_button" type="button " style="background-color: #106eea;" value="Edit Draft Posting ">
                                     </td>
                                 </tr>
                             </table>
@@ -254,122 +362,125 @@
                         <h4>Step 3</h4><br/>
                         <h2>Enter Job Posting Details</h2>
                         <span id="job_posting_save_msg_display_1"></span>
-                        <table style="text-align: left; ">
+                        <center>
+                            <table style="text-align: left; ">
 
-                            <tr>
-                                <td>Job Title*</td>
-                                <td><input type="text " id="job_title" placeholder=" enter job title ... " class="ui-component-input ui-component-input-medium " required></td>
-                            </tr>
-                            <tr>
-                                <td>Location Type*</td>
-                                <td>
-                                    <select class="ui-component-input ui-component-input-medium " id="job_location_type">
-                                        <option value="Geo-Local">Geo Local</option>
-                                        <option value="Geo-Remote" selected>Geo Remote</option>
-                                        <option value="Mixed-Mode ">Geo Mixed Mode</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Location Support*</td>
-                                <td>
-                                    <select class="ui-component-input ui-component-input-medium " id="job_location_support">
-                                        <option value="Paid-Relocation ">Paid Relocation</option>
-                                        <option value="Supported-Relocation " selected>Supported Relocation</option>
-                                        <option value="Not-Provided">Not Provided</option>
-                                        <option value="N/A">N/A</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Work Location</td>
-                                <td><input type="text " id="job_work_location" placeholder=" enter work location (optional) ... " class="ui-component-input ui-component-input-medium "></td>
-                            </tr>
-                            <tr>
-                                <td>Company Name*</td>
-                                <td><input type="text " id="company_name" placeholder=" enter company name ... " class="ui-component-input ui-component-input-medium " required></td>
-                            </tr>
-                            <tr> 
-                                <td>Company Link*</td>
-                                <td><input type="text " id="company_link" placeholder=" enter company link ... " class="ui-component-input ui-component-input-medium " required></td>
-                            </tr>
-                            <tr> 
-                                <td>Company Logo*</td>
-                                <td><input type="file" id="company_logo"  class="ui-component-input ui-component-input-medium " required></td>
-                            </tr>
-                            <tr> 
-                                <td>Current Logo</td>
-                                <td><span id="company_logo_display"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Summary about your Company*</td>
-                                <td><textarea id="company_summary" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter summary ... "></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Skills Required*</td>
-                                <td><textarea id="job_skills_required" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter skills required ... " required></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Search Categories*</td>
-                                <td><textarea id="job_search_categories" class="ui-component-input ui-component-input-medium " width="15 " height="30 " placeholder="enter search categories ... " required></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Search Terms*</td>
-                                <td><textarea id="user_search_terms" class="ui-component-input ui-component-input-medium " width="15 " height="30 " placeholder="enter search terms ... " required></textarea></td>
-                            </tr>
-                            <tr>
-                                <td>Work Type*</td>
-                                <td>
-                                    <select class="ui-component-input ui-component-input-medium " id="job_work_type">
-                                        <option value="Contract">Contract</option>
-                                        <option value="Full-time " selected>Full-time</option>
-                                        <option value="Part-time ">Part-time</option>
-                                        <option value="Intern ">Intern</option>
-                                        <option value="Volunteer ">Volunteer</option>                                        
-                                        <option value="Associate ">Associate</option>
-                                        <option value="Alternative ">Alternative</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Payment Type*</td>
-                                <td><select class="ui-component-input ui-component-input-medium " id="job_payment_type">
-                                    <option value="crypto ">Cryptocurrency</option>
-                                    <option value="fiat " selected>Fiat</option>
-                                    <option value="mixed ">Mixed Mode</option>
-                                </select></td>
-                            </tr>
-                            <tr>
-                                <td>Job Description*</td>
-                                <td>
-                                    <div id="job_description">
-                                        <p>Delete this and enter your <strong>job description</strong>...</p>                                                                            
-                                      
-                                    </div>                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Job Application Link*</td>
-                                <td><input type="text " id="job_application_link" placeholder="link or email " class="ui-component-input ui-component-input-medium " required></td>
-                            </tr>
-                        </table>
-                        <br/>
-                        <table>
-                            <tr>
-                                <td>
-                                    <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="reset_draft_posting_button" type="button " value="reset ">
-                                </td>
-                                <td>
-                                    <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="save_draft_posting_button" type="button " value="save your job posting ">
-                                </td>
-
-                            </tr>
-                            <tr> 
-                                <td></td>
-                                <td><font color="purple">This action incurs gas fee</font></td>
-                            </tr>
-                        </table>
-                        <span id="job_posting_save_msg_display_2"></span>
+                                <tr>
+                                    <td>Job Title*</td>
+                                    <td><input type="text " id="job_title" placeholder=" enter job title ... " class="ui-component-input ui-component-input-medium " required></td>
+                                </tr>
+                                <tr>
+                                    <td>Location Type*</td>
+                                    <td>
+                                        <select class="ui-component-input ui-component-input-medium " id="job_location_type">
+                                            <option value="Geo-Local">Geo Local</option>
+                                            <option value="Geo-Remote" selected>Geo Remote</option>
+                                            <option value="Mixed-Mode ">Geo Mixed Mode</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Location Support*</td>
+                                    <td>
+                                        <select class="ui-component-input ui-component-input-medium " id="job_location_support">
+                                            <option value="Paid-Relocation ">Paid Relocation</option>
+                                            <option value="Supported-Relocation " selected>Supported Relocation</option>
+                                            <option value="Not-Provided">Not Provided</option>
+                                            <option value="N/A">N/A</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Work Location</td>
+                                    <td><input type="text " id="job_work_location" placeholder=" enter work location (optional) ... " class="ui-component-input ui-component-input-medium "></td>
+                                </tr>
+                                <tr>
+                                    <td>Company Name*</td>
+                                    <td><input type="text " id="company_name" placeholder=" enter company name ... " class="ui-component-input ui-component-input-medium " required></td>
+                                </tr>
+                                <tr> 
+                                    <td>Company Link*</td>
+                                    <td><input type="text " id="company_link" placeholder=" enter company link ... " class="ui-component-input ui-component-input-medium " required></td>
+                                </tr>
+                                <tr> 
+                                    <td>Company Logo*</td>
+                                    <td><input type="file" id="company_logo"  class="ui-component-input ui-component-input-medium " required></td>
+                                </tr>
+                                <tr> 
+                                    <td>Current Logo</td>
+                                    <td><span id="company_logo_display"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Summary about your Company*</td>
+                                    <td><textarea id="company_summary" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter summary ... "></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Skills Required*</td>
+                                    <td><textarea id="job_skills_required" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter skills required ... " required></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Search Categories*</td>
+                                    <td><textarea id="job_search_categories" class="ui-component-input ui-component-input-medium " width="15 " height="30 " placeholder="enter search categories ... " required></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Search Terms*</td>
+                                    <td><textarea id="user_search_terms" class="ui-component-input ui-component-input-medium " width="15 " height="30 " placeholder="enter search terms ... " required></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Work Type*</td>
+                                    <td>
+                                        <select class="ui-component-input ui-component-input-medium " id="job_work_type">
+                                            <option value="Contract">Contract</option>
+                                            <option value="Full-time " selected>Full-time</option>
+                                            <option value="Part-time ">Part-time</option>
+                                            <option value="Intern ">Intern</option>
+                                            <option value="Volunteer ">Volunteer</option>                                        
+                                            <option value="Associate ">Associate</option>
+                                            <option value="Alternative ">Alternative</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Type*</td>
+                                    <td><select class="ui-component-input ui-component-input-medium " id="job_payment_type">
+                                        <option value="crypto ">Cryptocurrency</option>
+                                        <option value="fiat " selected>Fiat</option>
+                                        <option value="mixed ">Mixed Mode</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <td>Job Description*</td>
+                                    <td>
+                                        <div id="job_description">
+                                            <p>Delete this and enter your <strong>job description</strong>...</p>                                                                            
+                                          
+                                        </div>                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Job Application Link*</td>
+                                    <td><input type="text " id="job_application_link" placeholder="link or email " class="ui-component-input ui-component-input-medium " required></td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="reset_draft_posting_button" type="button " style="background-color: #106eea;" value="reset ">
+                                    </td>
+                                    <td>
+                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="save_draft_posting_button" type="button " style="background-color: #106eea;" value="save your job posting ">
+                                    </td>
+    
+                                </tr>
+                                <tr> 
+                                    <td></td>
+                                    <td><font color="purple">This action incurs gas fee</font></td>
+                                </tr>
+                            </table>
+                            <span id="job_posting_save_msg_display_2"></span>
+                        </center>
+                        
                     </div>
 
 
@@ -424,9 +535,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="approve_payment_currency_button" type="button " value="approve payment currency ">
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="approve_payment_currency_button" type="button " style="background-color: #106eea;" value="approve payment currency ">
                                     </td>
-                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-secondary " id="buy_job_posting_button" type="button " value="buy your listing " disabled>
+                                    <td><input class="ui-component-button ui-component-button-medium ui-component-button-secondary " id="buy_job_posting_button" type="button " style="background-color: #106eea;" value="buy your listing " disabled>
                                     </td>
                                 </tr>
                                 <tr> 
@@ -461,7 +572,7 @@
                                         <small>Note: Save before posting will trigger an additional transaction</small>
                                     <td>
                                     <td>
-                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " value="post "><br/>
+                                        <input class="ui-component-button ui-component-button-medium ui-component-button-primary " id="post_job_button" type="button " style="background-color: #106eea;" value="post "><br/>
                                         <font color="purple">This action incurs gas fee.</font>
                                     </td>
                                 </tr>
@@ -477,52 +588,6 @@
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-
-        <div class="footer-newsletter">
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-lg-6">
-                <h1>Ready to start?</h1>
-                <p class="ui-text-intro ">Get the latest jobs direct to your inbox </p>
-                <!-- Begin Mailchimp Signup Form -->
-                <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7_dtp.css" rel="stylesheet" type="text/css">
-                <style type="text/css">
-                    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;  width:600px;}
-                    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                    We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                </style>
-                <div id="mc_embed_signup">
-                <form action="https://jobcrypt.us14.list-manage.com/subscribe/post?u=b13e43ad0aa241d4fbc634e6e&amp;id=faf356f218" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                    <div id="mc_embed_signup_scroll">
-                  
-                    <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-                      <div class="mc-field-group">
-                      <center><label for="mce-EMAIL">Email Address  <span class="asterisk">*</span> </label>
-                      <input type="email" value="" name="EMAIL"  placeholder="enter your email ... " class="form-control text-primary" style="border-color: black;border-left: 10em;" id="mce-EMAIL"></center>
-                    </div>
-  
-                    <div id="mce-responses" class="clear foot">
-                        <div class="response" id="mce-error-response" style="display:none"></div>
-                        <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    
-                    
-                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b13e43ad0aa241d4fbc634e6e_faf356f218" tabindex="-1" value=""></div>
-                        <div class="optionalParent">
-                            <div class="clear foot" >
-                                <center><button type="submit" value="Join Alert List" name="subscribe" id="mc-embedded-subscribe" class="btn btn-dark">Join Alert List</button></center>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                </div>
-                <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-                <!--End mc_embed_signup-->
-              </div>
-            </div>
-          </div>
-        </div>
-  
         <div class="footer-top">
           <div class="container">
             <div class="row">

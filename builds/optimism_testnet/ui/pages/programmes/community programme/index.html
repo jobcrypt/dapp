@@ -81,6 +81,135 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+    <style>
+      /* General styles */
+        body {
+          font-family: sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #fff;
+          color: #333;
+          width: 100%;
+        }
+
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          margin-top: 0;
+          margin-bottom: 16px;
+        }
+
+        a {
+          color: #106eea;
+          text-decoration: none;
+        }
+
+        /* Section styles */
+        .ui-section-content {
+          background-color: #fff;
+          padding: 32px;
+          text-align: center;
+        }
+
+        /* Layout styles */
+        .ui-layout-container {
+          display: flex;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        /* Card styles */
+        .ui-component-card {
+          background-color: #fff;
+          padding: 32px;
+          margin-bottom: 32px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .ui-component-card--title {
+          font-size: 36px;
+          margin-top: 0;
+          margin-bottom: 16px;
+          color: #106eea;
+        }
+
+        .ui-component-card td{
+          text-align: center;
+        }
+
+        /* Form styles */
+        .ui-form-input {
+          display: block;
+          margin-bottom: 16px;
+          padding: 8px;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+          width: 100%;
+          font-size: 16px;
+        }
+
+        .ui-form-button {
+          background-color: #106eea;
+          color: #fff;
+          border: none;
+          padding: 12px 16px;
+          border-radius: 4px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+
+        .ui-form-button:hover {
+          background-color: #0b5c9c;
+        }
+        /* Responsive styles for mobile */
+        @media screen and (max-width: 767px) {
+          .ui-layout-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .ui-layout-column-8 {
+            width: 100%;
+            margin-bottom: 16px;
+          }
+
+          .ui-component-card {
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          }
+
+          .ui-component-card--title {
+            font-size: 24px;
+            margin-top: 0;
+          }
+
+          table {
+            display: block;
+            width: 100%;
+            overflow: auto;
+          }
+
+          td {
+            display: block;
+            text-align: justify;
+          }
+
+          img {
+            max-width: 100%;
+            height: auto;
+          }
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -162,49 +291,51 @@
     <center><span id="showAccount"></span></center>
     <center><span id="job_posting_result"></span></center>
     <main role="main">
-
+      <center>
         <section class="ui-section-content">
-            <div class="ui-layout-container ">
-                <div class="ui-layout-column-8 ui-layout-column-center ">
-                    <table align="top">
-                        <tr>
-                            <td>
-                                
-                                <div class="ui-component-card ui-layout-column-6 ">
-                                    <h2 class="ui-component-card--title ">About the JobCrypt Community Programme</h2>
-                                    <p>
-                                        <h3>What is the JobCrypt Community Programme?</h3>
-                                        <b>JobCrypt Community Programme</b> has the purpose of supporting new and emergant projects that are looking to scale in Web3 and Blockchain. The goal of the programme is to 
-                                        foster a culture of Community Innovation that allows new projects to access some of the best talent out there and hence create future defining experiences in Web3 
-                                    </p>
-                                    <h3>How it Works</h3>
-                                    <p>                                       
-                                        As part of the JobCrypt Community Programme new projects are provided with 3 Community Listings annually with which to secure talent to help them reach their next key milestone, 
-                                        be that product build, venture funding or commercial launch. Projects also have access to JobCrypt Beta features, thus helping define the future of work. 
-                                    </p>
-                                    <h3>Sign up</h3>
-                                    <p>
-                                        To sign up for the programme complete the form <b><a href="https://bit.ly/3jplAAm" style="color: orange;">here</a></b>                                        
-                                    </p>
-                                
-                                </div>
-                                <div class="ui-component-card ui-layout-column-6 ">
-                                    <h4 class="ui-component-card--title ">Contact</h4>
-                                    For partnerships or more information about JobCrypt contact us on our <b><a href="https://discord.gg/89DWAkEnWb"  target="_blank" style="color:orange">Discord</a> or <a href="mailto:sales@jobcrypt.com?subject=Query from the Web" style="color:orange">Email Us</a></b>
-                                </div>
-                            </td>
-                            <td>
+          <div class="ui-layout-container ">
+              <div class="ui-layout-column-8 ui-layout-column-center ">
+                  <table >
+                      <tr>
+                          <td>
+                              
+                              <div class="ui-component-card ui-layout-column-6 ">
+                                  <h2 class="ui-component-card--title ">About the JobCrypt Community Programme</h2>
+                                  <p>
+                                      <h3>What is the JobCrypt Community Programme?</h3>
+                                      <b>JobCrypt Community Programme</b> has the purpose of supporting new and emergant projects that are looking to scale in Web3 and Blockchain. The goal of the programme is to 
+                                      foster a culture of Community Innovation that allows new projects to access some of the best talent out there and hence create future defining experiences in Web3 
+                                  </p>
+                                  <h3>How it Works</h3>
+                                  <p>                                       
+                                      As part of the JobCrypt Community Programme new projects are provided with 3 Community Listings annually with which to secure talent to help them reach their next key milestone, 
+                                      be that product build, venture funding or commercial launch. Projects also have access to JobCrypt Beta features, thus helping define the future of work. 
+                                  </p>
+                                  <h3>Sign up</h3>
+                                  <p>
+                                      To sign up for the programme complete the form <b><a href="https://bit.ly/3jplAAm" style="color: orange;">here</a></b>                                        
+                                  </p>
+                              
+                              </div>
+                              <div class="ui-component-card ui-layout-column-6 ">
+                                  <h4 class="ui-component-card--title ">Contact</h4>
+                                  For partnerships or more information about JobCrypt contact us on our <b><a href="https://discord.gg/89DWAkEnWb"  target="_blank" style="color:orange">Discord</a> or <a href="mailto:sales@jobcrypt.com?subject=Query from the Web" style="color:orange">Email Us</a></b>
+                              </div>
+                          </td>
+                          <td>
 
-                                <div class=" ui-component-card ui-layout-column-6">
-                                    <p><img src="../../../assets/images/people/pexels-fauxels-3184405.jpg"></p>
-                                    
-                                </div>        
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
+                              <div class=" ui-component-card ui-layout-column-6">
+                                  <p><img src="../../../assets/images/people/pexels-fauxels-3184405.jpg"></p>
+                                  
+                              </div>        
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </section>
+      </center>
+        
     </main>
     
     <!-- ======= Footer ======= -->
