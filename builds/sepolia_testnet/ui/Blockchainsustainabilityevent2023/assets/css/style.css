@@ -2,6 +2,7 @@ html{
     margin: 0%;
     padding: 0%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 a{
     text-decoration: none;
@@ -9,37 +10,87 @@ a{
 p{
     color: #707070;
 }
-#hero{
-    background-image: url(../img/Diagram\ -\ Blockchain\ Conference\ \(1\).png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-color: rgba(25, 18, 227, 0.3);
-}
 
-#hero-details{
-    width: 10%;
-    margin: 0px auto;
-}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 20, 137, 0.7);
+  }
+  
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .centered {
+      font-size: 0.5rem;
+     
+      top:50%;
+    }
+
+    .centered h1{
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .centered h4{
+      font-size: 1rem;
+    }
+
+    #booking h1{
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    #booking h4{
+      font-size: 1rem;
+    }
+    #hero p{
+      font-size: 0.7rem !important;
+      line-height: 0.9;
+    }
+  }
 
 #hero button{
     background: #93ca7d;
+    border: none;
+}
+.centered button{
+    background: #93ca7d;
     color: white;
     border: none;
+    padding: 10px 20px;
+    font-size: larger;
 }
 
 #navbarNav{
     color: #d9d9d9;
+    background-color: transparent;
+}
+
+#colorActive{
+    background-color: rgba(0, 0, 0, 0.7);;
 }
 
 .nav-link{
     color: #d9d9d9;
-    font-size: larger;
 }
 
-.nav-link:focus{
+.nav-link:focus,.nav-link:hover{
     background: #707070;
     color: #d9d9d9;
+}
+
+.active{
+    background-color: rgba(0, 0, 0, 0.7);
 }
 #hero select{
     background: transparent;
@@ -57,12 +108,17 @@ p{
 
 #hero p{
     font-weight: 100;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 #about-details .card{
     background: transparent;
     border: none;
+}
+
+#about-details svg{
+    color: #f1c312;
+    font-size: x-large;
 }
 
 #about-img{
@@ -100,3 +156,141 @@ p{
     padding-bottom: 10px;
     font-weight: 600;
 }
+
+#stars svg{
+    color: #f1c312;
+}
+#stars{
+    width: fit-content;
+}
+
+#poor{
+    width: fit-content;
+    color: #f1c312;
+}
+#booking button{
+    background: #93ca7d;
+    border: none;
+    padding: 10px 20px;
+    font-size: larger;
+    color: white;
+}
+
+#booking button:hover{
+    color: white;
+}
+
+#border{
+    border-bottom: 5px solid #001489;
+}
+
+#footer a{
+    color: black;
+    font-size: larger;
+    font-weight: 700;
+}
+#footer svg{
+    background: black;
+    color: white;
+    border-radius: 100%;
+    font-size: larger;
+}
+
+#footer-brands{
+    width: 70%;
+}
+
+#more-details p span{
+    color: #001489;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+#speaker-details p span{
+    color: #001489;
+    font-size: x-large;
+    font-weight: 700;
+}
+#speaker-details p {
+    font-size: larger;
+    font-weight: 600;
+    color: black;
+}s
+
+#speaker-details svg{
+    background: black;
+    color: white;
+    border-radius: 100%;
+}
+
+#speaker-details img{
+    rotate: 0.2deg;
+}
+
+#schedule-toggler button{
+    background: none;
+    border: 4px solid #9f9b9b;
+    border-radius: 20px;
+    color: #707070;
+}
+
+#schedule-toggler button h6{
+    color: #979797;
+}
+#schedule-border{
+    border-bottom: 5px solid #d9d9d9;
+    width: 80%;
+}
+
+#schedule-theme h4{
+    font-weight: 700;
+    font-size: xx-large;
+}
+
+#schedule-theme h4 span{
+    color: #001489;
+}
+
+#schedule-theme p{
+    font-size: x-large;
+}
+
+#schedule-events-details{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+
+#events-img{
+    width: 29%;
+}
+#events-img img{
+    width: 60%;
+    border-radius: 100%;
+}
+
+#schedule-events-details h4{
+    font-weight: bolder;
+    font-size: larger;
+}
+
+#schedule-events-details p{
+    font-weight: bolder;
+    font-size: large;
+}
+
+#event-time p span{
+    color: #001489;
+}
+
+#event-time p svg{
+    color: #f1c312;
+}
+
+#schedule-button{
+    background: #93ca7d;
+    border: none;
+    padding: 10px 20px;
+    font-size: larger;
+    color: white;
+}
+
