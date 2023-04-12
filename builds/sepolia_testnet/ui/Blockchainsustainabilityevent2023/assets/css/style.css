@@ -1,0 +1,102 @@
+html{
+    margin: 0%;
+    padding: 0%;
+    scroll-behavior: smooth;
+}
+a{
+    text-decoration: none;
+}
+p{
+    color: #707070;
+}
+#hero{
+    background-image: url(../img/Diagram\ -\ Blockchain\ Conference\ \(1\).png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: rgba(25, 18, 227, 0.3);
+}
+
+#hero-details{
+    width: 10%;
+    margin: 0px auto;
+}
+
+#hero button{
+    background: #93ca7d;
+    color: white;
+    border: none;
+}
+
+#navbarNav{
+    color: #d9d9d9;
+}
+
+.nav-link{
+    color: #d9d9d9;
+    font-size: larger;
+}
+
+.nav-link:focus{
+    background: #707070;
+    color: #d9d9d9;
+}
+#hero select{
+    background: transparent;
+    border: none;
+    color: #d9d9d9;
+}
+
+#hero h1{
+   letter-spacing: 1.5px;
+}
+
+#hero h4{
+    font-weight: 300;
+}
+
+#hero p{
+    font-weight: 100;
+    font-size: 15px;
+}
+
+#about-details .card{
+    background: transparent;
+    border: none;
+}
+
+#about-img{
+    border-right: 2px solid #d9d9d9;
+}
+
+#about-text {
+    color: #d9d9d9;
+}
+#about-text span{
+    color: #001489;
+    font-size: 30px;
+    font-weight: 800;
+}
+#about-text button{
+    background: #93ca7d;
+    border: none;
+}
+
+#card-details .card{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+}
+
+#card-details h4{
+    color: #001489;
+}
+
+#categories-details .cards{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+#categories-details  li{
+    font-size: larger;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
