@@ -5,3 +5,10 @@
     background-repeat: no-repeat;
     position: relative;
 }
+
+input::placeholder {
+    color: white;
+    font-size: 14px;
+    opacity: 1;
+    /* Firefox */
+}
