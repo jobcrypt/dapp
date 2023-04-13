@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <title>About EU Event</title>
+</head>
+<body>
+    <div id="hero">
+        <!--Nav-->
+        <nav class="navbar navbar-expand-lg fixed-top p-0" id="main-navbar">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand">
+                    <img class="img-fluid" src="../../assets/img/logo/apple-touch-icon-57x57.png" alt="">
+                </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto text-start">
+                    <li class="nav-item">
+                        <a href="../../index.html" class="nav-link px-4 ">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../pages/about.html" class="nav-link px-4 ">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructors" class="nav-link px-4 ">Themes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#learn" class="nav-link px-4 ">Schedules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../index.html#speakers" class="nav-link px-4 ">Speakers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructors" class="nav-link px-4 ">Faq</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructors" class="nav-link ">
+                            <select class=" text-start" name="" id="">
+                                <option value="Eng">Eng</option>
+                            </select>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructors" class="nav-link ">
+                            <button class=" px-5 btn btn-primary btn-large">
+                                Get Ticket
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    <!--Nav ending-->
+    </div>
+    
+
+    <!--Booking-->
+        <div class="" id="booking">
+            <div class="position-relative">
+                <img src="../../assets/img/footer-bg-blockchain Conference.jpg" class="img-fluid w-100 h-100"  alt="">
+                <div class="position-absolute top-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.7);">
+
+                </div>
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-light">
+                    <h1>Book Your seat</h1>
+                    <h4>Be an Early bird and ensure you are part of this amazing conference</h4>
+
+                    <a href="#" class="">
+                        <button class=" px-5 btn btn-large">
+                            Get Ticket
+                        </button>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    <!--Booking ending-->
+
+    <!--Schedule-->
+    <div id="schedule" class="text-center">
+        <div class="py-4 text-center">
+            <h2 style="color: #001489;">Event Schedule</h2>
+            <div class="row align-items-center justify-content-center pb-3">
+                <div class="mx-1 col-lg-6 col-md-12" style="background: #e68484; width: 30px; height: 17px; border-radius: 10px;"></div>
+                <div class="mx-1 col-lg-6 col-md-12" style="background: #f1c232; width: 30px; height: 17px; border-radius: 10px;"></div>
+                <div class="mx-1 col-lg-6 col-md-12" style="background: #6393df; width: 30px; height: 17px; border-radius: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--Schedule Toggler-->
+    <div id="schedule-toggler" class=" mx-md-auto mx-lg-auto  mx-0">
+            <div class="row mx-auto text-center justify-content-center">
+                <div class="col ">
+                    <button class="px-sm-2 px-md-5 py-sm-2 py-lg-4" onclick="buttonOne()">
+                        <h4>Day 1</h4>
+                        <h6>May 16th</h6>
+                    </button>
+                </div>
+                <div class="col ">
+                    <button class="px-sm-2 px-md-5 py-sm-2 py-lg-4" onclick="buttonTwo()">
+                        <h4>Day 2</h4>
+                        <h6>May 17th</h6>
+                    </button>
+                </div>
+                <div class="col ">
+                    <button class="px-sm-2 px-md-5 py-sm-2 py-lg-4" onclick="buttonThree()">
+                        <h4>Day 3</h4>
+                        <h6>May 18th</h6>
+                    </button>
+                </div>
+                <div class="col ">
+                    <button class="px-sm-2 px-md-5 py-sm-2 py-lg-4"  onclick="buttonFour()">
+                        <h4>Day 4</h4>
+                        <h6>May 19th</h6>
+                    </button>
+                </div>
+                <div class="col ">
+                    <button class="px-sm-2 px-md-5 py-sm-2 py-lg-4"  onclick="buttonFive()">
+                        <h4>Day 5</h4>
+                        <h6>May 20th</h6>
+                    </button>
+                </div>
+            </div>
+            <div id="schedule-border" class="pt-4 container mx-auto"></div>
+    </div>
+
+    <!--schedule Theme-->
+        <div id="schedule-theme" class="py-4  mx-5">
+            <h4><span>Theme:  </span>Biodiversity Conservation;</h4>
+            <ul class="mx-5">
+                <li><p>Key Competence digital skills</p></li>
+                <li><p>skills anticipation and matching</p></li>
+            </ul>
+        </div>
+
+    <!--schedule events day 1-->
+        <div id="btnDayOne" class="mx-1 text-center btnActive">
+            <section class="py-3 mx-5 g-4" >
+                <!--Box 1-->
+                <div class=" px-5 " id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-1- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 2-->
+                <div class=" px-5 mt-5" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-2- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Blockchain for climate foundation</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 3-->
+                <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Simplex DNA</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 4-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 5-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign  initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <a class="col-6" href="pages/fullschedule.html">
+                <button id="schedule-button">
+                    View Full Schedule
+                </button>
+            </a>
+        </div>
+
+        <!--schedule events day 2-->
+        <div id="btnDayTwo" class="mx-1 text-center btnNotActive">
+            <section class="py-3 mx-5 g-4" >
+                <!--Box 1-->
+                <div class=" px-5 " id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-1- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 2-->
+                <div class=" px-5 mt-5" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-2- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Blockchain for climate foundation</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 3-->
+                <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Simplex DNA</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 4-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 5-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign  initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a class="col-6" href="pages/fullschedule.html">
+                <button id="schedule-button">
+                    View Full Schedule
+                </button>
+            </a>
+        </div>
+
+        <!--schedule events day 3-->
+        <div id="btnDayThree" class="mx-1 text-center btnNotActive">
+            <section class="py-3 mx-5 g-4" >
+                <!--Box 1-->
+                <div class=" px-5 " id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-1- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 2-->
+                <div class=" px-5 mt-5" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-2- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Blockchain for climate foundation</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 3-->
+                <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Simplex DNA</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 4-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 5-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign  initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a class="col-6" href="pages/fullschedule.html">
+                <button id="schedule-button">
+                    View Full Schedule
+                </button>
+            </a>
+        </div>
+
+        <!--schedule events day 4-->
+        <div id="btnDayFour" class="mx-1 text-center btnNotActive">
+            <section class="py-3 mx-5 g-4" >
+                <!--Box 1-->
+                <div class=" px-5 " id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-1- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 2-->
+                <div class=" px-5 mt-5" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-2- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Blockchain for climate foundation</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 3-->
+                <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Simplex DNA</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 4-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 5-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign  initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a class="col-6" href="pages/fullschedule.html">
+                <button id="schedule-button">
+                    View Full Schedule
+                </button>
+            </a>
+        </div>
+
+        <!--schedule events day 5-->
+        <div id="btnDayFive" class="mx-1 text-center btnNotActive">
+            <section class="py-3 mx-5 g-4" >
+                <!--Box 1-->
+                <div class=" px-5 " id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-1- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 2-->
+                <div class=" px-5 mt-5" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-2- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Blockchain for climate foundation</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Box 3-->
+                <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Simplex DNA</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 4-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign nature initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!--Box 5-->
+                 <div class=" px-5 mt-5 mb-3" id="schedule-events-details">
+                    <div class=" ">
+                        <div class=" w-100 cards d-md-flex  py-3 ">
+                            <div class="" id="events-img">
+                               <img class="" src="../../assets/img/person-3- Blockchain Conference.jpg" alt="">
+                            </div>
+        
+                        
+                            <div class=" text-start ">
+                                <h4 class="pb-3" style="display: flex;color: #001489;">Talk: <p class="mx-2" style=" font-weight: bold; padding-top:3px;">Sovereign  initiative</p></h4>
+                                <p>Blockchain technology has the potential to create a more sustainable world.but it also has the potential to be an energy-intensive and unsustainable technology</p>
+                                <div id="event-time">
+                                    <p>
+                                        <span><i class="fa-solid fa-clock mx-1"></i> 10:30am - 11:45am</span>
+                                        <span class="mx-5"><i class="fa-solid fa-user mx-1"></i>By: Maria Reece</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <a class="col-6" href="pages/fullschedule.html">
+                <button id="schedule-button">
+                    View Full Schedule
+                </button>
+            </a>
+        </div>
+
+        <!--Footer-->
+        <div class="footer container p-5" id="footer">
+            <div id="border" class="pb-3"></div>
+            <!--Footer links-->
+            <div class="row pt-4 mx-auto justify-content-center align-items-center text-center">
+            
+                <div class="col">
+                    <a href="#">Home</a>
+                </div>
+                <div class="col">
+                    <a href="#">About</a>
+                </div>
+                <div class="col">
+                    <a href="#">Programs</a>
+                </div>
+                <div class="col">
+                    <a href="#speakers">Speakers</a>
+                </div>
+                <div class="col">
+                    <a href="#">Blog</a>
+                </div>
+                <div class="col">
+                    <a href="#">Contact</a>
+                </div>
+            
+                
+            </div>
+
+            <!--Footer brands-->
+            <div class="row pt-4 mx-auto justify-content-center align-items-center text-center" id="footer-brands">
+            
+                <div class="col">
+                    <a href="#">
+                        <i class="fa-brands p-3 fa-facebook"></i>
+                    </a>
+                    
+                </div>
+                <div class="col">
+                    <a href="#">
+                        <i class="fa-brands p-3 fa-instagram"></i>
+                    </a>
+                    
+                </div>
+                <div class="col">
+                    <a href="#">
+                        <i class="fa-brands p-3 fa-twitter"></i>
+                    </a>
+                    
+                </div>
+                <div class="col">
+                    <a href="#">
+                        <i class="fa-brands p-3 fa-linkedin"></i>
+                    </a>
+                    
+                </div>
+                <div class="col">
+                    <a href="#">
+                        <i class="fa-brands p-3 fa-youtube"></i>
+                    </a>
+                    
+                </div>
+            
+                
+            </div>
+
+            <!--Footer texts-->
+            <div class=" pt-5 mx-auto align-items-center text-center">
+                <p>&copy; 2023 Blockchain Conference <b>|</b> Framework by <span style="color: #f1c232;">Uisual</span> <b>|</b> Powered by <span style="color: #f1c232;">Open Block EI</span></p>
+            </div>
+        </div>
+    <!--Footer ending-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="../../assets/fontawesome/js/all.min.js"></script>
+    <script src="../../assets/js/script.js"></script>
+</body>
+</html>
