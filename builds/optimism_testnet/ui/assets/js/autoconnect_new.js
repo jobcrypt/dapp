@@ -195,13 +195,20 @@ const o2watchHowToInstallMetamaskVideoText = "Watch this video on how to install
 const o3connectMetamaskText = "Click here to Connect Metamask to Begin"; 
 const o4watchHowToConnectMetamaskVideoText = "Watch this video on how to Connect Metamask to Blockchain"; 
 
+/* //original
+const o5getStartedText = "Click to Begin";  */
+
+//new
+let getStartedShown = false;
 const o5getStartedText = "Click to Begin"; 
+
 const o6howtoUseJobCrypt = "Watch this video on how to use JobCrypt"; 
 
 function setInstallPlayList() {
 	 
 	clearVideos(); 
 
+	
 	var button = ce("a");
 	button.setAttribute("href", "https://metamask.io/download/");
 	button.setAttribute("class", "btn-get-started");
@@ -219,12 +226,23 @@ function setInstallPlayList() {
 function setHowToPlayList() { 
 	clearVideos(); 
 
+	/* //original
 	var button = ce("a");
 	button.setAttribute("href", "#latest-jobs");
 	button.setAttribute("class", "btn-get-started scrollto");
 	button.append(text(o5getStartedText));
 
-	getStartedButtonSpan.append(button);
+	getStartedButtonSpan.append(button); */
+
+	//new
+	if (!getStartedShown) {
+		var button = ce("a");
+		button.setAttribute("href", "#latest-jobs");
+		button.setAttribute("class", "btn-get-started scrollto");
+		button.append(text(o5getStartedText));
+		getStartedButtonSpan.append(button);
+		getStartedShown = true;
+	}
 
 	var f = getColoredNode("blue");	
 	connectVideoLinkSpan.append(createVideoLink(howToUseJobCrypt, o6howtoUseJobCrypt, f));
