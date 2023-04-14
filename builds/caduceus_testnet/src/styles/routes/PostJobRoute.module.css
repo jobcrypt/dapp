@@ -1,0 +1,108 @@
+.parent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    padding-bottom: 30px;
+    /* background-color: red; */
+}
+
+.hero{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    padding-top: 16rem;
+    padding-bottom: 30px;
+}
+
+.heroImage{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero>h1{
+    font-size: 60px;
+    background: -webkit-linear-gradient(#3449BE, #FF92F3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'font-bold';
+    margin: 0;
+}
+
+.hero>p{
+    color: #fff;
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
+    padding: 0px 30%;
+    font-family: 'font-light';
+    z-index: 1;
+}
+
+
+.btnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    margin-top: 2rem;
+}
+
+.postJobBtn{
+    width: 20rem;
+    height: 6rem;
+    color: #fff;
+    font-family: 'font-light';
+    font-size: 40px;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.viewListingBtn{
+    width: 20rem;
+    height: 6rem;
+    color: #fff;
+    font-family: 'font-light';
+    font-size: 40px;
+    /* background-image: linear-gradient(to right, #2c2231, #171d32); */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1;
+    background-color: transparent;
+    border: 5px solid #2c2231;
+}
+
+.jobListingParent{
+    padding-top: 5rem;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, #171d32, #2c2231);
+}
+
+.listingTitle{
+    font-family: 'font-bold';
+    font-size: 40px;
+    color: #fff;
+}

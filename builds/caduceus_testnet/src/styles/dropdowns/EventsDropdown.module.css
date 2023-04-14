@@ -1,0 +1,26 @@
+.ul{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 120%;
+    left: 0;
+    /* right: 0; */
+    width: max-content;
+    height: max-content;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+}
+
+.ul>li{
+    list-style: none;
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'font-light';
+    font-size: 15px;
+    color: #fff;
+}

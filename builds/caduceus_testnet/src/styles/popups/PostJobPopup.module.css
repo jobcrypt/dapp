@@ -1,0 +1,297 @@
+.parent{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .05);
+    display: flex;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.box{
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    background-color: var(--dim-bg);
+    border-radius: 20px;
+    padding: 3rem 3rem;
+}
+
+.box2{
+    width: 80vw;
+    height: 95vh;
+    display: flex;
+    background-color: var(--dim-bg);
+    border-radius: 20px;
+    padding: 3rem 3rem;
+}
+
+.backSection{
+    width: 50px;
+    /* height: 100%; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.backSection>img{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.contentSection{
+    width: calc(100% - 50px);
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    margin-bottom: 2rem;
+    overflow-y: auto;
+}
+
+.draftTxt{
+    margin: 0;
+    font-family: 'font-bold';
+    font-size: 30px;
+}
+
+.note{
+    margin: 0;
+    font-family: 'font-light';
+    font-size: 13px;
+}
+
+.txnText{
+    /* margin: 0; */
+    font-family: 'font-bold';
+    font-size: 20px;
+    color: rgb(6, 117, 6);
+}
+
+.jobPostingTxt{
+    margin: 0;
+    margin-top: 2rem;
+    font-family: 'font-bold';
+    font-size: 20px;
+    font-weight: 600; 
+    color: #535353;
+}
+
+.radioSection{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   -ms-flex-direction: column;
+   padding-top: 10px;
+   row-gap: 10px;
+}
+
+
+.radioParent{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.radioParent>input{
+    width: 18px;
+    height: 18px;
+}
+
+.radioParent>label{
+    margin: 0;
+    font-family: 'font-light';
+    font-size: 20px;
+    color: #000;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    margin-top: 3rem;
+    column-gap: 30px;
+}
+
+.linearGradBtn{
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #fff;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    border: none;
+    border-radius: 5px;
+    font-family: 'font-light';
+    cursor: pointer;
+}
+
+.normalBtn{
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #2c2231;
+    background-color: var(--dim-bg);
+    border: none;
+    border: 2px solid #2c2231;
+    border-radius: 5px;
+    font-family: 'font-light';
+    cursor: pointer; 
+}
+
+.btnContainer>p{
+    margin: 0;
+    font-size: 12px;
+    font-family: 'font-light';
+    color: rgb(229, 8, 8);
+}
+
+.dropDownView{
+    width: 95%;
+    min-height: 50px;
+    border-radius: 10px;
+    border: 2px solid #b5b5b5;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 18px;
+    font-family: 'font-light';
+}
+
+.fillFormTxt{
+    font-family: 'font-bold';
+    margin: 0;
+    margin-bottom: 40px;
+    font-size: 30px;
+}
+
+.inputContainer{
+    width: 95%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    row-gap: 10px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.label{
+  font-family: 'font-bold';
+  font-size: 18px;
+  margin: 0;
+}
+
+
+.input1{
+    width: 100%;
+    min-height: 50px;
+    max-height: 50px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #bdbdbd;
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 20px;
+}
+
+.input1::placeholder,
+.input1::-moz-placeholder{
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 20px;
+}
+
+.input2{
+    width: 100%;
+    min-height: 50px;
+    max-height: 50px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    border: 2px solid #acacac;
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 20px;
+    padding-right: 50px;
+    background-color: transparent;
+    color: #000;
+}
+
+.input2::placeholder,
+.input2::-moz-placeholder{
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 20px;
+}
+
+.dropDownContainer{
+    width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    position: absolute;
+    content: '';
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropDownContainer>img{
+    width: 10px;
+    height: 10px;
+}
+
+.logoContainer{
+    width: 100%;
+    /* min-height: 60px;
+    max-height: 60px; */
+    border-radius: 5px;
+    border: 2px solid #acacac;
+    padding: 0px 20px;
+    background-color: transparent;
+    color: #000; 
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logoBtn{
+    color: #fff;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    font-family: 'font-light';
+    font-size: 15px;
+    padding: 15px 20px; 
+    border: none;
+    border-radius: 5px;  
+}
+
+.textarea{
+    background-color: #bdbdbd;
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 20px;
+    width: 100%;
+    min-height: 200px;
+    resize: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.textarea::placeholder,
+.textarea::-moz-placeholder{
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 20px;  
+}

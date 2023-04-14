@@ -1,0 +1,72 @@
+
+.readyToStartContainer{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.readyToStartContainer>h1{
+    color: #fff;
+    font-family: 'font-bold';
+    font-size: 35px;
+}
+
+.readyToStartContainer>p{
+    color: #fff;
+    font-family: 'font-light';
+    font-size: 20px;
+    margin: 0;
+}
+
+.emailContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 0px;
+}
+
+.emailContainer>input{
+    width: 30rem;
+    min-height: 60px;
+    outline: 0;
+    border: 0;
+    border-radius: 10px 0px 0px 10px;
+    font-family: 'font-light';
+    font-size: 20px;
+    padding: 0px 10px;
+}
+
+.emailContainer>input::placeholder{
+    font-family: var(--font-family);
+    font-size: 20px;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'font-light';
+}
+
+.emailContainer>button{
+    min-height: 60px;
+    outline: 0;
+    border: 0;
+    border-radius: 0px 10px 10px 0px;
+    background-image: linear-gradient(to right, #171d32, #2c2231);
+    font-family: 'font-light';
+    font-size: 20px;
+    color: #fff;
+    box-shadow: 0px 5px 30px 1px #171d32;
+    -moz-box-shadow: 0px -35px 30px 1px #171d32;
+    -webkit-box-shadow: 0px 5px 30px 1px #171d32;
+    border-style: solid;
+    padding: 0px 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #484a4b;
+}

@@ -1,0 +1,35 @@
+
+.promotionPane{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    min-height: 80px;
+    overflow-x: auto;
+    background-color: var(--dim-bg);
+    column-gap: 20px;
+}
+
+.promotionPane::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+.jobList{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+    min-width: max-content;
+}
+
+.jobList>img{
+    width: 30px;
+    height: 30px;
+}
+
+.jobList>h1{
+    color: #000;
+    font-size: 25px;
+    font-family: 'font-light';
+}
