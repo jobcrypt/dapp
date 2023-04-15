@@ -83,7 +83,7 @@
      margin: 0;
      font-size: 40px;
      position: relative;
-     font-family: 'font-bold';
+     font-family: 'bold';
  }
 
  .h3{
@@ -91,14 +91,14 @@
     font-size: 20px;
     position: relative;
     color: #fff;
-    font-family: 'font-bold';
+    font-family: 'bold';
  }
 
  .rightBox>p{
     margin: 0;
     margin-top: 10px;
     font-size: 25px;
-    font-family: 'font-light';
+    font-family: 'light';
     color: #fff;
  }
 
@@ -107,7 +107,7 @@
     margin-top: 20px;
     font-size: 20px;
     font-weight: normal;
-    font-family: 'font-light';
+    font-family: 'light';
  }
 
  .ul{
@@ -116,7 +116,7 @@
 
  .ul>li{
     margin: 10px 0px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
  }
 
@@ -173,7 +173,7 @@
  }
 
  .benefitContent>p{
-    font-family: 'font-bold';
+    font-family: 'bold';
     margin: 0;
     margin-top: 20px;
     font-size: 15px;
@@ -190,20 +190,20 @@
     -ms-flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 3rem 0px;
+    padding: 2rem 0px;
     border-radius: 10px;
  }
 
  .awardsContainer>h2{
-    font-size: 20px;
+    font-size: 40px;
     font-family: 'bold';
  }
 
  .awardsContainer>p{
-    font-size: 20px;
-    font-family: 'bold';
+    font-size: 25px;
+    font-family: 'light';
     width: 100%;
-    padding: 0px 20px;
+    padding: 0px 20%;
     text-align: center;
     margin: 0;
  }
@@ -252,7 +252,7 @@
     height: fit-content;
     display: flex;
     padding-top: 20px;
-    font-family: var(--font-family);
+    font-family: 'bold';
     font-size: 20px;
     flex-direction: column;
  }
@@ -263,6 +263,6 @@
     padding: 7px 10px;
     border-radius: 5px;
     border: 0.5px solid #000;
-    font-family: var(--font-family);
+    font-family: 'light';
     cursor: pointer;
  }

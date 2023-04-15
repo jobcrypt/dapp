@@ -24,7 +24,7 @@ const CalendarEvent = () =>{
                 </header>
                 <ul className={classes.calendarList}>
                     {new Array(5).fill().map((item, idx)=>(
-                            <li style={idx % 2 === 0? { backgroundColor: 'rgb(2, 75, 2)' } : {backgroundColor: 'rgb(122, 4, 4)' }}>
+                            <li key={idx} style={idx % 2 === 0? { backgroundColor: 'rgb(2, 75, 2)' } : {backgroundColor: 'rgb(122, 4, 4)' }}>
                             <span className={classes.firstSpan}>
                                 <header><b>Janurary</b>&nbsp;|&nbsp;Wednesday 25th, 2023</header>
                                 <section>

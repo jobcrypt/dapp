@@ -14,15 +14,21 @@ body,html {
   -webkit-box-sizing: border-box;
 }
 @font-face {
-  font-family: "font-bold";
+  font-family: "bold";
   src: local("V8mDoQfxVT4Dvddr_yOwjeWJDbZyCts0DqQ"),
     url("./font/BaiJamjuree-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "font-light";
+  font-family: "light";
   src: local("V8mDoQfxVT4Dvddr_yOwjeWJDbZyCts0DqQ"),
     url("./font/BaiJamjuree-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "medium";
+  src: local("V8mDoQfxVT4Dvddr_yOwjeWJDbZyCts0DqQ"),
+    url("./font/BaiJamjuree-Medium.ttf") format("truetype");
 }
 
 :root{

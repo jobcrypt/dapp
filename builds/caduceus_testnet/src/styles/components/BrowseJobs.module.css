@@ -33,14 +33,14 @@
     background-color: var(--dim-bg);
     border-radius: 10px;
     padding-right: 50px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding-right: 50px;
     padding-left: 10px;
 }
 
 .input::placeholder{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 10px;
     color: #000;
@@ -70,7 +70,7 @@
     height: 50px;
     border: none;
     color: #fff;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     border: 1px solid #c4c4c4;
     border-radius: 10px;
@@ -100,7 +100,7 @@
 
 .selectorContainer>p{
     font-size: 20px;
-    font-family: 'font-light';
+    font-family: 'light';
     color: #fff;
     
 }
@@ -132,7 +132,7 @@
 
 .selectorContainer2>p{
     font-size: 20px;
-    font-family: 'font-light';
+    font-family: 'light';
     color: #000;
     
 }
@@ -213,7 +213,7 @@
     border-radius: 5px;
     border: 2px solid #2E2230;
     padding: 6px 10px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 15px;
     cursor: pointer;
 }
@@ -259,6 +259,9 @@
     height: 70px;
     border-radius: 50%;
     border: 3px solid #b1b1b1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .detailContainer{
@@ -271,21 +274,21 @@
 
 
 .jobTitle{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 25px;
     margin: 0;
     color: #212121;
 }
 
 .name{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 15px;
     margin: 0;
     color: #212121;   
 }
 
 .locationTxt{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 12px;
     margin: 0;
     color: #212121; 
@@ -307,10 +310,16 @@
     border: 1.5px solid #212121;
 }
 
+.smallCircle>img{
+    width: 15px;
+    height: 15px;
+    transform: rotate(90deg);
+}
+
 .jobCount{
     width: 100%;
     text-align: end;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 18px;
     color: #b4b4b4;
     padding-right: 10px;
@@ -341,7 +350,7 @@
 
 .jobTitleColoredDivLeft>h1{
     margin: 0;
-    font-family: 'font-bold';
+    font-family: 'bold';
     color: #fff;
     font-size: 25px;
 }
@@ -366,7 +375,7 @@
 }
 
 .jobTitleNameContainer>p{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 18px;
     margin: 0;;
 }
@@ -383,8 +392,37 @@
 .jobTitleColoredDivRight>p{
     color: red;
     font-size: 15px;
-    font-family: 'font-light';
+    font-family: 'light';
     cursor: pointer;
+}
+
+.applyNowBtn{
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #fff;
+    font-family: 'light';
+    font-size: 20px;
+    position: relative;
+    cursor: pointer;
+    background: linear-gradient(to right, #0048FF, #FF1303);
+}
+
+.applyNowBtn::before{
+    position: absolute;
+    content: 'Apply Now';
+    border-radius: 10px;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    z-index: 10;
+    background-color: #2c2231;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fullDetailContainer{
@@ -427,7 +465,7 @@
 }
 
 .shortDescriptionSection>span>p{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 18px;
     color: #000;
     margin: 0;
@@ -443,7 +481,7 @@
 .skillContainer>p{
     border-radius: 5px;
     padding: 3px 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 12px;
     margin: 0;
     border: 1px solid #373737;
@@ -460,14 +498,14 @@
 }
 
 .aboutJobDescriptionContainer>h1{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 25px;
     margin: 0;
     margin-top: 30px;
 }
 
 .aboutJobDescriptionContainer>p{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     margin: 0; 
     margin-top: 10px;
@@ -490,7 +528,7 @@
 .radioUnorderedList>li{
     width: 100%;
     height: fit-content;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     display: flex;
 }

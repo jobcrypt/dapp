@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -19,7 +19,9 @@ import { useReducer } from 'react';
 import ProgramDropdown from '../dropdowns/ProgramDropdown';
 import AboutDropdown from '../dropdowns/AboutDropdown';
 import DashBoardDropdown from '../dropdowns/DashboardDropdown';
-import { disconnect } from '../store/MetaMaskSlice';
+// import { disconnect } from '../store/MetaMaskSlice';
+import { isNull } from '../utils/Util';
+import { useAccount, useDisconnect } from 'wagmi';
 
 
 const EVENTS = 'EVENTS';
@@ -76,12 +78,14 @@ const Header2 = () =>{
     const programRef = useRef();
     const dashboardRef = useRef();
     const aboutRef = useRef();
-    const dispatchRedux = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const metaSelector = useSelector(state=>state.meta);
+    const { address } = useAccount();
+    const { disconnect } = useDisconnect();
 
     const disconnectMetamask = () =>{
-        dispatchRedux(disconnect());
         navigate('/');
+        disconnect();
     }
 
     return(
@@ -98,7 +102,7 @@ const Header2 = () =>{
              </section>
              <section className={classes.centerHeader}>
                  <div className={classes.logoContainer}>
-                    <img src={logo} alt='' />
+                    <img src={logo} alt='' onClick={()=>navigate('/')} />
                     <h1>JobCrypt</h1>
                  </div>
                  <div className={classes.eventSideContainer}>
@@ -134,7 +138,7 @@ const Header2 = () =>{
                          className={classes.dropdown}
                          tabIndex={1} 
                          onFocus={()=>setDispatch({ TYPE: DASHBOARD, status: true })}
-                         onBlur={()=>setDispatch({ TYPE: DASHBOARD, status: false })}
+                        //  onBlur={()=>setDispatch({ TYPE: DASHBOARD, status: false })}
                          ref={dashboardRef}
                     >
                         <p>Dashboard</p>
@@ -168,7 +172,7 @@ const Header2 = () =>{
                             <p><strong style={{ fontWeight: 'bold'}}>Caduceus</strong> Connected</p>
                         </span>
                         <span className={classes.wallet}>
-                            0xatt3764h366447374...
+                            {!isNull(address)? address.slice(0,10)+'...'+address.slice(-10) : '--'}
                         </span>
                      </div>
                  </div>
@@ -181,16 +185,26 @@ const Header2 = () =>{
                             How to use JobCrypt</button>
                     </div>
                     <div className={classes.bottomLeftContainer}>
-                        <span className={classes.likeContainer}>
-                            <img src={thumbsUpIcon} alt='' />
+                        {metaSelector.isStaked &&<span className={classes.likeContainer}>
+                            <img src={thumbsUpIcon} alt='' className={classes.thumbsIcon} />
                             <p>Staked: <strong>CMP staked to apply for jobs</strong></p>
-                        </span>
-                        <span className={classes.cmpPortion}>
+                        </span>}
+                        {!metaSelector.isStaked &&<span className={classes.likeContainer}>
+                            <img src={thumbsUpIcon} alt='' className={`${classes.thumbsIcon} ${classes.rotate}`} />
+                            <p>Not Staked: <strong>Stake CMP to apply for jobs</strong></p>
+                        </span>}
+                        {metaSelector.isStaked &&<span className={classes.cmpPortion}>
                             <p>Unstake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />
                             </span>
-                        </span>
+                        </span>}
+                        {!metaSelector.isStaked &&<span className={classes.cmpPortion}>
+                            <p>Stake CMP</p>
+                            <span className={classes.circle}>
+                                <img src={tree} alt='' />
+                            </span>
+                        </span>}
                     </div>
                     
              </section>

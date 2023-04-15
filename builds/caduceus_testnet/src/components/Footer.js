@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 
 import classes from '../styles/components/Footer.module.css';
 import logo from '../assets/logo.png';
@@ -9,7 +11,13 @@ import twitter from '../assets/twitter.png';
 // import youtube from '../assets/youtube.png';
 
 const Footer = () =>{
-    console.log('footer rendered')
+    const navigate = useNavigate();
+
+    const navigateToPath = (path, where=null)=>{
+        navigate(path, { state: { scroll: where}});
+    }
+
+
     return(
         <footer className={classes.footer}>
             <section className={classes.firstSection}>

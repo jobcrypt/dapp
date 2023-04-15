@@ -18,6 +18,7 @@ import businessIcon from '../assets/corporate_businessman.png';
 import CalendarEvent from '../components/CalendarEvent';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 import PromotionPane from '../components/PromotionPane';
+import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
 
 
 
@@ -57,19 +58,19 @@ import PromotionPane from '../components/PromotionPane';
                <li>
                    <div className={classes.jobTop}>Featured Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='#hhh'>Install metamask</a> to view available jobs</p>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
                    </div>
                </li>
                <li>
                    <div className={classes.jobTop}>Featured Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='#hhh'>Install metamask</a> to view available jobs</p>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
                    </div>
                </li>
                <li>
                    <div className={classes.jobTop}>Featured Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='#hhh'>Install metamask</a> to view available jobs</p>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
                    </div>
                </li>
           </ul>
@@ -98,6 +99,7 @@ import PromotionPane from '../components/PromotionPane';
             </div>
       </article>
     </section>
+    <section className={classes.bundle}>
     <article className={classes.article}>
         <div className={classes.leftBox}>
               <img src={jobseekerIcon} alt='' className={classes.image} />
@@ -142,10 +144,11 @@ import PromotionPane from '../components/PromotionPane';
               <img src={hostIcon} alt='' className={classes.image} />
         </div>
     </article>
+    </section>
+    <section className={classes.blueSection}>
     <article className={classes.railContainer}>
         <img src={rail} alt='' />
     </article>
-    <section className={classes.blueSection}>
         <img src={businessIcon} alt='' />
         <h1>Featured Events</h1>
         <p>Our events help us to conect to you, bring the best in blockchain and web3 education to your city</p>
@@ -153,7 +156,8 @@ import PromotionPane from '../components/PromotionPane';
             <button onClick={()=>navigate('/featured-events')}>Learn More</button>
         </div>
     </section>
-    <CalendarEvent />
+    {/* <CalendarEvent /> */}
+    <SustanabilityWeekEvent />
     </main>
     </>
    )

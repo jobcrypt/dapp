@@ -124,12 +124,13 @@ const Header = () =>{
                          className={classes.dropdown}
                          tabIndex={1} 
                          onFocus={()=>setDispatch({ TYPE: DASHBOARD, status: true })}
-                         onBlur={()=>setDispatch({ TYPE: DASHBOARD, status: false })}
+                        //  onBlur={()=>setDispatch({ TYPE: DASHBOARD, status: false })}
+                         onBlur={()=>{dashboardRef.current.display='none';}}
                          ref={dashboardRef}
-                    >
+                       >
                         <p>Dashboard</p>
                         <img src={dropdownIcon} alt='' />
-                        {dispatch.dashboard && <DashBoardDropdown 
+                        {dashboardRef.current && <DashBoardDropdown 
                         setDispatch={setDispatch} 
                         ref={dashboardRef}
                         />}

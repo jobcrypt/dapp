@@ -1,7 +1,7 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 
-import classes from '../styles/components/PreviousApplication.module.css';
+import classes from '../styles/components/BrowseJobs.module.css';
 import searchIcon from '../assets/search.png';
 import location from '../assets/location.png';
 import calendar from '../assets/calendar.png';
@@ -13,6 +13,10 @@ import skillIcon from '../assets/skills.png';
 import designIcon from '../assets/categories.png';
 import location2 from '../assets/pin.png';
 import radio from '../assets/radio.png';
+import moreIcon from '../assets/more.png';
+import StakePopup from '../popups/StakePopup';
+import { useSelector } from 'react-redux';
+import ApplyForJobPopup from '../popups/ApplyForJobPopup';
 
 
 const FEATURED = 'FEATURED';
@@ -51,8 +55,13 @@ const reducerFunc = (state, action) =>{
     }
 }
 
-const PreviousApplication = () =>{
+const BrowseJobs = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
+    const [ openStakePopup, setOpenStakePopup] = useState(false);
+    const [ apply, setApply ] = useState(false);
+    const isStaked = useSelector(state=>state.meta.isStaked);
+
+
 
     useEffect(()=>{
         document.getElementById('previous_application').scrollIntoView({ behavior: "smooth" });
@@ -67,6 +76,8 @@ const PreviousApplication = () =>{
 
     return(
         <main className={classes.parent} id='previous_application'>
+            {openStakePopup && <StakePopup setOpenStakePopup={setOpenStakePopup} />}
+            {apply && <ApplyForJobPopup setApply={setApply} />}
              <div className={classes.box}>
                 <div className={classes.inputContainer}>
                      <input type='text' placeholder='UI/UX Designer' className={classes.input} />
@@ -119,7 +130,9 @@ const PreviousApplication = () =>{
                             {new Array(10).fill().map((item, idx)=>(
                                 <li key={idx}>
                                 <div className={classes.profileBox}>
-                                    <span className={classes.circle}></span>
+                                    <span className={classes.circle}>
+                                        
+                                    </span>
                                 </div>
                                 <div className={classes.detailContainer}>
                                     <h2 className={classes.jobTitle}>UI/UX Designer</h2>
@@ -129,7 +142,7 @@ const PreviousApplication = () =>{
                                 </div>
                                 <div className={classes.optionContainer}>
                                     <span className={classes.smallCircle}>
-
+                                           <img src={moreIcon} alt='' />
                                     </span>
                                 </div>
                             </li>
@@ -149,7 +162,8 @@ const PreviousApplication = () =>{
                                     </div>
                                 </div>
                                 <div className={classes.jobTitleColoredDivRight}>
-                                    <p>Please stake to apply</p>
+                                    {!isStaked &&<p onClick={()=>setOpenStakePopup(true)}>Please stake to apply</p>}
+                                    {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
                                 </div>
                             </header>
                             <section className={classes.fullDetailContainer}>
@@ -292,4 +306,4 @@ const PreviousApplication = () =>{
     )
 }
 
-export default PreviousApplication;
+export default BrowseJobs;

@@ -27,7 +27,7 @@
    display: flex;
    width: 33.33%;
    min-height: 100%;
-   font-family: 'font-light';
+   font-family: 'light';
 }
 
 
@@ -70,7 +70,7 @@
 }
 
 .logoContainer>h1{
-   font-family: 'font-bold';
+   font-family: 'bold';
    color: #fff;
    font-size: 30px;
    margin: 0;
@@ -97,7 +97,7 @@
 
 .dropdown>p{
    margin: 0;
-   font-family: 'font-light';
+   font-family: 'light';
    color: #fff;
    font-size: 18px;
 }
@@ -139,7 +139,7 @@
 
 .bottomLeftContainer>p{
    color: #fff;
-   font-family: 'font-light';
+   font-family: 'light';
    font-size: 17px;
 }
 
@@ -155,7 +155,7 @@
    justify-content: flex-start;
    align-items: center;
    cursor: pointer;
-   font-family: 'font-bold';
+   font-family: 'bold';
    font-size: 20px;
    /* position: relative; */
 }
@@ -191,7 +191,7 @@
 .bottomRightContainer>p{
    margin: 0;
    font-size: 17px;
-   font-family: 'font-light';
+   font-family: 'light';
    color: #fff;
 }
 
@@ -200,7 +200,7 @@
    padding: 7px 10px;
    border-radius: 5px;
    color: #000;
-   font-family: 'font-bold';
+   font-family: 'bold';
    font-size: 20px;
    margin-left: 20px;
    cursor: pointer;

@@ -27,7 +27,7 @@
    display: flex;
    width: 33.33%;
    min-height: 100%;
-   font-family: 'font-light';
+   font-family: 'light';
 }
 
 
@@ -70,7 +70,7 @@
 }
 
 .logoContainer>h1{
-   font-family: 'font-bold';
+   font-family: 'bold';
    color: #fff;
    font-size: 30px;
    margin: 0;
@@ -131,7 +131,7 @@
 }
 
 .metaTop>p{
-   font-family: 'font-light';
+   font-family: 'light';
    font-size: 13px;
    margin: 0;
 }
@@ -142,7 +142,7 @@
    align-items: center;
    color: #fff;
    font-size: 11px;
-   font-family: 'font-light';
+   font-family: 'light';
    margin-top: 5px;
 }
 
@@ -158,7 +158,7 @@
 
 .dropdown>p{
    margin: 0;
-   font-family: 'font-light';
+   font-family: 'light';
    color: #fff;
    font-size: 18px;
 }
@@ -198,15 +198,19 @@
    column-gap: 10px;
 }
 
-.likeContainer>img{
+.thumbsIcon{
    width: 20px;
    height: 20px;
    filter: invert(1);
 }
 
+.rotate{
+   transform: rotateX(180deg);
+}
+
 .likeContainer>p{
    color: #fff;
-   font-family: 'font-light';
+   font-family: 'light';
    font-size: 17px;
 }
 
@@ -222,7 +226,7 @@
    justify-content: flex-start;
    align-items: center;
    cursor: pointer;
-   font-family: 'font-bold';
+   font-family: 'bold';
    font-size: 20px;
    /* position: relative; */
 }
@@ -258,7 +262,7 @@
 .bottomRightContainer>p{
    margin: 0;
    font-size: 17px;
-   font-family: 'font-light';
+   font-family: 'light';
    color: #fff;
 }
 
@@ -267,7 +271,7 @@
    padding: 10px;
    border-radius: 5px;
    color: #000;
-   font-family: 'font-bold';
+   font-family: 'bold';
    font-weight: 600;
    font-size: 20px;
    margin-left: 20px;

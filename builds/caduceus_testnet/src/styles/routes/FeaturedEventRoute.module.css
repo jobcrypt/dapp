@@ -42,14 +42,14 @@
 }
 
 .title{
-    font-family: 'font-light';
+    font-family: 'light';
     color: #fff;
     font-size: 25px;
     margin: 0;
 }
 
 .firstContainer>h1{
-    font-family: 'font-bold';
+    font-family: 'bold';
     color: #fff;
     font-size: 40px;
     padding-left: 45px;
@@ -62,7 +62,7 @@
     font-size: 20px;
     padding-left: 45px;
     max-width: 50%;
-    font-family: 'font-light';
+    font-family: 'light';
 }
 
 .secondContainer{
@@ -75,7 +75,7 @@
 
 
 .secondContainer>h1{
-    font-family: 'font-bold';
+    font-family: 'bold';
     color: #fff;
     font-size: 40px;
     padding-left: 45px;
@@ -99,7 +99,7 @@
   align-items: center;
   padding: 3rem 0px;
   color: #fff;
-  font-family: 'font-bold';
+  font-family: 'bold';
   font-size: 50px;
   font-weight: bold;
 } */
@@ -150,7 +150,7 @@
 
 .eventHeader>p{
     color: #fff;
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 35px;
     margin: 0;
     font-weight: bold;
@@ -190,7 +190,7 @@
 
  .firstSpan>header{
     color: #fff;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     width: 100%;
     min-height: 60px;
@@ -235,7 +235,7 @@
  }
 
 .titleGroupContainer>h2{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 25px;
     margin: 0;
     width: 100%;
@@ -257,7 +257,7 @@
 
 .blockContainer>p{
     margin: 0;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
 }
 
@@ -272,7 +272,7 @@
      flex-direction: column;
      border-radius: 0px 20px 20px 0px;
      color: #fff;
-     font-family: 'font-light';
+     font-family: 'light';
     font-size: 15px;
  }
 
@@ -284,7 +284,7 @@
     align-items: center;
     font-size: 20px;
     font-weight: bold;
-    font-family: 'font-bold';
+    font-family: 'bold';
     color: #fff;
     background-color: #171d32;
     border-radius: 0px 0px 20px 20px;
@@ -304,14 +304,14 @@
 
 .contactUsContainer>h1{
     font-size: 40px;
-    font-family: 'font-bold';
+    font-family: 'bold';
     color: #fff;
     margin: 0;
 }
 
 .contactUsContainer>p{
     font-size: 20px;
-    font-family: 'font-light';
+    font-family: 'light';
     color: #fff;
     margin: 0; 
     margin-top: 2rem;

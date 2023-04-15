@@ -38,7 +38,7 @@
     background: -webkit-linear-gradient(#3449BE, #FF92F3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: 'font-bold';
+    font-family: 'bold';
     margin: 0;
 }
 
@@ -48,7 +48,7 @@
     width: 100%;
     text-align: center;
     padding: 0px 30%;
-    font-family: 'font-light';
+    font-family: 'light';
     z-index: 1;
 }
 
@@ -65,7 +65,7 @@
     width: 20rem;
     height: 6rem;
     color: #fff;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 40px;
     background-image: linear-gradient(to right, #2c2231, #171d32);
     border: none;
@@ -78,7 +78,7 @@
     width: 20rem;
     height: 6rem;
     color: #fff;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 40px;
     /* background-image: linear-gradient(to right, #2c2231, #171d32); */
     border: none;
@@ -102,7 +102,7 @@
 }
 
 .listingTitle{
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 40px;
     color: #fff;
 }

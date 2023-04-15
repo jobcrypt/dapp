@@ -59,7 +59,7 @@
 
 .body>p{
     color: #fff;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
 }
 
@@ -78,7 +78,7 @@
     justify-content: center;
     align-items: center;
     column-gap: 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 25px;
     padding: 20px 20px;
     border: none;
@@ -103,7 +103,7 @@
 
 .successContainer>h1{
     color: #fff;
-    font-family: 'font-bold';
+    font-family: 'bold';
     margin: 0;
     font-size: 2rem;
     margin-top: 20px;
@@ -111,7 +111,7 @@
 
 .successContainer>p{
     color: #dddddd;
-    font-family: 'font-light';
+    font-family: 'light';
     margin: 0;
     font-size: 1rem;
     margin-top: 20px; 
@@ -133,7 +133,7 @@
     justify-content: center;
     align-items: center;
     column-gap: 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 25px;
     /* padding: 1rem 1rem; */
     width: 15rem;
@@ -150,7 +150,7 @@
     justify-content: center;
     align-items: center;
     column-gap: 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 25px;
     width: 15rem;
     height: 5rem;

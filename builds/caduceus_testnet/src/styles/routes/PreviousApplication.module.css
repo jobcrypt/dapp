@@ -1,0 +1,32 @@
+.parent{
+    width: 100%;
+    height: fit-content;
+    max-height: max-content;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: 15rem;
+}
+
+.hero{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.parent>h1{
+    font-family: 'bold';
+    font-size: 50px;
+    color: #fff;
+    z-index: 1;
+    margin: 0;
+    margin-bottom: 30px;
+}

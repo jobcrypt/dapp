@@ -56,19 +56,19 @@
 
 .draftTxt{
     margin: 0;
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 30px;
 }
 
 .note{
     margin: 0;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 13px;
 }
 
 .txnText{
     /* margin: 0; */
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 20px;
     color: rgb(6, 117, 6);
 }
@@ -76,7 +76,7 @@
 .jobPostingTxt{
     margin: 0;
     margin-top: 2rem;
-    font-family: 'font-bold';
+    font-family: 'bold';
     font-size: 20px;
     font-weight: 600; 
     color: #535353;
@@ -105,7 +105,7 @@
 
 .radioParent>label{
     margin: 0;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     color: #000;
 }
@@ -127,7 +127,7 @@
     background-image: linear-gradient(to right, #2c2231, #171d32);
     border: none;
     border-radius: 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     cursor: pointer;
 }
 
@@ -139,14 +139,14 @@
     border: none;
     border: 2px solid #2c2231;
     border-radius: 5px;
-    font-family: 'font-light';
+    font-family: 'light';
     cursor: pointer; 
 }
 
 .btnContainer>p{
     margin: 0;
     font-size: 12px;
-    font-family: 'font-light';
+    font-family: 'light';
     color: rgb(229, 8, 8);
 }
 
@@ -161,11 +161,11 @@
     align-items: center;
     padding: 0px 20px;
     font-size: 18px;
-    font-family: 'font-light';
+    font-family: 'light';
 }
 
 .fillFormTxt{
-    font-family: 'font-bold';
+    font-family: 'bold';
     margin: 0;
     margin-bottom: 40px;
     font-size: 30px;
@@ -185,7 +185,7 @@
 }
 
 .label{
-  font-family: 'font-bold';
+  font-family: 'bold';
   font-size: 18px;
   margin: 0;
 }
@@ -199,14 +199,14 @@
     border: none;
     border-radius: 5px;
     background-color: #bdbdbd;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;
 }
 
 .input1::placeholder,
 .input1::-moz-placeholder{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;
 }
@@ -219,7 +219,7 @@
     border: none;
     border-radius: 5px;
     border: 2px solid #acacac;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;
     padding-right: 50px;
@@ -229,7 +229,7 @@
 
 .input2::placeholder,
 .input2::-moz-placeholder{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;
 }
@@ -270,7 +270,7 @@
 .logoBtn{
     color: #fff;
     background-image: linear-gradient(to right, #2c2231, #171d32);
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 15px;
     padding: 15px 20px; 
     border: none;
@@ -279,7 +279,7 @@
 
 .textarea{
     background-color: #bdbdbd;
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 20px;
     width: 100%;
@@ -291,7 +291,7 @@
 
 .textarea::placeholder,
 .textarea::-moz-placeholder{
-    font-family: 'font-light';
+    font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;  
 }

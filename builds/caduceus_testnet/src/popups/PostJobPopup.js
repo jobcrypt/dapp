@@ -67,24 +67,24 @@ const PostJobPopup = (props) =>{
             <p className={classes.jobPostingTxt}>Job Postings</p>
             <section className={classes.radioSection}>
                 <div className={classes.radioParent}>
-                    <input type='radio' name='first' />
-                    <label htmlFor='first'>Standard 1 Week Job Posting - 2,325 CMP</label>
+                    <input type='radio' id='first' name='good' />
+                    <label for='first'>Standard 1 Week Job Posting - 2,325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
-                    <input type='radio' name='second' />
-                    <label htmlFor='second'>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <input type='radio' id='second' name='good' />
+                    <label for='second'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
-                    <input type='radio' />
-                    <label>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <input type='radio' id='three' name='good' />
+                    <label for='three'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
-                    <input type='radio' />
-                    <label>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <input type='radio' id='four' name='good' />
+                    <label htmlFor='four'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
-                    <input type='radio' />
-                    <label>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <input type='radio' id='five' name='good' />
+                    <label htmlFor='five'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
             </section>
             <div className={classes.btnContainer}>

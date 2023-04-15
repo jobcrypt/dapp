@@ -1,4 +1,4 @@
-
+// import ethers from 'ethers';
 
 export const isNull = (value) =>{
     if(value === undefined)return true;
@@ -27,10 +27,11 @@ export const networks = {
       iconUrls:[], // Currently ignored.
     },
     optimism: {
-        chainId: `0x${Number(11155111).toString(10)}`, // A 0x-prefixed hexadecimal string
+        chainId: `0x${Number(10).toString(16)}`, // A 0x-prefixed hexadecimal string
         chainName: `Optimism`,
+        id: 10,
       nativeCurrency: {
-        name: `Sepolia`,
+        name: `ETH`,
         symbol: `ETH`, // 2-6 characters long
         decimals: 18,
       },
