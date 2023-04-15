@@ -29,17 +29,17 @@ const client = createClient({
 
 
 function App() {
-  const contract = useContractRead({
-    address: '',
-    abi: '',
-    functionName: '',
-    onSuccess: ()=>{
+//   const contract = useContractRead({
+//     address: '',
+//     abi: '',
+//     functionName: '',
+//     onSuccess: ()=>{
 
-    },
-    onError: () =>{
+//     },
+//     onError: () =>{
 
-    }
-});
+//     }
+// });
 
 // console.log('contract Instance ', contract)
 
