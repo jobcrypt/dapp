@@ -8,6 +8,9 @@
       src="https://kit.fontawesome.com/6c1d4fe80b.js"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <meta name="author" content="JobCrypt" />
     <meta
       name="description"
@@ -188,9 +191,7 @@
                         >
                       </li>
                       <li>
-                        <a
-                          class="nav-link"
-                          href="./pages/jobseeker/job_seeker_dashboard.html"
+                        <a class="nav-link" href="./dashboard/jobseeker.html"
                           >Job Seeker</a
                         >
                       </li>
@@ -200,7 +201,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="jobsDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Jobs
@@ -219,7 +220,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="jobsDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -247,7 +248,7 @@
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="#search-jobs"
+                        <a class="nav-link scrollto" href="search-jobs.html"
                           >Search Jobs</a
                         >
                       </li>
@@ -262,7 +263,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="eventsDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Events
@@ -281,7 +282,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="eventsDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -318,7 +319,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="programmeDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Programmes
@@ -337,7 +338,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="programmeDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -374,7 +375,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="aboutDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     About
@@ -393,7 +394,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="aboutDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -425,6 +426,7 @@
                 </li>
               </ul>
               <button
+                id="metamaskButton"
                 class="text-white bg-gradient-to-b from-jcDarkBlue to-jcPurple font-thin rounded-full px-6 py-2 bg-opacity-90"
               >
                 Install Metamask to view Jobs
@@ -436,7 +438,10 @@
     </header>
 
     <!-- Hero -->
-    <div class="">
+    <div
+      class="delay-[100ms] duration-[600ms] taos:translate-y-[200px] taos:opacity-0"
+      data-taos-offset="300"
+    >
       <div class="font-poppins">
         <h2 class="text-center mt-10 text-3xl font-bold">
           Welcome to JobCrypt
@@ -465,12 +470,15 @@
     </div>
 
     <!-- Job Board -->
-    <section class="bg-jcBlue mt-96 py-2">
+    <section
+      class="bg-jcBlue mt-96 py-2 delay-[100ms] duration-[100ms] taos:translate-y-[200px] taos:opacity-60"
+      data-taos-offset="300"
+    >
       <h2 class="text-center font-bold text-3xl mt-3 text-white">Job Board</h2>
       <div
         class="bg-[#D9D9D9] bg-opacity-10 flex justify-center gap-10 p-10 px-20 m-5"
       >
-        <div class="">
+        <div>
           <h2
             class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
           >
@@ -866,5 +874,9 @@
 
     <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://unpkg.com/taos@1.0.3/dist/taos.js"></script>
+
+    <!-- Js files -->
+    <script src="../assets/js/jc_index.js"></script>
   </body>
 </html>
