@@ -12,10 +12,11 @@ module.exports = {
         baiJam: ["Bai Jamjuree", "sans-serif"],
       },
       colors: {
-        jcBlue: "#1F49DD",
+        jcBlue: "#87CEEB",
         jcDarkBlue: "#273CC8",
         jcPurple: "#592ADE",
-        overlay: "#D9D9D9",
+        jcGray: "#D9D9D9",
+        jcBlack: "#231F20",
         gradient: "gradient-to-b from-jcBlue to-jcPurple",
       },
     },

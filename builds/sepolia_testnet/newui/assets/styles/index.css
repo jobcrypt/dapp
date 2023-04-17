@@ -12,3 +12,30 @@ input::placeholder {
     opacity: 1;
     /* Firefox */
 }
+
+.bsweu {
+    background-image: url("../images/BSEU.svg");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bswuk {
+    background-image: url("../images/BSUK.svg");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.euflag {
+    background-image: url("../images/closeup-shot-realistic-waving-flag-europe-with-interesting-textures\ 1.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.ukflag {
+    background-image: url("../images/flaguk.png");
+    background-size: cover;
+    background-position: center;
+}

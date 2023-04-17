@@ -35,6 +35,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../assets/styles/index.css" />
+    <link rel="stylesheet" href="../assets/styles/carousel.css" />
 
     <title>Job Crypt - Web 3 Jobs for Web 3 people</title>
   </head>
@@ -44,8 +45,8 @@
     <!-- Header -->
 
     <header>
-      <section class="bg-[#1F49DD] bg-opacity-95 py-4 px-5 text-white">
-        <div class="">
+      <section class="bg-jcBlue py-4 px-5">
+        <div class="flex justify-end gap-60">
           <span class="flex gap-2 justify-center font-baiJam">
             <p class="text-center">
               JobCrypt Blockchain Sustainability Week - UK 2023
@@ -57,38 +58,38 @@
               href="https://www.twitter.com/JobCrypt"
               class="twitter"
               target="_blank"
-              ><i class="fa-brands fa-youtube" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-youtube"></i
             ></a>
 
             <a
               href="https://www.twitter.com/JobCrypt"
               class="twitter"
               target="_blank"
-              ><i class="fa-brands fa-twitter" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-twitter"></i
             ></a>
             <a
               href="https://www.tiktok.com/@jobcrypt"
               class="tiktok"
               target="_blank"
-              ><i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-tiktok"></i
             ></a>
             <a
               href="https://discord.gg/89DWAkEnWb"
               class="discord"
               target="_blank"
-              ><i class="fa-brands fa-discord" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-discord"></i
             ></a>
             <a
               href="https://www.linkedin.com/company/jobcrypt/"
               class="linkedin"
               target="_blank"
-              ><i class="fa-brands fa-linkedin" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-linkedin"></i
             ></a>
           </div>
         </div>
       </section>
 
-      <div class="bg-jcBlue px-10 py-4">
+      <div class="bg-black text-white px-10 py-4">
         <nav class="border-gray-200">
           <div
             class="container mx-auto text-white font-poppins flex justify-between flex-wrap items-center"
@@ -133,21 +134,21 @@
               </svg>
             </button>
             <div
-              class="hidden lg:flex items-center gap-10 justify-between md:block w-full md:w-auto"
+              class="hidden lg:flex items-center font-poppins tracking-wider gap-10 justify-between md:block w-full md:w-auto"
               id="mobile-menu"
             >
               <ul
                 class="flex-col gap-y-5 md:flex-row flex md:space-x-5 mt-4 md:mt-0 md:text-sm md:font-medium"
               >
                 <li>
-                  <a href="#" class="text-white block" aria-current="page"
+                  <a href="" class="text-white block" aria-current="page"
                     >Home</a
                   >
                 </li>
 
                 <li>
                   <a
-                    href="#"
+                    href="post-jobs.html"
                     class="font-thin text-white block"
                     aria-current="page"
                     >Post a Job</a
@@ -184,9 +185,7 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a
-                          class="nav-link"
-                          href="./pages/employer/employer_dashboard.html"
+                        <a class="nav-link" href="./dashboard/employer.html"
                           >Employer</a
                         >
                       </li>
@@ -427,13 +426,19 @@
               </ul>
               <button
                 id="metamaskButton"
-                class="text-white bg-gradient-to-b from-jcDarkBlue to-jcPurple font-thin rounded-full px-6 py-2 bg-opacity-90"
+                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
               >
                 Install Metamask to view Jobs
               </button>
             </div>
           </div>
         </nav>
+      </div>
+      <div class="bg-jcGray">
+        <p class="text-center tracking-wider font-baijam py-5">
+          Join our Blockchain Sustainability Week - UK 2023 & Blockchain
+          Sustainability Week - EU 2023
+        </p>
       </div>
     </header>
 
@@ -443,8 +448,48 @@
       data-taos-offset="300"
     >
       <div class="font-poppins">
-        <h2 class="text-center mt-10 text-3xl font-bold">
-          Welcome to JobCrypt
+        <div class="flex justify-between text-white p-5">
+          <div class="euflag px-2 py-4 w-[250px] h-[150px] flex justify-center">
+            <div class="">
+              <div
+                class="w-[200px] py-2 backdrop-blur-xl backdrop-filter text-xs rounded-xl"
+              >
+                <h2 class="font-bold text-center text-xs mt-3">
+                  Join JobCrypt Blockchain Sustainability Week in EU
+                </h2>
+                <p class="text-center mt-2">5th-9th June, 2023</p>
+              </div>
+              <div class="flex mt-2 justify-center">
+                <button
+                  class="bg-jcBlue px-4 py-1 text-black text-xs rounded-full"
+                >
+                  Get your tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ukflag px-2 py-4 w-[250px] h-[150px] flex justify-center">
+            <div class="">
+              <div
+                class="w-[200px] py-2 backdrop-blur-xl backdrop-filter text-xs rounded-xl"
+              >
+                <h2 class="font-bold text-center text-xs mt-3">
+                  Join JobCrypt Blockchain Sustainability Week in UK
+                </h2>
+                <p class="text-center mt-2">12th-16th June, 2023</p>
+              </div>
+              <div class="flex mt-2 justify-center">
+                <button
+                  class="bg-jcBlue px-4 py-1 text-black text-xs rounded-full"
+                >
+                  Get your tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-center text-3xl font-bold">
+          Welcome to <span class="text-jcBlue">JobCrypt</span>
         </h2>
         <img src="../assets/images/earthAsset.png" height="" class="absolute" />
         <div class="relative">
@@ -455,13 +500,11 @@
             Install Metamask & Stake to apply to verified web3 jobs
           </p>
           <div class="flex justify-center mt-5">
-            <button class="bg-[#273CC8] rounded-full px-6 py-2 text-white">
+            <button class="bg-black rounded-full px-6 py-2 text-jcBlue">
               Install Metamask to view jobs
             </button>
           </div>
-          <div
-            class="flex items-center justify-center mt-7 gap-1 text-[#273CC8]"
-          >
+          <div class="flex items-center justify-center mt-7 gap-1 text-jcBlue">
             <i class="fa-solid fa-circle-info"></i>
             <a href="" class="text-sm">Read more</a>
           </div>
@@ -471,12 +514,12 @@
 
     <!-- Job Board -->
     <section
-      class="bg-jcBlue mt-96 py-2 delay-[100ms] duration-[100ms] taos:translate-y-[200px] taos:opacity-60"
+      class="bg-black mt-96 mb-20 py-2 delay-[100ms] duration-[100ms] taos:translate-y-[200px] taos:opacity-60"
       data-taos-offset="300"
     >
       <h2 class="text-center font-bold text-3xl mt-3 text-white">Job Board</h2>
       <div
-        class="bg-[#D9D9D9] bg-opacity-10 flex justify-center gap-10 p-10 px-20 m-5"
+        class="bg-[#D9D9D9] bg-opacity-10 rounded-lg flex justify-center gap-10 p-10 px-20 m-5"
       >
         <div>
           <h2
@@ -486,10 +529,11 @@
           </h2>
 
           <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
+            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
           >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
+            Multiple jobs are uploaded on the blockchain by the hour,
+            <span class="text-jcBlue"> Install Metamask </span> to view
+            available jobs.
           </p>
         </div>
         <div class="">
@@ -499,10 +543,11 @@
             Latest Jobs
           </h2>
           <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
+            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
           >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
+            Multiple jobs are uploaded on the blockchain by the hour,
+            <span class="text-jcBlue"> Install Metamask </span> to view
+            available jobs.
           </p>
         </div>
         <div class="">
@@ -513,17 +558,95 @@
           </h2>
 
           <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
+            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
           >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
+            Multiple jobs are uploaded on the blockchain by the hour,
+            <span class="text-jcBlue"> Install Metamask </span> to view
+            available jobs.
           </p>
         </div>
       </div>
     </section>
 
+    <!-- Events -->
+    <section>
+      <div class="slideshow-container mt-20">
+        <div class="mySlides fade">
+          <div
+            class="bsweu px-10 py-5 flex justify-between text-white gap-20 rounded-lg"
+          >
+            <div>
+              <h2 class="font-bold text-3xl">
+                Blockchain <br />
+                Sustainability Week <br />
+                EU
+              </h2>
+              <span class="flex items-center gap-1 my-2">
+                <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                <p class="text-xs">5th-9th June, 2023</p>
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                <a href="" class="text-xs">See event details</a>
+              </span>
+            </div>
+            <div>
+              <p class="text-2xl font-baiJam tracking-wider">
+                Join JobCrypt Blockchain <br />
+                Sustainability Week in <br />
+                EU
+              </p>
+
+              <button class="px-6 py-2 rounded-xl bg-jcBlue mt-5">
+                Get your Tickets now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mySlides fade">
+          <div
+            class="bswuk mt-10 px-10 py-5 flex justify-between text-white gap-20 rounded-lg"
+          >
+            <div>
+              <h2 class="font-bold text-3xl">
+                Blockchain <br />
+                Sustainability Week <br />
+                UK
+              </h2>
+              <span class="flex items-center gap-1 my-2">
+                <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                <p class="text-xs">12th-16th June, 2023</p>
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                <a href="" class="text-xs">See event details</a>
+              </span>
+            </div>
+            <div>
+              <p class="text-2xl font-baiJam tracking-wider">
+                Join JobCrypt Blockchain <br />
+                Sustainability Week in <br />
+                UK
+              </p>
+
+              <button class="px-6 py-2 rounded-xl bg-jcBlue mt-5">
+                Get your Tickets now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <div style="text-align: center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </section>
+
     <!-- Users -->
-    <section class="bg-[#CEC2DC] bg-opacity-50 py-10">
+    <section class="bg-[#CEC2DC] bg-opacity-50 py-10 mt-20">
       <h2 class="text-center font-baiJam font-bold text-3xl tracking-wider">
         Used by Millions of Web 3 Users
       </h2>
@@ -532,9 +655,7 @@
       </h2>
 
       <div class="flex gap-10 mt-10 px-20 font-poppins text-white">
-        <div
-          class="w-1/3 py-40 rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-        >
+        <div class="w-1/3 py-40 rounded-md bg-jcBlack py-10 px-5">
           <img src="../assets/images/parcel.svg" />
           <h2 class="mt-3 font-semibold text-lg">Open</h2>
           <p class="mt-3 text-sm">
@@ -544,9 +665,7 @@
         </div>
         <div class="w-2/3">
           <div class="flex gap-5 mb-9">
-            <div
-              class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-            >
+            <div class="rounded-md bg-jcBlack py-10 px-5">
               <img src="../assets/images/trust.svg" />
               <h2 class="mt-3 font-semibold text-lg">Trustless</h2>
               <p class="mt-3 text-sm">
@@ -554,9 +673,7 @@
                 soon as you post your listing goes up right away.
               </p>
             </div>
-            <div
-              class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-            >
+            <div class="rounded-md bg-jcBlack py-10 px-5">
               <img src="../assets/images/permission.svg" />
               <h2 class="mt-3 font-semibold text-lg">Permissionless</h2>
               <p class="mt-3 text-sm">
@@ -565,9 +682,7 @@
               </p>
             </div>
           </div>
-          <div
-            class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-          >
+          <div class="rounded-md bg-jcBlack py-10 px-5">
             <img src="../assets/images/globe.svg" />
             <h2 class="mt-3 font-semibold text-lg">Decentralized</h2>
             <p class="mt-3 text-sm">
@@ -581,9 +696,7 @@
 
     <!-- jOIN OUR CLIENTS -->
     <section class="flex justify-center my-20">
-      <div
-        class="rounded-lg bg-gradient-to-b from-jcBlue to-jcPurple text-white px-20 pb-16 pt-10"
-      >
+      <div class="rounded-lg bg-jcBlack text-white px-20 pb-16 pt-10">
         <h2 class="text-center font-bold text-2xl mb-5">Join Our Clients</h2>
         <div
           class="flex px-10 rounded-lg gap-10 bg-[#D9D9D9] bg-opacity-20 py-10"
@@ -598,7 +711,9 @@
     </section>
 
     <!-- Why choose Jobcrypt -->
-    <section class="bg-jcBlue p-10 text-white font-poppins flex justify-center">
+    <section
+      class="bg-jcBlack p-10 text-white font-poppins flex justify-center"
+    >
       <div>
         <h2 class="text-center font-bold text-3xl mb-10">
           Why Choose JobCrypt
@@ -621,7 +736,7 @@
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Post a Job
               </button>
@@ -637,7 +752,7 @@
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Post a Job
               </button>
@@ -653,7 +768,7 @@
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Apply for Jobs
               </button>
@@ -669,7 +784,7 @@
         </p>
         <span class="flex justify-center my-5">
           <button
-            class="bg-gradient-to-b from-jcDarkBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+            class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
           >
             Learn More About Us
           </button>
@@ -679,18 +794,18 @@
 
     <!-- Feautured Events -->
     <section class="pt-20 px-20 font-poppins">
-      <h2 class="text-2xl text-center">Featured Events</h2>
+      <h2 class="text-2xl text-center font-bold">Featured Events</h2>
       <p class="text-center mt-2">
         Check out our upcoming events. Our Events help us connect to you where
         you are, bringing the best in blockchain and web3 education to your city
       </p>
-      <div class="bg-jcBlue p-16 flex justify-center gap-10 rounded-xl my-20">
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+      <div class="p-16 flex justify-center gap-16 rounded-xl my-20">
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -699,12 +814,12 @@
           </p>
           <a href="" class="text-black font-semibold text-sm">Read more...</a>
         </div>
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -713,12 +828,12 @@
           </p>
           <a href="" class="text-black font-semibold text-sm">Read more...</a>
         </div>
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -727,12 +842,61 @@
           </p>
           <a href="" class="text-black font-semibold text-sm">Read more...</a>
         </div>
-      </div>
+    </section>
+
+    <!-- Our Programmes -->
+    <section class="pt-20 px-20 font-poppins bg-[#CEC2DC] bg-opacity-10">
+      <h2 class="text-2xl text-center font-bold">Our Programmes</h2>
+      <p class="text-center mt-2">
+        We offer a variety of programmes to support job seekers, employers and partners to keep our community <br> updated on the special offers from JobCrypt.      </p>
+      <div class="p-16 flex justify-center gap-16 rounded-xl my-5">
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
+            JobCrypt Blockchain Sustainability Week- UK 2023
+          </h2>
+          <p class="">
+            “Do you live in Europe? Would you like to become part of the fight
+            and save the planet? Then join us for JobCrypt Blockchain
+            Sustainability Week- EU 2023, hosted in Munich Germany. Come and
+            learn how blockchain is changing the face of the fight against
+            pollution, opening new ways for us to achieve a sustainable future
+          </p>
+          <a href="" class="text-black font-semibold text-sm">Read more...</a>
+        </div>
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
+            JobCrypt Blockchain Sustainability Week- UK 2023
+          </h2>
+          <p class="">
+            “Do you live in Europe? Would you like to become part of the fight
+            and save the planet? Then join us for JobCrypt Blockchain
+            Sustainability Week- EU 2023, hosted in Munich Germany. Come and
+            learn how blockchain is changing the face of the fight against
+            pollution, opening new ways for us to achieve a sustainable future
+          </p>
+          <a href="" class="text-black font-semibold text-sm">Read more...</a>
+        </div>
+        <div class="bg-jcGray p-5 w-[25rem] rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="" />
+          <h2 class="font-bold text-lg my-3 ">
+            JobCrypt Blockchain Sustainability Week- UK 2023
+          </h2>
+          <p class="">
+            “Do you live in Europe? Would you like to become part of the fight
+            and save the planet? Then join us for JobCrypt Blockchain
+            Sustainability Week- EU 2023, hosted in Munich Germany. Come and
+            learn how blockchain is changing the face of the fight against
+            pollution, opening new ways for us to achieve a sustainable future
+          </p>
+          <a href="" class="text-black font-semibold text-sm">Read more...</a>
+        </div>
     </section>
 
     <!-- Ready to Start -->
     <section
-      class="py-20 text-white bg-gradient-to-b from-jcPurple to-jcBlue flex justify-center"
+      class="py-20 text-white  bg-gradient-to-b from-jcPurple to-jcBlue flex justify-center"
     >
       <div class="">
         <h2 class="text-2xl font-bold text-center">Ready to Start?</h2>
@@ -878,5 +1042,6 @@
 
     <!-- Js files -->
     <script src="../assets/js/jc_index.js"></script>
+    <script src="../assets/js/carousel.js"></script>
   </body>
 </html>
