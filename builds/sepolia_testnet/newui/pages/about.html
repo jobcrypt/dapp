@@ -23,8 +23,8 @@
   </head>
   <body>
     <header>
-      <section class="bg-[#1F49DD] bg-opacity-95 py-4 px-5 text-white">
-        <div class="">
+      <section class="bg-jcBlue py-4 px-5">
+        <div class="flex justify-end gap-60">
           <span class="flex gap-2 justify-center font-baiJam">
             <p class="text-center">
               JobCrypt Blockchain Sustainability Week - UK 2023
@@ -36,38 +36,38 @@
               href="https://www.twitter.com/JobCrypt"
               class="twitter"
               target="_blank"
-              ><i class="fa-brands fa-youtube" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-youtube"></i
             ></a>
 
             <a
               href="https://www.twitter.com/JobCrypt"
               class="twitter"
               target="_blank"
-              ><i class="fa-brands fa-twitter" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-twitter"></i
             ></a>
             <a
               href="https://www.tiktok.com/@jobcrypt"
               class="tiktok"
               target="_blank"
-              ><i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-tiktok"></i
             ></a>
             <a
               href="https://discord.gg/89DWAkEnWb"
               class="discord"
               target="_blank"
-              ><i class="fa-brands fa-discord" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-discord"></i
             ></a>
             <a
               href="https://www.linkedin.com/company/jobcrypt/"
               class="linkedin"
               target="_blank"
-              ><i class="fa-brands fa-linkedin" style="color: #f7f9fd"></i
+              ><i class="fa-brands fa-linkedin"></i
             ></a>
           </div>
         </div>
       </section>
 
-      <div class="bg-jcBlue px-10 py-4">
+      <div class="bg-black text-white px-10 py-4">
         <nav class="border-gray-200">
           <div
             class="container mx-auto text-white font-poppins flex justify-between flex-wrap items-center"
@@ -112,24 +112,21 @@
               </svg>
             </button>
             <div
-              class="hidden lg:flex items-center gap-10 justify-between md:block w-full md:w-auto"
+              class="hidden lg:flex items-center font-poppins tracking-wider gap-10 justify-between md:block w-full md:w-auto"
               id="mobile-menu"
             >
               <ul
                 class="flex-col gap-y-5 md:flex-row flex md:space-x-5 mt-4 md:mt-0 md:text-sm md:font-medium"
               >
                 <li>
-                  <a
-                    href="index.html"
-                    class="text-white block"
-                    aria-current="page"
+                  <a href="" class="text-white block" aria-current="page"
                     >Home</a
                   >
                 </li>
 
                 <li>
                   <a
-                    href="#"
+                    href="post-jobs.html"
                     class="font-thin text-white block"
                     aria-current="page"
                     >Post a Job</a
@@ -166,16 +163,12 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a
-                          class="nav-link"
-                          href="./pages/employer/employer_dashboard.html"
+                        <a class="nav-link" href="./dashboard/employer.html"
                           >Employer</a
                         >
                       </li>
                       <li>
-                        <a
-                          class="nav-link"
-                          href="./pages/jobseeker/job_seeker_dashboard.html"
+                        <a class="nav-link" href="./dashboard/jobseeker.html"
                           >Job Seeker</a
                         >
                       </li>
@@ -185,7 +178,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="jobsDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Jobs
@@ -204,7 +197,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="jobsDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -217,7 +210,7 @@
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="#featured-jobs"
+                        <a class="nav-link scrollto" href="featured-jobs.html"
                           >Featured Jobs</a
                         >
                       </li>
@@ -232,7 +225,7 @@
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="#search-jobs"
+                        <a class="nav-link scrollto" href="search-jobs.html"
                           >Search Jobs</a
                         >
                       </li>
@@ -247,7 +240,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="eventsDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Events
@@ -266,7 +259,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="eventsDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -303,7 +296,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="programmeDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     Programmes
@@ -322,7 +315,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="programmeDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -359,7 +352,7 @@
                 <li>
                   <button
                     id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
+                    data-dropdown-toggle="aboutDropdown"
                     class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
                   >
                     About
@@ -378,7 +371,7 @@
                   </button>
                   <!-- Dropdown menu -->
                   <div
-                    id="dropdownNavbar"
+                    id="aboutDropdown"
                     class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
                   >
                     <ul
@@ -411,13 +404,19 @@
               </ul>
               <button
                 id="metamaskButton"
-                class="text-white bg-gradient-to-b from-jcDarkBlue to-jcPurple font-thin rounded-full px-6 py-2 bg-opacity-90"
+                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
               >
                 Install Metamask to view Jobs
               </button>
             </div>
           </div>
         </nav>
+      </div>
+      <div class="bg-jcGray">
+        <p class="text-center tracking-wider font-baijam py-5">
+          Join our Blockchain Sustainability Week - UK 2023 & Blockchain
+          Sustainability Week - EU 2023
+        </p>
       </div>
     </header>
 
@@ -477,55 +476,55 @@
     </section>
 
     <!-- Our Roadmap -->
-    <section class="my-20 mx-40">
+    <section class="my-20 mx-60">
       <h2 class="text-2xl text-center font-bold font-baiJam tracking-wider">
         Our Roadmap
       </h2>
-      <div
-        class="py-10 px-5 bg-gradient-to-b from-jcDarkBlue to-jcPurple rounded-md mt-10"
-      >
-        <div class="bg-overlay bg-opacity-10 rounded-md py-10 px-20 w-full`">
+      <div class="py-20 px-10 bg-jcBlack rounded-md mt-10">
+        <div class="bg-jcGray bg-opacity-10 rounded-md py-20 px-20 w-full`">
           <span class="grid grid-cols-3 gap-40 mt-10 w-full">
             <p class="text-white font-thin">September 2021</p>
             <p class="text-white font-medium">Browsers 3000</p>
-            <p class="text-black font-medium">Won</p>
+            <p class="text-jcBlue font-medium">Won</p>
           </span>
           <span class="grid grid-cols-3 mt-10 gap-40">
             <p class="text-white font-thin">October 2021</p>
             <p class="text-white font-medium">Filecoin Next Steps Grant</p>
-            <p class="text-black font-medium">Approved</p>
+            <p class="text-jcBlue font-medium">Approved</p>
           </span>
           <span class="grid grid-cols-3 mt-10 gap-40">
             <p class="text-white font-thin">December 2022</p>
             <p class="text-white font-medium">JobCrypt Rewards</p>
-            <p class="text-black font-medium">Done</p>
+            <p class="text-jcBlue font-medium">Done</p>
           </span>
-          <span class="grid grid-cols-3 mt-10 gap-40">
+          <span
+            class="grid grid-cols-3 mt-10 gap-40 bg-jcBlue w-full p-3 rounded-lg"
+          >
             <p class="text-white font-thin">January 2023</p>
             <p class="text-white font-medium">JobCrypt x Chain</p>
-            <p class="text-black font-medium">Ongoing</p>
+            <p class="text-jcBlack font-medium">Ongoing</p>
           </span>
           <span class="grid grid-cols-3 mt-10 gap-40">
             <p class="text-white font-thin">March 2023</p>
             <p class="text-white font-medium">JobCrypt Employer Airdrop</p>
-            <p class="text-black font-medium"></p>
+            <p class="text-jcBlue font-medium"></p>
           </span>
           <span class="grid grid-cols-3 mt-10 gap-40">
             <p class="text-white font-thin">June 2023</p>
             <p class="text-white font-medium">JobCrypt Boost</p>
-            <p class="text-black font-medium"></p>
+            <p class="text-jcBlue font-medium"></p>
           </span>
         </div>
       </div>
     </section>
     <!-- Awards -->
-    <section class="bg-jcBlue px-40 py-20 text-white">
+    <section class="bg-jcBlack px-40 py-20 text-white">
       <h2 class="text-center font-bold text-2xl">Awards</h2>
       <p class="text-center mt-5">
         Explore our awards, Since inception we have grown from strength to
         strength supported by some of the best organisations in the business.
       </p>
-      <div class="bg-overlay bg-opacity-10 p-10 flex justify-between mt-20">
+      <div class="bg-jcGray bg-opacity-10 p-10 flex justify-between mt-20">
         <span>
           <img src="../assets/images/awards/hackathon.svg" />
           <p class="text-xs text-center mt-3">view this award</p>
@@ -543,9 +542,7 @@
 
     <!-- Partner with us -->
     <section class="p-20">
-      <div
-        class="bg-gradient-to-b from-jcPurple to-jcBlue rounded-lg py-10 text-white font-poppins"
-      >
+      <div class="bg-jcGray rounded-lg py-20 font-poppins">
         <h2 class="text-center text-2xl font-bold">Partner With Us</h2>
         <p class="text-center mt-2">
           For partnerships or more information about JobCrypt.
@@ -558,7 +555,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-discord" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-discord"></i>
               <p>discord</p>
             </button></a
           >
@@ -569,7 +566,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-twitter" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-twitter"></i>
               <p>Twitter</p>
             </button></a
           >
@@ -580,7 +577,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-tiktok"></i>
               <p>tiktok</p>
             </button></a
           >
@@ -589,9 +586,7 @@
     </section>
 
     <!-- Ready to Start -->
-    <section
-      class="py-20 text-white bg-gradient-to-b from-jcPurple to-jcBlue flex justify-center"
-    >
+    <section class="py-20 text-white bg-jcBlack flex justify-center">
       <div class="">
         <h2 class="text-2xl font-bold text-center">Ready to Start?</h2>
         <p class="my-5 text-center">Get the latest jobs direct to your inbox</p>
@@ -605,9 +600,7 @@
             />
             <br />
             <span class="flex justify-center">
-              <button
-                class="px-6 py-2 rounded-full shadow-xl mt-7 bg-[#1F49DD]"
-              >
+              <button class="px-6 py-2 rounded-full shadow-xl mt-7 bg-jcBlue">
                 Join Alert List
               </button>
             </span>
@@ -618,8 +611,8 @@
 
     <!-- Join our community -->
 
-    <section class="flex justify-center font-poppins text-white m-20">
-      <div class="bg-jcBlue p-10 px-20 rounded-lg">
+    <section class="flex justify-center font-poppins m-20">
+      <div class="bg-jcGray p-10 px-20 rounded-lg">
         <h2 class="text-2xl font-bold text-center">Join Our Community</h2>
         <p class="my-5">
           Learn about <span class="font-semibold"> JobCrypt </span>, chat with
@@ -633,7 +626,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-discord" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-discord"></i>
               <p>discord</p>
             </button></a
           >
@@ -644,7 +637,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-twitter" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-twitter"></i>
               <p>Twitter</p>
             </button></a
           >
@@ -655,7 +648,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-tiktok"></i>
               <p>tiktok</p>
             </button></a
           >
@@ -667,7 +660,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-linkedin" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-linkedin"></i>
               <p>linkedin</p>
             </button></a
           >
@@ -680,7 +673,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-facebook" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-facebook"></i>
               <p>facebook</p>
             </button></a
           >
@@ -692,7 +685,7 @@
             ><button
               class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-youtube" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-youtube"></i>
               <p>youtube</p>
             </button></a
           >
@@ -701,9 +694,7 @@
     </section>
 
     <!-- Footer -->
-    <section
-      class="flex justify-center bg-gradient-to-b from-jcBlue to-jcPurple py-10 text-white"
-    >
+    <section class="flex justify-center bg-jcBlack py-10 text-white">
       <div>
         <span class="flex justify-center items-center gap-3">
           <img src="../assets/images/jclogo.svg" />

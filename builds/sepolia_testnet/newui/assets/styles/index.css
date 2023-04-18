@@ -7,7 +7,7 @@
 }
 
 input::placeholder {
-    color: white;
+    color: black;
     font-size: 14px;
     opacity: 1;
     /* Firefox */

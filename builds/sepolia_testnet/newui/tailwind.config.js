@@ -19,6 +19,9 @@ module.exports = {
         jcBlack: "#231F20",
         gradient: "gradient-to-b from-jcBlue to-jcPurple",
       },
+      fontSize: {
+        xxs: "0.5rem",
+      },
     },
   },
   safelist: [

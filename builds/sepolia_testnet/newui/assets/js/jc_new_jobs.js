@@ -2,11 +2,11 @@ const data = [
   {
     career: "front-end developer",
     date: "12/03/23",
-    image: "../assets/images/jclogo.svg",
+    image: "../../assets/images/jclogo.svg",
   },
 ];
 
-const newArray = Array(20).fill([...data]);
+const newArray = Array(100).fill([...data]);
 console.log(newArray);
 
 function getJobs() {
