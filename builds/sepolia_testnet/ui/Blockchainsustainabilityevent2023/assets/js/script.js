@@ -29,7 +29,7 @@ function transparent()
 
 
 
- //portfolio
+ //Events toggler
 
  var btnDayOne = document.getElementById('btnDayOne');
  var btnDayTwo = document.getElementById('btnDayTwo');
@@ -40,46 +40,46 @@ function transparent()
 
  function buttonOne()
  {
-  btnDayOne.setAttribute('id','btnDayOne');
-  btnDayOne.setAttribute('class','row  portfolio-container  port_images_active');
-  btnDayTwo.setAttribute('class','row  portfolio-container port_images');
-  btnDayFour.setAttribute('class','row  portfolio-container port_images');
-  btnDayThree.setAttribute('class','row  portfolio-container port_images');
+  btnDayOne.setAttribute('class','mx-1 text-center btnActive');
+  btnDayTwo.setAttribute('class','mx-1 text-center btnNotActive');
+  btnDayFour.setAttribute('class','mx-1 text-center btnNotActive');
+  btnDayThree.setAttribute('class','mx-1 text-center btnNotActive');
+  btnDayFive.setAttribute('class','mx-1 text-center btnNotActive');
  }
 
  function buttonTwo()
  {
-  btnDayOne.setAttribute('id','port_images_none');
-  btnDayOne.setAttribute('class','row  portfolio-container port_images');
-  btnDayTwo.setAttribute('class',' row  portfolio-container port_images_active');
-  btnDayFour.setAttribute('class','row  portfolio-container port_images');
-  btnDayThree.setAttribute('class','row  portfolio-container port_images');
+   btnDayOne.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayTwo.setAttribute('class','mx-1 text-center btnActive');
+   btnDayFour.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayThree.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFive.setAttribute('class','mx-1 text-center btnNotActive');
  }
 
 
  function buttonThree()
  {
-  btnDayOne.setAttribute('id','port_images_none');
-  btnDayOne.setAttribute('class','row  portfolio-container  port_images');
-  btnDayTwo.setAttribute('class','row  portfolio-container  port_images');
-  btnDayFour.setAttribute('class','row  portfolio-container port_images');
-  btnDayThree.setAttribute('class','row  portfolio-container port_images_active');
+   btnDayOne.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayTwo.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFour.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayThree.setAttribute('class','mx-1 text-center btnActive');
+   btnDayFive.setAttribute('class','mx-1 text-center btnNotActive');
  }
 
  function buttonFour()
  {
-  btnDayOne.setAttribute('id','port_images_none');
-  btnDayOne.setAttribute('class','row  portfolio-container port_images');
-  btnDayTwo.setAttribute('class','row  portfolio-container port_images');
-  btnDayFour.setAttribute('class','row  portfolio-container port_images_active');
-  btnDayThree.setAttribute('class','row  portfolio-container port_images');
+   btnDayOne.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayTwo.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFour.setAttribute('class','mx-1 text-center btnActive');
+   btnDayThree.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFive.setAttribute('class','mx-1 text-center btnNotActive');
  }
 
  function buttonFive()
  {
-  btnDayOne.setAttribute('id','port_images_none');
-  btnDayOne.setAttribute('class','row  portfolio-container port_images');
-  btnDayTwo.setAttribute('class','row  portfolio-container port_images');
-  btnDayFour.setAttribute('class','row  portfolio-container port_images');
-  btnDayThree.setAttribute('class','row  portfolio-container port_images');
+   btnDayOne.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayTwo.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFour.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayThree.setAttribute('class','mx-1 text-center btnNotActive');
+   btnDayFive.setAttribute('class','mx-1 text-center btnActive');
  }

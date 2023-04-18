@@ -234,6 +234,12 @@ p{
     color: #707070;
 }
 
+#schedule-toggler button:focus{
+    background: #001489;
+    border: 4px solid #f1c312;
+    color: white !important;
+}
+
 #schedule-toggler button h6{
     color: #979797;
 }
@@ -292,5 +298,36 @@ p{
     padding: 10px 20px;
     font-size: larger;
     color: white;
+    border-radius: 10px;
 }
 
+#schedule-buttons{
+    width: 35%;
+}
+
+
+.btnActive{
+    display: block;
+}
+
+.btnNotActive{
+    display: none;
+}
+
+#full-date{
+    width: fit-content;
+}
+.full-schedule-details h5,.full-schedule-details h3{
+    color: #001489;
+}
+.full-schedule-details span{
+    color:  black;
+}
+
+.full-schedule-details button{
+    background: #001489;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    border:none;
+}
