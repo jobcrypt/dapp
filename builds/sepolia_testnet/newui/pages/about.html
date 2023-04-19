@@ -22,403 +22,408 @@
     <title>Document</title>
   </head>
   <body>
-    <header>
-      <section class="bg-jcBlue py-4 px-5">
-        <div class="flex justify-end gap-60">
-          <span class="flex gap-2 justify-center font-baiJam">
-            <p class="text-center">
-              JobCrypt Blockchain Sustainability Week - UK 2023
-            </p>
-            <a href="" class="font-bold underline">Learn more</a>
-          </span>
-          <div class="flex gap-4 items-center justify-end">
-            <a
-              href="https://www.twitter.com/JobCrypt"
-              class="twitter"
-              target="_blank"
-              ><i class="fa-brands fa-youtube"></i
-            ></a>
+   <!-- Header -->
 
-            <a
-              href="https://www.twitter.com/JobCrypt"
-              class="twitter"
-              target="_blank"
-              ><i class="fa-brands fa-twitter"></i
-            ></a>
-            <a
-              href="https://www.tiktok.com/@jobcrypt"
-              class="tiktok"
-              target="_blank"
-              ><i class="fa-brands fa-tiktok"></i
-            ></a>
-            <a
-              href="https://discord.gg/89DWAkEnWb"
-              class="discord"
-              target="_blank"
-              ><i class="fa-brands fa-discord"></i
-            ></a>
-            <a
-              href="https://www.linkedin.com/company/jobcrypt/"
-              class="linkedin"
-              target="_blank"
-              ><i class="fa-brands fa-linkedin"></i
-            ></a>
+   <header>
+    <section class="bg-jcBlue py-4 px-5">
+      <div
+        class="flex lg:flex-row flex-col md:flex-col justify-end lg:gap-60 gap-10"
+      >
+        <span class="flex gap-2 justify-center font-baiJam">
+          <p class="text-center text-xs lg:text-base">
+            JobCrypt Blockchain Sustainability Week - UK 2023
+          </p>
+          <a href="" class="font-bold underline text-xs lg:text-base"
+            >Learn more</a
+          >
+        </span>
+        <div class="flex gap-4 items-center justify-end">
+          <a
+            href="https://www.twitter.com/JobCrypt"
+            class="twitter"
+            target="_blank"
+            ><i class="fa-brands fa-youtube"></i
+          ></a>
+
+          <a
+            href="https://www.twitter.com/JobCrypt"
+            class="twitter"
+            target="_blank"
+            ><i class="fa-brands fa-twitter"></i
+          ></a>
+          <a
+            href="https://www.tiktok.com/@jobcrypt"
+            class="tiktok"
+            target="_blank"
+            ><i class="fa-brands fa-tiktok"></i
+          ></a>
+          <a
+            href="https://discord.gg/89DWAkEnWb"
+            class="discord"
+            target="_blank"
+            ><i class="fa-brands fa-discord"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/company/jobcrypt/"
+            class="linkedin"
+            target="_blank"
+            ><i class="fa-brands fa-linkedin"></i
+          ></a>
+        </div>
+      </div>
+    </section>
+
+    <div class="bg-black text-white px-10 py-4">
+      <nav class="border-gray-200">
+        <div
+          class="container text-white font-poppins flex-wrap lg:flex-nowrap lg:gap-40 gap-0 flex justify-between items-center"
+        >
+          <a href="#" class="flex">
+            <div class="flex items-center gap-2 text-white">
+              <img src="../assets/images/jclogo.svg" />
+              <h1 class="text-2xl font-bold whitespace-nowrap">Job Crypt</h1>
+            </div>
+          </a>
+          <button
+            data-collapse-toggle="mobile-menu"
+            type="button"
+            class="lg:hidden ml-3 text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg inline-flex items-center justify-center"
+            aria-controls="mobile-menu-2"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <svg
+              class="hidden w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+          <div
+            class="hidden lg:flex items-center font-poppins tracking-wider gap-40 justify-between w-full"
+            id="mobile-menu"
+          >
+            <ul
+              class="flex-col gap-y-5 lg:flex-row flex space-x-5 mt-4 lg:mt-0 lg:text-base text-sm lg:font-medium"
+            >
+              <li>
+                <a
+                  href="./Index.html"
+                  class="text-white block"
+                  aria-current="page"
+                  >Home</a
+                >
+              </li>
+
+              <li>
+                <a
+                  href="./post-jobs.html"
+                  class="font-thin text-white block"
+                  aria-current="page"
+                  >Post a Job</a
+                >
+              </li>
+
+              <li>
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="dropdownNavbar"
+                  class="font-thin text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                >
+                  Dashboard
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div
+                  id="dropdownNavbar"
+                  class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                >
+                  <ul
+                    class="p-3 text-black"
+                    aria-labelledby="dropdownLargeButton"
+                  >
+                    <li>
+                      <a class="nav-link" href="./dashboard/employer.html"
+                        >Employer</a
+                      >
+                    </li>
+                    <li>
+                      <a class="nav-link" href="./dashboard/jobseeker.html"
+                        >Job Seeker</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="jobsDropdown"
+                  class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                >
+                  Jobs
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div
+                  id="jobsDropdown"
+                  class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                >
+                  <ul
+                    class="p-3 text-black"
+                    aria-labelledby="dropdownLargeButton"
+                  >
+                    <li>
+                      <a
+                        class="nav-link scrollto"
+                        href="./jobs/featured-jobs.html"
+                        >Featured Jobs</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link scrollto"
+                        href="./jobs/latest-jobs.html"
+                        >Latest Jobs</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link scrollto"
+                        href="./jobs/popular-jobs.html"
+                        >Popular Jobs</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link scrollto"
+                        href="./jobs/search-jobs.html"
+                        >Search Jobs</a
+                      >
+                    </li>
+                    <li>
+                      <a class="nav-link scrollto" href="#stake"
+                        >Stake to Apply for Jobs</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="eventsDropdown"
+                  class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                >
+                  Events
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div
+                  id="eventsDropdown"
+                  class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                >
+                  <ul
+                    class="p-3 text-black"
+                    aria-labelledby="dropdownLargeButton"
+                  >
+                    <li>
+                      <a class="nav-link scrollto" href="#featured-events"
+                        >Featured Events</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link"
+                        href="/blockchainsustainabilityweekuk2023/index.html"
+                        >Blockchain Sustainability Week - UK2023</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link"
+                        href="/blockchainsustainabilityweekeu2023/index.html"
+                        >Blockchain Sustainability Week - EU2023</a
+                      >
+                    </li>
+                    <li>
+                      <a class="nav-link" href="./pages/events/index.html"
+                        >2023 Events Calendar</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="programmeDropdown"
+                  class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                >
+                  Programmes
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div
+                  id="programmeDropdown"
+                  class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                >
+                  <ul
+                    class="p-3 text-black"
+                    aria-labelledby="dropdownLargeButton"
+                  >
+                    <li>
+                      <a href="./programmes/job-finder-programme.html"
+                        >Job Finder Programme</a
+                      >
+                    </li>
+                    <li>
+                      <a href="./programmes/managed-service-programme.html"
+                        >Managed Service Programme</a
+                      >
+                    </li>
+                    <li>
+                      <a href="./programmes/community-programme.html"
+                        >Community Programme</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="./programmes/distinguished-speakers-programme.html"
+                        >Distinguished Speakers Programme</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <button
+                  id="dropdownNavbarLink"
+                  data-dropdown-toggle="aboutDropdown"
+                  class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                >
+                  About
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <!-- Dropdown menu -->
+                <div
+                  id="aboutDropdown"
+                  class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                >
+                  <ul
+                    class="p-3 text-black"
+                    aria-labelledby="dropdownLargeButton"
+                  >
+                    <li>
+                      <a class="nav-link scrollto" href="#whyus">Why Us</a>
+                    </li>
+                    <li>
+                      <a class="nav-link scrollto" href="./">About Us</a>
+                    </li>
+                    <li>
+                      <a class="nav-link scrollto" href="#awards">Awards</a>
+                    </li>
+                    <li>
+                      <a
+                        class="nav-link"
+                        href="mailto:contact@jobcrypt.com?subject=Contact Query"
+                        >Contact</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+            <button
+              id="metamaskButton"
+              class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
+            >
+              Install Metamask to view Jobs
+            </button>
           </div>
         </div>
-      </section>
-
-      <div class="bg-black text-white px-10 py-4">
-        <nav class="border-gray-200">
-          <div
-            class="container mx-auto text-white font-poppins flex justify-between flex-wrap items-center"
-          >
-            <a href="#" class="flex">
-              <div class="flex items-center gap-2 text-white">
-                <img src="../assets/images/jclogo.svg" />
-                <h1 class="text-2xl font-bold">Job Crypt</h1>
-              </div>
-            </a>
-            <button
-              data-collapse-toggle="mobile-menu"
-              type="button"
-              class="md:hidden ml-3 text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg inline-flex items-center justify-center"
-              aria-controls="mobile-menu-2"
-              aria-expanded="false"
-            >
-              <span class="sr-only">Open main menu</span>
-              <svg
-                class="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <svg
-                class="hidden w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-            <div
-              class="hidden lg:flex items-center font-poppins tracking-wider gap-10 justify-between md:block w-full md:w-auto"
-              id="mobile-menu"
-            >
-              <ul
-                class="flex-col gap-y-5 md:flex-row flex md:space-x-5 mt-4 md:mt-0 md:text-sm md:font-medium"
-              >
-                <li>
-                  <a href="" class="text-white block" aria-current="page"
-                    >Home</a
-                  >
-                </li>
-
-                <li>
-                  <a
-                    href="post-jobs.html"
-                    class="font-thin text-white block"
-                    aria-current="page"
-                    >Post a Job</a
-                  >
-                </li>
-
-                <li>
-                  <button
-                    id="dropdownNavbarLink"
-                    data-dropdown-toggle="dropdownNavbar"
-                    class="font-thin text-white hover:underline flex items-center justify-between w-full md:w-auto"
-                  >
-                    Dashboard
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div
-                    id="dropdownNavbar"
-                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
-                  >
-                    <ul
-                      class="p-3 text-black"
-                      aria-labelledby="dropdownLargeButton"
-                    >
-                      <li>
-                        <a class="nav-link" href="./dashboard/employer.html"
-                          >Employer</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link" href="./dashboard/jobseeker.html"
-                          >Job Seeker</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <button
-                    id="dropdownNavbarLink"
-                    data-dropdown-toggle="jobsDropdown"
-                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
-                  >
-                    Jobs
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div
-                    id="jobsDropdown"
-                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
-                  >
-                    <ul
-                      class="p-3 text-black"
-                      aria-labelledby="dropdownLargeButton"
-                    >
-                      <li>
-                        <a class="nav-link" href="./pages/app/post.html">
-                          Post a Job</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="featured-jobs.html"
-                          >Featured Jobs</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="#latest-jobs"
-                          >Latest Jobs</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="#popular-jobs"
-                          >Popular Jobs</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="search-jobs.html"
-                          >Search Jobs</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="#stake"
-                          >Stake to Apply for Jobs</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <button
-                    id="dropdownNavbarLink"
-                    data-dropdown-toggle="eventsDropdown"
-                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
-                  >
-                    Events
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div
-                    id="eventsDropdown"
-                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
-                  >
-                    <ul
-                      class="p-3 text-black"
-                      aria-labelledby="dropdownLargeButton"
-                    >
-                      <li>
-                        <a class="nav-link scrollto" href="#featured-events"
-                          >Featured Events</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          class="nav-link"
-                          href="/blockchainsustainabilityweekuk2023/index.html"
-                          >Blockchain Sustainability Week - UK2023</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          class="nav-link"
-                          href="/blockchainsustainabilityweekeu2023/index.html"
-                          >Blockchain Sustainability Week - EU2023</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link" href="./pages/events/index.html"
-                          >2023 Events Calendar</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <button
-                    id="dropdownNavbarLink"
-                    data-dropdown-toggle="programmeDropdown"
-                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
-                  >
-                    Programmes
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div
-                    id="programmeDropdown"
-                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
-                  >
-                    <ul
-                      class="p-3 text-black"
-                      aria-labelledby="dropdownLargeButton"
-                    >
-                      <li>
-                        <a
-                          href="./pages/programmes/job finder programme/index.html"
-                          >Job Finder Programme</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="./pages/programmes/managed service programme/index.html"
-                          >Managed Service Programme</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="./pages/programmes/community programme/index.html"
-                          >Community Programme</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="./pages/programmes/distinguished speakers programme/index.html"
-                          >Distinguished Speakers Programme</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <button
-                    id="dropdownNavbarLink"
-                    data-dropdown-toggle="aboutDropdown"
-                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
-                  >
-                    About
-                    <svg
-                      class="w-4 h-4 ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div
-                    id="aboutDropdown"
-                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
-                  >
-                    <ul
-                      class="p-3 text-black"
-                      aria-labelledby="dropdownLargeButton"
-                    >
-                      <li>
-                        <a class="nav-link scrollto" href="#whyus">Why Us</a>
-                      </li>
-                      <li>
-                        <a
-                          class="nav-link scrollto"
-                          href="./pages/app/jc/01_about.html"
-                          >About Us</a
-                        >
-                      </li>
-                      <li>
-                        <a class="nav-link scrollto" href="#awards">Awards</a>
-                      </li>
-                      <li>
-                        <a
-                          class="nav-link"
-                          href="mailto:contact@jobcrypt.com?subject=Contact Query"
-                          >Contact</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-              <button
-                id="metamaskButton"
-                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
-              >
-                Install Metamask to view Jobs
-              </button>
-            </div>
-          </div>
-        </nav>
-      </div>
-      <div class="bg-jcGray">
-        <p class="text-center tracking-wider font-baijam py-5">
-          Join our Blockchain Sustainability Week - UK 2023 & Blockchain
-          Sustainability Week - EU 2023
-        </p>
-      </div>
-    </header>
+      </nav>
+    </div>
+    <div class="bg-jcGray">
+      <p class="text-center tracking-wider font-baijam py-5">
+        Join our Blockchain Sustainability Week - UK 2023 & Blockchain
+        Sustainability Week - EU 2023
+      </p>
+    </div>
+  </header>
 
     <!-- About Us -->
     <section>
