@@ -1,4 +1,4 @@
-ierc20MetadataAbi = [
+const ierc20MetadataAbi = [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -222,3 +222,5 @@ ierc20MetadataAbi = [
 		"type": "function"
 	}
 ]
+
+export default ierc20MetadataAbi;

@@ -1,4 +1,4 @@
-iOpenProductAbi = [{
+const iOpenProductAbi = [{
         "inputs": [],
         "name": "getCurrency",
         "outputs": [{
@@ -144,3 +144,5 @@ iOpenProductAbi = [{
         "type": "function"
     }
 ]
+
+export default iOpenProductAbi;

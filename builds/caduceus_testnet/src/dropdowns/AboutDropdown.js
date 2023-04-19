@@ -1,15 +1,15 @@
-import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import classes from '../styles/dropdowns/EventsDropdown.module.css';
 
-const AboutDropdown = (props, ref) =>{
+const AboutDropdown = (props) =>{
+    const { setShowHamburger } = props;
     const navigate = useNavigate();
 
 
     const navigateToPage = (path, type) =>{
-        ref.current.blur();
         navigate(path, { state: { scroll: type }});
+        setShowHamburger(false)
         // document.getElementById('about').scrollIntoView({ behavior: 'smooth'})
     }
 
@@ -24,4 +24,4 @@ const AboutDropdown = (props, ref) =>{
     )
 }
 
-export default forwardRef(AboutDropdown);
+export default AboutDropdown;

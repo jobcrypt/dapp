@@ -10,12 +10,15 @@ import contact from '../assets/contact.png';
 import hackathon from '../assets/hackathon.png';
 import filecoin from '../assets/filecoin.png';
 import jobcrypt from '../assets/jobcrypt.png';
+import useWindowSize from '../hooks/useWindowSize';
 
 
 
 const AboutUsRoute = () =>{
     const navigate = useNavigate();
     const location = useLocation();
+    const width = useWindowSize();
+
 
     useEffect(()=>{
     //    console.log(location)
@@ -40,9 +43,9 @@ const AboutUsRoute = () =>{
                     <p>What is JobCrypt?</p>
                     <span>JobCrypt is the first fully decentralized job board hosted on the optimism network. We use the blockchain and the decentralized storage to serve permissionless job listings on the decentralized web. Our service enables applicants to apply using the power of the blockchain enabling them to verifably reach out to employers and enabling employers to accurately engage real applicants through decentralized ledger technology.</span>
                 </div>
-                <div className={classes.leftBox}>
+                {width > 770 &&<div className={classes.leftBox}>
                   <img src={jobseekerIcon} alt='' className={classes.image} />
-                </div>
+                </div>}
             </article>
             <article className={classes.article} id='why'>
             <div className={classes.rightBox}>
@@ -87,6 +90,9 @@ const AboutUsRoute = () =>{
                 </ul>
             <div className={classes.leftBox}></div>
             </section>
+            {width <= 770 &&<div className={classes.leftBox}>
+                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                </div>}
            <section className={classes.awardsContainer} id='awards'>
                 <h2>Awards</h2>
                 <p>Since inception, we have grown from strength to strength supported by some of the best organisations in business</p>

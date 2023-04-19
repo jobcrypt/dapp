@@ -9,6 +9,7 @@
     align-items: center;
     position: relative;
     padding-top: 15rem;
+    background-image: linear-gradient(to right, #171d32, #2c2231);
 }
 
 .hero{
@@ -29,4 +30,18 @@
     z-index: 1;
     margin: 0;
     margin-bottom: 30px;
+}
+
+@media screen and (max-width: 770px) {
+    .parent{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 30px;
+        padding-top: 6rem;
+    }
+    .parent>h1{
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+    }
 }

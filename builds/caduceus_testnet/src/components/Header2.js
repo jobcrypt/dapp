@@ -1,7 +1,6 @@
-import { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 
 import classes from '../styles/components/Header2.module.css';
 import discord from '../assets/discord.png';
@@ -19,10 +18,12 @@ import { useReducer } from 'react';
 import ProgramDropdown from '../dropdowns/ProgramDropdown';
 import AboutDropdown from '../dropdowns/AboutDropdown';
 import DashBoardDropdown from '../dropdowns/DashboardDropdown';
-// import { disconnect } from '../store/MetaMaskSlice';
 import { isNull } from '../utils/Util';
-import { useAccount, useDisconnect } from 'wagmi';
-
+import { Stake, getContractInstance } from '../contracts/init';
+import iJCStakeManagerAbi from '../abi/i_jc_stake_manager_abi';
+import ierc20MetadataAbi from '../abi/i_erc20_metadata_abi';
+import { getMinimumStakeAmount, getStakeErc20Address } from '../contracts/ContractManager';
+import { disconnectUser } from '../store/UserWalletSlice';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
@@ -72,21 +73,22 @@ const reducerFunc = (state, action) =>{
     }
 }
 
+
+
 const Header2 = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
-    const eventRef = useRef();
-    const programRef = useRef();
-    const dashboardRef = useRef();
-    const aboutRef = useRef();
     const navigate = useNavigate();
-    const metaSelector = useSelector(state=>state.meta);
-    const { address } = useAccount();
-    const { disconnect } = useDisconnect();
+    const isStaked = useSelector(state=>state.contracts.stakeStatus);
+    const address = useSelector(state=>state.user.wallet);
+    const dispatchRedux = useDispatch();
+    const [showHamburger, setShowHamburger ] = useState(false);
 
     const disconnectMetamask = () =>{
         navigate('/');
-        disconnect();
+        sessionStorage.removeItem('user');
+        dispatchRedux(disconnectUser());
     }
+
 
     return(
         <header className={classes.header}>
@@ -108,58 +110,48 @@ const Header2 = () =>{
                  <div className={classes.eventSideContainer}>
                      <span 
                          className={classes.dropdown} 
-                         tabIndex={1} 
-                         onFocus={()=>setDispatch({ TYPE: EVENTS, status: true })}
-                         onBlur={()=>setDispatch({ TYPE: EVENTS, status: false })}
-                         ref={eventRef}
+                         onClick={()=>setDispatch({ TYPE: EVENTS, status: !dispatch.events })}
                     >
                         <p>Events</p>
                         <img src={dropdownIcon} alt='' />
                        {dispatch.events && <EventsDropdown 
-                       setDispatch={setDispatch} 
-                       ref={eventRef}
+                          setDispatch={setDispatch} 
+                          setShowHamburger={setShowHamburger}
                        />}
                      </span>
                      <span 
                          className={classes.dropdown}
-                         tabIndex={1} 
-                         onFocus={()=>setDispatch({ TYPE: PROGRAMS, status: true })}
-                         onBlur={()=>setDispatch({ TYPE: PROGRAMS, status: false })}
-                         ref={programRef}
-                    >
+                         onClick={()=>setDispatch({ TYPE: PROGRAMS, status: !dispatch.programs })}
+                        >
                         <p>Programmes</p>
                         <img src={dropdownIcon} alt='' />
                         {dispatch.programs &&<ProgramDropdown 
                         setDispatch={setDispatch} 
-                        ref={programRef}
+                        setShowHamburger={setShowHamburger}
                         />}
                      </span>
                      <span 
                          className={classes.dropdown}
-                         tabIndex={1} 
-                         onFocus={()=>setDispatch({ TYPE: DASHBOARD, status: true })}
-                        //  onBlur={()=>setDispatch({ TYPE: DASHBOARD, status: false })}
-                         ref={dashboardRef}
-                    >
+                         onClick={()=>setDispatch({ TYPE: DASHBOARD, status: !dispatch.dashboard })}
+                        >
                         <p>Dashboard</p>
                         <img src={dropdownIcon} alt='' />
                         {dispatch.dashboard && <DashBoardDropdown 
+                        shouldShow={dispatch.dashboard}
                         setDispatch={setDispatch} 
-                        ref={dashboardRef}
+                        deviceType='desktop'
+                        setShowHamburger={setShowHamburger}
                         />}
                      </span>
                      <span 
                          className={classes.dropdown}
-                         tabIndex={1} 
-                         onFocus={()=>setDispatch({ TYPE: ABOUT, status: true })}
-                         onBlur={()=>setDispatch({ TYPE: ABOUT, status: false })}
-                         ref={aboutRef}
+                         onClick={()=>setDispatch({ TYPE: ABOUT, status: !dispatch.about })}
                     >
                         <p>About</p>
                         <img src={dropdownIcon} alt='' />
                         {dispatch.about && <AboutDropdown 
                         setDispatch={setDispatch} 
-                        ref={aboutRef}
+                        setShowHamburger={setShowHamburger}
                         />}
                      </span>
                  </div>
@@ -185,21 +177,21 @@ const Header2 = () =>{
                             How to use JobCrypt</button>
                     </div>
                     <div className={classes.bottomLeftContainer}>
-                        {metaSelector.isStaked &&<span className={classes.likeContainer}>
+                        {isStaked &&<span className={classes.likeContainer}>
                             <img src={thumbsUpIcon} alt='' className={classes.thumbsIcon} />
                             <p>Staked: <strong>CMP staked to apply for jobs</strong></p>
                         </span>}
-                        {!metaSelector.isStaked &&<span className={classes.likeContainer}>
+                        {!isStaked &&<span className={classes.likeContainer}>
                             <img src={thumbsUpIcon} alt='' className={`${classes.thumbsIcon} ${classes.rotate}`} />
                             <p>Not Staked: <strong>Stake CMP to apply for jobs</strong></p>
                         </span>}
-                        {metaSelector.isStaked &&<span className={classes.cmpPortion}>
+                        {isStaked &&<span className={classes.cmpPortion}>
                             <p>Unstake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />
                             </span>
                         </span>}
-                        {!metaSelector.isStaked &&<span className={classes.cmpPortion}>
+                        {!isStaked &&<span className={classes.cmpPortion}>
                             <p>Stake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />

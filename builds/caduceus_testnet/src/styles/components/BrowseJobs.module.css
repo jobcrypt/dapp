@@ -101,8 +101,7 @@
 .selectorContainer>p{
     font-size: 20px;
     font-family: 'light';
-    color: #fff;
-    
+    color: #fff; 
 }
 
 .dropdown{
@@ -149,40 +148,46 @@
     justify-content: center;
     align-items: center;
     padding-top: 30px;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .allJobsBlack{
-    width: 80%;
+    min-width: 100%;
     height: fit-content;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     border-radius: 20px;
     background-color: #4b4b4b62;
-    padding: 10px 0px;
+    padding: 20px 0px;
+    margin-bottom: 20px;
 }
 
 .leftSide{
     min-width: 40%;
+    min-width: 500px;
     height: 100%;
+    max-height: 700px;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
     padding: 0px 20px;
-    /* background-color: red; */
 }
 
+
 .rightSide{
-    min-width: calc(100% - 40%);
+    min-width: calc(100% - 500px);
     height: 100%;
+    max-height: 700px;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
     padding-right: 20px;
     box-sizing: border-box;
-    /* background-color: green; */
     padding-bottom: 10px;
 }
+
 
 .top{
     width: 100%;
@@ -192,6 +197,33 @@
     align-items: center;
     padding: 0px 10px;
 }
+
+.backwardIconContainer{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding-left: 5px;
+}
+
+
+.backIcon{
+   width: 18px;
+   height: 18px;
+   filter: invert(1);
+}
+
+/* .centerDetail{
+  width: 100%;
+  max-height: (700px - 70px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+} */
+
+/* .centerDetail::-webkit-scrollbar{
+    width: 5px;
+} */
 
 .nav{
     width: 100%;
@@ -226,6 +258,8 @@
 .unorderedList{
     width: 100%;
     height: fit-content;
+    max-height: calc(700px - 70px);
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
@@ -234,6 +268,10 @@
     list-style: none;
     padding: 10px 5px;
     row-gap: 5px;
+}
+
+.unorderedList::-webkit-scrollbar{
+    /* width: 5px; */
 }
 
 .unorderedList>li{
@@ -313,16 +351,17 @@
 .smallCircle>img{
     width: 15px;
     height: 15px;
-    transform: rotate(90deg);
+    transform: rotate(180deg);
 }
 
 .jobCount{
     width: 100%;
-    text-align: end;
+    text-align: start;
     font-family: 'light';
-    font-size: 18px;
+    font-size: 11px;
     color: #b4b4b4;
-    padding-right: 10px;
+    padding-left: 10px;
+    margin: 0;
 }
 
 .jobTitleColored{
@@ -434,6 +473,7 @@
     background-color: var(--dim-bg);
     border-radius: 0px 0px 20px 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .shortDescriptionSection{
@@ -548,4 +588,120 @@
     width: calc(100% - 20px);
     height: 100%;
     display: flex;  
+}
+
+@media screen and (max-width: 1300px) {
+    .allJobsParent{
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+}
+
+@media screen and (max-width: 910px) {
+    .leftSide{
+        min-width: 400px;
+    }
+
+    .jobTypeBtn{
+        width: 33.33%;
+        font-size: 12px;
+        cursor: none;
+    }
+
+    .jobTitle{
+        font-size: 18px;
+    }
+
+    
+.jobTitleColoredDivLeft>h1{
+    font-size: 18px;
+}
+
+.jobTitleNameContainer>p{
+    font-size: 15px;
+}
+
+.jobTitleColoredDivRight>p{
+    font-size: 12px;
+}
+}
+
+@media screen and (max-width: 770px) {
+    .parent{
+        padding: 0px 15px;
+    }
+
+    .box{
+        column-gap: 5px;
+    }
+
+    .inputContainer{
+        width: 50%;
+    }
+    
+    .input{
+        min-height: 40px;
+        border-radius: 5px;
+    }
+
+.icon{
+  width: 15px;
+  height: 15px;
+}
+
+
+.selectorContainer>p{
+    font-size: 10px;
+}
+
+.dropdown{
+    width: 10px;
+    height: 10px;
+}
+
+.selectorContainer2{
+    padding: 0px 3px;
+    min-height: 40px;
+    max-height: 40px;
+    border-radius: 5px;
+    column-gap: 3px;
+}
+
+.icon2{
+  width: 15px;
+  height: 15px;
+}
+
+.selectorContainer2>p{
+    font-size: 12px;   
+}
+
+.dropdown2{
+    width: 10px;
+    height: 10px;
+}
+.searchBtn{
+    height: 40px;
+    font-size: 10px;
+    border: 1px solid #c4c4c4;
+    padding: 0px 15px;
+    cursor: none;
+}
+
+    .leftSide{
+          width: 100%;
+          padding: 0px 10px;
+          max-height: fit-content;
+    }
+
+    .unorderedList{
+        max-height: fit-content;
+    }
+
+    .rightSide{
+        width: 100%;
+        max-height: fit-content;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }

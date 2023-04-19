@@ -228,3 +228,5 @@ const iOpenRegisterAbi = [{
         "type": "function"
     }
 ]
+
+export default iOpenRegisterAbi;

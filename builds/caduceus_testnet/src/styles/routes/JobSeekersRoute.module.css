@@ -266,3 +266,61 @@
     font-family: 'light';
     cursor: pointer;
  }
+
+ @media screen and (max-width: 770px) {
+   .parent{
+      padding-top: 5rem;
+      padding-left: 10px;
+      padding-right: 2px;
+  }
+
+  .rightBox{
+   min-width: 100%;
+   max-width: 100%;
+   padding-right: 5px;
+   padding-left: 10px;
+}
+
+.rightBox>h2{
+   font-size: 30px;
+}
+
+.leftBox{
+   min-width: 100%;
+   max-width: 100%;
+   padding-left: 10px;
+   padding-right: 10px;
+}
+
+.image{
+   width: 100%;
+   height: 100%;
+ }
+  
+ .benefitIconBox{
+   width: 50px;
+   display: flex;
+}
+
+ .benefitList{
+   min-width: 100%;
+   max-width: 100%;
+}
+
+.awardsContainer>p{
+   padding: 0px 10px;
+}
+
+.supportContainer{
+   flex-direction: column;
+   -ms-flex-direction: column;
+   row-gap: 50px;
+   padding: 0px 20px;
+}
+
+.supportContainer>div{
+   min-width: 100%;
+   max-width: 100%;
+   row-gap: 20px;
+}
+ }

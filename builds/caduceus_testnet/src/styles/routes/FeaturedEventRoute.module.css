@@ -1,6 +1,5 @@
 .parent{
     min-width: 100%;
-    /* min-height: 100vh; */
     max-height: max-content;
     display: flex;
     background-image: linear-gradient(to right, #2c2231, #171d32);
@@ -65,11 +64,20 @@
     font-family: 'light';
 }
 
+
+.sustainibilityParent{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 45px;
+ }
+
 .secondContainer{
   width: 100%;
   height: fit-content;
   display: flex;
-  padding-top: 30px;
+  padding-top: 50px;
   flex-direction: column;
 }
 
@@ -82,6 +90,7 @@
     margin: 0; 
     margin-bottom: 50px;
 }
+
 
 .calendarParent{
     display: flex;
@@ -199,7 +208,6 @@
     justify-content: flex-start;
     align-items: center;
     padding: 0px 20px;
-    
  }
 
  .firstSpan>section{
@@ -261,7 +269,6 @@
     font-size: 20px;
 }
 
-
  .secondSpan{
      min-width: 20%;
      min-height: 100%;
@@ -316,4 +323,91 @@
     margin: 0; 
     margin-top: 2rem;
     max-width: 50%;
+}
+
+@media (min-width: 771px) and (max-width: 1300px) {
+    .parent{
+     padding: 0px 20px;
+    }
+
+    
+.calendarArticle{
+    column-gap: 10px;
+  }
+  
+  .calendarArticle>div{
+      min-width: 50%;
+  }
+
+.firstSpan>header{
+    font-size: 15px;
+    }
+
+    .titleGroupContainer>h2{
+    font-size: 18px;
+}
+
+.blockContainer>p{
+    font-size: 18px;
+}
+}
+
+
+@media screen and (max-width: 770px) {
+    .parent{
+        padding: 0px 10px;
+    }
+    .firstContainer{
+        padding-top: 5rem;
+    }
+    .firstContainer>h1{
+        font-size: 30px;
+    }
+    
+    .content{
+        max-width: 100%;
+    }
+
+    .secondContainer>h1{
+        font-size: 30px;
+    }
+
+    .calendarArticle{
+        flex-direction: column;
+        -ms-flex-direction: column;
+        row-gap: 30px;
+      }
+
+    .calendarArticle>div{
+        min-width: 100%;
+    }
+
+    .firstSpan>header{
+        font-size: 15px;
+     }
+
+     .titleGroupContainer{
+        padding: 0px 5px;
+     }
+    
+    .titleGroupContainer>h2{
+        font-size: 15px;
+    }
+    
+    .blockContainer>img{
+        width: 15px;
+        height: 15px;
+    }
+    
+    .blockContainer>p{
+        font-size: 13px;
+    }
+    
+    .contactUsContainer>p{
+        max-width: 100%;
+    }
+
+    .eventFooter{
+        cursor: none;
+    }
 }

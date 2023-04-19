@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
-import { WagmiConfig, createClient, configureChains, useContract, useContractRead } from 'wagmi';
-import { mainnet, optimism } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+// import { WagmiConfig, createClient, configureChains } from 'wagmi';
+// import { mainnet, optimism, sepolia } from 'wagmi/chains';
+// import { publicProvider } from 'wagmi/providers/public';
 
 
 
@@ -15,40 +15,36 @@ import SpeakersRoute from './routes/SpeakersRoute';
 import AboutUsRoute from './routes/AboutUsRoute';
 import PostJobRoute from './routes/PostJobRoute';
 import BrowseJobRoute from './routes/BrowseJobRoute';
-import PreviousApplication from './routes/PreviousApplication';
-import { useEffect } from 'react';
+import PreviousApplicationRoute from './routes/PreviousApplicationRoute';
+// import { registryGetAllContracts} from './contracts/InitializeContracts';
+// import { ethers } from 'ethers';
+import useWindowSize from './hooks/useWindowSize';
 
 
-const { chains, provider, webSocketProvider } = configureChains([optimism],[publicProvider()]);
-console.log(chains)
-const client = createClient({
-  autoConnect: true,
-  provider,
-  webSocketProvider,
-});
+
+// const { chains, provider, webSocketProvider } = configureChains([sepolia],[publicProvider()]);
+// console.log(chains)
+// // console.log(provider)
+// const client = createClient({
+//   autoConnect: true,
+//   provider,
+//   webSocketProvider,
+// });
 
 
 function App() {
-//   const contract = useContractRead({
-//     address: '',
-//     abi: '',
-//     functionName: '',
-//     onSuccess: ()=>{
+  const width = useWindowSize();
+  console.log(width)
+  // registryGetAllContracts();
+//   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-//     },
-//     onError: () =>{
-
-//     }
+// const accounts = provider.listAccounts().then(accounts=>{
+//   console.log(accounts[0]);
 // });
-
-// console.log('contract Instance ', contract)
-
-// const data = await contract.getRanking("POPULAR_JOBS_RANKING_LIST",20);
-// console.log(data);
 
 
   return (
-    <WagmiConfig client={client}>
+    // <WagmiConfig client={client}>
     <Layout>
       <Routes>
           <Route exact path='/' element={<HomeRoute />} />
@@ -60,10 +56,10 @@ function App() {
           <Route exact path='/about' element={<AboutUsRoute />} />
           <Route exact path='/post_job' element={<PostJobRoute />} />
           <Route exact path='/browse-job' element={<BrowseJobRoute />} />
-          <Route exact path='/previous-application' element={<PreviousApplication />} />
+          <Route exact path='/previous-application' element={<PreviousApplicationRoute />} />
       </Routes>
     </Layout>
-    </WagmiConfig>
+    // </WagmiConfig>
   );
 }
 

@@ -1,10 +1,10 @@
 
-import classes from '../styles/routes/PreviousApplication.module.css';
+import classes from '../styles/routes/PreviousApplicationRoute.module.css';
 import hero from '../assets/hero.png';
 import JobListings from '../components/JobListings';
 
 
-const PreviousApplication = () =>{
+const PreviousApplicationRoute = () =>{
     return(
         <secton className={classes.parent}>
              <img src={hero} alt='' className={classes.hero} />
@@ -14,4 +14,4 @@ const PreviousApplication = () =>{
     )
 }
 
-export default PreviousApplication;
+export default PreviousApplicationRoute;

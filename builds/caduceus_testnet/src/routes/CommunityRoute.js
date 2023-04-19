@@ -5,10 +5,13 @@ import ReadyToStart from '../components/ReadyToStart';
 import jobseekerIcon from '../assets/Layer.png';
 import classes from '../styles/routes/JobSeekersRoute.module.css';
 import backArrow from '../assets/back.png';
+import useWindowSize from '../hooks/useWindowSize';
 
 
 const CommunityRoute = () =>{
     const navigate = useNavigate();
+    const width = useWindowSize();
+
 
     useEffect(()=>{
         document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
@@ -34,9 +37,9 @@ const CommunityRoute = () =>{
                     <p>What is the Jobcrypt Community Programme?</p>
                     <span>JobCrypt community programme has the purpose of supporting new and emergant projects that are looking to scale in Web3 and Blockchain. The goal of the programme is to foster a culture of community innovation that allows new projects to access some of the best talent out there and hence create future defining experiences in Web3</span>
                 </div>
-                <div className={classes.leftBox}>
+                {width > 770 &&<div className={classes.leftBox}>
                   <img src={jobseekerIcon} alt='' className={classes.image} />
-                </div>
+                </div>}
             </article>
             <article className={classes.article}>
                 <div className={classes.rightBox}>
@@ -50,6 +53,9 @@ const CommunityRoute = () =>{
                     <span>You can sign up for this programme. Complete the form <strong style={style}>here</strong></span>
                 </div>
             </article>
+            {width <= 770 &&<div className={classes.leftBox}>
+                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                </div>}
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Contact</h2>

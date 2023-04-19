@@ -275,3 +275,5 @@ const iJCJobCryptAbi = [
 		"type": "function"
 	}
 ]
+
+export default iJCJobCryptAbi;

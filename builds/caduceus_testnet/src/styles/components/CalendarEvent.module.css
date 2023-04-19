@@ -8,7 +8,8 @@
     box-sizing: border-box;
     padding-top: 5rem;
     flex-direction: column;
-    background-image: linear-gradient(to right, #171d32, #2c2231);
+    /* background-image: linear-gradient(to right, #171d32, #2c2231); */
+    background-color: red;
 }
 
 .calendarParent>span{
@@ -115,7 +116,6 @@
     justify-content: flex-start;
     align-items: center;
     padding: 0px 20px;
-    
  }
 
  .firstSpan>section{
@@ -241,4 +241,18 @@
 .frameContainer>img{
     width: 80px;
     height: 80px;
+}
+
+@media (min-width: 771px) and (max-width: 1500px) {
+    .calendarArticle{
+        column-gap: 0px;
+      }
+      
+      .calendarArticle>div{
+          min-width: 60%;
+      }
+
+      .firstSpan>header{
+        font-size: 10px;
+     }
 }
