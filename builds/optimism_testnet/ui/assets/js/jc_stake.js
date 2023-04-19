@@ -1,7 +1,6 @@
 const stakeSpan = ge("stake_span");
 
 function getStaking(root) {
-	stakeSpan.innerHTML = ""; 
 	console.log("preparing staking");
 	var component = ce("div");
 	component.setAttribute("class", " ui-layout-column-5");

@@ -116,7 +116,7 @@ function buildPostingTableRow(postingAddress) {
     getApplicantCount(applicantCountCell, iJobPostingContract);
     getExpiryDate(expiryDateCell, iJobPostingContract);
     getStatus(statusCell, iJobPostingContract, postingAddress, actionCell);
-    getActionButton(buttonCell, postingAddress);
+    getActionButton(buttonCell, iJobPostingContract);
 
     /**
     	<tr>
@@ -289,16 +289,12 @@ function getActionButton(cell, postingAddress) {
     cell.append(submitButton);
     submitButton.setAttribute("type", "submit");
     submitButton.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
-    submitButton.setAttribute("onclick", "processAction('" + postingAddress + "')");
+    submitButton.setAttribute("onclick", "processAction(" + postingAddress + ")");
     submitButton.append(text("Execute"));
 }
 
 function processAction(postingAddress) {
-    console.log(postingAddress);
-    var action = ge(postingAddress).value.toUpperCase();
-    console.log("posting action " + action);
-
-    var iJCPostingContract = getContract(iJCJobPostingEditorAbi, postingAddress);
+    var action = ge(postingAddress);
 
     if (action === "EDIT") {
         // send to post page
@@ -312,7 +308,7 @@ function processAction(postingAddress) {
 
     if (action === "FILL") {
         // call posting
-        iJCPostingContract.methods.executePostingAction(2).send({ from: account })
+        iJobPostingContract.methods.executePostingAction(2).send({ from: account })
             .then(function(response) {
                 console.log(response);
                 actionResultSpan.innerHTML = "FILLED :: " + response.blockhash
@@ -324,7 +320,7 @@ function processAction(postingAddress) {
 
     if (action === "CANCEL") {
         // call posting
-        iJCPostingContract.methods.executePostingAction(3).send({ from: account })
+        iJobPostingContract.methods.executePostingAction(3).send({ from: account })
             .then(function(response) {
                 console.log(response);
                 actionResultSpan.innerHTML = "CANCELLED :: " + response.blockhash
@@ -336,7 +332,7 @@ function processAction(postingAddress) {
 
     if (action === "ARCHIVE") {
         // call posting 
-        iJCPostingContract.methods.executePostingAction(8).send({ from: account })
+        iJobPostingContract.methods.executePostingAction(8).send({ from: account })
             .then(function(response) {
                 console.log(response);
                 actionResultSpan.innerHTML = "ARCHIVED :: " + response.blockhash
