@@ -10,11 +10,14 @@ import TextEditor from '../components/TextEditor';
 const CREATE_DRAFT = 'CREATE_DRAFT';
 const EDIT_DRAFT = 'EDIT_DRAFT';
 const CREATE_FORM = 'CREATE_FORM';
+const MAKE_PAYMENT = 'MAKE_PAYMENT';
+
 
 const initialState = {
     create_draft: true,
     edit_draft: false,
     create_form: false,
+    make_payment: false
 }
 
 const reducerFunc = (state, action) =>{
@@ -23,19 +26,29 @@ const reducerFunc = (state, action) =>{
             return{
                 create_draft: true,
                 edit_draft: false,
-                create_form: false
+                create_form: false,
+                make_payment: false
             }
         case EDIT_DRAFT:
             return{
                 create_draft: false,
                 edit_draft: true,
-                create_form: false
+                create_form: false,
+                make_payment: false
             }
         case CREATE_FORM:
             return{
                 create_draft: false,
                 edit_draft: false,
-                create_form: true
+                create_form: true,
+                make_payment: false
+            }
+        case MAKE_PAYMENT:
+            return{
+                create_draft: false,
+                edit_draft: false,
+                create_form: false,
+                make_payment: true
             }
         default:
             return state;
@@ -46,7 +59,7 @@ const PostJobPopup = (props) =>{
     const { setOpenPostJob } = props;
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const [ txnValidated, setTxnValidated ] = useState(false);
-
+    const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false})
 
 
     const goToEditDraft = () =>{
@@ -54,6 +67,21 @@ const PostJobPopup = (props) =>{
         else setTxnValidated(true);
     }
 
+    const makePaymentHandler = () =>{
+        if(!paymentStatus.show)setPaymentStatus(prev=>({...prev, show: true }));
+        if(paymentStatus.status === 'none'){
+            setPaymentStatus({ status: 'approved', text: 'Approved: 0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32', color: '#956B00', show: true })
+        }else if(paymentStatus.status === 'approved'){
+        setPaymentStatus({ status: 'paid', text: 'Paid: 0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32', color: '#159500', show: true})
+        }else{
+            //close popup
+        }
+    }
+
+    const goToMakePaymentSection = () =>{
+        setPaymentStatus({ status: 'none', text: '', color: '', show: false});
+        setDispatch({ TYPE: MAKE_PAYMENT });
+    }
 
     const CreateDraftPosting = (
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
@@ -105,11 +133,13 @@ const PostJobPopup = (props) =>{
             <p className={classes.note}>Note: Listings duration only start after posting(Pay later).</p>
             <p className={classes.jobPostingTxt}>Select Draft Job Posting To Edit*</p>
             <span className={classes.dropDownView}>
-                Title :: Status :: Draft :: Txn :: 0xgY78GFb8Fjmkhh78HHGEl98Gy6JkujbTTWHIFE563fT
+                {/* <p>Title :: Status :: Draft :: Txn :: 0xgY78GFb8Fjm...6JkujbTTWHIFE563fT</p> */}
+                <p>Title :: Status :: Draft :: Txn</p>
+                <img src={dropdownIcon} alt='' />
             </span>
             <div className={classes.btnContainer}>
-            <button className={classes.normalBtn} onClick={()=>setDispatch({ TYPE: CREATE_FORM })}>Edit Draft Job Posting</button>
             <button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: CREATE_FORM })}>Continue Posting</button>
+            <button className={classes.normalBtn} onClick={()=>setDispatch({ TYPE: CREATE_FORM })}>Edit Draft Job Posting</button>
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>
@@ -199,8 +229,48 @@ const PostJobPopup = (props) =>{
                 <input type='' placeholder='Link or email' className={classes.input1} />
             </div>
             <div className={classes.btnContainer}>
-            <button className={classes.normalBtn}>Reset</button>
-            <button className={classes.linearGradBtn}>Save Your Listing</button>
+            <button className={classes.linearGradBtn} onClick={goToMakePaymentSection}>Make Payment</button>
+            <button className={classes.normalBtn}>Save As Draft</button>
+            <p>Warning: This action incurs gas fee</p>
+        </div>
+        </section>
+        </main>
+    )
+
+    const paymentDraftPosting = (
+        <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
+        <section className={classes.backSection}>
+            <img src={backIcon} alt='' onClick={()=>setDispatch({ TYPE: CREATE_FORM })} />
+        </section>
+        <section className={classes.contentSection}>
+            <h1 className={classes.draftTxt}>Pay For Job Posting</h1>
+            <p className={classes.note}>Note: Listings duration only start after posting(Pay later).</p>
+            {paymentStatus.show && <p className={classes.txnText} style={{color: paymentStatus.color}}>{paymentStatus.text}</p>}
+            {/* <p className={classes.titleBold}>Job Postings</p> */}
+            <section className={classes.paymentSection}>
+                <div className={classes.payContainer}>
+                    <h2>Selected Duration</h2>
+                    <label>2 Weeks standard</label>
+                </div>
+                <div className={classes.payContainer}>
+                    <h2>Posting Fee</h2>
+                    <label>2,326 CMP</label>
+                </div>
+                <div className={classes.payContainer}>
+                    <h2>Selected Duration</h2>
+                    <label>2 Weeks standard</label>
+                </div>
+                <div className={classes.payContainer}>
+                    <h2>Payment Currency</h2>
+                    <label>CMP</label>
+                </div>
+                <div className={classes.payContainer}>
+                    <h2>Curency Contract</h2>
+                    <label>0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32</label>
+                </div>
+            </section>
+            <div className={classes.btnContainer}>
+            <button className={classes.linearGradBtn} onClick={makePaymentHandler}>Approve Payment currency</button>
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>
@@ -212,6 +282,7 @@ const PostJobPopup = (props) =>{
                 {dispatch.create_draft && CreateDraftPosting}
                 {dispatch.edit_draft && EditDraftPosting}
                 {dispatch.create_form && CreateForm}
+                {dispatch.make_payment && paymentDraftPosting}
         </section>
     )
 }

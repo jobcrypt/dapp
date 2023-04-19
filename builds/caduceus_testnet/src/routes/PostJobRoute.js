@@ -24,11 +24,11 @@ const PostJobRoute = () =>{
                 <p>Find great jobs in the metaverse at startups that uses conseus technology</p>
                 <div className={classes.btnContainer}>
                     <button className={classes.postJobBtn} onClick={()=>setOpenPostJob(true)}>Post Jobs</button>
-                    <button className={classes.viewListingBtn} onClick={srollToListings}>View Listings</button>
+                    <button className={classes.viewListingBtn} onClick={srollToListings}>View Posting</button>
                 </div>
             </main>
             <main className={classes.jobListingParent} id='listing'>
-                <h1 className={classes.listingTitle}>Your Job Listing</h1>
+                <h1 className={classes.listingTitle}>Your Latest Job Posting</h1>
                 <JobListings />
             </main>
         </section>

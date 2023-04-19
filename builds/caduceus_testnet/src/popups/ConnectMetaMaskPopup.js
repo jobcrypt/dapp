@@ -1,9 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import { configureChains, useAccount, useConnect, useEnsName} from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { optimism } from 'wagmi/chains';
 
 
 import classes from '../styles/popups/ConnectMetaMaskPopup.module.css';
@@ -11,37 +8,45 @@ import cancelIcon from '../assets/x.png';
 import metamaskIcon from '../assets/metamask.png';
 import connectWalletIcon from '../assets/connectwallet.png';
 import successIcon from '../assets/success.png';
-// import { connect } from '../store/MetaMaskSlice';
-import { isNull, networks } from '../utils/Util';
-import { publicProvider } from 'wagmi/providers/public';
+import { chain, isNull } from '../utils/Util';
+import { connectUser } from '../store/UserWalletSlice';
+import { useEffect } from 'react';
 
 
 const ConnectMetaMaskPopup = (props) =>{
     const { setOpenMetaPopup } = props;
     const navigate = useNavigate();
-    const { chains } = configureChains([optimism],[publicProvider()]);
-    const { address, isConnected } = useAccount();
-    const { data: ensName } = useEnsName({ address });
-    const { connect } = useConnect({
-        connector: new InjectedConnector({ chains })
-    });
-        
+    const isConnected = useSelector(state=>state.user.isConnected);
+    const address = useSelector(state=>state.user.wallet);
+    const dispatch = useDispatch();
+    
+    useEffect(()=>{
+        console.log('....', isConnected)
+    },[isConnected]);
+
+
     const connectToMetamask = async() =>{
+        console.log('Trying to open metamask...')
         try{
-            //switch network to optimism
+            //switch network to sepolia
             await window.ethereum.request({
               method: 'wallet_switchEthereumChain',
-              params: [{ chainId: networks.optimism.chainId }],
+              params: [{ chainId: chain.chainId }],
             });
-            connect(); 
-
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'});
+            if(!isNull(accounts)){
+                sessionStorage.setItem('user', JSON.stringify({ wallet: accounts[0]}));
+                dispatch(connectUser({ wallet: accounts[0] }));
+            }
+           
           }catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask, so add it.
             if (switchError.code === 4902) {
+                console.log('chain does not exist')
               try {
                 await window.ethereum.request({
                   method: 'wallet_addEthereumChain',
-                  params: [networks.optimism],
+                  params: [chain],
                 });
               } catch (addError) {
                 // handle "add" error
@@ -85,7 +90,8 @@ const ConnectMetaMaskPopup = (props) =>{
         <div className={classes.successContainer}>
             <img src={successIcon} alt='' />
             <h1>Success!!!</h1>
-            <p>{`You have successfully connected wallet: ${(!isNull(address) && networks.optimism.id === 10)? address.slice(0, 10)+'...'+address.slice(-10) : ''}`}</p>
+            <p>{`You have successfully connected wallet: ${(!isNull(address))? address.slice(0, 10)+'...'+address.slice(-10) : ''}`}</p>
+            {/* <p>{`You have successfully connected wallet: 0xA52B24Ea...7a741b717e`}</p> */}
         </div>
         <div className={classes.jobsBtnContainer}>
             <button className={classes.browseBtn} onClick={()=>navigateAndClose('/browse-job')}>Browse Jobs</button>

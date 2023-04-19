@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import MetaMaskReducer from './MetaMaskSlice';
-
+import ContractReducer from './ContractSlice';
+import UserReducer from './UserWalletSlice';
 
 export default configureStore({
-    reducer: { meta: MetaMaskReducer }
+    reducer: { contracts: ContractReducer, user: UserReducer }
 })

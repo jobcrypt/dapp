@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { forwardRef } from 'react';
 
 import classes from '../styles/dropdowns/EventsDropdown.module.css';
 
-const ProgramDropdown = (props, ref) =>{
+const ProgramDropdown = (props) =>{
+    const { setShowHamburger } = props;
     const navigate = useNavigate();
    
    
        const navigateToPage = (path) =>{
-        ref.current.blur();
         navigate(path);
+        setShowHamburger(false);
        }
 
        
@@ -23,4 +23,4 @@ const ProgramDropdown = (props, ref) =>{
     )
 }
 
-export default forwardRef(ProgramDropdown);
+export default ProgramDropdown;

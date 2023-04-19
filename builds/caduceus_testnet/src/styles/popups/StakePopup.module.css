@@ -63,3 +63,24 @@
     cursor: pointer; 
     margin-top: 50px; 
 }
+
+@media screen and (max-width: 770px) {
+    .box{
+        width: 95%;
+        height: 70vh;
+    }
+
+    .box>h1{
+        text-align: center;
+        width: 100%;
+    }
+    
+    .box>p{
+        text-align: center;
+        width: 100%;
+    }
+
+    .box>button{
+        cursor: none;
+    }
+}

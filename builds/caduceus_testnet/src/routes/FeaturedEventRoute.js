@@ -9,6 +9,7 @@ import ukIcon from '../assets/uk.png';
 import groupIcon from '../assets/group.png';
 import wifiIcon from '../assets/wifi.png';
 import locationIcon from '../assets/location.png';
+import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
 
 const FeaturedEventRoute = () =>{
     const navigate = useNavigate();
@@ -32,6 +33,9 @@ const FeaturedEventRoute = () =>{
                 </div>
                 <h1>Check out our upcoming featured events.</h1>
                 <p className={classes.content}>Our events help us to connect to you where your are, bringing the best in blockchain and web3 education to your city</p>
+            </article>
+            <article className={classes.sustainibilityParent}>
+               <SustanabilityWeekEvent />
             </article>
             <article className={classes.secondContainer}>
                 <h1>2023 Events Calendar.</h1>

@@ -5,10 +5,11 @@ import ReadyToStart from '../components/ReadyToStart';
 import jobseekerIcon from '../assets/Layer.png';
 import classes from '../styles/routes/JobSeekersRoute.module.css';
 import backArrow from '../assets/back.png';
+import useWindowSize from '../hooks/useWindowSize';
 
 const SpeakersRoute = () =>{
     const navigate = useNavigate();
-
+    const width = useWindowSize();
     useEffect(()=>{
         document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
   },[]);
@@ -33,9 +34,9 @@ const SpeakersRoute = () =>{
                     <p>What is the Jobcrypt Distinguished Speakers Programme?</p>
                     <span>JobCrypt Distinguished Speakers Programme has been created to support our community engagement efforts. Our goal is to help accelerate mainstream understanding of Blockchain and Web3 capabilities beyond those cryptocurrency. As part of this, JobCrypt will be hosting a series of talks online and in-person accross europe through 2023 and beyond. Presenters at our events will be drawn from out Distinguished Speakers Programme. Participation in the programme is free and voluntary</span>
                 </div>
-                <div className={classes.leftBox}>
+               {width > 770 && <div className={classes.leftBox}>
                   <img src={jobseekerIcon} alt='' className={classes.image} />
-                </div>
+                </div>}
             </article>
             <article className={classes.article}>
                 <div className={classes.rightBox}>
@@ -48,6 +49,9 @@ const SpeakersRoute = () =>{
                     </ul>
                 </div>
             </article>
+            {width <= 770 &&<div className={classes.leftBox}>
+                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                </div>}
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>

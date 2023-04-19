@@ -1,7 +1,7 @@
 
 .tableParent{
     width: 90vw;
-    max-height: 600px;
+    max-height: 700px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -23,17 +23,55 @@
 }
 
 .tableHeader>span{
-    min-width: 16.66%;
-    max-width: 16.66%;
-    min-height: 100%;
-    max-height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     font-family: 'bold';
     font-size: 18px;
-    font-weight: 600;
+    /* font-weight: 600; */
     color: #363636;
+}
+
+.postedHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.expiryHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.jobDescHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.applicantHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.statusHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.actionHeader{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
 }
 
 .unorderedList{
@@ -69,7 +107,24 @@
     font-family: 'bold';
     font-size: 15px;
     color: #464646;
+    padding-left: 10px;
 }
+
+.statusContainer{
+    min-width: 16.66%;
+    max-width: 16.66%;
+    min-height: 100%;
+    max-height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'bold';
+    font-size: 15px;
+    /* color: #159500;
+    color: #E17726; */
+    padding-left: 10px;
+}
+
 
 .blackCircle{
     width: 25px;
@@ -87,4 +142,104 @@
     height: 13px;
     filter: invert(1);
     transform: rotate(90deg);
+}
+
+@media screen and (max-width: 1010px) {
+    .tableParent{
+        width: 98%;
+        padding: 50px 10px;
+    }
+    
+    .tableHeader>span{
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .list>span{
+        font-family: 'bold';
+        font-size: 13px;
+    }
+
+    
+    .blackCircle{
+        width: 20px;
+        height: 20px;
+        cursor: none;
+}
+
+    .blackCircle>img{
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .tableParent{
+        padding: 10px 0px;
+    }
+
+    .unorderedListMobile{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        row-gap: 5px;
+        display: flex;
+        flex-direction: column;
+        -ms-flex-direction: column;
+        overflow-y: auto;
+        padding: 0px 20px;
+    }
+
+    .unorderedListMobile>li{
+        width: 100%;
+        min-height: 70px;
+        max-height: 70px;
+        border-style: solid;
+        border-width: 0px 0px 1.5px 0px;
+        border-color: #c1c1c1;
+        display: flex;
+    }
+
+    .leftBox{
+        width: 70%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        -ms-flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .leftBox>h2{
+        margin: 0;
+        font-family: 'bold';
+        font-size: 18px;
+    }
+
+    .leftBox>p{
+        margin: 0;
+        font-family: 'light';
+    }
+
+    .rightBox{
+        width: 30%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        -ms-flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .rightBox>h2{
+        margin: 0;
+        font-family: 'bold';
+        font-size: 18px;
+    }
+
+    .rightBox>p{
+        margin: 0;
+        font-family: 'light';
+    }
 }

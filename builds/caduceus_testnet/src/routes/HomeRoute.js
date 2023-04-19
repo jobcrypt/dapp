@@ -9,7 +9,10 @@ import vector2 from '../assets/Vector2.png';
 import decentralized from '../assets/decentralized.png';
 import permissionless from '../assets/permissionless.png';
 import openIcon from '../assets/open.png';
-import hostIcon from '../assets/host.png';
+import decentralized_svg from '../assets/decentralized.svg';
+import permissionless_svg from '../assets/permissionless.svg';
+import openIcon_svg from '../assets/open.svg';
+import speakerIcon from '../assets/speaker.png';
 import employerIocn from '../assets/employer.png';
 import communityIcon from '../assets/community.png';
 import jobseekerIcon from '../assets/jobseeker.png';
@@ -19,21 +22,36 @@ import CalendarEvent from '../components/CalendarEvent';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 import PromotionPane from '../components/PromotionPane';
 import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
+import ReadyToStart from '../components/ReadyToStart';
+import useWindowSize from '../hooks/useWindowSize';
 
 
 
- const HomeRoute = () =>{
+ const HomeRoute = (props) =>{
     const navigate = useNavigate();
    const [promoArray] = useState([ vector1, vector2, vector1, vector2, vector1, vector2, vector1, vector2 ]);
    const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
+   const width = useWindowSize();
 
    useEffect(()=>{
     document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
    },[]);
 
+   let styleCol, styleRev;
+   if(width <= 770){
+    styleCol = { 
+        flexDirection: 'column', 
+        msFlexDirection: 'column'
+    }
+    styleRev = { 
+        flexDirection: 'column-reverse', 
+        msFlexDirection: 'column-reverse'
+    }
+   }
   return(
     <>
     {openMetaPopup && <ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} />}
+    
     <section className={classes.parent} id='parent'>
       <span className={classes.heroContainer}>
          <img src={hero} alt='' className={classes.hero} />
@@ -83,25 +101,25 @@ import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
       </div>
       <article className={classes.permissionBoxParent}>
             <div className={classes.tallBox}>
-                <img src={permissionless} alt='' />
+                <img src={permissionless_svg} alt='' />
                 <h2>Permissionless</h2>
                 <p>Posting on Jobcrypt is permissionless, Post your job when you want. Only you have access to your listings.</p>
             </div>
             <div className={classes.tallBox}>
-                <img src={decentralized} alt='' />
+                <img src={decentralized_svg} alt='' />
                 <h2>Decentralized</h2>
                 <p>Job listings are 100% decentralized, we don't have any secret databases anywhere.</p>
             </div>
             <div className={classes.tallBox}>
-                <img src={openIcon} alt='' />
+                <img src={openIcon_svg} alt='' />
                 <h2>Open</h2>
                 <p>JobCrypt listings are open, they live on the blockchain and using Open Block EI, only you can modify your listings</p>
             </div>
       </article>
     </section>
     <section className={classes.bundle}>
-    <article className={classes.article}>
-        <div className={classes.leftBox}>
+    <article className={classes.article} style={styleRev}>
+        <div className={classes.leftBox} style={{ justifyContent: 'flex-start'}}>
               <img src={jobseekerIcon} alt='' className={classes.image} />
         </div>
         <div className={classes.rightBox}>
@@ -111,19 +129,19 @@ import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
             <button className={classes.learnMoreBtn} onClick={()=>navigate('/job-seekers')}>Learn More</button>
         </div>
     </article>
-    <article className={classes.article}>
+    <article className={classes.article}style={styleCol}>
         <div className={classes.rightBox}>
             <h2>Employer</h2>
             <p>What is Managed Services?</p>
             <span>As a busy employer building the future of commerce and digital in Web3. the JobCrypt Managed Service Programme has been created to help you manages the challengies.</span>
             <button className={classes.learnMoreBtn} onClick={()=>navigate('/employer')}>Learn More</button>
         </div>
-        <div className={classes.leftBox}>
+        <div className={classes.leftBox} style={{ justifyContent: 'flex-end'}}>
               <img src={employerIocn} alt='' className={classes.image} />
         </div>
     </article>
     <article className={classes.article}>
-        <div className={classes.leftBox}>
+        <div className={classes.leftBox} style={{ justifyContent: 'flex-start'}}>
               <img src={communityIcon} alt='' className={classes.image} />
         </div>
         <div className={classes.rightBox}>
@@ -133,15 +151,15 @@ import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
             <button className={classes.learnMoreBtn} onClick={()=>navigate('/community')}>Learn More</button>
         </div>
     </article>
-    <article className={classes.article}>
+    <article className={classes.article} style={styleCol}>
         <div className={classes.rightBox}>
             <h2>Speakers</h2>
             <p>What is Distinguished Speaker Programme?</p>
             <span>JobCrypt Distinguished S[eakers Programme has been created to support our community Engagement efforts. Our goal is to help...].</span>
             <button className={classes.learnMoreBtn} onClick={()=>navigate('/speakers')}>Learn More</button>
         </div>
-        <div className={classes.leftBox}>
-              <img src={hostIcon} alt='' className={classes.image} />
+        <div className={classes.leftBox} style={{ justifyContent: 'flex-end'}}>
+              <img src={speakerIcon} alt='' className={classes.image} />
         </div>
     </article>
     </section>
@@ -158,6 +176,7 @@ import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
     </section>
     {/* <CalendarEvent /> */}
     <SustanabilityWeekEvent />
+    <ReadyToStart />
     </main>
     </>
    )

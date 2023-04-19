@@ -35,11 +35,13 @@
 
 .hero>h1{
     font-size: 60px;
-    background: -webkit-linear-gradient(#3449BE, #FF92F3);
+    background-image: -webkit-linear-gradient(#3449BE, #FF92F3);
+    background-image: linear-gradient(to right,#3449BE, #FF92F3);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-family: 'bold';
     margin: 0;
+    -webkit-text-stroke: 5px transparent;
 }
 
 .hero>p{
@@ -105,4 +107,48 @@
     font-family: 'bold';
     font-size: 40px;
     color: #fff;
+}
+
+@media screen and (max-width: 770px) {
+    .hero{
+        padding-top: 10rem;
+    }
+
+    .hero>h1{
+        width: 100%;
+        text-align: center;
+    }
+    
+    .hero>p{
+        padding: 0px 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    
+.btnContainer{
+    flex-direction: column;
+    -ms-flex-direction: column;
+    row-gap: 20px;
+}
+
+.postJobBtn{
+    cursor: none;
+}
+
+.viewListingBtn{
+    cursor: none;
+}
+
+.jobListingParent{
+    padding-top: 3rem;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.listingTitle{
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
+}
 }

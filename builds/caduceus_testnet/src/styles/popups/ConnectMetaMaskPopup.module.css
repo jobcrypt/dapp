@@ -86,6 +86,10 @@
     cursor: pointer;
 }
 
+.metaBtn:hover{
+    background-color: #ebebeb;
+}
+
 .metaBtn>img{
     width: 30px;
     height: 30px;
@@ -143,6 +147,10 @@
     cursor: pointer; 
 }
 
+.browseBtn:hover{
+    background-image: linear-gradient(to right,#2E2230, #131C33); 
+}
+
 .postBtn{
     background-image: linear-gradient(to right,#131C33, #2E2230);
     color: #fff;
@@ -157,4 +165,50 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;   
+}
+
+.postBtn:hover{
+    background-image: linear-gradient(to right,#2E2230, #131C33); 
+}
+
+@media screen and (max-width: 770px) {
+    .box{
+        width: 95%;
+        height: 70vh;
+    }
+    .body{
+        padding: 4rem 10px;
+    }
+    
+    .body>p{
+        text-align: center;
+        width: 100%;
+    }
+
+    .metaBtn{
+        cursor: none;
+    }
+    
+    .jobsBtnContainer{
+        flex-direction: column;
+        -ms-flex-direction: column;
+        row-gap: 20px;
+    }
+
+    .browseBtn{
+        /* width: 10rem; */
+        cursor: none; 
+    }
+    
+    .postBtn{
+        /* width: 10rem; */
+        cursor: none;  
+        border: 2px solid #302044;
+        background-image: unset;
+        background-color: transparent;
+    }
+
+    .successContainer>p{ 
+        text-align: center;
+    }
 }

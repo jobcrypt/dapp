@@ -1,4 +1,4 @@
-iJCStakeManagerAbi = [
+const iJCStakeManagerAbi = [
 	{
 		"inputs": [],
 		"name": "getMinimumStakeAmount",
@@ -22,7 +22,7 @@ iJCStakeManagerAbi = [
 				"type": "address"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -90,3 +90,5 @@ iJCStakeManagerAbi = [
 		"type": "function"
 	}
 ]
+
+export default iJCStakeManagerAbi;

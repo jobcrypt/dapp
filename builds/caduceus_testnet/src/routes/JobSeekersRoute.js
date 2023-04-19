@@ -5,9 +5,11 @@ import classes from '../styles/routes/JobSeekersRoute.module.css';
 import jobseekerIcon from '../assets/Layer.png';
 import ReadyToStart from '../components/ReadyToStart';
 import backArrow from '../assets/back.png';
+import useWindowSize from '../hooks/useWindowSize';
 
 
-const JobSeekersRoute = () =>{
+const JobSeekersRoute = (props) =>{
+    const width = useWindowSize();
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -33,9 +35,9 @@ const JobSeekersRoute = () =>{
                     <p>What is finder programme?</p>
                     <span>JobCrypt Job Finder Programme has been created to accelerate the job search process for you the job seeker. By enrolling into the programme, you the job seeker get early access to the latest roles in blockchain and web3 that are posted to JobCrypt. These roles are carefully matched to your Job Seekers profile saving critical time in finding and executing against the right opportunity for your skills.</span>
                 </div>
-                <div className={classes.leftBox}>
+               {width > 770 && <div className={classes.leftBox}>
                   <img src={jobseekerIcon} alt='' className={classes.image} />
-                </div>
+                </div>}
             </article>
             <article className={classes.article}>
                 <div className={classes.rightBox}>
@@ -43,6 +45,9 @@ const JobSeekersRoute = () =>{
                     <span>To get alerts as a Job Seeker, you will need to create your dashboard on JobCrypt and sign up on the form below. Your skill preferences will then be mapped to the skills on our chain search, thus when you access your dashboard, you will receive notification of the latest jobs that have been posted matching your skills.</span>
                 </div>
             </article>
+            {width <= 770 && <div className={classes.leftBox}>
+                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                </div>}
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>

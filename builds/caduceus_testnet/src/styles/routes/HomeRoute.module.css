@@ -19,11 +19,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* padding-left: 30px;
-    padding-right: 30px; */
     box-sizing: border-box;
     display: flex;
-    /* background-image: linear-gradient(to right, #2c2231, #171d32); */
 }
 
 .hero{
@@ -35,11 +32,13 @@
 
 .welcome>h1{
     font-size: 60px;
-    background: -webkit-linear-gradient(#3449BE, #FF92F3);
+    background-image: -webkit-linear-gradient(#3449BE, #FF92F3);
+    background-image: linear-gradient(to right,#3449BE, #FF92F3);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-family: 'bold';
     margin: 0;
+    -webkit-text-stroke: 5px transparent;
 }
 
 
@@ -80,6 +79,7 @@
    border-radius: 8px;
    cursor: pointer;
    padding: 30px 50px;
+   margin-top: 20px;
 }
 
 .needCryptoBtn{
@@ -122,7 +122,7 @@
     align-items: center;
     padding-top: 50px;
     padding-bottom: 30px;
-    background-image: linear-gradient(to right, #171d32, #2c2231);
+    background-image: linear-gradient(to right, #2c2231, #171d32);
 }
 
 .rectangle{
@@ -146,9 +146,8 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    background-color: var(--dim-bg);
+    /* background-color: var(--dim-bg); */
     margin: 0;
-    padding: 0;
     list-style: none;
     margin-top: 20px; 
     width: 85vw;
@@ -157,7 +156,7 @@
     padding: 20px;
     column-gap: 50px;
     box-sizing: border-box;
-    box-shadow: 0px 0px 30px 1px #c4c3c3;
+    /* box-shadow: 0px 0px 30px 1px #c4c3c3; */
 }
 
 .box>li{
@@ -171,6 +170,7 @@
     box-sizing: border-box;
     background-image: linear-gradient(to right, #2c2231, #171d32);
     border-radius: 20px;
+    box-shadow: 10px 10px 20px 5px #0e121f;
 }
 
 .jobTop{
@@ -211,7 +211,7 @@
     flex-direction: column;
     font-family: 'light';
     padding-top: 50px;
-    background-image: linear-gradient(to right, #171d32, #2c2231);
+    background-image: linear-gradient(to right, #2c2231, #171d32);
  }
  
  .permissionTop{
@@ -254,7 +254,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(to bottom, #171d32, #2c2231);
+    background-image: linear-gradient(to right, #2c2231, #171d32);
     position: relative;
     padding: 5px 10px;
     color: #fff;
@@ -268,6 +268,13 @@
     margin-top: -40%;
     position: absolute;
     top: 0;
+    transition: all 300ms ease-in;
+ }
+
+ .tallBox>img:hover{
+    transform: translateY(-20px);
+    transform: scale(1.1);
+    transition: all 300ms ease-in;
  }
 
  .tallBox>h2{
@@ -291,7 +298,7 @@
    display: flex;
    flex-direction: column;
    -ms-flex-direction: column;
-   background-image: linear-gradient(to right, #171d32, #2c2231); 
+   background-image: linear-gradient(to right, #2c2231, #171d32);
    padding-bottom: 5rem;
  }
 
@@ -316,8 +323,8 @@
  }
 
  .image{
-   width: 27rem;
-   height: 27rem;
+   width: 90%;
+   height: 90%;
    object-fit: contain;
  }
 
@@ -464,11 +471,154 @@
    color: #fff;
    font-family: 'light';
    position: relative;
-   /* background-color: red; */
-   /* background-image: linear-gradient(to right, #083b67, #073867); */
    border-style: solid;
    border-width: 2px;
    border-color: #8dc0ec;
    background-color: transparent;
    cursor: pointer;
+}
+
+@media (min-width: 1000px) and (max-width: 1310px) {
+    .box{ 
+        width: 80vw;
+        column-gap: 10px;
+    }
+
+    .box>li{
+        min-width: 300px;
+        max-width: 300px;
+        min-height: max-content;
+        max-height: max-content;
+    }
+
+    
+.jobTop{
+    font-size: 15px;
+}
+
+.content{
+    font-size: 18px;
+}
+
+}
+
+@media (min-width: 799px) and (max-width: 1155px) {
+    .box{ 
+        width: 80vw;
+        column-gap: 10px;
+    }
+
+    .box>li{
+        min-width: 250px;
+        max-width: 250px;
+        min-height: max-content;
+        max-height: max-content;
+    }
+
+    
+.jobTop{
+    font-size: 15px;
+}
+
+.content{
+    font-size: 18px;
+}
+
+
+}
+
+@media screen and (max-width: 770px) {
+    .parent{
+        padding-top: 100px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .welcome>h1{
+        width: 100%;
+        text-align: center;
+    }   
+    
+.applicantTxt{
+    font-size: 30px;
+    text-align: center;
+}
+
+.smallSection>p{
+    text-align: center;
+}
+.connectWalletBtn{
+    padding: 20px 30px;
+    cursor: none;
+ }
+
+ .needCryptoBtn{
+    cursor: none;
+ }
+ 
+.box{
+    flex-direction: column;
+    -ms-flex-direction: column; 
+    width: 98%;
+    row-gap: 10px;
+    padding: 10px 0px;
+}
+
+.box>li{
+    min-width: 95%;
+    max-width: 95%;
+}
+.permissionTop>p{
+    text-align: center;
+ }
+ 
+ .permissionTop>h1{
+    font-size: 35px;
+    text-align: center;
+ }
+ .permissionBoxParent{
+    flex-direction: column;
+    -ms-flex-direction: column;
+    row-gap: 120px;
+ }
+
+ .tallBox{
+    min-width: 90%;
+    max-width: 90%;
+ }
+ 
+ .article{
+    flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    row-gap: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+ }
+
+ .leftBox{
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+ }
+
+ .image{
+   width: 100%;
+   height: 100%;
+   object-fit: contain;
+ }
+
+
+ .rightBox{
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+ }
+
+ .blueSection>p{
+   padding: 0px 10px;
+}
+
+.blueSection>div>button{
+    cursor: none;
+ }
+
 }

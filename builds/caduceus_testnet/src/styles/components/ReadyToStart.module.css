@@ -8,6 +8,7 @@
     padding-bottom: 3rem;
     justify-content: center;
     align-items: center;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
 }
 
 .readyToStartContainer>h1{
@@ -69,4 +70,18 @@
     border-style: solid;
     border-width: 1px;
     border-color: #484a4b;
+}
+
+@media screen and (max-width: 770px) {
+    .emailContainer{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .emailContainer>input{
+        width: 65%;
+    }
+    .emailContainer>button{
+        width: 35%;
+        font-size: 17px;
+    }
 }
