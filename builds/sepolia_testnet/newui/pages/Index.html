@@ -8,6 +8,9 @@
       src="https://kit.fontawesome.com/6c1d4fe80b.js"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <meta name="author" content="JobCrypt" />
     <meta
       name="description"
@@ -31,302 +34,468 @@
       href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="../assets/styles/index.css" />
+    <link rel="stylesheet" href="../assets/styles/carousel.css" />
 
     <title>Job Crypt - Web 3 Jobs for Web 3 people</title>
   </head>
   <body>
     <!-- TOP BAR -->
-    <section class="bg-[#1F49DD] bg-opacity-95 py-4 px-5 text-white">
-      <div class="">
-        <span class="flex gap-2 justify-center font-baiJam">
-          <p class="text-center">
-            JobCrypt Blockchain Sustainability Week - UK 2023
-          </p>
-          <a href="" class="font-bold underline">Learn more</a>
-        </span>
-        <div class="flex gap-4 items-center justify-end">
-          <a
-            href="https://www.twitter.com/JobCrypt"
-            class="twitter"
-            target="_blank"
-            ><i class="fa-brands fa-youtube" style="color: #f7f9fd"></i
-          ></a>
-
-          <a
-            href="https://www.twitter.com/JobCrypt"
-            class="twitter"
-            target="_blank"
-            ><i class="fa-brands fa-twitter" style="color: #f7f9fd"></i
-          ></a>
-          <a
-            href="https://www.tiktok.com/@jobcrypt"
-            class="tiktok"
-            target="_blank"
-            ><i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i
-          ></a>
-          <a
-            href="https://discord.gg/89DWAkEnWb"
-            class="discord"
-            target="_blank"
-            ><i class="fa-brands fa-discord" style="color: #f7f9fd"></i
-          ></a>
-          <a
-            href="https://www.linkedin.com/company/jobcrypt/"
-            class="linkedin"
-            target="_blank"
-            ><i class="fa-brands fa-linkedin" style="color: #f7f9fd"></i
-          ></a>
-        </div>
-      </div>
-    </section>
 
     <!-- Header -->
 
-    <header
-      class="bg-[#1F49DD] py-4 flex items-center justify-between px-5 font-poppins"
-    >
-      <div class="flex items-center gap-2 text-white">
-        <img src="../assets/images/jclogo.svg" />
-        <h1 class="text-2xl font-bold">Job Crypt</h1>
+    <header>
+      <section class="bg-jcBlue py-4 px-5">
+        <div
+          class="flex lg:flex-row flex-col md:flex-col justify-end lg:gap-60 gap-10"
+        >
+          <span class="flex gap-2 justify-center font-baiJam">
+            <p class="text-center text-xs lg:text-base">
+              JobCrypt Blockchain Sustainability Week - UK 2023
+            </p>
+            <a href="" class="font-bold underline text-xs lg:text-base"
+              >Learn more</a
+            >
+          </span>
+          <div class="flex gap-4 items-center justify-end">
+            <a
+              href="https://www.twitter.com/JobCrypt"
+              class="twitter"
+              target="_blank"
+              ><i class="fa-brands fa-youtube"></i
+            ></a>
+
+            <a
+              href="https://www.twitter.com/JobCrypt"
+              class="twitter"
+              target="_blank"
+              ><i class="fa-brands fa-twitter"></i
+            ></a>
+            <a
+              href="https://www.tiktok.com/@jobcrypt"
+              class="tiktok"
+              target="_blank"
+              ><i class="fa-brands fa-tiktok"></i
+            ></a>
+            <a
+              href="https://discord.gg/89DWAkEnWb"
+              class="discord"
+              target="_blank"
+              ><i class="fa-brands fa-discord"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/company/jobcrypt/"
+              class="linkedin"
+              target="_blank"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-black text-white px-10 py-4">
+        <nav class="border-gray-200">
+          <div
+            class="container text-white font-poppins flex-wrap lg:flex-nowrap lg:gap-40 gap-0 flex justify-between items-center"
+          >
+            <a href="#" class="flex">
+              <div class="flex items-center gap-2 text-white">
+                <img src="../assets/images/jclogo.svg" />
+                <h1 class="text-2xl font-bold whitespace-nowrap">Job Crypt</h1>
+              </div>
+            </a>
+            <button
+              data-collapse-toggle="mobile-menu"
+              type="button"
+              class="lg:hidden ml-3 text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-lg inline-flex items-center justify-center"
+              aria-controls="mobile-menu-2"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <svg
+                class="hidden w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <div
+              class="hidden lg:flex items-center font-poppins tracking-wider gap-40 justify-between w-full"
+              id="mobile-menu"
+            >
+              <ul
+                class="flex-col gap-y-5 lg:flex-row flex space-x-5 mt-4 lg:mt-0 lg:text-base text-sm lg:font-medium"
+              >
+                <li>
+                  <a
+                    href="./Index.html"
+                    class="text-white block"
+                    aria-current="page"
+                    >Home</a
+                  >
+                </li>
+
+                <li>
+                  <a
+                    href="./post-jobs.html"
+                    class="font-thin text-white block"
+                    aria-current="page"
+                    >Post a Job</a
+                  >
+                </li>
+
+                <li>
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="dropdownNavbar"
+                    class="font-thin text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                  >
+                    Dashboard
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div
+                    id="dropdownNavbar"
+                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                  >
+                    <ul
+                      class="p-3 text-black"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <li>
+                        <a class="nav-link" href="./dashboard/employer.html"
+                          >Employer</a
+                        >
+                      </li>
+                      <li>
+                        <a class="nav-link" href="./dashboard/jobseeker.html"
+                          >Job Seeker</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="jobsDropdown"
+                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                  >
+                    Jobs
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div
+                    id="jobsDropdown"
+                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                  >
+                    <ul
+                      class="p-3 text-black"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <li>
+                        <a
+                          class="nav-link scrollto"
+                          href="./jobs/featured-jobs.html"
+                          >Featured Jobs</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link scrollto"
+                          href="./jobs/latest-jobs.html"
+                          >Latest Jobs</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link scrollto"
+                          href="./jobs/popular-jobs.html"
+                          >Popular Jobs</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link scrollto"
+                          href="./jobs/search-jobs.html"
+                          >Search Jobs</a
+                        >
+                      </li>
+                      <li>
+                        <a class="nav-link scrollto" href="#stake"
+                          >Stake to Apply for Jobs</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="eventsDropdown"
+                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                  >
+                    Events
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div
+                    id="eventsDropdown"
+                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                  >
+                    <ul
+                      class="p-3 text-black"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <li>
+                        <a class="nav-link scrollto" href="#featured-events"
+                          >Featured Events</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link"
+                          href="/blockchainsustainabilityweekuk2023/index.html"
+                          >Blockchain Sustainability Week - UK2023</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link"
+                          href="/blockchainsustainabilityweekeu2023/index.html"
+                          >Blockchain Sustainability Week - EU2023</a
+                        >
+                      </li>
+                      <li>
+                        <a class="nav-link" href="./pages/events/index.html"
+                          >2023 Events Calendar</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="programmeDropdown"
+                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                  >
+                    Programmes
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div
+                    id="programmeDropdown"
+                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                  >
+                    <ul
+                      class="p-3 text-black"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <li>
+                        <a href="./programmes/job-finder-programme.html"
+                          >Job Finder Programme</a
+                        >
+                      </li>
+                      <li>
+                        <a href="./programmes/managed-service-programme.html"
+                          >Managed Service Programme</a
+                        >
+                      </li>
+                      <li>
+                        <a href="./programmes/community-programme.html"
+                          >Community Programme</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="./programmes/distinguished-speakers-programme.html"
+                          >Distinguished Speakers Programme</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <button
+                    id="dropdownNavbarLink"
+                    data-dropdown-toggle="aboutDropdown"
+                    class="text-white hover:underline flex items-center justify-between w-full md:w-auto"
+                  >
+                    About
+                    <svg
+                      class="w-4 h-4 ml-1"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div
+                    id="aboutDropdown"
+                    class="hidden bg-white text-base z-10 list-none divide-y divide-gray-100 rounded shadow my-4"
+                  >
+                    <ul
+                      class="p-3 text-black"
+                      aria-labelledby="dropdownLargeButton"
+                    >
+                      <li>
+                        <a class="nav-link scrollto" href="#whyus">Why Us</a>
+                      </li>
+                      <li>
+                        <a class="nav-link scrollto" href="./">About Us</a>
+                      </li>
+                      <li>
+                        <a class="nav-link scrollto" href="#awards">Awards</a>
+                      </li>
+                      <li>
+                        <a
+                          class="nav-link"
+                          href="mailto:contact@jobcrypt.com?subject=Contact Query"
+                          >Contact</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+              <button
+                id="metamaskButton"
+                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
+              >
+                Install Metamask to view Jobs
+              </button>
+            </div>
+          </div>
+        </nav>
       </div>
-
-      <nav id="navbar" class="navbar text-white">
-        <ul class="flex item-center gap-5 text-sm">
-          <li>Home</li>
-          <li>Post a Job</li>
-
-          <li>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              class="text-white flex items-center"
-              type="button"
-            >
-              Dashboard
-              <svg
-                class="w-4 h-4 ml-2"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              class="text-white flex items-center"
-              type="button"
-            >
-              Jobs
-              <svg
-                class="w-4 h-4 ml-2"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              class="text-white flex items-center"
-              type="button"
-            >
-              Events
-              <svg
-                class="w-4 h-4 ml-2"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              class="text-white flex items-center"
-              type="button"
-            >
-              Programmes
-              <svg
-                class="w-4 h-4 ml-2"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              class="text-white flex items-center"
-              type="button"
-            >
-              About
-              <svg
-                class="w-4 h-4 ml-2"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </nav>
-      <button
-        class="text-white bg-[#273CC8] rounded-full px-6 py-2 bg-opacity-90"
-      >
-        Install Metamask to view Jobs
-      </button>
-      <!-- .navbar -->
+      <div class="bg-jcGray">
+        <p class="text-center tracking-wider font-baijam py-5">
+          Join our Blockchain Sustainability Week - UK 2023 & Blockchain
+          Sustainability Week - EU 2023
+        </p>
+      </div>
     </header>
-
     <!-- Hero -->
-    <div class="">
+    <div
+      class="mb-20 delay-[100ms] duration-[600ms] taos:translate-y-[200px] taos:opacity-0"
+      data-taos-offset="300"
+    >
       <div class="font-poppins">
-        <h2 class="text-center mt-10 text-3xl font-bold">
-          Welcome to JobCrypt
+        <div class="flex gap-5 justify-between text-white lg:p-5 p-2">
+          <div
+            class="euflag px-2 py-4 w-[200px] lg:w-[250px] h-[100px] lg:[150px] flex justify-center"
+          >
+            <div class="">
+              <div
+                class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter lg:text-xs text-xxs rounded-xl"
+              >
+                <h2 class="font-bold text-center text-xxs lg:text-xs mt-3">
+                  Join JobCrypt Blockchain Sustainability Week in EU
+                </h2>
+                <p class="text-center mt-2">5th-9th June, 2023</p>
+              </div>
+              <div class="flex mt-2 justify-center">
+                <button
+                  class="bg-jcBlue px-4 py-1 text-black text-xxs lg:text-xs rounded-full"
+                >
+                  Get your tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[100px] lg:[150px] flex justify-center"
+          >
+            <div class="">
+              <div
+                class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter text-xxs lg:text-xs rounded-xl"
+              >
+                <h2 class="font-bold text-center mt-3">
+                  Join JobCrypt Blockchain Sustainability Week in UK
+                </h2>
+                <p class="text-center mt-2">12th-16th June, 2023</p>
+              </div>
+              <div class="flex mt-2 justify-center">
+                <button
+                  class="bg-jcBlue text-black px-4 py-1 text-xxs lg:text-xs rounded-full"
+                >
+                  Get your tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-center text-3xl font-bold mt-10 lg:mt-0">
+          Welcome to <span class="text-jcBlue">JobCrypt</span>
         </h2>
         <img src="../assets/images/earthAsset.png" height="" class="absolute" />
         <div class="relative">
@@ -337,13 +506,11 @@
             Install Metamask & Stake to apply to verified web3 jobs
           </p>
           <div class="flex justify-center mt-5">
-            <button class="bg-[#273CC8] rounded-full px-6 py-2 text-white">
+            <button class="bg-black rounded-full px-6 py-2 text-jcBlue">
               Install Metamask to view jobs
             </button>
           </div>
-          <div
-            class="flex items-center justify-center mt-7 gap-1 text-[#273CC8]"
-          >
+          <div class="flex items-center justify-center mt-7 gap-1 text-jcBlue">
             <i class="fa-solid fa-circle-info"></i>
             <a href="" class="text-sm">Read more</a>
           </div>
@@ -352,10 +519,13 @@
     </div>
 
     <!-- Job Board -->
-    <section class="bg-jcBlue mt-96 py-2">
+    <section
+      class="bg-black lg:mt-96 mt-40 mb-20 py-2 delay-[300ms] duration-[600ms] taos:scale-[0.6] taos:opacity-0"
+      data-taos-offset="400"
+    >
       <h2 class="text-center font-bold text-3xl mt-3 text-white">Job Board</h2>
       <div
-        class="bg-[#D9D9D9] bg-opacity-10 flex justify-center gap-10 p-10 px-20 m-5"
+        class="overflow-x-auto bg-[#D9D9D9] bg-opacity-10 rounded-lg flex md:flex-row lg:flex-row flex-col justify-center gap-10 py-10 lg:px-20 px-5 m-5"
       >
         <div class="">
           <h2
@@ -363,13 +533,15 @@
           >
             Featured Jobs
           </h2>
-
-          <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
-          </p>
+          <div class="flex justify-center">
+            <p
+              class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
+            >
+              Multiple jobs are uploaded on the blockchain by the hour,
+              <span class="text-jcBlue"> Install Metamask </span> to view
+              available jobs.
+            </p>
+          </div>
         </div>
         <div class="">
           <h2
@@ -377,12 +549,15 @@
           >
             Latest Jobs
           </h2>
-          <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
-          </p>
+          <div class="flex justify-center">
+            <p
+              class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
+            >
+              Multiple jobs are uploaded on the blockchain by the hour,
+              <span class="text-jcBlue"> Install Metamask </span> to view
+              available jobs.
+            </p>
+          </div>
         </div>
         <div class="">
           <h2
@@ -391,18 +566,105 @@
             Popular Jobs
           </h2>
 
-          <p
-            class="flex justify-center border-8 rounded-md w-[15rem] h-[12rem] text-lg bg-white text-black text-center border-jcDarkBlue p-5"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour, Install
-            Metamask to view available jobs.
-          </p>
+          <div class="flex justify-center">
+            <p
+              class="border-8 rounded-xl w-[20rem] h-[9rem] lg:h-[8rem] text-lg bg-white text-black text-center border-black p-2"
+            >
+              Multiple jobs are uploaded on the blockchain by the hour,
+              <span class="text-jcBlue"> Install Metamask </span> to view
+              available jobs.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Events -->
+    <section>
+      <div class="slideshow-container mt-20">
+        <div class="mySlides fade">
+          <div
+            class="bsweu lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
+          >
+            <div>
+              <h2 class="font-bold lg:text-3xl text-lg">
+                Blockchain <br />
+                Sustainability Week <br />
+                EU
+              </h2>
+              <span class="flex items-center gap-1 my-2">
+                <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                <p class="text-xs">5th-9th June, 2023</p>
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                <a href="" class="text-xs">See event details</a>
+              </span>
+            </div>
+            <div>
+              <p class="lg:text-2xl text-base font-baiJam tracking-wider">
+                Join JobCrypt Blockchain <br />
+                Sustainability Week in <br />
+                EU
+              </p>
+
+              <button
+                class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
+              >
+                Get your Tickets now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mySlides fade">
+          <div
+            class="bswuk lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
+          >
+            <div>
+              <h2 class="font-bold lg:text-3xl text-lg">
+                Blockchain <br />
+                Sustainability Week <br />
+                UK
+              </h2>
+              <span class="flex items-center gap-1 my-2">
+                <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                <p class="text-xs">12th-16th June, 2023</p>
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                <a href="" class="text-xs">See event details</a>
+              </span>
+            </div>
+            <div>
+              <p class="lg:text-2xl text-base font-baiJam tracking-wider">
+                Join JobCrypt Blockchain <br />
+                Sustainability Week in <br />
+                UK
+              </p>
+
+              <button
+                class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
+              >
+                Get your Tickets now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <div style="text-align: center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </section>
+
     <!-- Users -->
-    <section class="bg-[#CEC2DC] bg-opacity-50 py-10">
+    <section
+      class="bg-[#CEC2DC] bg-opacity-50 py-10 mt-20 zxdelay-[300ms] duration-[600ms] taos:translate-y-[100%] taos:invisible"
+      data-taos-offset="300"
+    >
       <h2 class="text-center font-baiJam font-bold text-3xl tracking-wider">
         Used by Millions of Web 3 Users
       </h2>
@@ -410,9 +672,11 @@
         We are open, trustless, permissionless and decentralized
       </h2>
 
-      <div class="flex gap-10 mt-10 px-20 font-poppins text-white">
+      <div
+        class="flex lg:flex-row flex-col lg:gap-10 gap-5 mt-10 lg:px-20 px-5 font-poppins text-white"
+      >
         <div
-          class="w-1/3 py-40 rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
+          class="lg:w-1/3 w-full lg:py-40 py-10 items-start rounded-md bg-jcBlack py-10 px-5"
         >
           <img src="../assets/images/parcel.svg" />
           <h2 class="mt-3 font-semibold text-lg">Open</h2>
@@ -421,11 +685,9 @@
             Open Block EI, only you can modify your listing.
           </p>
         </div>
-        <div class="w-2/3">
+        <div class="lg:w-2/3 w-full">
           <div class="flex gap-5 mb-9">
-            <div
-              class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-            >
+            <div class="rounded-md bg-jcBlack py-10 px-5">
               <img src="../assets/images/trust.svg" />
               <h2 class="mt-3 font-semibold text-lg">Trustless</h2>
               <p class="mt-3 text-sm">
@@ -433,9 +695,7 @@
                 soon as you post your listing goes up right away.
               </p>
             </div>
-            <div
-              class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-            >
+            <div class="rounded-md bg-jcBlack py-10 px-5">
               <img src="../assets/images/permission.svg" />
               <h2 class="mt-3 font-semibold text-lg">Permissionless</h2>
               <p class="mt-3 text-sm">
@@ -444,9 +704,7 @@
               </p>
             </div>
           </div>
-          <div
-            class="rounded-md bg-gradient-to-b from-jcBlue to-jcPurple py-10 px-5"
-          >
+          <div class="rounded-md bg-jcBlack py-10 px-5">
             <img src="../assets/images/globe.svg" />
             <h2 class="mt-3 font-semibold text-lg">Decentralized</h2>
             <p class="mt-3 text-sm">
@@ -460,12 +718,10 @@
 
     <!-- jOIN OUR CLIENTS -->
     <section class="flex justify-center my-20">
-      <div
-        class="rounded-lg bg-gradient-to-b from-jcBlue to-jcPurple text-white px-20 pb-16 pt-10"
-      >
+      <div class="rounded-lg bg-jcBlack text-white lg:px-20 px-5 pb-16 pt-10">
         <h2 class="text-center font-bold text-2xl mb-5">Join Our Clients</h2>
         <div
-          class="flex px-10 rounded-lg gap-10 bg-[#D9D9D9] bg-opacity-20 py-10"
+          class="grid grid-cols-5 items-center lg:px-10 px-3 rounded-lg lg:gap-10 gap-5 bg-[#D9D9D9] bg-opacity-20 py-10"
         >
           <img src="../assets/images/clients/protochain.svg" />
           <img src="../assets/images/clients/relay.svg" />
@@ -477,7 +733,9 @@
     </section>
 
     <!-- Why choose Jobcrypt -->
-    <section class="bg-jcBlue p-10 text-white font-poppins flex justify-center">
+    <section
+      class="bg-jcBlack p-10 text-white font-poppins flex justify-center"
+    >
       <div>
         <h2 class="text-center font-bold text-3xl mb-10">
           Why Choose JobCrypt
@@ -488,11 +746,13 @@
           to enable a faster, cleaner and more efficient hiring process.
         </p>
 
-        <div class="flex gap-10 justify-center mt-10 px-20">
+        <div
+          class="flex lg:flex-row flex-col gap-10 justify-center mt-10 px-20"
+        >
           <div class="bg-[#D9D9D9] bg-opacity-20 p-5 rounded-lg">
             <img src="../assets/images/WhyUs/geography.svg" />
             <h2 class="font-bold text-2xl my-2">Why we use Web 3?</h2>
-            <p class="w-[18rem]">
+            <p class="md:w-full lg:w-[18rem]">
               Traditional job boards allow for inauthentic responses to
               employment listings, quite simply anyone can say for example "I
               know Web3" with no proof leading to difficult consequences for
@@ -500,7 +760,7 @@
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Post a Job
               </button>
@@ -509,14 +769,14 @@
           <div class="bg-[#D9D9D9] bg-opacity-20 p-5 rounded-lg">
             <img src="../assets/images/WhyUs/manager.svg" />
             <h2 class="font-bold text-2xl my-2">Benefits for Employers</h2>
-            <p class="w-[18rem]">
+            <p class="md:w-full lg:w-[18rem]">
               By using JobCrypt, employers are assured that their staff are
               fully competent in the basics of using Web3 as part of their daily
               operation saving on, training, time off and re-work.
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Post a Job
               </button>
@@ -525,14 +785,14 @@
           <div class="bg-[#D9D9D9] bg-opacity-20 p-5 rounded-lg">
             <img src="../assets/images/WhyUs/member.svg" />
             <h2 class="font-bold text-2xl my-2">Benefits for Job Seekers</h2>
-            <p class="w-[18rem]">
+            <p class="md:w-full lg:w-[18rem]">
               By applying through JobCrypt, job seekers can clearly demonstrate
               that they are Web3 capable and worthy of clear and concise
               consideration by employers
             </p>
             <span class="flex justify-center">
               <button
-                class="bg-gradient-to-b from-jcBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+                class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
               >
                 Apply for Jobs
               </button>
@@ -548,7 +808,7 @@
         </p>
         <span class="flex justify-center my-5">
           <button
-            class="bg-gradient-to-b from-jcDarkBlue to-jcPurple rounded-full mt-5 py-2 px-6 flex justify-center"
+            class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
           >
             Learn More About Us
           </button>
@@ -557,19 +817,22 @@
     </section>
 
     <!-- Feautured Events -->
-    <section class="pt-20 px-20 font-poppins">
-      <h2 class="text-2xl text-center">Featured Events</h2>
+    <section class="pt-20 lg:px-20 px-1- font-poppins">
+      <h2 class="text-2xl text-center font-bold">Featured Events</h2>
       <p class="text-center mt-2">
         Check out our upcoming events. Our Events help us connect to you where
         you are, bringing the best in blockchain and web3 education to your city
       </p>
-      <div class="bg-jcBlue p-16 flex justify-center gap-10 rounded-xl my-20">
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+      <div
+        class="lg:p-16 p-5 flex lg:flex-row flex-col lg:gap-16 gap-y-10 gap-5 rounded-xl lg:my-20 my-5"
+      >
+        <div class="bg-jcGray p-5 w-full rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="100%" />
+
+          <h2 class="font-bold text-lg my-3">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -578,12 +841,12 @@
           </p>
           <a href="" class="text-black font-semibold text-sm">Read more...</a>
         </div>
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+        <div class="bg-jcGray p-5 w-full rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="100%" />
+          <h2 class="font-bold text-lg my-3">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -592,12 +855,12 @@
           </p>
           <a href="" class="text-black font-semibold text-sm">Read more...</a>
         </div>
-        <div>
-          <img src="../assets/images/youtube.svg" />
-          <h2 class="font-bold text-lg my-3 text-white">
+        <div class="bg-jcGray p-5 w-full rounded-xl">
+          <img src="../assets/images/blockchainYT.png" width="100%" />
+          <h2 class="font-bold text-lg my-3">
             JobCrypt Blockchain Sustainability Week- UK 2023
           </h2>
-          <p class="text-white">
+          <p class="">
             “Do you live in Europe? Would you like to become part of the fight
             and save the planet? Then join us for JobCrypt Blockchain
             Sustainability Week- EU 2023, hosted in Munich Germany. Come and
@@ -609,10 +872,88 @@
       </div>
     </section>
 
-    <!-- Ready to Start -->
+    <!-- Our Programmes -->
     <section
-      class="py-20 text-white bg-gradient-to-b from-jcPurple to-jcBlue flex justify-center"
+      class="pt-20 lg:px-20 px-5 font-poppins bg-[#CEC2DC] bg-opacity-10"
     >
+      <h2 class="text-2xl text-center font-bold">Our Programmes</h2>
+      <p class="text-center mt-2">
+        We offer a variety of programmes to support job seekers, employers and
+        partners to keep our community <br />
+        updated on the special offers from JobCrypt.
+      </p>
+      <div
+        class="lg:p-16 p-10 flex lg:flex-row flex-col gap-y-10 justify-center lg:gap-5 rounded-xl my-5"
+      >
+        <div class="bg-jcGray p-5 w-full rounded-xl shadow-xl">
+          <img src="../assets/images/programmes/jfp.svg" alt="" />
+          <h2 class="text-2xl font-bold tracking-wider mt-5">
+            Job Finder Programme
+          </h2>
+          <p class="mt-5">
+            Job Finder Programme By enrolling into the programme you the Job
+            Seekers get early access to the latest roles in blockchain and Web3
+            that are posted to Job Crypt. Learn more
+          </p>
+          <div class="flex justify-center mt-5">
+            <button class="text-jcBlue bg-black px-5 py-1 rounded-full">
+              Learn More
+            </button>
+          </div>
+        </div>
+        <div class="bg-jcGray p-5 w-full rounded-xl shadow-xl">
+          <img src="../assets/images/programmes/msp.svg" alt="" />
+          <h2 class="text-2xl font-bold tracking-wider mt-5">
+            Managed Service Programme
+          </h2>
+          <p class="mt-5">
+            Job Finder JobCrypt Managed Service Programme has been created to
+            help you manage the challenging time constraints associated with
+            acquiring the right talent.
+          </p>
+          <div class="flex justify-center mt-5">
+            <button class="text-jcBlue bg-black px-5 py-1 rounded-full">
+              Learn More
+            </button>
+          </div>
+        </div>
+        <div class="bg-jcGray p-5 w-full rounded-xl shadow-xl">
+          <img src="../assets/images/programmes/cp.svg" alt="" />
+          <h2 class="text-2xl font-bold tracking-wider mt-5">
+            Community Programme
+          </h2>
+          <p class="mt-5">
+            The goal of the programme is to foster a culture of Community
+            Innovation that allows new projects to access some of the best
+            talent out there and hence create future defining experiences in
+            Web3
+          </p>
+          <div class="flex justify-center mt-5">
+            <button class="text-jcBlue bg-black px-5 py-1 rounded-full">
+              Learn More
+            </button>
+          </div>
+        </div>
+        <div class="bg-jcGray p-5 w-full rounded-xl shadow-xl">
+          <img src="../assets/images/programmes/dsp.svg" alt="" />
+          <h2 class="text-2xl font-bold tracking-wider mt-5">
+            Distinguished Speaker Programme
+          </h2>
+          <p class="mt-5">
+            Our goal is to help accelerate mainstream understanding of
+            Blockchain and Web3 capabilities, beyond those of cryptocurrency
+          </p>
+          <div class="flex justify-center mt-5">
+            <button class="text-jcBlue bg-black px-5 py-1 rounded-full">
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ready to Start -->
+    <section class="py-20 text-white bg-jcBlack w-full">
       <div class="">
         <h2 class="text-2xl font-bold text-center">Ready to Start?</h2>
         <p class="my-5 text-center">Get the latest jobs direct to your inbox</p>
@@ -622,13 +963,11 @@
             <input
               type="text"
               placeholder="Enter your Email Address"
-              class="mt-7 bg-overlay outline-none bg-opacity-10 text-white border-none rounded-lg"
+              class="mt-7 outline-none bg-opacity-10 text-white border-none rounded-lg"
             />
             <br />
             <span class="flex justify-center">
-              <button
-                class="px-6 py-2 rounded-full shadow-xl mt-7 bg-[#1F49DD]"
-              >
+              <button class="px-6 py-2 rounded-full shadow-xl mt-7 bg-jcBlue">
                 Join Alert List
               </button>
             </span>
@@ -639,22 +978,22 @@
 
     <!-- Join our community -->
 
-    <section class="flex justify-center font-poppins text-white m-20">
-      <div class="bg-jcBlue p-10 px-20 rounded-lg">
+    <section class="flex justify-center font-poppins lg:m-20 m-10 md:16">
+      <div class="bg-jcGray lg:p-10 p-5 lg:px-20 px-5 rounded-lg">
         <h2 class="text-2xl font-bold text-center">Join Our Community</h2>
-        <p class="my-5">
+        <p class="my-5 text-center">
           Learn about <span class="font-semibold"> JobCrypt </span>, chat with
           us and make new connections.
         </p>
-        <div class="flex justify-center gap-5">
+        <div class="flex justify-center lg:gap-5 gap-3">
           <a
             href="https://discord.gg/89DWAkEnWb"
             class="discord"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-discord" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-discord"></i>
               <p>discord</p>
             </button></a
           >
@@ -663,9 +1002,9 @@
             class="twitter"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-twitter" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-twitter"></i>
               <p>Twitter</p>
             </button></a
           >
@@ -674,9 +1013,9 @@
             class="tiktok"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-tiktok" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-tiktok"></i>
               <p>tiktok</p>
             </button></a
           >
@@ -686,9 +1025,9 @@
             class="linkedin"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-linkedin" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-linkedin"></i>
               <p>linkedin</p>
             </button></a
           >
@@ -699,9 +1038,9 @@
             class="tiktok"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-facebook" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-facebook"></i>
               <p>facebook</p>
             </button></a
           >
@@ -711,9 +1050,9 @@
             class="linkedin"
             target="_blank"
             ><button
-              class="flex text-sm gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
+              class="flex lg:text-sm text-xxs md:text-xs gap-1 items-center bg-overlay bg-opacity-10 rounded-lg px-4 shadow-xl py-2"
             >
-              <i class="fa-brands fa-youtube" style="color: #f7f9fd"></i>
+              <i class="fa-brands fa-youtube"></i>
               <p>youtube</p>
             </button></a
           >
@@ -722,15 +1061,15 @@
     </section>
 
     <!-- Footer -->
-    <section
-      class="flex justify-center bg-gradient-to-b from-jcBlue to-jcPurple py-10 text-white"
-    >
+    <section class="flex justify-center bg-jcBlack py-10 text-white">
       <div>
         <span class="flex justify-center items-center gap-3">
           <img src="../assets/images/jclogo.svg" />
           <h2 class="text-2xl font-bold">Job Crypt</h2>
         </span>
-        <div class="flex gap-60 items-center justify-center mt-20 font-thin">
+        <div
+          class="flex lg:gap-60 gap-10 md:gap-40 items-center justify-center mt-20 font-thin"
+        >
           <ul>
             <li class="font-bold text-lg">Useful Links</li>
             <li>Home</li>
@@ -753,5 +1092,10 @@
 
     <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://unpkg.com/taos@1.0.3/dist/taos.js"></script>
+
+    <!-- Js files -->
+    <script src="../assets/js/jc_index.js"></script>
+    <script src="../assets/js/carousel.js"></script>
   </body>
 </html>
