@@ -64,7 +64,7 @@ liverpoolInPerson20230419.endDate 		= 1681922700000;
 
 // MAY
 var liverpoolCoronationCelebration20230508 			= {}
-liverpoolCoronationCelebration20230508.scheduleLink = "/pages/promotions/liverpool/2023-05-08-Coronation-Celebration";
+liverpoolCoronationCelebration20230508.scheduleLink = "/pages/promotions/liverpool/2023-05-08-Coronation-Celebration.html";
 liverpoolCoronationCelebration20230508.title 		= "UK Coronation NFT Airdrop ";
 liverpoolCoronationCelebration20230508.location 	= "Online"; 
 liverpoolCoronationCelebration20230508.country 		= "UK"; 
@@ -77,7 +77,7 @@ liverpoolCoronationCelebration20230508.startDate 	= 1678902341000;
 liverpoolCoronationCelebration20230508.endDate 		= 1683564300000; 
 
 var liverpoolOnline20230511 = {}
-liverpoolOnline20230511.scheduleLink 	= "/pages/promotions/liverpool/2023-05-11-Online-Talk.html"
+liverpoolOnline20230511.scheduleLink 	= "/pages/promotions/liverpool/2023-05-11-In-Person-Talk.html"
 liverpoolOnline20230511.title 			= "Introduction to DAOs in Sustainability";
 liverpoolOnline20230511.location 		= "Online"; 
 liverpoolOnline20230511.country 		= "UK"; 
