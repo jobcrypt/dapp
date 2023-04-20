@@ -77,7 +77,7 @@ liverpoolCoronationCelebration20230508.startDate 	= 1678902341000;
 liverpoolCoronationCelebration20230508.endDate 		= 1683564300000; 
 
 var liverpoolOnline20230511 = {}
-liverpoolOnline20230511.scheduleLink 	= "/pages/promotions/liverpool/2023-05-11-In-Person-Talk.html"
+liverpoolOnline20230511.scheduleLink 	= "/pages/promotions/liverpool/2023-05-11-Online-Talk.html"
 liverpoolOnline20230511.title 			= "Introduction to DAOs in Sustainability";
 liverpoolOnline20230511.location 		= "Online"; 
 liverpoolOnline20230511.country 		= "UK"; 
