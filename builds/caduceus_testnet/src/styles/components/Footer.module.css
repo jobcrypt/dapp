@@ -1,0 +1,130 @@
+.footer{
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    min-height: 300px;
+    background-color: #000;
+}
+
+.firstSection{
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   /* grid-template-columns: repeat(3, 1fr); */
+
+}
+
+.firstBox{
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 33.33%;
+}
+
+.firstBox>img{
+  filter: opacity(70%);
+}
+
+
+.socialIconContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 20px;
+}
+
+.socialIconContainer>img{
+    filter: invert(1) opacity(70%);
+}
+
+.instagram{
+    width: 25px;
+    height: 25px;
+}
+
+.facebook{
+    width: 25px;
+    height: 25px;
+}
+.twitter{
+    width: 30px;
+    height: 30px;
+}
+.youtube{
+    width: 30px;
+    height: 30px;
+}
+.discord{
+    width: 35px;
+    height: 35px;
+}
+.secBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 3rem;
+    width: 33.33%;
+}
+
+.secBox>h2{
+    color: #fff;
+    font-family: 'bold';
+    font-size: 25px;
+    margin: 0;
+}
+
+.secBox>p{
+    color: #fff;
+    font-family: 'light';
+    font-size: 20px;
+    cursor: pointer;
+    /* margin: 0; */
+}
+
+.copyrightContainer{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: 'light';
+    font-size: 20px;
+}
+
+@media screen and (max-width: 770px) {
+    .firstSection{
+      flex-direction: column;
+      -ms-flex-direction: column; 
+    }
+
+     .firstBox{
+        height: fit-content;
+        width: 100%;
+        height: fit-content;
+        padding: 20px;
+        justify-content: flex-start;
+        align-items: flex-start;
+     }
+
+     .socialIconContainer{
+        justify-content: flex-start;
+     }
+    
+     .secBox{
+        padding-left: 20px;
+        height: fit-content;
+        width: 100%;
+        height: fit-content;
+    }
+    .copyrightContainer{
+        font-size: 15px;
+        word-break: break-all;
+        padding: 0px 5px;
+    }
+}

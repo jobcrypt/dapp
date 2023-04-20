@@ -1,0 +1,34 @@
+input::placeholder {
+    color: #9E9E9E;
+    font-size: 14px;
+    opacity: 1;
+    /* Firefox */
+}
+
+.bsweu {
+    background-image: url("../images/BSEU.svg");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bswuk {
+    background-image: url("../images/BSUK.svg");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.feautured-jobs {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-gap: 50px 5px;
+    padding-bottom: 10px;
+}
+
+.bg-blockchain {
+    background-image: url("../images/blockchainbg.png");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- META -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="uisual" content="Made with Uisual (uisual.com)">
+  <meta name="author" content="JobCrypt">
+  <meta name="description" content="JobCrypt, where Web 3 professionals go to find Web 3 jobs in a Web 3 way ">
+  <meta name="keywords" content="blockchain jobs, web3 jobs, tech jobs, job search, jobs, search engine for jobs, job search engine, job listings, search jobs, career, employment, work, find jobs, rss jobs feed xml, devops, biz dev, jobs">
+  <meta name="referrer" content="unsafe-url">
+  <meta name="robots" content="index, follow">
+  
+  <!-- SPEED -->
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="dns-prefetch" href="https://res.cloudinary.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  
+  <!-- LINK -->
+  <link rel="me" href="#">
+  <link rel="canonical" href="#">
+  <link rel="icon" type="image/png" href="#" sizes="48x48">
+  
+  <!-- PERFORMANCE -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+  <link rel="preload" as="style" href="../../../style.css">
+  <link rel="stylesheet" href="../../../style.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../../nev/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../../../nev/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../nev/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../../nev/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../../../nev/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../../../nev/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- MAIN CSS  -->
+<link href="../../../nev/assets/css/style.css" rel="stylesheet">
+
+
+  <!-- Web 3 -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script src="https://unpkg.com/ipfs-http-client-lite/dist/index.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5LX7VP442M"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5LX7VP442M');
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  <!-- Web 3 -->
+
+  <!-- TITLE -->
+  <title>Job Crypt</title>
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <span id="showAccount"></span>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="https://www.twitter.com/JobCrypt" class="twitter" target="_blank"><i class="bi bi-twitter"></i></a>
+        <a href="https://www.tiktok.com/@jobcrypt" class="tiktok" target="_blank"><i class="bi bi-tiktok"></i></a>
+        <a href="https://discord.gg/89DWAkEnWb" class="discord" target="_blank"><i class="bi bi-discord"></i></a>
+        <a href="https://www.linkedin.com/company/jobcrypt/" class="linkedin" target="_blank"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="../../../index.html"><img src="../../../assets/images/logo/apple-touch-icon-57x57.png"></a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="../../../index.html">Home</a></li>
+          <li><span id="connect_web_3"><a href="#" class="btn-primary"></a></span></li>
+          <li><a href="../../../pages/app/post.html" class="nav-link"> Post A JOB</a></li>
+          <li class="dropdown"><a href="#"><span>Dashboard</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link" href="../../../pages/employer/employer_dashboard.html">Employer</a></li>  
+              <li><a class="nav-link" href="../../../pages/jobseeker/job_seeker_dashboard.html">Job Seeker</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Jobs</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link" href="../../../pages/app/post.html"> Post a Job</a></li>  
+              <li><a class="nav-link scrollto" href="#featured-jobs">Featured Jobs</a></li>  
+              <li><a class="nav-link scrollto" href="#latest-jobs">Latest Jobs</a></li>           
+              <li><a class="nav-link scrollto" href="#popular-jobs">Popular Jobs</a></li>           
+              <li><a class="nav-link scrollto" href="#search-jobs">Search Jobs</a></li>
+              <li><a class="nav-link scrollto" href="#stake">Stake to Apply for Jobs</a></li>
+            </ul>
+          </li>                   
+          <li class="dropdown"><a href="#"><span>Events</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto" href="#featured-events">Featured Events</a></li>  
+              <li><a class="nav-link" href="../../../blockchainsustainabilityweekuk2023/index.html">Blockchain Sustainability Week - UK2023</a></li>           
+              <li><a class="nav-link" href="../../../blockchainsustainabilityweekeu2023/index.html">Blockchain Sustainability Week - EU2023</a></li>           
+              <li><a class="nav-link" href="../../../pages/events/index.html">2023 Events Calendar</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Programmes</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="../../../pages/programmes/job finder programme/index.html">Job Finder Programme</a></li>      
+              <li><a href="../../../pages/programmes/managed service programme/index.html">Managed Service Programme</a></li>
+              <li><a href="../../../pages/programmes/community programme/index.html">Community Programme</a></li>
+              <li><a href="../../../pages/programmes/distinguished speakers programme/index.html">Distinguished Speakers Programme</a></li>
+            </ul>
+          </li>       
+          <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto" href="#whyus">Why Us</a></li>
+              <li><a class="nav-link scrollto" href="../../../pages/app/jc/01_about.html">About Us</a></li>      
+              <li><a class="nav-link scrollto " href="#awards">Awards</a></li>
+              <li><a class="nav-link" href="mailto:contact@jobcrypt.com?subject=Contact Query">Contact</a></li>
+            </ul>
+          </li>
+          <li><a href="https://www.moonpay.com/buy" target="_blank" class=""> Get Crypto Here</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+  
+  <div id="featured_jobs_div">
+
+  </div>
+  <main role="main">
+    <section class="ui-section-content">
+        <div class="ui-layout-container">
+            <!-- COPYWRITING -->
+            <div class="ui-layout-column-8 ui-layout-column-center">
+                <center>
+                    <h1>JobCrypt Liverpool Talk Series</h1>                        
+
+                    <br/>
+                    <h2>UK sustainability powered by Blockchain </h2>                        
+                    <p>
+                        This event will introduce attendees to the basics of Sustainability and how it is being powered by Blockchain in the United Kingdom. It will be your 
+                        opportunity ask questions and gain answers on the foundations of the new Green Revolution with some insights on how you can get involved. 
+                        We will also have mini workshops that show you how to use Web3 to apply for job roles using Web3 on JobCrypt so if you're early you might 
+                        get some free crypto. If not fear not we have more SWAG to give away through the course of the evening, so do join us.
+                    </p>
+                </center>
+                <br/>
+                <center>                        
+                    <h1>Date</h2>
+                    <table style="vertical-align: text-top;">
+                        <tr>
+                            <td><b>When?</b></td>
+                            <td><b>April 19 2023</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>What time?</b></td>
+                            <td><b>17:45 - 21:00 GMT +1 (UK Time)</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>Location?</td>
+                            <td><b>TBC</b></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <h1>Schedule</h1>                        
+                    <table >
+                        <tr> 
+                            <td>16:45 - 17:45</td>
+                            <td> <b>Venue Open</b></td>                                
+                            <td> <b>Free Pizza and Drinks</b></td>
+                        </tr>
+                        <tr>
+                            <td>17:45 - 17:59</td>
+                            <td><b>Ice Breakers</b></td>
+                            <td><b>Swag giveaway and icebreaker competitions</b></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">18:00 - 18:10</td>
+                            <td style="vertical-align: top;"><b>Mini-Workshop</b></td>
+                            <td style="vertical-align: top;"><b>How to Apply for Web3 Roles using JobCrypt</b><br/>
+                            
+                                    <font color="blue"> A hands on workshop using the Sepolia Testnet, so bring your laptop or your phone.</font><br/>
+                                    <font color="blue"> Free Achievement NFTs to be claimed. Come and get your first NFT</font><br/>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top;">18:10 - 18:40 </td>
+                            <td><b>Talk</b></td>
+                            <td><b>Introduction to Sustainability using Blockchain</b></td>
+                        </tr>
+                        <tr>
+                            <td>18:40 - 18:45</td>
+                            <td><b>Break</b></td>
+                            <td><b>Announcements</b></td>                                
+                        </tr>
+                        <tr>
+                            <td>118:45 - 19:15</td>
+                            <td><b>Talk</b></td>
+                            <td><b>How Blockchain is powering Sustainability in the UK Today</b></td>
+                        </tr>
+                        <tr>
+                            <td>19:15 - 19:20</td>
+                            <td><b>Break</b></td>
+                            <td><b>SWAG Quiz</b></td>                                
+                        </tr>
+                        <tr>
+                            <td>19:20 - 19:50</td>
+                            <td><b>Talk</b></td>
+                            <td><b>Blockchain Sustainability Projects for your Mobile</b></td>
+                        </tr>
+                        <tr>
+                            <td>19:55 - 20:15</td>
+                            <td><b>Panel</b></td>
+                            <td><b>UK Careers in Sustainability using Blockchain</b></td>
+                        </tr>
+                        <tr>
+                            <td>20:15 - 20:20</td>
+                            <td><b>Mini-Workshop</b></td>
+                            <td><b>Upcoming Web3 Roles on JobCrypt</b></td>
+                        </tr>
+                        <tr>
+                            <td>20:20 - 20:25</td>
+                            <td><b>Wrap-up</b></td>
+                            <td><b>Thanks and Applause</b></td>
+                        </tr>                        
+                        <tr>
+                            <td>20:25 - 21:00</td>
+                            <td><b>Networking</b></font></td>
+                            <td><b>Meet the Speakers</b></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <h1>Tickets</h1>                        
+                    <b><a href="#"><font color="orange">On Sale March 10th</font></a></b>
+                    <br/>
+                    <h1>Tritt unserem Discord bei</h1>
+                    <h2><font color="green">Join our discord</font>    
+                        <a href="https://discord.gg/Mmwq9QkPhY" style="color: orange;"target="_blank" role="link " aria-label="# ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                            <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                          </svg>
+                    </a>
+                    </h2>
+                </center>
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <section class=" ui-section-close ">
+        <div class="ui-layout-container ">
+            <div class="ui-layout-column-6 ui-layout-column-center ">
+                <h2>Ready to start?</h2>
+                <p class="ui-text-intro ">Get the latest jobs direct to your inbox </p>
+                <!-- Begin Mailchimp Signup Form -->
+                <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7_dtp.css" rel="stylesheet" type="text/css">
+                <style type="text/css">
+                    #mc_embed_signup {
+                        background: #fff;
+                        clear: left;
+                        font: 14px Helvetica, Arial, sans-serif;
+                        width: 600px;
+                    }
+                    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                    We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                </style>
+                <div id="mc_embed_signup">
+                    <form action="https://jobcrypt.us14.list-manage.com/subscribe/post?u=b13e43ad0aa241d4fbc634e6e&amp;id=faf356f218" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div id="mc_embed_signup_scroll">
+
+                            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                            <div class="mc-field-group">
+                                <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+                </label>
+                                <input type="email" value="" name="EMAIL" placeholder="enter your email ... " class="ui-component-input ui-component-input-medium required email" id="mce-EMAIL">
+                            </div>
+                            <div id="mce-responses" class="clear foot">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>
+                            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b13e43ad0aa241d4fbc634e6e_faf356f218" tabindex="-1" value=""></div>
+                            <div class="optionalParent">
+                                <div class="clear foot">
+                                    <button type="submit" value="Join Alert List" name="subscribe" id="mc-embedded-subscribe" class="ui-component-button ui-component-button-medium ui-component-button-primary">Join Alert List</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+                <script type='text/javascript'>
+                    (function($) {
+                        window.fnames = new Array();
+                        window.ftypes = new Array();
+                        fnames[0] = 'EMAIL';
+                        ftypes[0] = 'email';
+                        fnames[1] = 'FNAME';
+                        ftypes[1] = 'text';
+                        fnames[2] = 'LNAME';
+                        ftypes[2] = 'text';
+                        fnames[3] = 'ADDRESS';
+                        ftypes[3] = 'address';
+                        fnames[4] = 'PHONE';
+                        ftypes[4] = 'phone';
+                        fnames[5] = 'BIRTHDAY';
+                        ftypes[5] = 'birthday';
+                    }(jQuery));
+                    var $mcj = jQuery.noConflict(true);
+                </script>
+                <!--End mc_embed_signup-->
+            </div>
+        </div>
+    </section>
+</main>
+
+    <!-- ======= Search Section ======= -->
+    <section id="search-jobs" class="services">
+      <div class="container" >
+        <span id="main_search_span"></span>
+        <center>
+          <span id="hot_search_title"></span>
+          <table id="hot_search_table">
+              <tr>
+                  <td colspan="4 "></td>
+              </tr>
+          </table>
+        </center>
+      </div>
+    </section><!-- End Search Section -->
+
+    <section id="stake" class="clients section-bg">
+      <div class="container" >
+        <span id="stake_span"></span>
+
+      </div>
+    </section><!-- End Stake Section -->
+
+    
+    <footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+          <div class="row">
+  
+            <div class="col-lg-3 col-md-6 footer-contact">
+              <h3>JobCrypt</h3>
+              <p>Blockchain Jobs for Web3 people
+             
+              </p>
+            </div>
+  
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Useful Links</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../index.html">Home</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../pages/app/jc/01_about.html">About us</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../pages/app/jc/07_faq.html">F.A.Q.</a></li>
+              </ul>
+            </div>
+  
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Terms & Policy</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../pages/app/jc/06_cookies.html">Cookie Policy</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../pages/app/jc/03_terms.html">Terms of service</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="../../../pages/app/jc/02_privacy.html">Privacy policy</a></li>
+      
+              </ul>
+            </div>
+  
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Our Social Networks</h4>
+              <p>Connect with us on Socials</p>
+              <div class="social-links mt-3">
+                <a href="https://www.twitter.com/JobCrypt" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="https://discord.gg/89DWAkEnWb" class="discord"><i class="bx bxl-discord"></i></a>
+                <a href="https://www.tiktok.com/@jobcrypt" class="tiktok"><i class="bx bxl-tiktok"></i></a>
+                <a href="https://www.youtube.com/channel/UCEX4iMGm6HXD9kP5MiEieAQ" class="youtube"><i class="bx bxl-youtube"></i></a>
+                <a href="https://www.linkedin.com/company/jobcrypt/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+      <div class="container py-4">
+        <div class="copyright">
+          &copy;2023 Copyright <strong><span>JobCrypt</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bizland-bootstrap-business-template/ -->
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a><br/>
+          <small>Powered By <a href="https://www.blockstarlogic.com/obei " target="_blank " style="color:orange">Open Block EI</a></small>
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+  
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  
+    <!-- Vendor JS Files -->
+    <script src="../../../nev/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="../../../nev/assets/vendor/aos/aos.js"></script>
+    <script src="../../../nev/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../nev/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../../../nev/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../../../nev/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../../../nev/assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="../../../nev/assets/vendor/php-email-form/validate.js"></script>
+  
+    <!-- Template Main JS File -->
+    <script src="../../../nev/assets/js/main.js"></script>
+      <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/25669875.js"></script>
+  <!-- End of HubSpot Embed Code -->
+  
+      <!-- JobCrypt Core ABIs -->
+      <script src="../../../assets/abi/i_jc_jobcrypt_abi.js"></script>
+      <script src="../../../assets/abi/i_jc_job_posting_abi.js"></script>           
+      <script src="../../../assets/abi/i_jc_stake_manager_abi.js"></script>
+      <script src="../../../assets/abi/i_jc_factory_facade_core_abi.js"></script>
+  
+      
+      <!-- Open Block EI Derivative ABIs -->
+      <script src="../../../assets/abi/i_open_product_abi.js"></script>
+      <script src="../../../assets/abi/i_jc_sortable_abi.js"></script>
+  
+      <!-- Open Block EI Core ABIs -->
+      <script src="../../../assets/abi/i_open_register_abi.js"></script>
+      
+      <script src="../../../assets/abi/i_open_product_core_abi.js"></script>
+      
+      <script src="../../../assets/abi/i_open_ranking_core_abi.js"></script>
+      
+      <!-- OpenZeppelin Contracts -->
+      <script src="../../../assets/abi/i_erc20_abi.js"></script>
+      <script src="../../../assets/abi/i_erc20_metadata_abi.js"></script>
+  
+      <!-- TEST NET ONLY FAUCET CODE-->
+      <script src="../../../assets/abi/i_erc20USDC_abi.js"></script>
+      <script src="../../../assets/abi/i_erc20WETH_abi.js"></script>
+      
+      <!-- JobCrypt JS -->
+      <script src="../../../assets/js/autoconnect_new.js"></script>
+      <script src="../../../assets/js/jc_index_new.js"></script>
+      <script src="../../../assets/js/jc_stake_new.js"></script>    
+      <script src="../../../assets/js/jc_latest_jobs_new.js"></script>    
+      <script src="../../../assets/js/jc_popular_jobs_new.js"></script>
+      <script src="../../../assets/js/jc_featured_jobs_new.js"></script>
+      <script src="../../../assets/js/jc_search_jobs_new.js"></script>
+      <script src="../../../assets/js/jobcrypt_new.js"></script>
+      <script src="../../../assets/js/jc_automated_promo_new.js"></script>
+</body>
+</html>
