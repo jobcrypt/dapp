@@ -64,7 +64,7 @@ liverpoolInPerson20230419.endDate 		= 1681922700000;
 
 // MAY
 var liverpoolCoronationCelebration20230508 			= {}
-liverpoolCoronationCelebration20230508.scheduleLink = "/pages/promotions/liverpool/2023-05-08-Coronation-Celebration";
+liverpoolCoronationCelebration20230508.scheduleLink = "/pages/promotions/liverpool/2023-05-08-Coronation-Celebration.html";
 liverpoolCoronationCelebration20230508.title 		= "UK Coronation NFT Airdrop ";
 liverpoolCoronationCelebration20230508.location 	= "Online"; 
 liverpoolCoronationCelebration20230508.country 		= "UK"; 
@@ -466,6 +466,10 @@ function loadPromos() {
 			qualifierFactor ++; 
 		}
 	}
+}
+
+function text(txt) {
+	return document.createTextNode(txt);
 }
 
 function ce(element) {
