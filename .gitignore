@@ -1,4 +1,4 @@
- 
+ i
 ui/firebase.json
 ui/firebase.json
 ui/build.bat
@@ -1652,4 +1652,5 @@ ui/public/pages/employer/company_linktree.html
 ui/public/pages/employer/employer_dashboard.html
 ui/public/pages/jobseeker/job_seeker_dashboard.html
 ui/public/style.css
+node_modules
 node_modules
