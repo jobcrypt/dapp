@@ -14,46 +14,6 @@ import { isNull } from '../utils/Util';
 
 const StakePopup = (props) =>{
     const { setOpenStakePopup } = props;
-    const navigate = useNavigate();
-    // const { data: address } = useContractRead({
-    //     address: '0xEfdeAC0C0778DED8eA0a72be3D93258F44Ff9627',
-    //     abi: iOpenRegisterAbi,
-    //     functionName: 'getAddress',
-    //     args: ['RESERVED_JOBCRYPT_STAKE_MANAGER_CORE'],
-    //     onSuccess: (data) =>{
-    //         console.log('result ', data)
-    //     },
-    //     onError: (err)=>{
-    //         // console.log('error occured: ',err)
-    //     },
-    //     onSettled: () =>{
-            
-    //     }
-    //     // chainId: 111155111
-    // });
-
-    // useEffect(()=>{
-    //     if(isNull(address))return;
-    //     console.log(address);
-    // },[address]);
-
-
-    useEffect(()=>{
-        (async()=>{
-            const data = await readContracts({
-                contracts: [
-                    {
-                    address: '0xEfdeAC0C0778DED8eA0a72be3D93258F44Ff9627',
-                    abi: iOpenRegisterAbi,
-                    functionName: 'getAddress',
-                    args: ['RESERVED_JOBCRYPT_STAKE_MANAGER_CORE'],
-                    },
-                ],
-                overrides: {from: 'nnnnnn'}
-            })
-            console.log('result: ',data)
-        })();
-    },[]);
 
     const stakeHandler = () =>{
         // navigate('/browse-job'); 

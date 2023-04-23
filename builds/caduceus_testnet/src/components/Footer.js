@@ -38,6 +38,12 @@ const Footer = () =>{
                     <p>FAQS</p>
                 </div>
                 <div className={classes.secBox}>
+                    <h2>Terms & Policy</h2>
+                    <p>Cookie Policy</p>
+                    <p>Terms of Service</p>
+                    <p>Privacy Policy</p>
+                </div>
+                <div className={classes.secBox}>
                     <h2>Contact</h2>
                     <p>Contact Us</p>
                     <p>About Us</p>

@@ -5,7 +5,8 @@ const UserWalletSlice = createSlice({
     name: 'user',
     initialState: {
         wallet: '',
-        isConnected: false
+        isConnected: false,
+        openMetaMask: false
     },
     reducers:{
        connectUser: (state, action)=>{
@@ -18,9 +19,15 @@ const UserWalletSlice = createSlice({
        disconnectUser: (state)=>{
         state.wallet = '';
         state.isConnected = false;
+       },
+       openMetaMask: (state) =>{
+          state.openMetaMask = true;
+       },
+       closeMetaMask: (state) =>{
+        state.openMetaMask = false;
        }
     }
 });
 
-export const { connectUser, disconnectUser } = UserWalletSlice.actions;
+export const { connectUser, disconnectUser, openMetaMask, closeMetaMask } = UserWalletSlice.actions;
 export default UserWalletSlice.reducer;

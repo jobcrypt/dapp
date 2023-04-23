@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import classes from '../styles/components/SustanabilityWeekEvent.module.css';
-import ReadyToStart from './ReadyToStart';
-import preview from '../assets/ytube_preview.png';
-import youtube from '../assets/youtube.png';
-import sustain1 from '../assets/sustain1.png';
-import sustain2 from '../assets/sustain2.png';
-import sustain3 from '../assets/sustain3.png';
+import ReactPlayer from 'react-player/youtube';
+
+
 
 const SustanabilityWeekEvent = () =>{
      const navigate = useNavigate();
@@ -18,9 +15,7 @@ const SustanabilityWeekEvent = () =>{
            <main className={classes.main}>
                <article>
                 <header className={classes.header}>
-                    <img src={sustain1} alt='' className={classes.preview} />
-                    {/* <img src={preview} alt='' className={classes.preview} />
-                    <img src={youtube} alt='' className={classes.youtube} /> */}
+                    <ReactPlayer url={'https://youtu.be/7T-NvwciBJM'} style={{ minWidth: '100%'}} controls width={'100%'} height={'100%'} />
                 </header>
                 <div className={classes.content}>
                     <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
@@ -32,9 +27,7 @@ const SustanabilityWeekEvent = () =>{
                </article>
                <article>
                 <header className={classes.header}>
-                    <img src={sustain2} alt='' className={classes.preview} />
-                    {/* <img src={preview} alt='' className={classes.preview} />
-                    <img src={youtube} alt='' className={classes.youtube} /> */}
+                <ReactPlayer url={'https://youtu.be/5HO6IeBqACs'} controls width={'100%'} height={'100%'} />
                 </header>
                 <div className={classes.content}>
                     <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
@@ -46,9 +39,7 @@ const SustanabilityWeekEvent = () =>{
                </article>
                <article>
                 <header className={classes.header}>
-                    <img src={sustain3} alt='' className={classes.preview} />
-                    {/* <img src={preview} alt='' className={classes.preview} />
-                    <img src={youtube} alt='' className={classes.youtube} /> */}
+                <ReactPlayer url={'https://youtu.be/JayvCQsVAEo'} controls width={'100%'} height={'100%'} />
                 </header>
                 <div className={classes.content}>
                     <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
@@ -59,7 +50,6 @@ const SustanabilityWeekEvent = () =>{
                 </footer>
                </article>
            </main>
-        {/* <ReadyToStart /> */}
     </section>
     )
 }

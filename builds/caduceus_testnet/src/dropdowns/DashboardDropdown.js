@@ -1,17 +1,23 @@
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from '../styles/dropdowns/EventsDropdown.module.css';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
+import { closeMetaMask, openMetaMask } from '../store/UserWalletSlice';
+
 
 const DashBoardDropdown = (props) =>{
-    const { shouldShow, deviceType } = props;
-    const [openMetaPopup, setOpenMetaPopup] = useState(false);
+    const { shouldShow, deviceType, setDispatch, setShowHamburger } = props;
+    // const [openMetaPopup, setOpenMetaPopup] = useState(false);
+    const dispatch = useDispatch();
+    // const openMetaMaskPopup = useSelector(state=>state.user.openMetaMask);
+    const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
 
 
-    const openPopupHandler = () =>{
+   const openPopupHandler = () =>{
         setOpenMetaPopup(true);
-        // setShowHamburger(true);
+        console.log('open up')
+        setShowHamburger(true);
     }
 
     let style = {};
@@ -22,10 +28,10 @@ const DashBoardDropdown = (props) =>{
     return(
         <>
            {openMetaPopup && <ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} />}
-        <ul className={classes.ul} style={style}>
+         <ul className={classes.ul} style={style}>
             <li onClick={openPopupHandler}>Employers</li>
             <li onClick={openPopupHandler}>Job Seekers</li>
-        </ul>        
+        </ul>     
         </>
         
     )

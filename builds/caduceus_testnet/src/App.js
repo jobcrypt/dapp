@@ -16,9 +16,10 @@ import AboutUsRoute from './routes/AboutUsRoute';
 import PostJobRoute from './routes/PostJobRoute';
 import BrowseJobRoute from './routes/BrowseJobRoute';
 import PreviousApplicationRoute from './routes/PreviousApplicationRoute';
-// import { registryGetAllContracts} from './contracts/InitializeContracts';
+import { registryGetAllContracts} from './contracts/InitializeContracts';
 // import { ethers } from 'ethers';
 import useWindowSize from './hooks/useWindowSize';
+import { createContext, useEffect, useState } from 'react';
 
 
 
@@ -31,20 +32,22 @@ import useWindowSize from './hooks/useWindowSize';
 //   webSocketProvider,
 // });
 
+export const AccountContext = createContext();
 
 function App() {
   const width = useWindowSize();
   console.log(width)
-  // registryGetAllContracts();
-//   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const [ account, setAccount ] = useState({ address: '', isConnected: false });
+  const [ isStaked, setIsStaked ] = useState(false);
+  const [ isApproved, setIsApproved ] = useState(false);
 
-// const accounts = provider.listAccounts().then(accounts=>{
-//   console.log(accounts[0]);
-// });
+  useEffect(()=>{
+    registryGetAllContracts();
+  },[]);
 
 
   return (
-    // <WagmiConfig client={client}>
+    <AccountContext.Provider value={{ account, setAccount, isStaked, setIsStaked, isApproved, setIsApproved }}>
     <Layout>
       <Routes>
           <Route exact path='/' element={<HomeRoute />} />
@@ -59,7 +62,7 @@ function App() {
           <Route exact path='/previous-application' element={<PreviousApplicationRoute />} />
       </Routes>
     </Layout>
-    // </WagmiConfig>
+    </AccountContext.Provider>
   );
 }
 

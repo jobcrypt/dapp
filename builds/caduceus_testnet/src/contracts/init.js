@@ -12,3 +12,11 @@ export const getContractInstance = (address, abi, providerOrSigner) =>{
   else providerOrSigner_ = signer
   return new ethers.Contract(address, abi, providerOrSigner_);
 }
+
+export const getProvider = () =>{
+  return provider;
+}
+
+export const getSigner = () =>{
+  return signer;
+}

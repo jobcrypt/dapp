@@ -19,6 +19,7 @@ import ProgramDropdown from '../dropdowns/ProgramDropdown';
 import AboutDropdown from '../dropdowns/AboutDropdown';
 import DashBoardDropdown from '../dropdowns/DashboardDropdown';
 import useWindowSize from '../hooks/useWindowSize';
+import DashboardPopup from '../popups/DashboardPopup';
 
 
 const EVENTS = 'EVENTS';
@@ -73,6 +74,7 @@ const Header = (props) =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const navigate = useNavigate();
     const [showHamburger, setShowHamburger ] = useState(false);
+    // const [ showDashboardPopup, setShowDashboardPopup] = useState(false);
     const width = useWindowSize();
     
 
@@ -123,12 +125,13 @@ const Header = (props) =>{
                        >
                         <p>Dashboard</p>
                         <img src={dropdownIcon} alt='' />
-                         && <DashBoardDropdown 
+                         {/* {dispatch.dashboard && <DashBoardDropdown 
                          shouldShow={dispatch.dashboard}
                          setDispatch={setDispatch} 
                          deviceType='desktop'
                          setShowHamburger={setShowHamburger}
-                        />
+                        />} */}
+                        {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
                      </span>
                      <span 
                          className={classes.dropdown}
@@ -221,9 +224,10 @@ const Header = (props) =>{
                             <p>Dashboard</p>
                             <img src={dropdownIcon} alt='' />
                         </div>
-                       {dispatch.dashboard &&<DashBoardDropdown deviceType='mobile'
+                       {/* {dispatch.dashboard &&<DashBoardDropdown deviceType='mobile'
                        setShowHamburger={setShowHamburger}
-                       />}
+                       />} */}
+                       {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
                      </span>
                      <span className={classes.dropdown}>
                        <div className={classes.eventsTitle} onClick={()=>setDispatch({ TYPE: ABOUT, status: !dispatch.about })}>

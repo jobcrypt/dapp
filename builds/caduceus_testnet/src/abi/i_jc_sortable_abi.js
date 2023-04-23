@@ -1,4 +1,4 @@
-iJCSortableAbi = [{
+const iJCSortableAbi = [{
         "inputs": [{
             "internalType": "address",
             "name": "_address",
@@ -40,3 +40,5 @@ iJCSortableAbi = [{
         "type": "function"
     }
 ]
+
+export default iJCSortableAbi;

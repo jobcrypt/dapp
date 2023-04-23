@@ -1,0 +1,126 @@
+.parent{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.box{
+    /* position: absolute; */
+    width: 400px;
+    height: 200px;
+    background-color: var(--dim-bg);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    row-gap: 20px;
+    padding: 0px 10px;
+    z-index: 1;
+}
+
+.title{
+    width: 100%;
+    font-family: 'light';
+    font-size: 20px;
+    text-align: center;
+}
+
+.btnContainer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+
+
+.yesBtn{
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-family: 'light';
+    font-size: 20px;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.noBtn{
+    color: #fff;
+    border: none;
+    border: 2px solid #171d32;
+    border-radius: 5px;
+    font-family: 'light';
+    font-size: 20px;
+    padding: 5px 20px;
+    color: #171d32;
+    cursor: pointer;
+}
+
+
+.btnContainer2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    row-gap: 10px;
+  }
+  
+  
+  .returnBtn{
+      background-image: linear-gradient(to right, #2c2231, #171d32);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-family: 'light';
+      font-size: 20px;
+      padding: 6px 20px;
+      width: 90%;
+      cursor: pointer;
+  }
+  
+  .postBtn{
+      color: #fff;
+      border: none;
+      border: 2px solid #171d32;
+      border-radius: 5px;
+      font-family: 'light';
+      font-size: 20px;
+      padding: 5px 20px;
+      width: 90%;
+      color: #171d32;
+      cursor: pointer;
+  }
+
+@media screen and (max-width: 770px) {
+   .box{
+    width: 80%;
+   }
+    .yesBtn{
+        cursor: none;
+    }
+
+    .noBtn{
+        cursor: none;
+    }
+
+    .returnBtn{
+        cursor: none
+    }
+
+    .postBtn{
+        cursor: none
+    }
+}

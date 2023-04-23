@@ -26,15 +26,17 @@
     font-size: 15px;
     color: #fff;
     padding: 0px 10px;
-    transition: all 1000ms ease-in;
+    transition: all 200ms ease-in;
 }
 
 .ul>li:hover{
-    box-shadow: 2px 2px 20px 2px #2c2231;
-    background-image: linear-gradient(to right, rgb(51, 21, 21), rgb(30, 30, 92));
+    /* box-shadow: 2px 2px 20px 2px #2c2231;
+    background-image: linear-gradient(to right, rgb(51, 21, 21), rgb(30, 30, 92)); */
     border: 1px solid #c2c1c1;
     border-radius: 5px;
-    transition: all 1000ms ease-in;
+    transition: all 200ms ease-in;
+    background-color: var(--dim-bg);
+    color: #000;
   }
   
   @media screen and (max-width: 770px) {

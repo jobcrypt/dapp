@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 
 
 
@@ -6,6 +6,12 @@ import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
 import dropdownIcon from '../assets/dropdown.png';
 import TextEditor from '../components/TextEditor';
+import { isNull } from '../utils/Util';
+import LocationTypeList from '../lists/LocationTypeList';
+import LocationSupportList from '../lists/LocationSupportList';
+import WorkTypeList from '../lists/WorkTypeList';
+import PaymentTypeList from '../lists/PaymentTypeList';
+import { createEmployerDashboard } from '../contracts/ContractManager';
 
 const CREATE_DRAFT = 'CREATE_DRAFT';
 const EDIT_DRAFT = 'EDIT_DRAFT';
@@ -56,10 +62,35 @@ const reducerFunc = (state, action) =>{
 }
 
 const PostJobPopup = (props) =>{
-    const { setOpenPostJob } = props;
+    const { setOpenPostJob, formToOpen } = props;
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const [ txnValidated, setTxnValidated ] = useState(false);
-    const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false})
+    const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false});
+    const [ jobTitle, setJobTitle ] = useState({ isValid: false, text: '' });
+    const [ locationType, setLocationType ] = useState({ isValid: false, text: '', isVisible: false });
+    const [ locationSupport, setLocationSupport ] = useState({ isValid: false, text: '', isVisible: false });
+    const [ workLocation, setWorkLocation ] = useState({ isValid: false, text: '' });
+    const [ companyName, setCompanyName ] = useState({ isValid: false, text: '' });
+    const [ companyLink, setCompanyLink ] = useState({ isValid: false, text: '' });
+    const [ companyLogo, setCompanyLogo ] = useState({ isValid: false, text: '' });
+    const [ companySummary, setCompanySummary ] = useState({ isValid: false, text: '' });
+    const [ skills, setSkills ] = useState({ isValid: false, text: '' });
+    const [ searchCategories, setSearchCategories ] = useState({ isValid: false, text: '' });
+    const [ searchTerms, setSearchTerms ] = useState({ isValid: false, text: '' });
+    const [ workType, setWorkType ] = useState({ isValid: false, text: '', isVisible: false });
+    const [ paymentType, setPaymentType ] = useState({ isValid: false, text: '', isVisible: false });
+    const [ jobDesc, setJobDesc ] = useState({ isValid: false, text: '' });
+    const [ jobApplyLink, setJobApplyLink ] = useState({ isValid: false, text: '' });
+
+
+
+    useEffect(()=>{
+        if(formToOpen === CREATE_DRAFT)setDispatch({ TYPE: CREATE_DRAFT });
+        if(formToOpen === EDIT_DRAFT)setDispatch({ TYPE: EDIT_DRAFT });
+        if(formToOpen === CREATE_FORM)setDispatch({ TYPE: CREATE_FORM });
+        if(formToOpen === MAKE_PAYMENT)setDispatch({ TYPE: MAKE_PAYMENT });
+        
+    },[]);
 
 
     const goToEditDraft = () =>{
@@ -77,11 +108,90 @@ const PostJobPopup = (props) =>{
             //close popup
         }
     }
+   
+    const getEmployerDashboard = useCallback(async() =>{
+      const res = await createEmployerDashboard();
+      console.log(res); 
+    },[]);
+
+
+    useEffect(()=>{
+        getEmployerDashboard();
+        
+    },[getEmployerDashboard]);
+ 
 
     const goToMakePaymentSection = () =>{
         setPaymentStatus({ status: 'none', text: '', color: '', show: false});
         setDispatch({ TYPE: MAKE_PAYMENT });
     }
+
+    const updateJobTitleHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobTitle({ isValid: false, text: value });
+        else setJobTitle({ isValid: true, text: value });
+    }
+
+    const updateWorkLocationHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setWorkLocation({ isValid: false, text: value });
+        else setWorkLocation({ isValid: true, text: value });
+    }
+
+    const updateCompanyNameHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanyName({ isValid: false, text: value });
+        else setCompanyName({ isValid: true, text: value });
+    }
+
+    const updateCompanyLinkHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanyLink({ isValid: false, text: value });
+        else setCompanyLink({ isValid: true, text: value });
+    }
+
+    const updateCompanyLogoHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanyLogo({ isValid: false, text: value });
+        else setCompanyLogo({ isValid: true, text: value });
+    }
+
+    const updateCompanySummaryHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanySummary({ isValid: false, text: value });
+        else setCompanySummary({ isValid: true, text: value });
+    }
+
+    const updateSkillsHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSkills({ isValid: false, text: value });
+        else setSkills({ isValid: true, text: value });
+    }
+
+    const updateSearchCategoriesHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSearchCategories({ isValid: false, text: value });
+        else setSearchCategories({ isValid: true, text: value });
+    }
+
+    const updateSearchTermsHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSearchTerms({ isValid: false, text: value });
+        else setSearchTerms({ isValid: true, text: value });
+    }
+
+    const updateJobDescHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobDesc({ isValid: false, text: value });
+        else setJobDesc({ isValid: true, text: value });
+    }
+
+    const updateApplyLinkHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobApplyLink({ isValid: false, text: value });
+        else setJobApplyLink({ isValid: true, text: value });
+    }
+
 
     const CreateDraftPosting = (
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
@@ -96,15 +206,15 @@ const PostJobPopup = (props) =>{
             <section className={classes.radioSection}>
                 <div className={classes.radioParent}>
                     <input type='radio' id='first' name='good' />
-                    <label for='first'>Standard 1 Week Job Posting - 2,325 CMP</label>
+                    <label htmlFor='first'>Standard 1 Week Job Posting - 2,325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
                     <input type='radio' id='second' name='good' />
-                    <label for='second'>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <label htmlFor='second'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
                     <input type='radio' id='three' name='good' />
-                    <label for='three'>Standard 1 Week Job Posting - 2325 CMP</label>
+                    <label htmlFor='three'>Standard 1 Week Job Posting - 2325 CMP</label>
                 </div>
                 <div className={classes.radioParent}>
                     <input type='radio' id='four' name='good' />
@@ -158,18 +268,36 @@ const PostJobPopup = (props) =>{
                 <input type='' placeholder='Enter Job Title' className={classes.input1} />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Job Location Type*</p>
-                <input type='' placeholder='Geo Remote' className={classes.input2} />
+                <p className={classes.label}>Location Type*</p>
+                <input 
+                    type='' 
+                    placeholder='Geo Remote' 
+                    readOnly 
+                    value={locationType.text} 
+                    onFocus={()=>setLocationType(prev=>({...prev, isVisible: true}))} 
+                    onBlur={()=>setTimeout(()=> setLocationType(prev=>({...prev, isVisible: false})), 100)}
+                    className={classes.input2}
+                />
                 <span className={classes.dropDownContainer}>
                     <img src={dropdownIcon} alt='' />
                 </span>
+                {locationType.isVisible && <LocationTypeList setLocationType={setLocationType} />}
             </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Location Support*</p>
-                <input type='' placeholder='Supported Location' className={classes.input2} />
+                <input 
+                   type='' 
+                   placeholder='Supported Location' 
+                   readOnly 
+                   className={classes.input2} 
+                   value={locationSupport.text} 
+                   onFocus={()=>setLocationSupport(prev=>({...prev, isVisible: true}))} 
+                   onBlur={()=>setTimeout(()=> setLocationSupport(prev=>({...prev, isVisible: false})), 100)}
+                />
                 <span className={classes.dropDownContainer}>
                     <img src={dropdownIcon} alt='' />
                 </span>
+                {locationSupport.isVisible && <LocationSupportList setLocationSupport={setLocationSupport} />}
             </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Work Location</p>
@@ -207,17 +335,35 @@ const PostJobPopup = (props) =>{
             </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Work Type*</p>
-                <input type='' placeholder='Full-Time' className={classes.input2} />
+                <input 
+                    type='' 
+                    placeholder='Full-Time' 
+                    readOnly 
+                    className={classes.input2} 
+                    value={workType.text} 
+                    onFocus={()=>setWorkType(prev=>({...prev, isVisible: true}))} 
+                    onBlur={()=>setTimeout(()=> setWorkType(prev=>({...prev, isVisible: false})), 100)}
+                />
                 <span className={classes.dropDownContainer}>
                     <img src={dropdownIcon} alt='' />
                 </span>
+                {workType.isVisible && <WorkTypeList setWorkType={setWorkType} />}
             </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Payment Type*</p>
-                <input type='' placeholder='Fiat' className={classes.input2} />
+                <input 
+                    type='' 
+                    placeholder='Fiat' 
+                    readOnly 
+                    className={classes.input2} 
+                    value={paymentType.text} 
+                    onFocus={()=>setPaymentType(prev=>({...prev, isVisible: true}))} 
+                    onBlur={()=>setTimeout(()=> setPaymentType(prev=>({...prev, isVisible: false})), 100)}
+                />
                 <span className={classes.dropDownContainer}>
                     <img src={dropdownIcon} alt='' />
                 </span>
+                {paymentType.isVisible && <PaymentTypeList setPaymentType={setPaymentType} />}
             </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Job Description*</p>
@@ -278,7 +424,7 @@ const PostJobPopup = (props) =>{
     )
 
     return(
-        <section className={classes.parent} onClick={()=>setOpenPostJob(false)}>
+        <section className={classes.parent}>
                 {dispatch.create_draft && CreateDraftPosting}
                 {dispatch.edit_draft && EditDraftPosting}
                 {dispatch.create_form && CreateForm}

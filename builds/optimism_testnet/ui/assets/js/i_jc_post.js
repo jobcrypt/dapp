@@ -82,7 +82,7 @@ async function loadProducts() {
         })
         .catch(function(err) {
             console.log(err);
-        })
+        });
 }
 
 async function populateProductSelect(productAddress, jobPostingProductSelect) {

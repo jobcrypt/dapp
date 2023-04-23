@@ -4,7 +4,7 @@ import { useState } from 'react';
 import classes from '../styles/routes/PostJobRoute.module.css';
 import hero from '../assets/hero.png';
 import PostJobPopup from '../popups/PostJobPopup';
-import JobListings from '../components/JobListings';
+import PreviousJobPostings from '../components/PreviousJobPostings';
 
 
 const PostJobRoute = () =>{
@@ -28,8 +28,8 @@ const PostJobRoute = () =>{
                 </div>
             </main>
             <main className={classes.jobListingParent} id='listing'>
-                <h1 className={classes.listingTitle}>Your Latest Job Posting</h1>
-                <JobListings />
+                <h1 className={classes.listingTitle}>Your Latest Job Postings</h1>
+                <PreviousJobPostings />
             </main>
         </section>
     )
