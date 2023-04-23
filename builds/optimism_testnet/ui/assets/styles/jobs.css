@@ -25,3 +25,10 @@ input::placeholder {
     grid-gap: 50px 5px;
     padding-bottom: 10px;
 }
+
+.bg-blockchain {
+    background-image: url("../images/blockchainbg.png");
+    background-repeat: no repeat;
+    background-position: center;
+    background-size: cover;
+}

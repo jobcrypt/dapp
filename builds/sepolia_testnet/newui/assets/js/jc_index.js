@@ -35,12 +35,25 @@ function ge(element) {
 
 window.onload = function () {
   if (typeof window.ethereum !== "undefined") {
-    console.log("MetaMask is installed!");
     document.getElementById("metamaskButton").innerHTML = "Connect Metamask";
   } else {
-    console.log("MetaMask is not installed!");
     document.getElementById(
       "metamaskButton"
     ).innerHTML = `<a href="https://metamask.io/">Install Metamask to view jobs</a>`;
   }
 };
+
+const connectButton = document.getElementById("metamaskButton");
+const walletID = document.getElementById("connectwallet");
+
+function connect() {
+  if (typeof window.ethereum !== "undefined") {
+    ethereum.request({ method: "eth_requestAccounts" }).then((accounts) => {
+      const account = accounts[0];
+
+      walletID.innerHTML = `Wallet connected: ${account}`;
+    });
+  } else {
+    window.open("https://metamask.io/download/", "_blank");
+  }
+}

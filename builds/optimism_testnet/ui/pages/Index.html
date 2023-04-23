@@ -20,10 +20,7 @@
       name="keywords"
       content="blockchain jobs, web3 jobs, tech jobs, job search, jobs, search engine for jobs, job search engine, job listings, search jobs, career, employment, work, find jobs, rss jobs feed xml, devops, biz dev, jobs"
     />
-    <link
-      href="/builds/sepolia_testnet/newui/dist/output.css"
-      rel="stylesheet"
-    />
+    <link href="../dist/output.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -431,12 +428,17 @@
                   </div>
                 </li>
               </ul>
-              <button
-                id="metamaskButton"
-                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
-              >
-                Install Metamask to view Jobs
-              </button>
+              <div>
+                <button
+                  class="text-green-500"
+                  id="connectwallet"
+                  onclick="connect()"
+                ></button>
+                <button
+                  id="metamaskButton"
+                  class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
+                ></button>
+              </div>
             </div>
           </div>
         </nav>
@@ -456,7 +458,7 @@
       <div class="font-poppins">
         <div class="flex gap-5 justify-between text-white lg:p-5 p-2">
           <div
-            class="euflag px-2 py-4 w-[200px] lg:w-[250px] h-[100px] lg:[150px] flex justify-center"
+            class="euflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
           >
             <div class="">
               <div
@@ -477,7 +479,7 @@
             </div>
           </div>
           <div
-            class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[100px] lg:[150px] flex justify-center"
+            class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
           >
             <div class="">
               <div
