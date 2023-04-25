@@ -7,7 +7,7 @@ const PaymentTypeList = (props) =>{
 
 
     const selection = (type) =>{
-        setPaymentType(prev=>({...prev, text: type }));
+        setPaymentType({ text: type, isValid: true });
     }
 
     return(

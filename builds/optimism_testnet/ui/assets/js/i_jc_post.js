@@ -178,8 +178,6 @@ async function updateDraftListings() {
     .catch(function(err){
         console.log(err);
     });
-
-
 }
 
 function createEmployerDashboard() {

@@ -5,9 +5,11 @@ import { getContractFromRegistry } from '../contracts/InitializeContracts';
 import { getContractInstance } from '../contracts/init';
 import { isNull } from '../utils/Util';
 import { sendGetRequest } from '../hooks/useAxios';
+// import { JOBCRYPT_IPFS_URL } from '../contracts/IPFS';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
-const IPFS_URL = "https://jobcrypt.infura-ipfs.io/ipfs/";
+const JOBCRYPT_IPFS_URL = "https://jobcrypt.infura-ipfs.io/ipfs/";
+
 
 export const getLatestJobs = async(offset) =>{
     let jobCryptAddress = '', data = [];
@@ -84,12 +86,12 @@ export const getLatestJobDetails = async(postingAddress, isStaked) =>{
         postingDateFeatures = new Date(parseInt(postingDateFeatures));
         console.log(jobLocationSupport)
 
-        const result = await sendGetRequest(`${IPFS_URL}${jobDesc}`);
+        const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
         if(!isNull(result.ops[0])){
             jobDesc = result.ops[0].insert
         }
 
-        companySummary = await sendGetRequest(`${IPFS_URL}${companySummary}`);
+        companySummary = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companySummary}`);
 
         JOB_DATA.push({
             jobTitle,

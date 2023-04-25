@@ -83,29 +83,17 @@ const BrowseJobs = () =>{
 
 
     const approveHandler = async() =>{
-        let minStakeAmount = await getMinStakeAmount();
-        const erc20Address = await getStakeErc20Address();
-        const symbol = await getSymbol();
-        const decimals = await getDecimal();
-        const isStaked = await getIsStaked();
-
-
-        minStakeAmount = ethers.utils.formatUnits(minStakeAmount, decimals) * (10 ** decimals);
-        console.log('Min staked amount: ',minStakeAmount);
-        console.log('ERC20Address: ',erc20Address);
-        console.log('Symbol: ',symbol)
-        console.log('Decimal: ', decimals);
-        console.log('is staked: ', isStaked);
-
         const approve = await approveStake();
         console.log(approve)
         console.log('hash: ',approve.hash);
-        if(!isNull(approve)){
+        if(!isNull(approve.hash)){
             setIsApproved(true);
         }
     }
     
     const stakeHandler = useCallback(async() =>{
+        console.log('is approved: ', isApproved);
+        if(!isApproved)return;
         const staked = await stake();
         console.log('Staked: ',staked)
         if(!isNull(staked)){
@@ -169,7 +157,10 @@ const BrowseJobs = () =>{
     },[]);
 
     useEffect(()=>{
-        console.log('Metamask is active: ', account.isConnected)
+       (async()=>{
+        const isStaked = await getIsStaked();
+        setIsStaked(isStaked)
+       })();
         if(!account.isConnected){
             setJobArray([]);
             setJobDetails(null);

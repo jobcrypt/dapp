@@ -57,6 +57,8 @@ function createDashboardButton() {
     a.append(text("click to create your dashboard onchain"));
     createOnchainEmployerDashboardButtonSpan.append(a);
 }
+
+
 function getDashboard() {
     createOnchainEmployerDashboardButtonSpan.innerHTML = ""; 
     jcFactoryFacadeContract.methods.getDashboard("EMPLOYER_DASHBOARD_TYPE").send({ from: account })

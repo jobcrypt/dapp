@@ -155,6 +155,13 @@
     color: rgb(229, 8, 8);
 }
 
+.statusTxt{
+  font-family: 'light';
+  margin: 0;
+  font-size: 12px;
+}
+
+
 .dropDownView{
     width: 95%;
     min-height: 50px;

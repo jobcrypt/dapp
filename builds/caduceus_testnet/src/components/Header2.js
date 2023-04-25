@@ -25,7 +25,7 @@ import useWindowSize from '../hooks/useWindowSize';
 import useConnectWallet from '../hooks/useConnectWallet';
 import DashboardPopup from '../popups/DashboardPopup';
 import { AccountContext } from '../App';
-import { stake, unstake } from '../contracts/ContractManager';
+import { approveStake, stake, unstake } from '../contracts/ContractManager';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
@@ -83,7 +83,7 @@ const Header2 = () =>{
     const { wallet: address } = useConnectWallet();
     const [showHamburger, setShowHamburger ] = useState(false);
     const width = useWindowSize();
-    const { account, setAccount, isStaked, setIsStaked } = useContext(AccountContext);
+    const { account, setAccount, isStaked, setIsStaked, setIsApproved, isApproved } = useContext(AccountContext);
 
 
     const disconnectMetamask = () =>{
@@ -95,7 +95,22 @@ const Header2 = () =>{
        const unstaked = await unstake();
        if(!isNull(unstaked)){
         setIsStaked(false);
+        setIsApproved(false);
        }
+    }
+
+    const approveHandler = async() =>{
+        if(!isApproved){
+        const txn = await approveStake();
+        console.log(txn)
+        console.log('hash: ',txn.hash);
+        if(!isNull(txn.hash)){
+            setIsApproved(true);
+            await stakeHandler();
+        }
+    }else{
+        await stakeHandler();
+    }
     }
 
     const stakeHandler = async() =>{
@@ -103,9 +118,6 @@ const Header2 = () =>{
         if(!isNull(staked)){
         setIsStaked(true);
         }
-        
-        // setOpenStakePopup(true);
-
     }
 
     return(
@@ -211,7 +223,7 @@ const Header2 = () =>{
                                 <img src={tree} alt='' />
                             </span>
                         </span>}
-                        {!isStaked &&<span className={classes.cmpPortion} onClick={stakeHandler}>
+                        {!isStaked &&<span className={classes.cmpPortion} onClick={approveHandler}>
                             <p>Stake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />

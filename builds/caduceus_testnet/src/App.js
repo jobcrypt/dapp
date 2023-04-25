@@ -40,6 +40,8 @@ function App() {
   const [ account, setAccount ] = useState({ address: '', isConnected: false });
   const [ isStaked, setIsStaked ] = useState(false);
   const [ isApproved, setIsApproved ] = useState(false);
+  const [ employerDashAddress, setEmployerDashAddress ] = useState('');
+
 
   useEffect(()=>{
     registryGetAllContracts();
@@ -47,7 +49,7 @@ function App() {
 
 
   return (
-    <AccountContext.Provider value={{ account, setAccount, isStaked, setIsStaked, isApproved, setIsApproved }}>
+    <AccountContext.Provider value={{ account, setAccount, isStaked, setIsStaked, isApproved, setIsApproved, employerDashAddress, setEmployerDashAddress }}>
     <Layout>
       <Routes>
           <Route exact path='/' element={<HomeRoute />} />

@@ -1,4 +1,4 @@
-iOpenProductCoreAbi = [{
+export const iOpenProductCoreAbi = [{
         "inputs": [{
                 "internalType": "string",
                 "name": "_name",

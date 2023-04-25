@@ -7,7 +7,7 @@ const LocationTypeList = (props) =>{
 
 
     const selection = (type) =>{
-        setLocationType(prev=>({...prev, text: type }));
+        setLocationType({ isValid: true, text: type });
     }
 
     return(

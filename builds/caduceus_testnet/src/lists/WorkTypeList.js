@@ -7,7 +7,7 @@ const WorkTypeList = (props) =>{
 
 
     const selection = (type) =>{
-        setWorkType(prev=>({...prev, text: type }));
+        setWorkType({ isValid: true, text: type })
     }
 
     return(

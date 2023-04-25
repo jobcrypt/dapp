@@ -2,14 +2,14 @@
 
 
 const Wrapper = (props) =>{
-   const { children } = props;
+   const { children, width, height, position } = props;
 
    const styles = {
-    width: '100%',
-    minHeight: '630px',
+    width: width || '100%',
+    minHeight: height || '630px',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: position || 'center',
+    alignItems: position || 'center',
     flexDirection: 'column',
     msFlexDirection: 'column',
     rowGap: '10px',
