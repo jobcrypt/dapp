@@ -244,6 +244,18 @@ h6 {
   padding: 30px;
 }
 
+.nft {
+  background: linear-gradient(91.06deg, #A45EFF 2.26%, #FFD95E 100%);
+  background-clip: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+
+.bg-black {
+  background: #2B2F33;
+}
+
 #header {
   background: #fff;
   transition: all 0.5s;
@@ -251,6 +263,8 @@ h6 {
   height: 86px;
   /* box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1); */
 }
+
+
 
 #header.fixed-top {
   height: 70px;
@@ -765,6 +779,10 @@ section {
 
   .breadcrumbs ol li {
     display: inline-block;
+  }
+
+  .faq-container {
+    padding-left: 10px;
   }
 }
 
