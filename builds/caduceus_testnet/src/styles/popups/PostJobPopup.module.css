@@ -8,13 +8,18 @@
     display: flex;
     z-index: 1000;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     backdrop-filter: blur(5px);
+    padding-top: 3rem;
+    padding-top: 170px;
+    padding-bottom: 50px;
+    overflow-y: auto;
 }
 
 .box{
     width: 80vw;
     height: 80vh;
+    height: fit-content;
     display: flex;
     background-color: var(--dim-bg);
     border-radius: 20px;
@@ -70,7 +75,7 @@
     /* margin: 0; */
     font-family: 'bold';
     font-size: 20px;
-    color: rgb(6, 117, 6);
+    color: #159500;
 }
 
 .jobPostingTxt{
@@ -149,6 +154,13 @@
     font-family: 'light';
     color: rgb(229, 8, 8);
 }
+
+.statusTxt{
+  font-family: 'light';
+  margin: 0;
+  font-size: 12px;
+}
+
 
 .dropDownView{
     width: 95%;
@@ -347,6 +359,9 @@
 
 
 @media screen and (max-width: 770px) {
+    .parent{
+        padding-top: 80px;
+    }
     .box{
         padding: 3rem 0rem;
         width: 95%;

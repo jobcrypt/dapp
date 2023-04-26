@@ -2,7 +2,7 @@ const pagePromoSpot = ge("page_promo_spot");
 
 var munichOnline20230209 = {};
 munichOnline20230209.link =
-  "pages/promotions/munich/2023-02-09-Online-Talk.html";
+  "../../../pages/promotions/2023/job-coronation-nft.html";
 munichOnline20230209.title =
   "JobCrypt Web3 & Blockchain Talks - Introduction to Blockchain Ecosystems & Mining - (Germany) - Online - 09/02/2023";
 munichOnline20230209.startDate = 1675874700000;
@@ -10,7 +10,7 @@ munichOnline20230209.endDate = 1675961100000;
 
 var liverpoolOnline20230228 = {};
 liverpoolOnline20230228.link =
-  "pages/promotions/liverpool/2023-02-28-Online-Talk.html";
+  "../../../pages/promotions/2023/job-coronation-nft.html";
 liverpoolOnline20230228.title =
   "JobCrypt Blockchain & Web3 Talks - Introducing Blockchain Streaming and Web3 Media Ecosystems - (UK) - Online - 28/02/2023";
 liverpoolOnline20230228.startDate = 1677111697000;
@@ -20,7 +20,7 @@ liverpoolOnline20230228.endDate = 1677543525000;
 
 var liverpoolInPerson20230315 = {};
 liverpoolInPerson20230315.link =
-  "/pages/promotions/liverpool/2023-03-16-In-Person-Talk.html";
+  "../../../pages/promotions/2023/job-coronation-nft.html";
 liverpoolInPerson20230315.title =
   "JobCrypt Web3 & Blockchain Talks - Introducing Blockchain and Decentralized Storage - Liverpool (UK) - In Person - 15/03/2023";
 liverpoolInPerson20230315.startDate = 1677629565000;
@@ -74,7 +74,7 @@ liverpoolInPerson20230419.endDate = 1681922700000;
 // MAY
 var liverpoolCoronationCelebration20230508 = {};
 liverpoolCoronationCelebration20230508.scheduleLink =
-  "./../../pages/promotions/liverpool/2023-05-08-Coronation-Celebration";
+  "../../../pages/promotions/2023/job-coronation-nft.html";
 liverpoolCoronationCelebration20230508.title = "UK Coronation NFT Airdrop ";
 liverpoolCoronationCelebration20230508.location = "Online";
 liverpoolCoronationCelebration20230508.country = "UK";

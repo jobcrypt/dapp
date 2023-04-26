@@ -4,14 +4,30 @@ import classes from '../styles/popups/JobListingDetailPopup.module.css';
 import backIcon from '../assets/back.png';
 import moreIcon from '../assets/more.png';
 import dropdown from '../assets/dropdown.png';
+import PostJobPopup from "./PostJobPopup";
+import ArchivePostingPopup from "./ArchivePostingPopup";
+
 
 const JobListingDetailPopup = (props) =>{
     const { setShowJobDetail } = props;
     const [ showPopup, setShowPopup ] = useState(false);
+    const [ openPostJob, setOpenPostJob ] = useState(false);
+    const [ openArchive, setOpenArchive ] = useState(false);
+    
 
+    const editJobHandler = () =>{
+        setOpenPostJob(true);
+    }
 
+    const archiveJobHandler = () =>{
+        setOpenArchive(true);
+    }
+
+    
     return(
-        <section className={classes.parent} onClick={()=>setShowJobDetail(false)}>
+        <section className={classes.parent}>
+            {openPostJob && <PostJobPopup formToOpen='EDIT_DRAFT' setOpenPostJob={setOpenPostJob} />}
+        {openArchive && <ArchivePostingPopup setOpenArchive={setOpenArchive} setShowJobDetail={setShowJobDetail} />}
             <div className={classes.box} onClick={(e)=>e.stopPropagation()}>
                 <header className={classes.header}>
                     <img src={backIcon} alt='' onClick={()=>setShowJobDetail(false)} />
@@ -24,9 +40,9 @@ const JobListingDetailPopup = (props) =>{
                         <img src={moreIcon} alt='' />
                    {showPopup &&<div className={classes.dropdownContainer}>
                         <img src={dropdown} alt='' />
-                        <p>Edit Listing</p>
-                        <p>Report Listing</p>
-                        <p>Archive Job</p>
+                        <p onClick={editJobHandler}>Edit Listing</p>
+                        {/* <p>Report Listing</p> */}
+                        <p onClick={archiveJobHandler}>Archive Job</p>
                     </div>}
                     </span>
                 </header>

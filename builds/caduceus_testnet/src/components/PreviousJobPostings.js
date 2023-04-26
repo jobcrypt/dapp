@@ -1,13 +1,13 @@
 
 
-import classes from '../styles/components/JobListings.module.css';
+import classes from '../styles/components/PreviousJobPostings.module.css';
 import moreIcon from '../assets/more.png';
 import useWindowSize from '../hooks/useWindowSize';
 import { useState } from 'react';
 import ActionPopup from '../popups/ActionPopup';
 import JobListingDetailPopup from '../popups/JobListingDetailPopup';
 
-const JobListings = () =>{
+const PreviousJobPostings = () =>{
    const width = useWindowSize();
    const [ clientXY, setClientXY ] = useState([0, 0]);
    const [ showAction, setShowAction ] = useState(false);
@@ -69,4 +69,4 @@ const JobListings = () =>{
     )
 }
 
-export default JobListings;
+export default PreviousJobPostings;

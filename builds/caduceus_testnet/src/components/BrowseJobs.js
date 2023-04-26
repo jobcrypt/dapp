@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {ethers} from 'ethers';
+import { useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
+import Moment from 'react-moment';
 
 
 import classes from '../styles/components/BrowseJobs.module.css';
@@ -14,20 +13,21 @@ import briefcase from '../assets/briefcase.png';
 import skillIcon from '../assets/skills.png';
 import designIcon from '../assets/categories.png';
 import location2 from '../assets/pin.png';
-import radio from '../assets/radio.png';
 import moreIcon from '../assets/more.png';
 import backIcon from '../assets/back2.png';
 import StakePopup from '../popups/StakePopup';
 import ApplyForJobPopup from '../popups/ApplyForJobPopup';
-import { REGISTRY_ADDRESS, isNull } from '../utils/Util';
-import {registryGetAllContracts} from '../contracts/InitializeContracts';
-import iJCStakeManagerAbi from '../abi/i_jc_stake_manager_abi';
-import ierc20MetadataAbi from '../abi/i_erc20_metadata_abi';
-import iJCJobCryptAbi from '../abi/i_jc_jobcrypt_abi';
-import { saveStakeData } from '../store/ContractSlice';
-import { getContract } from '../contracts/init';
+import { isNull } from '../utils/Util';
+import { getProvider } from '../contracts/init';
 import useWindowSize from '../hooks/useWindowSize';
-import { approveStake, getDecimal, getIsStaked, getMinStakeAmount, getStakeErc20Address, getStakedAmount, getSymbol } from '../contracts/ContractManager';
+import { approveStake, getDecimal, getIsStaked, getMinStakeAmount, getStakeErc20Address, getStakedAmount, getSymbol, stake } from '../contracts/ContractManager';
+import { getFeaturedJobs } from '../jobManager/FeaturedJobs';
+import { getLatestJobDetails, getLatestJobs } from '../jobManager/LatestJobs';
+import Spinner from './Spinner';
+import Wrapper from './Wrapper';
+import { getPopularJobs } from '../jobManager/PopularJobs';
+import { AccountContext } from '../App';
+import { ethers } from 'ethers';
 
 
 
@@ -67,31 +67,39 @@ const reducerFunc = (state, action) =>{
     }
 }
 
+let isDone = false;
 const BrowseJobs = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const [ openStakePopup, setOpenStakePopup] = useState(false);
     const [ apply, setApply ] = useState(false);
-    const [isStaked, setIsStaked ] = useState(false);
-    const dispatchRedux = useDispatch();
     const width = useWindowSize();
     const [ showJobDesc, setShowJobDesc ] = useState(false);
-    
-    
-    const stakeHandler = useCallback(async() =>{
-        let minStakeAmount = await getMinStakeAmount();
-        const erc20Address = await getStakeErc20Address();
-        const symbol = await getSymbol();
-        const decimals = await getDecimal();
-        const isStaked = await getIsStaked();
-        minStakeAmount = ethers.utils.formatUnits(minStakeAmount, decimals) * (10 ** decimals);
-        console.log('Min staked amount: ',minStakeAmount);
-        console.log('ERC20Address: ',erc20Address);
-        console.log('Symbol: ',symbol)
-        console.log('Decimal: ', decimals);
-        console.log('is staked: ', isStaked);
+    const offset = useRef(0);
+    const [ jobArray, setJobArray ] = useState([]);
+    const [ isLoading, setIsLoading ] = useState({ status: false, message: '' });
+    const [ jobDetails, setJobDetails ] = useState(null);
+    const [ isLoadingJobDesc, setIsLoadingJobDesc ] = useState({ status: false, message: '' });
+    const { isStaked, account, isApproved, setIsApproved, setIsStaked } = useContext(AccountContext);
 
+
+    const approveHandler = async() =>{
         const approve = await approveStake();
         console.log(approve)
+        console.log('hash: ',approve.hash);
+        if(!isNull(approve.hash)){
+            setIsApproved(true);
+        }
+    }
+    
+    const stakeHandler = useCallback(async() =>{
+        console.log('is approved: ', isApproved);
+        if(!isApproved)return;
+        const staked = await stake();
+        console.log('Staked: ',staked)
+        if(!isNull(staked)){
+            setIsStaked(true);
+        }
+        
         // setOpenStakePopup(true);
 
     },[]);
@@ -102,12 +110,214 @@ const BrowseJobs = () =>{
     },[]);
 
 
+    const fetchFeaturedJobs = useCallback(async() =>{
+        isDone = false;
+        setIsLoading({ status: true, message: 'Loading Featured Jobs, please wait...'})
+       const jobs = await getFeaturedJobs(offset.current);
+       isDone = true;
+       if(!isNull(jobs)){
+        ++offset.current;
+        setJobArray(jobs);
+       }
+
+       setIsLoading({ status: false, message: ''});
+       console.log('Featured Jobs Addresses: ', jobs);
+
+    },[]);
+
+    const fetchLatestJobs = useCallback(async() =>{
+        isDone = false;
+        setIsLoading({ status: true, message: 'Loading Latest Jobs, please wait...'})
+        const jobs = await getLatestJobs(offset.current);
+        isDone = true;
+        if(!isNull(jobs)){
+            ++offset.current;
+            setJobArray(jobs);
+        }
+
+
+        setIsLoading({ status: false, message: ''})
+        console.log('Latest Jobs Addresses: ', jobs);
+    
+        },[]);
+
+    const fetchPopularJobs = useCallback(async() =>{
+        isDone = false;
+        setIsLoading({ status: true, message: 'Loading Popular Jobs, please wait...'})
+        const jobs = await getPopularJobs(offset.current);
+        isDone = true;
+        if(!isNull(jobs)){
+            ++offset.current;
+            setJobArray(jobs);
+        }
+
+        setIsLoading({ status: false, message: ''})
+        console.log('popular Jobs Addresses: ', jobs);
+    
+    },[]);
+
+    useEffect(()=>{
+       (async()=>{
+        const isStaked = await getIsStaked();
+        setIsStaked(isStaked)
+       })();
+        if(!account.isConnected){
+            setJobArray([]);
+            setJobDetails(null);
+            return;
+        }
+
+        setDispatch({ TYPE: FEATURED });
+        fetchFeaturedJobs();
+    },[fetchFeaturedJobs, account.isConnected]);
+
+
     const selectedJobHandler = (type)=>{
-        if(type === 'featured')setDispatch({ TYPE: FEATURED });
-        if(type === 'latest')setDispatch({ TYPE: LATEST });
-        if(type === 'popular')setDispatch({ TYPE: POPULAR });
+        console.log('isDone: ', isDone)
+    
+        if(isDone){
+        if(type === 'featured' && !dispatch.featured && account.isConnected){
+            setDispatch({ TYPE: FEATURED });
+            offset.current = 0;
+            setJobArray([]);
+            fetchFeaturedJobs();
+            setJobDetails();
+        }
+        if(type === 'latest' && !dispatch.latest && account.isConnected){
+            setDispatch({ TYPE: LATEST });
+            offset.current = 0;
+            setJobArray([]);
+            fetchLatestJobs();
+            setJobDetails();
+        }
+        if(type === 'popular' && !dispatch.popular && account.isConnected){
+            setDispatch({ TYPE: POPULAR  });
+            offset.current = 0;
+            setJobArray([]);
+            fetchPopularJobs();
+            setJobDetails();
+        }
+    }
     }
 
+    const fetchJobDetailsHandler = async(address) =>{
+        setJobDetails(null);
+        setShowJobDesc(true);//only for mobile
+        setIsLoadingJobDesc({ status: true, message: 'Loading job details...' });
+        const result_ = await getLatestJobDetails(address, isStaked);
+        if(!isNull(result_[0])){
+            const result = result_[0];
+        setJobDetails({
+            jobTitle: result.jobTitle,
+            companyName: result.companyName,
+            companyLink: result.companyLink,
+            workType: result.workType,
+            locationType: result.locationType,
+            postingDateFeatures: result.postingDateFeatures,
+            companySummary: result.companySummary,
+            jobPaymentType: result.jobPaymentType,
+            jobLocationSupport: result.jobLocationSupport,
+            categoryFeature: result.categoryFeature,
+            skillsFeature: result.skillsFeature,
+            jobDesc: result.jobDesc,
+        });
+        console.log('job details: ', result);
+    }
+
+    setIsLoadingJobDesc({ status: false, message: 'Sorry, couldn\'t load this job detail.' });
+}
+
+const openCompanyUrl =() =>{
+    let url = jobDetails.companyLink;
+    if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
+    window.open(url)
+} 
+
+function getJobTitle(title){
+    return (isNull(title)? '' : (title.length > 17)? title.slice(0,17)+'...' : title)
+}
+
+ function header(){
+    let element;
+    if(isNull(jobDetails)){
+        element = (
+            <header className={classes.jobTitleColored}>
+            <div className={classes.jobTitleColoredDivLeft}>
+                <h1>--</h1>
+                <div className={classes.jobTitleNameContainer}>
+                    <span></span>
+                    <p>--</p>
+                </div>
+            </div>
+            <div className={classes.jobTitleColoredDivRight}>
+            <p></p>
+            </div>
+        </header>
+        )
+    }else{
+     element = (
+        <header className={classes.jobTitleColored}>
+            <div className={classes.jobTitleColoredDivLeft}>
+                <h1>{jobDetails.jobTitle}</h1>
+                <div className={classes.jobTitleNameContainer}>
+                    <span>{jobDetails.companyName.slice(0,1)}</span>
+                    <p>{jobDetails.companyName}</p>
+                </div>
+            </div>
+            <div className={classes.jobTitleColoredDivRight}>
+                {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
+            </div>
+        </header>
+    )
+    }
+
+     return element;
+ }
+
+ function headerMobile(){
+    let element;
+    if(isNull(jobDetails)){
+        element = (
+            <header className={classes.jobTitleColored}>
+            <div className={classes.backwardIconContainer}>
+                <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
+            </div>
+                <div className={classes.jobTitleColoredDivLeft}>
+                    <h1>--</h1>
+                    <div className={classes.jobTitleNameContainer}>
+                        <span></span>
+                        <p>--</p>
+                    </div>
+                </div>
+                <div className={classes.jobTitleColoredDivRight}>
+                    {/* <p></p> */}
+                </div>
+            </header>
+        )
+    }else{
+       element=(
+        <header className={classes.jobTitleColored}>
+        <div className={classes.backwardIconContainer}>
+            <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
+        </div>
+            <div className={classes.jobTitleColoredDivLeft}>
+                <h1>{jobDetails.jobTitle}</h1>
+                <div className={classes.jobTitleNameContainer}>
+                    <span>{jobDetails.companyName.slice(0,1)}</span>
+                    <p>{jobDetails.companyName}</p>
+                </div>
+            </div>
+            <div className={classes.jobTitleColoredDivRight}>
+                {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
+            </div>
+        </header>
+       )
+    }
+
+    return element;
+ }
 
     const desktop = (
         <>
@@ -119,26 +329,34 @@ const BrowseJobs = () =>{
                         onClick={()=>selectedJobHandler('featured')} 
                         className={`${classes.jobTypeBtn} ${dispatch.featured&& classes.selected}`}>Featured Jobs</button>
                     <button 
-                            onClick={()=>selectedJobHandler('latest')} 
-                            className={`${classes.jobTypeBtn} ${dispatch.latest && classes.selected}`}>Latest Jobs</button>
+                        onClick={()=>selectedJobHandler('latest')} 
+                        className={`${classes.jobTypeBtn} ${dispatch.latest && classes.selected}`}>Latest Jobs</button>
                     <button 
-                            onClick={()=>selectedJobHandler('popular')} 
-                            className={`${classes.jobTypeBtn} ${dispatch.popular && classes.selected }`}>Popular Jobs</button>
+                        onClick={()=>selectedJobHandler('popular')} 
+                        className={`${classes.jobTypeBtn} ${dispatch.popular && classes.selected }`}>Popular Jobs</button>
                 </nav>
             </header>
+            {(isNull(jobArray) && !isLoading.status) && <Wrapper>
+                <p className={classes.statusTxt}>Nothing to show!</p>
+            </Wrapper>}
+            {isLoading.status &&<Wrapper>
+                <Spinner />
+                <p className={classes.statusTxt}>{isLoading.message}</p>
+                {(isNull(jobArray) && !isLoading.status) &&<button className={classes.reloadBtn}>Reload</button>}
+            </Wrapper>}
             <ul className={classes.unorderedList}>
-                {new Array(10).fill().map((item, idx)=>(
-                    <li key={idx}>
+                {(!isNull(jobArray)) && jobArray.map((item, idx)=>(
+                    <li key={item.address} onClick={()=>fetchJobDetailsHandler(item.address)}>
                     <div className={classes.profileBox}>
                         <span className={classes.circle}>
-                            
+                        {item.companyName.slice(0,1)}
                         </span>
                     </div>
                     <div className={classes.detailContainer}>
-                        <h2 className={classes.jobTitle}>UI/UX Designer</h2>
-                        <p className={classes.name}>Ryder</p>
-                        <p className={classes.locationTxt}>London, England, United Kingdom | Full-Time</p>
-                        <p className={classes.locationTxt}>1 day ago</p>
+                        <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
+                        <p className={classes.name}>{item.companyName}</p>
+                        <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
+                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
                     </div>
                     <div className={classes.optionContainer}>
                         <span className={classes.smallCircle}>
@@ -150,76 +368,64 @@ const BrowseJobs = () =>{
             </ul>
             </main>
                 <main className={classes.rightSide}>
-                     <h2 className={classes.jobCount}></h2>
-                    <header className={classes.jobTitleColored}>
-                        <div className={classes.jobTitleColoredDivLeft}>
-                            <h1>UI/UX Designer</h1>
-                            <div className={classes.jobTitleNameContainer}>
-                                <span></span>
-                                <p>Ryder</p>
-                            </div>
+                    {/* {header()} */}
+                    {(!isNull(jobDetails)) && <header className={classes.jobTitleColored}>
+                    <div className={classes.jobTitleColoredDivLeft}>
+                        <h1>{jobDetails.jobTitle}</h1>
+                        <div className={classes.jobTitleNameContainer}>
+                            <span>{jobDetails.companyName.slice(0,1)}</span>
+                            <p>{jobDetails.companyName}</p>
                         </div>
-                        <div className={classes.jobTitleColoredDivRight}>
-                            {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
-                            {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
-                        </div>
-                    </header>
-                    <section className={classes.fullDetailContainer}>
+                    </div>
+                    <div className={classes.jobTitleColoredDivRight}>
+                        {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 JCT/USDT to stake</p>}
+                        {(!isStaked && isApproved) &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                        {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
+                    </div>
+                </header>}
+                    {(isNull(jobDetails) && !isLoadingJobDesc.status) && 
+                    
+                    <Wrapper>
+                         <p className={classes.statusTxt}>Click on a job to view</p>
+                    </Wrapper>}
+                    {isLoadingJobDesc.status &&<Wrapper>
+                        <Spinner />
+                        <p className={classes.statusTxt}>{isLoadingJobDesc.message}</p>
+                        {(isNull(jobDetails) && !isLoadingJobDesc.status) &&<button className={classes.reloadBtn}>Reload</button>}
+                    </Wrapper>}
+                    {!isNull(jobDetails) && <section className={classes.fullDetailContainer}>
                     <main className={classes.shortDescriptionSection}>
                     <span>
                         <img src={location2} alt='' />
-                        <p>London England United Kingdom</p>
+                        <p>{`${jobDetails.jobLocationSupport} | ${jobDetails.locationType}`}</p>
                     </span>
                     <span>
                         <img src={designIcon} alt='' />
-                        <p>Design</p>
+                        <p>{jobDetails.categoryFeature.join(',')}</p>
                     </span>
                     <span>
                         <img src={briefcase} alt='' />
-                        <p>Full-Time</p>
+                        <p>{jobDetails.workType}</p>
                     </span>
                     <span>
                         <img src={skillIcon} alt='' />
                     <div className={classes.skillContainer}>
-                            <p>Figma</p>
-                            <p>Adobe</p>
-                            <p>ReactJS</p>
+                        {jobDetails.skillsFeature.map((item, idx)=>(
+                            <p key={item}>{item}</p>
+                        ))}
                     </div>
                     </span>
                     </main>
                     <main className={classes.aboutJobDescriptionContainer}>
                         <h1>About</h1>
-                        <p>At Ryder, we believe Web3 is a cornerstone of a world where economic freedom is a fundamental right, giving people full control over their digital assets and identities, paving the way for a more prosperous and equitable global society.
-                    <br/>
-                    Our mission is to make web3 accessible and secure by developing the world’s best hardware and software products that seamlessly remove web3’s complexity, allowing the next billion users to join this new era of the internet.</p>
-                    <h1>Job Responsibility</h1>
-                    <ul className={classes.radioUnorderedList}>
-                    {new Array(6).fill().map((item, idx)=>(
-                            <li key={idx}>
-                             <span className={classes.radioContainer}>
-                                 <img src={radio} alt='' />
-                             </span>
-                             <div className={classes.radioText}>
-                             Produce awesome UI designs, assets and user experiencs improvements to a consistently high quality.
-                             </div>
-                         </li>
-                        ))}
-                    </ul>
-                    <h1>Requirements</h1>
-                    <ul className={classes.radioUnorderedList}>
-                    {new Array(5).fill().map((item, idx)=>(
-                        <li key={idx}>
-                            <span className={classes.radioContainer}>
-                                <img src={radio} alt='' />
-                            </span>
-                            <div className={classes.radioText}>
-                            Produce awesome UI designs, assets and user experiencs improvements to a consistently high quality.
-                            </div>
-                        </li>
-                        ))}
-                    </ul>
+                        <p>{jobDetails.companySummary}</p>
+                    <h1>Job Description</h1>
+                    <p className={classes.jobDescription}>{jobDetails.jobDesc}</p>
                     </main>
-                    </section>
+                    {isStaked &&<div className={classes.applyNowBtnContainer}>
+                        <button onClick={openCompanyUrl}>Apply Now</button>
+                    </div>}
+                </section>}
                 </main>
         </>
     )
@@ -234,26 +440,34 @@ const BrowseJobs = () =>{
                         onClick={()=>selectedJobHandler('featured')} 
                         className={`${classes.jobTypeBtn} ${dispatch.featured&& classes.selected}`}>Featured Jobs</button>
                     <button 
-                            onClick={()=>selectedJobHandler('latest')} 
-                            className={`${classes.jobTypeBtn} ${dispatch.latest && classes.selected}`}>Latest Jobs</button>
+                        onClick={()=>selectedJobHandler('latest')} 
+                        className={`${classes.jobTypeBtn} ${dispatch.latest && classes.selected}`}>Latest Jobs</button>
                     <button 
-                            onClick={()=>selectedJobHandler('popular')} 
-                            className={`${classes.jobTypeBtn} ${dispatch.popular && classes.selected }`}>Popular Jobs</button>
+                        onClick={()=>selectedJobHandler('popular')} 
+                        className={`${classes.jobTypeBtn} ${dispatch.popular && classes.selected }`}>Popular Jobs</button>
                 </nav>
             </header>
+            {(isNull(jobArray) && !isLoading.status) && <Wrapper>
+                <p className={classes.statusTxt}>Nothing to show!</p>
+            </Wrapper>}
+            {isLoading.status &&<Wrapper>
+                <Spinner />
+                <p className={classes.statusTxt}>{isLoading.message}</p>
+                {(isNull(jobArray) && !isLoading.status) &&<button className={classes.reloadBtn}>Reload</button>}
+            </Wrapper>}
             <ul className={classes.unorderedList}>
-                {new Array(10).fill().map((item, idx)=>(
-                    <li key={idx} onClick={()=>setShowJobDesc(true)}>
-                    <div className={classes.profileBox}>
-                        <span className={classes.circle}>
-                            
-                        </span>
-                    </div>
-                    <div className={classes.detailContainer}>
-                        <h2 className={classes.jobTitle}>UI/UX Designer</h2>
-                        <p className={classes.name}>Ryder</p>
-                        <p className={classes.locationTxt}>London, England, United Kingdom | Full-Time</p>
-                        <p className={classes.locationTxt}>1 day ago</p>
+                {(!isNull(jobArray)) && jobArray.map((item, idx)=>(
+                   <li key={item.address} onClick={()=>fetchJobDetailsHandler(item.address)}>
+                   <div className={classes.profileBox}>
+                       <span className={classes.circle}>
+                           
+                       </span>
+                   </div>
+                   <div className={classes.detailContainer}>
+                        <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
+                        <p className={classes.name}>{item.companyName}</p>
+                        <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
+                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
                     </div>
                     <div className={classes.optionContainer}>
                         <span className={classes.smallCircle}>
@@ -265,79 +479,67 @@ const BrowseJobs = () =>{
             </ul>
             </main>}
                 {showJobDesc && <main className={classes.rightSide}>
-                    <header className={classes.jobTitleColored}>
+                    {/* {headerMobile()} */}
+                    {(!isNull(jobDetails)) &&<header className={classes.jobTitleColored}>
                     <div className={classes.backwardIconContainer}>
                         <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
                     </div>
                         <div className={classes.jobTitleColoredDivLeft}>
-                            <h1>UI/UX Designer</h1>
+                            <h1>{jobDetails.jobTitle}</h1>
                             <div className={classes.jobTitleNameContainer}>
-                                <span></span>
-                                <p>Ryder</p>
+                                <span>{jobDetails.companyName.slice(0,1)}</span>
+                                <p>{jobDetails.companyName}</p>
                             </div>
                         </div>
                         <div className={classes.jobTitleColoredDivRight}>
-                            {!isStaked &&<p onClick={()=>setOpenStakePopup(true)}>Please stake to apply</p>}
-                            {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
+                        {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 JCT/USDT to stake</p>}
+                        {(!isStaked && isApproved) &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                        {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
                         </div>
-                    </header>
-                    <section className={classes.fullDetailContainer}>
+                    </header>}
+                    {(isNull(jobDetails) && !isLoadingJobDesc.status) && <Wrapper>
+                         <p className={classes.statusTxt}>Click on a job to view</p>
+                    </Wrapper>}
+                    {isLoadingJobDesc.status &&<Wrapper>
+                        <Spinner />
+                        <p className={classes.statusTxt}>{isLoadingJobDesc.message}</p>
+                        {(isNull(jobDetails) && !isLoadingJobDesc.status) &&<button className={classes.reloadBtn}>Reload</button>}
+                    </Wrapper>}
+                    {!isNull(jobDetails) && <section className={classes.fullDetailContainer}>
                     <main className={classes.shortDescriptionSection}>
                     <span>
                         <img src={location2} alt='' />
-                        <p>London England United Kingdom</p>
+                        <p>{`${jobDetails.jobLocationSupport} | ${jobDetails.locationType}`}</p>
                     </span>
                     <span>
                         <img src={designIcon} alt='' />
-                        <p>Design</p>
+                        <p>{jobDetails.categoryFeature.join(',')}</p>
                     </span>
                     <span>
                         <img src={briefcase} alt='' />
-                        <p>Full-Time</p>
+                        <p>{jobDetails.workType}</p>
                     </span>
                     <span>
                         <img src={skillIcon} alt='' />
                     <div className={classes.skillContainer}>
-                            <p>Figma</p>
-                            <p>Adobe</p>
-                            <p>ReactJS</p>
+                        {jobDetails.skillsFeature.map((item, idx)=>(
+                            <p key={item}>{item}</p>
+                        ))}
                     </div>
                     </span>
                     </main>
                     <main className={classes.aboutJobDescriptionContainer}>
                         <h1>About</h1>
-                        <p>At Ryder, we believe Web3 is a cornerstone of a world where economic freedom is a fundamental right, giving people full control over their digital assets and identities, paving the way for a more prosperous and equitable global society.
-                    <br/>
-                    Our mission is to make web3 accessible and secure by developing the world’s best hardware and software products that seamlessly remove web3’s complexity, allowing the next billion users to join this new era of the internet.</p>
-                    <h1>Job Responsibility</h1>
-                    <ul className={classes.radioUnorderedList}>
-                        {new Array(6).fill().map((item, idx)=>(
-                            <li key={idx}>
-                             <span className={classes.radioContainer}>
-                                 <img src={radio} alt='' />
-                             </span>
-                             <div className={classes.radioText}>
-                             Produce awesome UI designs, assets and user experiencs improvements to a consistently high quality.
-                             </div>
-                         </li>
-                        ))}
-                    </ul>
-                    <h1>Requirements</h1>
-                    <ul className={classes.radioUnorderedList}>
-                        {new Array(5).fill().map((item, idx)=>(
-                        <li key={idx}>
-                            <span className={classes.radioContainer}>
-                                <img src={radio} alt='' />
-                            </span>
-                            <div className={classes.radioText}>
-                            Produce awesome UI designs, assets and user experiencs improvements to a consistently high quality.
-                            </div>
-                        </li>
-                        ))}
-                    </ul>
+                        <p>{jobDetails.companySummary}</p>
+                        <h1>Job Description</h1>
+                        <p className={classes.jobDescription}>{jobDetails.jobDesc}</p>
                     </main>
-                    </section>
+                    {isStaked &&<div className={classes.applyNowBtnContainer}>
+                        <button onClick={openCompanyUrl}>Apply Now</button>
+                    </div>}
+                    </section>}
                     {/* </div> */}
+                    
                 </main>}
         </>
     )
@@ -393,7 +595,10 @@ const BrowseJobs = () =>{
                     <p>Full Time</p>
                     <img src={dropdown} alt='' className={classes.dropdown2} />
                 </div>
-                <button className={classes.searchBtn}>Search Jobs</button>
+                {width <= 770 &&<span className={classes.searchSpan}>
+                    <img src={searchIcon} alt='' />
+                </span>}
+                {/* <button className={classes.searchBtn}>Search Jobs</button> */}
              </div>}
              <div className={classes.allJobsParent}>
                 <section className={classes.allJobsBlack}>

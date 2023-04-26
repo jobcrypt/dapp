@@ -1,4 +1,4 @@
-iJCFactoryFacadeAbi = [
+export const iJCFactoryFacadeAbi = [
 	{
 		"inputs": [
 			{

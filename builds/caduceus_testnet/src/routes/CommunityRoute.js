@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import ReadyToStart from '../components/ReadyToStart';
-import jobseekerIcon from '../assets/Layer.png';
+import communityIcon from '../assets/community.png';
 import classes from '../styles/routes/JobSeekersRoute.module.css';
 import backArrow from '../assets/back.png';
 import useWindowSize from '../hooks/useWindowSize';
@@ -38,11 +38,11 @@ const CommunityRoute = () =>{
                     <span>JobCrypt community programme has the purpose of supporting new and emergant projects that are looking to scale in Web3 and Blockchain. The goal of the programme is to foster a culture of community innovation that allows new projects to access some of the best talent out there and hence create future defining experiences in Web3</span>
                 </div>
                 {width > 770 &&<div className={classes.leftBox}>
-                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                  <img src={communityIcon} alt='' className={classes.image} />
                 </div>}
             </article>
             <article className={classes.article}>
-                <div className={classes.rightBox}>
+                <div className={classes.rightBox} style={{ minWidth: '100%'}}>
                     <h2>How it works</h2>
                     <span>As part of the JobCrypt community programme, new projects are provided with 3 community listings annually with wgich to secure talent to help them reach their next key milestone be that project build, venture funding or commercial launch. Projets also have access to JobCrypt Beta features, thus helping define the future of work.</span>
                 </div>
@@ -54,13 +54,12 @@ const CommunityRoute = () =>{
                 </div>
             </article>
             {width <= 770 &&<div className={classes.leftBox}>
-                  <img src={jobseekerIcon} alt='' className={classes.image} />
+                  <img src={communityIcon} alt='' className={classes.image} />
                 </div>}
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Contact</h2>
                     <span>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</span>
-                    {/* <p>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</p> */}
                 </div>
            </article>
         <ReadyToStart />

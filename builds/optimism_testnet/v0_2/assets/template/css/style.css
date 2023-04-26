@@ -187,11 +187,19 @@ h6 {
 }
 
 .daos {
-  background: linear-gradient(91.06deg, #FF1CF7 2.26%, #00F0FF 100%);
-  background-clip: inherit;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-image: url("../../images/events/sustainabilityBG.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-bottom: 40px;
+}
 
+.bg-blockchain {
+  background-image: url("../../images/events/blockchainBG.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-bottom: 90px;
 }
 
 .text-xs {
@@ -236,8 +244,38 @@ h6 {
 
 }
 
+.bg-mustard {
+  background: #EE7911;
+}
+
+.bg-red {
+  background: #E41B1B;
+}
+
+.bg-purple {
+  background: #C32FD0;
+}
+
+.bg-mint {
+  background: #0BD20766;
+
+}
+
+.bg-brown {
+  background: #E0666666;
+
+}
+
 .bg-early-bird {
   background-image: url(../../images/events/bg-early-bird.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 30px;
+}
+
+.bg-early-bird-daos {
+  background-image: url(../../images/events/bg-early-bird-daos.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

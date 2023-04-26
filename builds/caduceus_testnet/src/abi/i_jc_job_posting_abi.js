@@ -143,3 +143,5 @@ const iJCJobPostingAbi = [
 		"type": "function"
 	}
 ]
+
+export default iJCJobPostingAbi;

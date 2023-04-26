@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import classes from '../styles/routes/JobSeekersRoute.module.css';
-import jobseekerIcon from '../assets/Layer.png';
+import jobseekerIcon from '../assets/jobseeker.png';
 import ReadyToStart from '../components/ReadyToStart';
 import backArrow from '../assets/back.png';
 import useWindowSize from '../hooks/useWindowSize';
@@ -40,7 +40,7 @@ const JobSeekersRoute = (props) =>{
                 </div>}
             </article>
             <article className={classes.article}>
-                <div className={classes.rightBox}>
+                <div className={classes.rightBox} style={{ minWidth: '100%'}}>
                     <h2>How it works</h2>
                     <span>To get alerts as a Job Seeker, you will need to create your dashboard on JobCrypt and sign up on the form below. Your skill preferences will then be mapped to the skills on our chain search, thus when you access your dashboard, you will receive notification of the latest jobs that have been posted matching your skills.</span>
                 </div>

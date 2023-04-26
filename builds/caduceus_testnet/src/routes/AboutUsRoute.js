@@ -10,6 +10,7 @@ import contact from '../assets/contact.png';
 import hackathon from '../assets/hackathon.png';
 import filecoin from '../assets/filecoin.png';
 import jobcrypt from '../assets/jobcrypt.png';
+import frameImage from '../assets/Frame_image.png';
 import useWindowSize from '../hooks/useWindowSize';
 
 
@@ -33,6 +34,7 @@ const AboutUsRoute = () =>{
     
     return(
         <section className={classes.parent}>
+            <img src={frameImage} alt='' className={classes.frameImage} />
             <article className={classes.article} id='about'>
                 <div className={classes.rightBox}>
                     <h2>
@@ -48,22 +50,22 @@ const AboutUsRoute = () =>{
                 </div>}
             </article>
             <article className={classes.article} id='why'>
-            <div className={classes.rightBox}>
+            <div className={classes.rightBox} style={{ minWidth: '100%'}}>
                     <h2>Why Us</h2>
                     <p>JobCrypt provides decentralized listings to the Web3, Blockchain, DeFI, NFT, Metaverse and Gaming communities</p>
                     <span>We ensure that candidates understand the fundamentals of blockchain through experimental learning ensuring that they can hit the ground running in their various disciplines and innovate new solutions that cater for decentralized operation.</span>
                 </div>
-                <div className={classes.leftBox}></div>
+                {/* <div className={classes.leftBox}></div> */}
             </article>
             <article className={classes.article}>
-            <div className={classes.rightBox}>
+            <div className={classes.rightBox} style={{ minWidth: '100%'}}>
                 <h3 className={classes.h3}>Why we use Web3</h3>
                 {/* <p>JobCrypt provides decentralized listings to the Web3, Blockchain, DeFI, NFT, Metaverse and Gaming communities</p> */}
-                <span>Traditional job board allow for inauthentic responses to employment listings quite simply, anyone can say for example "I know web3" with no proof leading to difficult conswquences for both job seekers and employers</span>
+                <span>Traditional job board allow for inauthentic responses to employment listings quite simply, anyone can say for example "I know web3" with no proof leading to difficult consequences for both job seekers and employers</span>
             </div>
             <div className={classes.leftBox}></div>
             </article>
-            <section className={classes.benefitSection}>
+            <section className={classes.benefitSection} style={{ minWidth: '100%'}}>
                 <ul className={classes.benefitList}>
                     <li>
                         <div className={classes.benefitIconBox}>
@@ -72,7 +74,7 @@ const AboutUsRoute = () =>{
                             </span>
                         </div>
                         <div className={classes.benefitContent}>
-                            <h3 className={classes.h3}>Benefits for Employers</h3>
+                            <h3 className={classes.benefitH3}>Benefits for Employers</h3>
                             <p>By using JobCrypt, employers are assured that their staff are fully competent in the basics of using Web3 as part of their daily operation saving them on training time off and re-work.</p>
                         </div>
                     </li>
@@ -83,13 +85,19 @@ const AboutUsRoute = () =>{
                             </span>
                         </div>
                         <div className={classes.benefitContent}>
-                            <h3 className={classes.h3}>Benefits for Job Seekers</h3>
+                            <h3 className={classes.benefitH3}>Benefits for Job Seekers</h3>
                             <p>By applying through JobCrypt, job seekers can clearly demonstrate that they ahe Web3 capable and worthy of clear and concise consideration by employer.</p>
                         </div>
                     </li>
                 </ul>
             <div className={classes.leftBox}></div>
             </section>
+            <article className={classes.article}>
+            <div className={classes.rightBox} style={{ minWidth: '100%', marginTop: '0px'}}>
+                <span>Web3 and Blockchain are here to move the world forward. At JobCrypt we have recognised this tectonic shift in technology and are working hard to ensure that the right individuals with the right skills and competencies are being deployed to help address the challenges that come with this sea change.</span>
+            </div>
+            <div className={classes.leftBox}></div>
+            </article>
             {width <= 770 &&<div className={classes.leftBox}>
                   <img src={jobseekerIcon} alt='' className={classes.image} />
                 </div>}
