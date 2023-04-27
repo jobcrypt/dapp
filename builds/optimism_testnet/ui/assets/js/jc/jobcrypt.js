@@ -50,6 +50,7 @@ async function configureContracts(requiredContracts) {
   }
 
   if (requiredContracts.includes("OPEN_RANKING")) {
+    console.log(account + "");
     openRegistryContract.methods
       .getAddress("RESERVED_OPEN_RANKING_CORE")
       .call({ from: account })

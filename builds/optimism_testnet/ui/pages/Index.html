@@ -78,8 +78,13 @@
     <header>
       <section class="bg-jcBlue py-4 px-5">
         <div
-          class="flex lg:flex-row flex-col md:flex-col justify-end lg:gap-60 gap-10"
+          class="flex lg:flex-row flex-col md:flex-col justify-end lg:gap-20 gap-10"
         >
+          <span
+            class="text-green-500 text-sm text-white"
+            id="showAccount"
+          ></span>
+
           <span class="flex gap-2 justify-center font-baiJam">
             <p class="text-center text-xs lg:text-base">
               JobCrypt Blockchain Sustainability Week - UK 2023
@@ -463,8 +468,6 @@
                 </li>
               </ul>
               <div class="">
-                <span class="text-green-500 text-xs" id="showAccount"></span>
-
                 <span
                   id="connect_web_3"
                   class="text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
@@ -488,193 +491,267 @@
       </div>
     </header>
 
-    <section id="stake" class="clients section-bg">
-      <div class="container">
-        <span id="stake_span"></span>
+    <section id="stake" class="">
+      <div class="flex justify-end p-5">
+        <span id="stake_span" class=""> </span>
       </div>
     </section>
     <!-- Hero -->
-    <div
-      id="hero"
-      class="mb-20 delay-[100ms] duration-[600ms] taos:translate-y-[200px] taos:opacity-0"
-      data-taos-offset="300"
-    >
-      <div class="font-poppins">
-        <div class="flex gap-5 justify-between text-white lg:p-5 p-2">
-          <div
-            class="euflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
-          >
-            <div class="">
-              <div
-                class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter lg:text-xs text-xxs rounded-xl"
-              >
-                <h2 class="font-bold text-center text-xxs lg:text-xs mt-3">
-                  Join JobCrypt Blockchain Sustainability Week in EU
-                </h2>
-                <p class="text-center mt-2">5th-9th June, 2023</p>
-              </div>
-              <div class="flex mt-2 justify-center">
-                <button
-                  class="bg-jcBlue px-4 py-1 text-black text-xxs lg:text-xs rounded-full"
-                >
-                  Get your tickets now
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
-          >
-            <div class="">
-              <div
-                class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter text-xxs lg:text-xs rounded-xl"
-              >
-                <h2 class="font-bold text-center mt-3">
-                  Join JobCrypt Blockchain Sustainability Week in UK
-                </h2>
-                <p class="text-center mt-2">12th-16th June, 2023</p>
-              </div>
-              <div class="flex mt-2 justify-center">
-                <button
-                  class="bg-jcBlue text-black px-4 py-1 text-xxs lg:text-xs rounded-full"
-                >
-                  Get your tickets now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h2 class="text-center text-3xl font-bold mt-10 lg:mt-0">
-          Welcome to <span class="text-jcBlue">JobCrypt</span>
-        </h2>
-        <img src="../assets/images/earthAsset.png" height="" class="absolute" />
-        <div class="relative">
-          <p class="text-center text-2xl mt-5">
-            Where every applicant is a Web3 user
-          </p>
-          <p class="mt-5 text-center">
-            Install Metamask & Stake to apply to verified web3 jobs
-          </p>
-          <div class="flex justify-center mt-5">
-            <button class="bg-black rounded-full px-6 py-2 text-jcBlue">
-              Install Metamask to view jobs
-            </button>
-          </div>
-          <div class="flex items-center justify-center mt-7 gap-1 text-jcBlue">
-            <i class="fa-solid fa-circle-info"></i>
-            <a href="" class="text-sm">Read more</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="search_new" style="display: none">
-      <h1>Hello world</h1>
-    </div>
-
-    <!-- Job Board -->
-    <section
-      class="bg-black lg:mt-96 mt-40 mb-20 py-2delay-[100ms] duration-[300ms] taos:scale-[0.6] taos:opacity-0"
-      data-taos-offset="400"
-    >
-      <h2 class="text-center font-bold text-3xl mt-3 text-white">Job Board</h2>
+    <div id="home_not_connected">
       <div
-        class="overflow-x-auto bg-[#D9D9D9] bg-opacity-10 rounded-lg flex md:flex-row lg:flex-row flex-col justify-center gap-10 py-10 lg:px-20 px-5 m-5"
+        id="hero"
+        class="mb-20 delay-[100ms] duration-[600ms] taos:translate-y-[200px] taos:opacity-0"
+        data-taos-offset="300"
       >
-        <div class="">
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Featured Jobs
-          </h2>
-          <div class="flex justify-center">
-            <p
-              class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
+        <div class="font-poppins">
+          <div class="flex gap-5 justify-between text-white lg:p-5 p-2">
+            <div
+              class="euflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
             >
-              Multiple jobs are uploaded on the blockchain by the hour,
-              <span class="text-jcBlue"> Install Metamask </span> to view
-              available jobs.
-            </p>
+              <div class="">
+                <div
+                  class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter lg:text-xs text-xxs rounded-xl"
+                >
+                  <h2 class="font-bold text-center text-xxs lg:text-xs mt-3">
+                    Join JobCrypt Blockchain Sustainability Week in EU
+                  </h2>
+                  <p class="text-center mt-2">5th-9th June, 2023</p>
+                </div>
+                <div class="flex mt-2 justify-center">
+                  <button
+                    class="bg-jcBlue px-4 py-1 text-black text-xxs lg:text-xs rounded-full"
+                  >
+                    Get your tickets now
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center"
+            >
+              <div class="">
+                <div
+                  class="w-[150px] lg:w-[200px] py-2 backdrop-blur-xl backdrop-filter text-xxs lg:text-xs rounded-xl"
+                >
+                  <h2 class="font-bold text-center mt-3">
+                    Join JobCrypt Blockchain Sustainability Week in UK
+                  </h2>
+                  <p class="text-center mt-2">12th-16th June, 2023</p>
+                </div>
+                <div class="flex mt-2 justify-center">
+                  <button
+                    class="bg-jcBlue text-black px-4 py-1 text-xxs lg:text-xs rounded-full"
+                  >
+                    Get your tickets now
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="">
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Latest Jobs
+          <h2 class="text-center text-3xl font-bold mt-10 lg:mt-0">
+            Welcome to <span class="text-jcBlue">JobCrypt</span>
           </h2>
-          <div class="flex justify-center">
-            <p
-              class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
-            >
-              Multiple jobs are uploaded on the blockchain by the hour,
-              <span class="text-jcBlue"> Install Metamask </span> to view
-              available jobs.
+          <img
+            src="../assets/images/earthAsset.png"
+            height=""
+            class="absolute"
+          />
+          <div class="relative">
+            <p class="text-center text-2xl mt-5">
+              Where every applicant is a Web3 user
             </p>
-          </div>
-        </div>
-        <div class="">
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Popular Jobs
-          </h2>
-
-          <div class="flex justify-center">
-            <p
-              class="border-8 rounded-xl w-[20rem] h-[9rem] lg:h-[8rem] text-lg bg-white text-black text-center border-black p-2"
-            >
-              Multiple jobs are uploaded on the blockchain by the hour,
-              <span class="text-jcBlue"> Install Metamask </span> to view
-              available jobs.
+            <p class="mt-5 text-center" id="">
+              Install Metamask & Stake to apply to verified web3 jobs
             </p>
+            <div class="flex justify-center mt-5">
+              <button class="bg-black rounded-full px-6 py-2 text-jcBlue">
+                Install Metamask to view jobs
+              </button>
+            </div>
+            <div
+              class="flex items-center justify-center mt-7 gap-1 text-jcBlue"
+            >
+              <i class="fa-solid fa-circle-info"></i>
+              <a href="" class="text-sm">Read more</a>
+            </div>
           </div>
         </div>
       </div>
-    </section>
 
+      <!-- Job Board -->
+      <section
+        class="bg-black lg:mt-96 mt-40 mb-20 py-2delay-[100ms] duration-[300ms] taos:scale-[0.6] taos:opacity-0"
+        data-taos-offset="400"
+      >
+        <h2 class="text-center font-bold text-3xl mt-3 text-white">
+          Job Board
+        </h2>
+        <div
+          class="overflow-x-auto bg-[#D9D9D9] bg-opacity-10 rounded-lg flex md:flex-row lg:flex-row flex-col justify-center gap-10 py-10 lg:px-20 px-5 m-5"
+        >
+          <div class="">
+            <h2
+              class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
+            >
+              Featured Jobs
+            </h2>
+            <div class="flex justify-center">
+              <p
+                class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
+              >
+                Multiple jobs are uploaded on the blockchain by the hour,
+                <span class="text-jcBlue"> Install Metamask </span> to view
+                available jobs.
+              </p>
+            </div>
+          </div>
+          <div class="">
+            <h2
+              class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
+            >
+              Latest Jobs
+            </h2>
+            <div class="flex justify-center">
+              <p
+                class="border-8 rounded-xl w-[20rem] h-[9rem] text-lg bg-white text-black text-center border-black p-2"
+              >
+                Multiple jobs are uploaded on the blockchain by the hour,
+                <span class="text-jcBlue"> Install Metamask </span> to view
+                available jobs.
+              </p>
+            </div>
+          </div>
+          <div class="">
+            <h2
+              class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
+            >
+              Popular Jobs
+            </h2>
+
+            <div class="flex justify-center">
+              <p
+                class="border-8 rounded-xl w-[20rem] h-[9rem] lg:h-[8rem] text-lg bg-white text-black text-center border-black p-2"
+              >
+                Multiple jobs are uploaded on the blockchain by the hour,
+                <span class="text-jcBlue"> Install Metamask </span> to view
+                available jobs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Events -->
+      <section>
+        <div class="slideshow-container mt-20">
+          <div class="mySlides">
+            <div
+              class="bsweu lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
+            >
+              <div>
+                <h2 class="font-bold lg:text-3xl text-lg">
+                  Blockchain <br />
+                  Sustainability Week <br />
+                  EU
+                </h2>
+                <span class="flex items-center gap-1 my-2">
+                  <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                  <p class="text-xs">5th-9th June, 2023</p>
+                </span>
+                <span class="flex items-center gap-1">
+                  <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                  <a href="" class="text-xs">See event details</a>
+                </span>
+              </div>
+              <div>
+                <p class="lg:text-2xl text-base font-baiJam tracking-wider">
+                  Join JobCrypt Blockchain <br />
+                  Sustainability Week in <br />
+                  EU
+                </p>
+
+                <button
+                  class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
+                >
+                  Get your Tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mySlides">
+            <div
+              class="bswuk lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
+            >
+              <div>
+                <h2 class="font-bold lg:text-3xl text-lg">
+                  Blockchain <br />
+                  Sustainability Week <br />
+                  UK
+                </h2>
+                <span class="flex items-center gap-1 my-2">
+                  <i class="fa-sharp fa-regular fa-calendar-range"></i>
+                  <p class="text-xs">12th-16th June, 2023</p>
+                </span>
+                <span class="flex items-center gap-1">
+                  <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                  <a href="" class="text-xs">See event details</a>
+                </span>
+              </div>
+              <div>
+                <p class="lg:text-2xl text-base font-baiJam tracking-wider">
+                  Join JobCrypt Blockchain <br />
+                  Sustainability Week in <br />
+                  UK
+                </p>
+
+                <button
+                  class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
+                >
+                  Get your Tickets now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <div style="text-align: center">
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </section>
+    </div>
     <!-- ======= Search Section ======= -->
-    <section id="search-jobs" class="services">
-      <div class="container">
+    <section id="search-jobs" class="">
+      <div class="">
         <span id="main_search_span"></span>
         <center>
-          <span id="hot_search_title"></span>
-          <table id="hot_search_table">
-            <tr>
-              <td colspan="4 "></td>
-            </tr>
-          </table>
+          <div class="">
+            <span id="hot_search_title"></span>
+            <table id="hot_search_table">
+              <tr>
+                <td colspan="4 "></td>
+              </tr>
+            </table>
+          </div>
         </center>
       </div>
     </section>
-    <!-- End Search Section -->
-
-    <section id="stake" class="clients section-bg">
-      <div class="container">
-        <span id="stake_span"></span>
-      </div>
-    </section>
-    <!-- End Stake Section -->
 
     <!-- ======= Featured Jobs Section ======= -->
     <section id="featured-jobs" class="services">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
-          <h2>Featured Jobs</h2>
-          <h3>Check out our available <span>Featured Jobs</span></h3>
+          <h2 id="featured_jobs_title"></h2>
         </div>
-        <div class="row" id="featured_jobs_view">
-          <p>
-            Our jobs live on the <span>blockchain</span> so connect
-            <a href="https://metamask.io/" target="_blank">Metamask</a> to view
-          </p>
-        </div>
+        <div class="row" id="featured_jobs_view"></div>
       </div>
     </section>
     <!-- Featured Jobs Section -->
 
     <!-- ======= Latest Jobs Section ======= -->
-    <section id="latest-jobs" class="services">
+    <!-- <section id="latest-jobs" class="services">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
           <h2>Latest Jobs</h2>
@@ -688,11 +765,11 @@
           </p>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- Latest Jobs Section -->
 
     <!-- ======= Popular Jobs Section ======= -->
-    <section id="popular-jobs" class="services">
+    <!-- <section id="popular-jobs" class="services">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
           <h2>Popular Jobs</h2>
@@ -706,89 +783,8 @@
           </p>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- Popular Jobs Section -->
-
-    <!-- Events -->
-    <section>
-      <div class="slideshow-container mt-20">
-        <div class="mySlides">
-          <div
-            class="bsweu lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
-          >
-            <div>
-              <h2 class="font-bold lg:text-3xl text-lg">
-                Blockchain <br />
-                Sustainability Week <br />
-                EU
-              </h2>
-              <span class="flex items-center gap-1 my-2">
-                <i class="fa-sharp fa-regular fa-calendar-range"></i>
-                <p class="text-xs">5th-9th June, 2023</p>
-              </span>
-              <span class="flex items-center gap-1">
-                <i class="fa-regular fa-arrow-up-right-from-square"></i>
-                <a href="" class="text-xs">See event details</a>
-              </span>
-            </div>
-            <div>
-              <p class="lg:text-2xl text-base font-baiJam tracking-wider">
-                Join JobCrypt Blockchain <br />
-                Sustainability Week in <br />
-                EU
-              </p>
-
-              <button
-                class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
-              >
-                Get your Tickets now
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="mySlides">
-          <div
-            class="bswuk lg:px-10 px-5 lg:py-5 py-2 flex justify-between text-white gap-20 rounded-lg"
-          >
-            <div>
-              <h2 class="font-bold lg:text-3xl text-lg">
-                Blockchain <br />
-                Sustainability Week <br />
-                UK
-              </h2>
-              <span class="flex items-center gap-1 my-2">
-                <i class="fa-sharp fa-regular fa-calendar-range"></i>
-                <p class="text-xs">12th-16th June, 2023</p>
-              </span>
-              <span class="flex items-center gap-1">
-                <i class="fa-regular fa-arrow-up-right-from-square"></i>
-                <a href="" class="text-xs">See event details</a>
-              </span>
-            </div>
-            <div>
-              <p class="lg:text-2xl text-base font-baiJam tracking-wider">
-                Join JobCrypt Blockchain <br />
-                Sustainability Week in <br />
-                UK
-              </p>
-
-              <button
-                class="lg:px-6 px-4 lg:py-2 py-1 rounded-xl bg-jcBlue mt-5 lg:text-base text-xxs"
-              >
-                Get your Tickets now
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-
-      <div style="text-align: center">
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </section>
 
     <!-- Users -->
     <section
@@ -1277,9 +1273,9 @@
     <script src="../assets/js/jc/stake.js"></script>
     <script src="../assets/js/jc/latest_jobs.js"></script>
     <script src="../assets/js/jc/popular_jobs.js"></script>
-    <script src="../assets/js/jc/featured_jobs_results.js"></script>
     <script src="../assets/js/jc/featured_jobs.js"></script>
     <script src="../assets/js/jc/search_jobs.js"></script>
+
     <script src="../assets/js/jc/jobcrypt.js"></script>
     <script src="../assets/js/jc/automated_promo.js"></script>
     <script src="../assets/js/carousel.js"></script>

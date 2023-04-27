@@ -1,150 +1,193 @@
-const featuredJobsSpan  = ge("featured_jobs_view");
+const featuredJobsSpan = ge("featured_jobs_view");
+const feauturedJobsTitle = ge("featured_jobs_title");
+const featuredJobsContainer = ge("featured-jobs");
 
-function getFeaturedJobs(){
-    console.log("featuring" );
-	jcJobCryptContract.methods.getFeaturedJobs().call({ from: account })
-	.then(function(response) {
-		console.log(response);
-		var jobAddresses = response;
-        console.log("building featured jobs");
-		buildFeaturedJobs(jobAddresses);
-	})
-	.catch(function(err){
-		console.log(err);
-	});
+function getFeaturedJobs() {
+  console.log("featuring");
+  jcJobCryptContract.methods
+    .getFeaturedJobs()
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var jobAddresses = response;
+      console.log("building featured jobs");
+      buildFeaturedJobs(jobAddresses);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 }
 
 function buildFeaturedJobs(jobAddresses) {
-
-    featuredJobsSpan.innerHTML = "";
+  feauturedJobsTitle.innerHTML = "Featured Jobs";
+  featuredJobsSpan.innerHTML = "";
+  feauturedJobsTitle.setAttribute("class", "text-center mt-20");
   //  jobAddresses = ["0xd131FcEdA33B197513eCa94c2d0c18a42be198B7"];
-    console.log("featured job addresses : " + jobAddresses.length );
-    if(jobAddresses.length > 0){
-        for( var x = 0; x < jobAddresses.length; x++){
-            var postingAddress = jobAddresses[x];
-            if(postingAddress != '0x0000000000000000000000000000000000000000'){
-                addFeaturedJob(postingAddress);
-            }
-        }
+  console.log("featured job addresses : " + jobAddresses.length);
+  if (jobAddresses.length > 0) {
+    for (var x = 0; x < jobAddresses.length; x++) {
+      var postingAddress = jobAddresses[x];
+      if (postingAddress != "0x0000000000000000000000000000000000000000") {
+        addFeaturedJob(postingAddress);
+      }
     }
-    else {
-        var c = ce("center");
-        c.append(text("New Features are on the way!"));
-        featuredJobsSpan.append(c);
-    }
+  } else {
+    var c = ce("center");
+    c.append(text("New Features are on the way!"));
+    featuredJobsSpan.append(c);
+  }
 }
 
 function addFeaturedJob(postingAddress) {
+  var jobDetailLinkDestination =
+    "pages/app/job_detail_template.html?postingAddress=" + postingAddress;
 
+  console.log(jobDetailLinkDestination);
 
-    var jobDetailLinkDestination = "pages/app/job_detail_template.html?postingAddress=" + postingAddress;
+  var layoutDiv = document.createElement("div");
+  layoutDiv.setAttribute("class", "flex");
+  layoutDiv.setAttribute("data-aos", "zoom-in");
+  layoutDiv.setAttribute("data-aos-delay", 100);
+  featuredJobsSpan.appendChild(layoutDiv);
 
-    console.log(jobDetailLinkDestination);
+  var iconBox = ce("div");
+  iconBox.setAttribute("class", "icon-box");
+  layoutDiv.append(iconBox);
 
-    var layoutDiv = document.createElement("div");
-    layoutDiv.setAttribute("class", "col-lg-4 col-md-6 d-flex align-items-stretch" );
-    layoutDiv.setAttribute("data-aos", "zoom-in");
-    layoutDiv.setAttribute("data-aos-delay", 100);
-    featuredJobsSpan.appendChild(layoutDiv);
+  var icon = ce("div");
+  iconBox.append(icon);
+  //icon.setAttribute("class", "icon");
 
-    var iconBox = ce("div");
-    iconBox.setAttribute("class", "icon-box");
-    layoutDiv.append(iconBox);
+  var hiringCompanyLogoLink = ce("a");
+  icon.append(hiringCompanyLogoLink);
+  hiringCompanyLogoLink.setAttribute("target", "_blank");
 
-    var icon = ce("div");
-    iconBox.append(icon);
-    //icon.setAttribute("class", "icon");
+  var hiringCompanyLogo = ce("img");
+  hiringCompanyLogo.setAttribute("class", "icon");
+  hiringCompanyLogoLink.append(hiringCompanyLogo);
 
-    var hiringCompanyLogoLink = ce("a");
-    icon.append( hiringCompanyLogoLink);
-    hiringCompanyLogoLink.setAttribute("target", "_blank");
+  var hiringCompany = document.createElement("h5");
+  iconBox.appendChild(hiringCompany);
 
-    var hiringCompanyLogo = ce("img");        
-    hiringCompanyLogo.setAttribute("class", "icon");
-    hiringCompanyLogoLink.append(hiringCompanyLogo);  
+  var detailLink = document.createElement("a");
+  iconBox.append(detailLink);
+  detailLink.setAttribute("href", jobDetailLinkDestination);
 
+  var jobTitle = document.createElement("h4");
+  detailLink.appendChild(jobTitle);
 
-    var hiringCompany = document.createElement("h5");
-    iconBox.appendChild(hiringCompany);
+  var paragraph = document.createElement("p");
+  iconBox.appendChild(paragraph);
 
-    var detailLink = document.createElement("a");
-    iconBox.append(detailLink);        
-    detailLink.setAttribute("href", jobDetailLinkDestination);
-
-    var jobTitle = document.createElement("h4");
-    detailLink.appendChild(jobTitle);              
-
-
-    var paragraph = document.createElement("p");
-    iconBox.appendChild(paragraph);
-    
-
-    populateFeaturedJob(jobTitle, hiringCompany, hiringCompanyLogo, hiringCompanyLogoLink, jobDetailLinkDestination, postingAddress);       
-
+  populateFeaturedJob(
+    jobTitle,
+    hiringCompany,
+    hiringCompanyLogo,
+    hiringCompanyLogoLink,
+    jobDetailLinkDestination,
+    postingAddress
+  );
 }
 
-function populateFeaturedJob(jobTitle, hiringCompany, hiringCompanyLogo,  hiringCompanyLogoLink, jobDetailLinkDestination, postingAddress ) {
-    jcJobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
-    console.log("featured job address: " + postingAddress);
-    setFeaturedJobTitle(jobTitle,  jobDetailLinkDestination, jcJobPostingContract);
-    setFeaturedCompany(hiringCompany, hiringCompanyLogo, hiringCompanyLogoLink, jcJobPostingContract);
-    
+function populateFeaturedJob(
+  jobTitle,
+  hiringCompany,
+  hiringCompanyLogo,
+  hiringCompanyLogoLink,
+  jobDetailLinkDestination,
+  postingAddress
+) {
+  jcJobPostingContract = getContract(iJCJobPostingAbi, postingAddress);
+  console.log("featured job address: " + postingAddress);
+  setFeaturedJobTitle(jobTitle, jobDetailLinkDestination, jcJobPostingContract);
+  setFeaturedCompany(
+    hiringCompany,
+    hiringCompanyLogo,
+    hiringCompanyLogoLink,
+    jcJobPostingContract
+  );
 }
 
-function setFeaturedJobTitle(jobTitle, jobDetailLinkDestination, jcJobPostingContract) { 
-    jcJobPostingContract.methods.getFeatureSTR("JOB_TITLE").call({from : account})
-    .then(function(response){
-        console.log(response);
-        var title = response; 
-        var link = ce("a");
-        link.setAttribute("href", jobDetailLinkDestination);
-        link.append(text(title));
-        jobTitle.append(link);                
+function setFeaturedJobTitle(
+  jobTitle,
+  jobDetailLinkDestination,
+  jcJobPostingContract
+) {
+  jcJobPostingContract.methods
+    .getFeatureSTR("JOB_TITLE")
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var title = response;
+      var link = ce("a");
+      link.setAttribute("href", jobDetailLinkDestination);
+      link.append(text(title));
+      jobTitle.append(link);
     })
-    .catch(function(err){
-        console.log(err);
-    }); 
+    .catch(function (err) {
+      console.log(err);
+    });
 }
 
-function setFeaturedCompany(hiringCompany, hiringCompanyLogo, hiringCompanyLogoLink,  jcJobPostingContract) {
-    jcJobPostingContract.methods.getFeatureSTR("COMPANY_NAME").call({from : account})
-    .then(function(response){
-        var companyName = response; 
-        var companySearchLink = ce("a");
-        companySearchLink.setAttribute("href", "/pages/app/job_search_results.html?searchTerm="+companyName);
-        companySearchLink.append(text(companyName));
-        hiringCompany.append(companySearchLink);
-        hiringCompanyLogo.setAttribute("alt", companyName);
-        getFeaturedCompanyLink( hiringCompanyLogo, hiringCompanyLogoLink,   jcJobPostingContract) 
+function setFeaturedCompany(
+  hiringCompany,
+  hiringCompanyLogo,
+  hiringCompanyLogoLink,
+  jcJobPostingContract
+) {
+  jcJobPostingContract.methods
+    .getFeatureSTR("COMPANY_NAME")
+    .call({ from: account })
+    .then(function (response) {
+      var companyName = response;
+      var companySearchLink = ce("a");
+      companySearchLink.setAttribute(
+        "href",
+        "/pages/app/job_search_results.html?searchTerm=" + companyName
+      );
+      companySearchLink.append(text(companyName));
+      hiringCompany.append(companySearchLink);
+      hiringCompanyLogo.setAttribute("alt", companyName);
+      getFeaturedCompanyLink(
+        hiringCompanyLogo,
+        hiringCompanyLogoLink,
+        jcJobPostingContract
+      );
     })
-    .catch(function(err){
-        console.log(err);
-    }); 
+    .catch(function (err) {
+      console.log(err);
+    });
 }
 
-function getFeaturedCompanyLink(hiringCompanyLogo, hiringCompanyLogoLink,   jcJobPostingContract) {
-    jcJobPostingContract.methods.getFeatureSTR("COMPANY_LINK").call({from : account})
-    .then(function(response){
-        console.log(response);
-        var companyLink = response; 
-        hiringCompanyLogoLink.setAttribute("href",companyLink);
-        getFeaturedCompanyLogo( hiringCompanyLogo, jcJobPostingContract);
+function getFeaturedCompanyLink(
+  hiringCompanyLogo,
+  hiringCompanyLogoLink,
+  jcJobPostingContract
+) {
+  jcJobPostingContract.methods
+    .getFeatureSTR("COMPANY_LINK")
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var companyLink = response;
+      hiringCompanyLogoLink.setAttribute("href", companyLink);
+      getFeaturedCompanyLogo(hiringCompanyLogo, jcJobPostingContract);
     })
-    .catch(function(err){
-        console.log(err);
+    .catch(function (err) {
+      console.log(err);
     });
 }
 
 function getFeaturedCompanyLogo(hiringCompanyLogo, jcJobPostingContract) {
-    jcJobPostingContract.methods.getFeatureSTR("COMPANY_LOGO").call({from : account})
-    .then(function(response){
-        console.log(response);
-        var companyLogo = response; 
-        hiringCompanyLogo.setAttribute("src", IPFS+companyLogo);
+  jcJobPostingContract.methods
+    .getFeatureSTR("COMPANY_LOGO")
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var companyLogo = response;
+      hiringCompanyLogo.setAttribute("src", IPFS + companyLogo);
     })
-    .catch(function(err){
-        console.log(err);
+    .catch(function (err) {
+      console.log(err);
     });
 }
-
-

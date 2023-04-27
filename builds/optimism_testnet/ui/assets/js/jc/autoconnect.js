@@ -5,6 +5,8 @@ const IPFS = "https://jobcrypt.infura-ipfs.io/ipfs/";
 /** standard elements  */
 const onboardButton = ge("connect_web_3");
 const showWallet = ge("showAccount");
+const removeElement = ge("home_not_connected");
+const heroElement = ge("hero");
 
 const connectVideoLinkSpan = ge("connect_video_link_span");
 const connectVideoIconSpan = ge("connect_video_icon_span");
@@ -76,6 +78,7 @@ function autoconnect() {
     }
   } else {
     loadConnect();
+
     setSessionTimeout();
   }
 }
@@ -301,6 +304,7 @@ function manualConnect() {
 
 function loadConnect() {
   if (!connected) {
+    removeElement.remove();
     getAccount();
     onboardButton.innerText = "Web 3 Connected";
     onboardButton.addEventListener("click", disconnect);
@@ -321,7 +325,7 @@ async function getAccount() {
   const accounts = await ethereum.request({
     method: "eth_requestAccounts",
   });
-  account = accounts[0].substring(0, 3).concat("...");
+  account = accounts[0];
   connected = true;
   showWallet.innerHTML = "Connected Wallet :: " + account + "<br/>";
   setHowToPlayList();
@@ -346,15 +350,3 @@ const onClickConnect = async () => {
     console.error(error);
   }
 };
-
-function replaceDiv() {
-  const div1 = document.getElementById("div1");
-  const div2 = document.getElementById("div2");
-  if (div1.style.display !== "none") {
-    div1.style.display = "none";
-    div2.style.display = "block";
-  } else {
-    div1.style.display = "block";
-    div2.style.display = "none";
-  }
-}

@@ -199,7 +199,7 @@ h6 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  padding-bottom: 90px;
+  padding-bottom: 120px;
 }
 
 .text-xs {
@@ -208,6 +208,11 @@ h6 {
 
 .text-sm {
   font-size: 14px;
+}
+
+.line {
+  height: 3px;
+  background-color: #2B2F33;
 }
 
 .bg-blue {
@@ -264,6 +269,16 @@ h6 {
 .bg-brown {
   background: #E0666666;
 
+}
+
+.bg-blockchainBlue {
+  background: rgba(245, 245, 245, 1);
+
+
+}
+
+.text-darkBlue {
+  color: #001489;
 }
 
 .bg-early-bird {
