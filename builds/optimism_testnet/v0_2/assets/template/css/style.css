@@ -206,6 +206,23 @@ h6 {
   padding-bottom: 120px;
 }
 
+.bg-munich-InP {
+  background-image: url("../../images/events/bs-english.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-bottom: 160px;
+
+}
+
+.bg-summerbbq {
+  background: linear-gradient(0deg, rgba(255 255 255 / 54%), rgba(81, 0, 255, 0.4)), url("../../images/events/bg-summerbbq.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-bottom: 40px;
+}
+
 .text-xs {
   font-size: 12px;
 }
