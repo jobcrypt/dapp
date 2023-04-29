@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c7780a42.css",
-    "main.js": "/static/js/main.631214e0.js",
+    "main.css": "/static/css/main.d09c4f85.css",
+    "main.js": "/static/js/main.74eafad2.js",
     "static/js/787.28f000a3.chunk.js": "/static/js/787.28f000a3.chunk.js",
     "static/media/hero.png": "/static/media/hero.f6228f0ef693c48791d8.png",
     "static/media/corporate_businessman.png": "/static/media/corporate_businessman.1aa2a55014747e385395.png",
@@ -30,17 +30,18 @@
     "static/media/cubes.png": "/static/media/cubes.448264d6c24f91b4eda9.png",
     "static/media/skills.png": "/static/media/skills.47b88ea5f76a9ca2cd22.png",
     "static/media/pin.png": "/static/media/pin.64af410c6a5f32b5fd4f.png",
+    "static/media/Frame10.png": "/static/media/Frame10.f31767228a701d8cd99e.png",
     "static/media/germany.png": "/static/media/germany.cc670a050b591bf6656d.png",
     "static/media/discord.png": "/static/media/discord.d7f7fca1a3c52fa3d56c.png",
     "static/media/facebook.png": "/static/media/facebook.b293d5363351752caf25.png",
     "static/media/tiktok.png": "/static/media/tiktok.8bb71cc6c1bd4e58530b.png",
     "index.html": "/index.html",
-    "main.c7780a42.css.map": "/static/css/main.c7780a42.css.map",
-    "main.631214e0.js.map": "/static/js/main.631214e0.js.map",
+    "main.d09c4f85.css.map": "/static/css/main.d09c4f85.css.map",
+    "main.74eafad2.js.map": "/static/js/main.74eafad2.js.map",
     "787.28f000a3.chunk.js.map": "/static/js/787.28f000a3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c7780a42.css",
-    "static/js/main.631214e0.js"
+    "static/css/main.d09c4f85.css",
+    "static/js/main.74eafad2.js"
   ]
 }
