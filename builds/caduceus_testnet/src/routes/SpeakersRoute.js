@@ -15,6 +15,9 @@ const SpeakersRoute = () =>{
   },[]);
 
 
+  const openUrl = (url) =>{
+    window.open(url)
+  }
     const style={
         color: '#be8e24',
         fontWeight: 'normal',
@@ -55,15 +58,14 @@ const SpeakersRoute = () =>{
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
-                    <span>You can sign up for this programme. Complete the form <strong style={style}>here</strong></span>
+                    <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
                 </div>
             </article>
             <article className={classes.article}>
-                <div className={classes.rightBox}>
-                    <h2>Contact</h2>
-                    <span>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</span>
-                    {/* <p>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</p> */}
-                </div>
+            <article className={classes.contactUsContainer}>
+                <h1>Contact</h1>
+                <p>For partnerships or more information about JobCrypt, Contact us on our <strong  onClick={()=>openUrl('https://discord.gg/kDTwvf59')} style={style}>Discord</strong> or <strong style={style} onClick={()=>openUrl('mailto:contact@jobcrypt.com')}>Email</strong> us</p>
+            </article>
            </article>
         <ReadyToStart />
         </section>

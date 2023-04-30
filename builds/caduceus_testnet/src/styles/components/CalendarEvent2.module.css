@@ -1,0 +1,261 @@
+.parent{
+    width: 100%;
+    height: fit-content;
+    /* max-height: 2350px; */
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.main{
+  /* max-height: 2300px; */
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+}
+
+.main>div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.title{
+    font-family: 'bold';
+    color: #fff;
+    font-size: 40px;
+    margin: 0; 
+}
+
+.cloudContainer{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.cloudContainer>p{
+    color: #fff;
+    font-family: 'light';
+    font-size: 20px;
+}
+
+
+.calendarParent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    /* row-gap: 20px; */
+}
+
+.calendarParent>span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    column-gap: 20px;
+    margin-top: 20px;
+}
+
+.card{
+    width: 50%;
+    min-height: 250px;
+    max-height: fit-content;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    padding: 20px;
+}
+
+.countrySpan{
+    width: 60px;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    /* background-color: red; */
+    /* padding-top: 20px; */
+}
+
+.countrySpan>img{
+    width: 50px;
+    height: 50px;
+}
+
+.countrySection{
+   width: calc(100% - 60px);
+   height: fit-content;
+   display: flex;
+   flex-direction: column;
+   -ms-flex-direction: column;
+   /* padding-top: 20px; */
+}
+
+.blockTalk{
+   margin: 0;
+   font-family: 'bold';
+   font-size: 20px;
+}
+
+.text1{
+   margin: 0;
+   font-family: 'bold';
+   font-size: 15px;
+}
+
+.text2{
+    margin: 0;
+    font-family: 'light';
+    font-size: 16px;
+ }
+
+.bottomSection{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    padding-top: 20px;
+}
+
+.descContainer{
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  row-gap: 10px;
+  width: calc(100% - 150px);
+}
+
+.descContainer>div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.descContainer>div>img{
+    width: 20px;
+    height: 20px;
+}
+
+.descContainer>div>p{
+    font-family: 'light';
+    margin: 0;
+    font-size: 18px;
+}
+
+.crownIconContainer{
+   width: 150px;
+   min-height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.crownImage{
+    /* width: 80px;
+    height: 80px; */
+    opacity: 25%;
+}
+
+.bubbleImage{
+    /* width: 80px;
+    height: 80px; */
+}
+
+.footer{
+    display: flex;
+    width: 100%;
+    min-height: 100px;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    font-family: 'bold';
+    font-size: 40px;
+    margin-top: -30px;
+    cursor: pointer;
+    box-shadow: 0px -35px 30px 1px #fff;
+    -moz-box-shadow: 0px -35px 30px 1px #fff;
+    -webkit-box-shadow: 0px -35px 30px 1px #fff;
+}
+
+@media screen and (max-width: 770px) {
+    .main>div{
+       flex-direction: column;
+      -ms-flex-direction: column;
+    }
+    .title{
+        font-size: 25px;
+    }
+
+    .cloudContainer>p{
+        font-size: 15px;
+    }
+
+    .calendarParent>span{
+        flex-direction: column;
+        -ms-flex-direction: column;
+        row-gap: 20px;
+    }
+
+    .card{
+        width: 100%;
+        min-height: fit-content;
+        max-height: fit-content;
+    }
+
+    
+.blockTalk{
+    font-size: 18px;
+ }
+ 
+ .text1{
+    font-size: 13px;
+    margin-top: 5px;
+ }
+ 
+ .text2{
+     font-size: 14px;
+     margin-top: 5px;
+  }
+
+  .descContainer{
+    width: calc(100% - 80px);
+  }
+
+    .descContainer>div>img{
+        width: 15px;
+        height: 15px;
+    }
+    
+    .descContainer>div>p{
+        font-size: 12px;
+    }
+
+    .crownIconContainer{
+        width: 80px;
+     }
+    .crownImage{
+        width: 50px;
+        height: 50px;
+        opacity: 25%;
+    }
+    
+    .bubbleImage{
+        width: 50px;
+        height: 50px;
+    }
+
+    .footer{
+        min-height: 80px;
+        font-size: 30px;
+    }
+   
+}

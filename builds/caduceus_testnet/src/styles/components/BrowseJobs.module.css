@@ -5,7 +5,39 @@
     flex-direction: column;
     -ms-flex-direction: column;
     row-gap: 20px;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    padding-top: 3rem;
+    padding-left: 10%;
+    padding-right: 10%;
 }
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header>h1{
+    font-size: 35px;
+    color: #fff;
+    margin: 0;
+    font-family: 'bold';
+}
+
+.header>button{
+    background-image: linear-gradient(to right, #111C33, #2E2230);
+    /* height: 50px; */
+    border: none;
+    color: #fff;
+    font-family: 'light';
+    font-size: 20px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
 
 .box{
     width: 100%;
@@ -17,11 +49,11 @@
 }
 
 .inputContainer{
-  width: 30%;
-  height: fit-content;
-  border-radius: 10px;
-  position: relative;
-  cursor: pointer;
+    width: 30%;
+    height: fit-content;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
 }
 
 
@@ -165,8 +197,6 @@
     justify-content: center;
     align-items: center;
     padding-top: 30px;
-    padding-left: 10%;
-    padding-right: 10%;
 }
 
 .allJobsBlack{

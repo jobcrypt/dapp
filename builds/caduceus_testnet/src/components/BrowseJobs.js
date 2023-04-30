@@ -28,6 +28,7 @@ import Wrapper from './Wrapper';
 import { getPopularJobs } from '../jobManager/PopularJobs';
 import { AccountContext } from '../App';
 import { ethers } from 'ethers';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -80,6 +81,7 @@ const BrowseJobs = () =>{
     const [ jobDetails, setJobDetails ] = useState(null);
     const [ isLoadingJobDesc, setIsLoadingJobDesc ] = useState({ status: false, message: '' });
     const { isStaked, account, isApproved, setIsApproved, setIsStaked } = useContext(AccountContext);
+    const navigate = useNavigate();
 
 
     const approveHandler = async() =>{
@@ -204,6 +206,7 @@ const BrowseJobs = () =>{
         setJobDetails(null);
         setShowJobDesc(true);//only for mobile
         setIsLoadingJobDesc({ status: true, message: 'Loading job details...' });
+        console.log('user staked: ', isStaked);
         const result_ = await getLatestJobDetails(address, isStaked);
         if(!isNull(result_[0])){
             const result = result_[0];
@@ -228,10 +231,13 @@ const BrowseJobs = () =>{
 }
 
 const openCompanyUrl =() =>{
-    let url = jobDetails.companyLink;
-    if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
-    window.open(url)
-} 
+    let url = jobDetails.applyLink || jobDetails.companyLink;
+    if(!isStaked)return;
+    if(!isNull(url)){
+      if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
+         window.open(url);
+    } 
+}
 
 function getJobTitle(title){
     return (isNull(title)? '' : (title.length > 17)? title.slice(0,17)+'...' : title)
@@ -547,6 +553,10 @@ function getJobTitle(title){
         <main className={classes.parent} id='previous_application'>
             {openStakePopup && <StakePopup setOpenStakePopup={setOpenStakePopup} />}
             {apply && <ApplyForJobPopup setApply={setApply} />}
+            <header className={classes.header}>
+                <h1>Browse Jobs</h1>
+                <button onClick={()=>navigate('/jobseeker_dashboard')}>Previous Applications</button>
+            </header>
              <div className={classes.box}>
                 <div className={classes.inputContainer}>
                      <input type='text' placeholder='UI/UX Designer' className={classes.input} />

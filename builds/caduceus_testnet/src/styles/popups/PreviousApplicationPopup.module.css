@@ -1,0 +1,141 @@
+.parent{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .05);
+    display: flex;
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-start;
+    backdrop-filter: blur(5px);
+    padding-top: 3rem;
+    padding-top: 170px;
+    padding-bottom: 50px;
+    overflow-y: auto;
+}
+
+.box{
+    width: 600px;
+    min-height: 250px;
+    max-height: 250px;
+    display: flex;
+    background-color: var(--dim-bg);
+    border-radius: 20px;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+    min-height: 50px;
+    max-height: 50px;
+    padding-top: 20px;
+}
+
+.header>p{
+    font-family: 'bold';
+    font-size: 25px;
+    margin: 0;
+}
+
+
+.center{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 130px;
+   max-height: 130px;
+   flex-direction: column;
+   -ms-flex-direction: column;
+}
+
+.center>p{
+    font-family: 'light';
+    font-size: 20px;
+    text-align: center;
+    margin: 0;
+}
+
+
+.btnContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    max-height: 70px;
+    column-gap: 10px;
+    padding-left: 20px;
+}
+
+.linearGradBtn{
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #fff;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    border: none;
+    border-radius: 5px;
+    font-family: 'light';
+    cursor: pointer;
+}
+
+.linearGradBtn:disabled{
+    background-image: linear-gradient(to right, #646066, #4c526a);  
+}
+
+.normalBtn{
+    padding: 8px 15px;
+    font-size: 18px;
+    color: #2c2231;
+    background-color: var(--dim-bg);
+    border: none;
+    border: 2px solid #2c2231;
+    border-radius: 5px;
+    font-family: 'light';
+    cursor: pointer; 
+}
+
+.btnContainer>p{
+    margin: 0;
+    font-size: 12px;
+    font-family: 'light';
+    color: rgb(229, 8, 8);
+}
+
+@media screen and (max-width: 770px) {
+    .box{
+        min-height: fit-content;
+        max-height: fit-content;
+        width: 90%;
+        padding: 0px 10px;
+        box-sizing: border-box;
+    }
+   
+    .center{
+      min-height: 170px;
+    }
+
+    .btnContainer{
+        flex-direction: column;
+        -ms-flex-direction: column;
+        row-gap: 10px;
+        column-gap: 0px;
+        min-height: fit-content;
+        max-height: fit-content;
+        padding-bottom: 20px;
+        padding-left: 0px;
+    }
+
+    .linearGradBtn{
+        width: 100%;
+        cursor: none;
+    }
+
+    .normalBtn{
+        width: 100%;
+    }
+}

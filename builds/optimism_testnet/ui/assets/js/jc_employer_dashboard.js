@@ -335,7 +335,7 @@ function processAction(postingAddress) {
     if (action === "ARCHIVE") {
         // call posting 
         iJobPostingContract.methods.executePostingAction(8).send({ from: account })
-            .then(function(response) {
+            .then(function(response){
                 console.log(response);
                 actionResultSpan.innerHTML = "ARCHIVED :: " + response.blockhash
             })

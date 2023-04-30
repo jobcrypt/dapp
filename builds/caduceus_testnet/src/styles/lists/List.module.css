@@ -1,12 +1,12 @@
 .ul{
+    position: absolute;
+    content: '';
     margin: 0;
     padding: 0px;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
     list-style: none;
-    position: absolute;
-    content: '';
     top: 110%;
     left: 0;
     right: 0;
@@ -14,11 +14,13 @@
     z-index: 100;
     /* width: 100%; */
     height: fit-content;
+    max-height: 200px;
     border-radius: 5px;
     border: 1px solid #7a7a7a;
     box-sizing: border-box;
     padding: 5px 0px;
     background-color: var(--dim-bg);
+    overflow-y: auto;
 }
 
 .ul>li{
@@ -30,8 +32,15 @@
     padding: 0px 10px;
     font-family: 'light';
     cursor: pointer;
+    z-index: 1;
 }
 
 .ul>li:hover{
     background-color: #b5b5b5;
 }
+
+.txt{
+    margin: 0;
+    font-family: 'light';
+    font-size: 15px;
+  }

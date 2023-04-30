@@ -1,15 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-
-
 import classes from '../styles/popups/StakePopup.module.css';
 import thumbsIcon from '../assets/thumbs_up.png';
-import { stake } from '../store/ContractSlice';
-import { readContracts, useAccount, useContractRead } from 'wagmi';
-import iJCStakeManagerAbi from '../abi/i_jc_stake_manager_abi';
-import iOpenRegisterAbi from '../abi/i_open_register_abi';
-import { isNull } from '../utils/Util';
 
 
 const StakePopup = (props) =>{

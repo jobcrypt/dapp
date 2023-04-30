@@ -7,7 +7,7 @@ import linkedin from '../assets/linkedin.png';
 import tiktok from '../assets/tiktok.png';
 import twitter from '../assets/twitter.png';
 import youtube from '../assets/youtube.png';
-import logo from '../assets/logo.png';
+import logo from '../assets/apple.png';
 import dropdownIcon from '../assets/dropdown.png';
 import tree from '../assets/tree.png';
 import hamburger from '../assets/hamburger.png';
@@ -78,17 +78,21 @@ const Header = (props) =>{
     const width = useWindowSize();
     
 
+    const openUrl = (url) =>{
+        window.open(url)
+    }
+
     return(
         <>
         {width > 770 &&<header className={classes.header}>
              <section className={classes.topHeader}>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline'}}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
-                    <img src={linkedin} alt='lkln' />
-                    <img src={youtube} alt='lkln' />
-                    <img src={tiktok} alt='lkln' />
-                    <img src={twitter} alt='lkln' />
-                    <img src={discord} alt='lkln' />
+                    <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
+                    <img src={youtube} alt='lkln' onClick={()=>openUrl('https://youtube.com/@jobcrypt6750')} />
+                    <img src={tiktok} alt='lkln' onClick={()=>openUrl('https://www.tiktok.com/@jobcrypt?_t=8boKccUSTqv&_r=1')} />
+                    <img src={twitter} alt='lkln' onClick={()=>openUrl('https://twitter.com/JobCrypt?t=lKJ39e8sY9Q2FTktDoQw_g&s=09')} />
+                    <img src={discord} alt='lkln' onClick={()=>openUrl('https://discord.gg/kDTwvf59')} />
                 </div>
              </section>
              <section className={classes.centerHeader}>
@@ -131,7 +135,7 @@ const Header = (props) =>{
                          deviceType='desktop'
                          setShowHamburger={setShowHamburger}
                         />} */}
-                        {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
+                        {dispatch.dashboard && <DashboardPopup setShowHamburger={setShowHamburger}  setDispatch={setDispatch} shouldUseDispatch={true} />}
                      </span>
                      <span 
                          className={classes.dropdown}
@@ -161,7 +165,7 @@ const Header = (props) =>{
                     </div>
                     <div className={classes.bottomRightContainer}>
                         <p>Need Crypto?</p>
-                        <button className={classes.getSomeBtn}>Get Some Here</button>
+                        <button className={classes.getSomeBtn} onClick={()=>window.open('https://www.moonpay.com/buy')}>Get Some Here</button>
                     </div>
              </section>
         </header>}
@@ -227,7 +231,7 @@ const Header = (props) =>{
                        {/* {dispatch.dashboard &&<DashBoardDropdown deviceType='mobile'
                        setShowHamburger={setShowHamburger}
                        />} */}
-                       {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
+                       {dispatch.dashboard && <DashboardPopup setShowHamburger={setShowHamburger}  setDispatch={setDispatch} shouldUseDispatch={true} />}
                      </span>
                      <span className={classes.dropdown}>
                        <div className={classes.eventsTitle} onClick={()=>setDispatch({ TYPE: ABOUT, status: !dispatch.about })}>
@@ -240,11 +244,11 @@ const Header = (props) =>{
                  <footer className={classes.footer}>
                  <p className={classes.bottomTxt}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', margin: '0'}}>Learn More</strong></p>
                  <div className={classes.topIconImage}>
-                    <img src={linkedin} alt='lkln' />
-                    <img src={youtube} alt='lkln' />
-                    <img src={tiktok} alt='lkln' />
-                    <img src={twitter} alt='lkln' />
-                    <img src={discord} alt='lkln' />
+                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
+                    <img src={youtube} alt='lkln' onClick={()=>openUrl('https://youtube.com/@jobcrypt6750')} />
+                    <img src={tiktok} alt='lkln' onClick={()=>openUrl('https://www.tiktok.com/@jobcrypt?_t=8boKccUSTqv&_r=1')} />
+                    <img src={twitter} alt='lkln' onClick={()=>openUrl('https://twitter.com/JobCrypt?t=lKJ39e8sY9Q2FTktDoQw_g&s=09')} />
+                    <img src={discord} alt='lkln' onClick={()=>openUrl('https://discord.gg/kDTwvf59')} />
                 </div>
                  </footer>
                  </>}

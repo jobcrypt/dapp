@@ -66,8 +66,7 @@ const fetchDataForContract = async(addresses) =>{
 }
 
 export const getLatestJobDetails = async(postingAddress, isStaked) =>{
-    console.log('posting address: ', postingAddress)
-    let JOB_DATA = [], applyLink='';
+    let JOB_DATA = [], applyLink='', companySummary='', jobDesc ='';
     try{
         const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
         const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
@@ -76,22 +75,41 @@ export const getLatestJobDetails = async(postingAddress, isStaked) =>{
         const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
         const locationType = await contractInstance.getFeatureSTR('JOB_LOCATION_TYPE');
         let postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
-        let companySummary = await contractInstance.getFeatureSTR('COMPANY_SUMMARY');
+        try{
+            companySummary = await contractInstance.getFeatureSTR('COMPANY_SUMMARY');
+            companySummary = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companySummary}`);
+        }catch(err){
+            companySummary = 'Company Summary not available at the moment.'
+        }
         const jobPaymentType = await contractInstance.getFeatureSTR('JOB_PAYMENT_TYPE');
         const jobLocationSupport = await contractInstance.getFeatureSTR('JOB_LOCATION_SUPPORT');
         const categoryFeature = await contractInstance.getFeatureSTRARRAY("CATEGORY_FEATURE");
         const skillsFeature = await contractInstance.getFeatureSTRARRAY("SKILLS_FEATURE");
-        let jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
-        if(isStaked) applyLink = await contractInstance.getFeatureSTR('APPLY_LINK');
-        postingDateFeatures = new Date(parseInt(postingDateFeatures));
-        console.log(jobLocationSupport)
-
-        const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
-        if(!isNull(result.ops[0])){
-            jobDesc = result.ops[0].insert
+        try{
+            jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
+            const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
+            if(!isNull(result.ops[0])){
+                jobDesc = result.ops[0].insert
+            }
+            console.log('job desc: ', jobDesc)
+        }catch(err){
+            jobDesc = 'Job description not available at the moment.'
         }
+        try{
+            if(isStaked) applyLink = await contractInstance.getFeatureSTR('APPLY_LINK');
+            console.log('apply link: ', applyLink)
+            console.log('staked: ', isStaked)
+        }catch(err){}
 
-        companySummary = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companySummary}`);
+        postingDateFeatures = new Date(parseInt(postingDateFeatures));
+        console.log(jobLocationSupport);
+
+        // const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
+        // if(!isNull(result.ops[0])){
+        //     jobDesc = result.ops[0].insert
+        // }
+
+       
 
         JOB_DATA.push({
             jobTitle,
