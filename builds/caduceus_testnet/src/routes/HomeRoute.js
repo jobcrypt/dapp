@@ -1,39 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
 import classes from '../styles/routes/HomeRoute.module.css';
 import hero from '../assets/hero.png';
-import vector1 from '../assets/Vector1.png';
-import vector2 from '../assets/Vector2.png';
 import decentralized from '../assets/decentralized.png';
 import permissionless from '../assets/permissionless.png';
 import openIcon from '../assets/open.png';
-import decentralized_svg from '../assets/decentralized.svg';
-import permissionless_svg from '../assets/permissionless.svg';
-import openIcon_svg from '../assets/open.svg';
 import speakerIcon from '../assets/speaker.png';
 import employerIocn from '../assets/employer.png';
 import communityIcon from '../assets/community.png';
 import jobseekerIcon from '../assets/jobseeker.png';
 import rail from '../assets/rail.png';
 import businessIcon from '../assets/corporate_businessman.png';
-import CalendarEvent from '../components/CalendarEvent';
+import frame9 from '../assets/Frame9.png';
+import frame10 from '../assets/Frame10.png';
+import frame11 from '../assets/Frame11.png';
+import frame12 from '../assets/Frame12.png';
+import frame13 from '../assets/Frame13.png';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 import PromotionPane from '../components/PromotionPane';
 import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
 import ReadyToStart from '../components/ReadyToStart';
 import useWindowSize from '../hooks/useWindowSize';
+import { AccountContext } from '../App';
+import PostJobPopup from '../popups/PostJobPopup';
 
 
 
- const HomeRoute = (props) =>{
+ const HomeRoute = () =>{
     const navigate = useNavigate();
-   const [promoArray] = useState([ vector1, vector2, vector1, vector2, vector1, vector2, vector1, vector2 ]);
    const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
    const width = useWindowSize();
+   const { account } = useContext(AccountContext);
+   const [ isMetaMaskInstalled, setIsMetamaskInstalled ] = useState(false);
+   const [ openPostJob, setOpenPostJob ] = useState(false);
+
+
 
    useEffect(()=>{
+    try{
+      if(window.ethereum)setIsMetamaskInstalled(true);
+      else setIsMetamaskInstalled(false)
+    }catch(err){
+        setIsMetamaskInstalled(false);
+    }
+
     document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
    },[]);
 
@@ -48,10 +60,14 @@ import useWindowSize from '../hooks/useWindowSize';
         msFlexDirection: 'column-reverse'
     }
    }
+
+
+
+
   return(
     <>
     {openMetaPopup && <ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} />}
-    
+    {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
     <section className={classes.parent} id='parent'>
       <span className={classes.heroContainer}>
          <img src={hero} alt='' className={classes.hero} />
@@ -62,14 +78,21 @@ import useWindowSize from '../hooks/useWindowSize';
          </span>
          <p className={classes.applicantTxt}>Where every applicant is a WEB 3 user</p>
          <section className={classes.smallSection}>
-            <p>Install caduceus to metamask and stake to apply or post web3 jobs </p>
-            <button className={classes.connectWalletBtn} onClick={()=>setOpenMetaPopup(true)}>CONNECT WALLET</button>
-            <button className={classes.needCryptoBtn}>Need Crypto?</button>
+            {/* <p>Install caduceus to metamask and stake to apply or post web3 jobs </p> */}
+            {account.isConnected &&<p>Welcome onboard, Choose what you want to do.</p>}
+            <div className={classes.connectBtnContainer}>
+                {account.isConnected &&<>
+                <button className={classes.dashboardBtn} onClick={()=>navigate('/browse-job')}>BROWSE JOBS</button>
+                <button className={classes.dashboardBtn} onClick={()=>setOpenPostJob(true)}>POST JOBS</button>
+                </>}
+                {!account.isConnected &&<button className={classes.connectWalletBtn} onClick={()=>setOpenMetaPopup(true)}>CONNECT WALLET</button>}
+            </div>
+            <button className={classes.needCryptoBtn} onClick={()=>window.open('https://www.moonpay.com/buy')}>Need Crypto?</button>
          </section>
     </section>
     <main className={classes.main}>
     <PromotionPane />
-    <section className={classes.center}>
+    {!isMetaMaskInstalled &&<section className={classes.center}>
       <article className={classes.rectangle}>
           <h1>Job Board</h1>
           <ul className={classes.box}>
@@ -80,20 +103,20 @@ import useWindowSize from '../hooks/useWindowSize';
                    </div>
                </li>
                <li>
-                   <div className={classes.jobTop}>Featured Jobs</div>
+                   <div className={classes.jobTop}>Latest Jobs</div>
                    <div className={classes.content}>
                       <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
                    </div>
                </li>
                <li>
-                   <div className={classes.jobTop}>Featured Jobs</div>
+                   <div className={classes.jobTop}>Popular Jobs</div>
                    <div className={classes.content}>
                       <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
                    </div>
                </li>
           </ul>
       </article>
-    </section>
+    </section>}
     <section className={classes.permissionlessContainer}>
       <div className={classes.permissionTop}>
         <p>Reasons why millions of</p>
@@ -101,17 +124,17 @@ import useWindowSize from '../hooks/useWindowSize';
       </div>
       <article className={classes.permissionBoxParent}>
             <div className={classes.tallBox}>
-                <img src={permissionless_svg} alt='' />
+                <img src={permissionless} alt='' className={classes.permissionless} />
                 <h2>Permissionless</h2>
                 <p>Posting on Jobcrypt is permissionless, Post your job when you want. Only you have access to your listings.</p>
             </div>
             <div className={classes.tallBox}>
-                <img src={decentralized_svg} alt='' />
+                <img src={decentralized} alt='' className={classes.decentralized} />
                 <h2>Decentralized</h2>
                 <p>Job listings are 100% decentralized, we don't have any secret databases anywhere.</p>
             </div>
             <div className={classes.tallBox}>
-                <img src={openIcon_svg} alt='' />
+                <img src={openIcon} alt='' className={classes.openIcon} />
                 <h2>Open</h2>
                 <p>JobCrypt listings are open, they live on the blockchain and using Open Block EI, only you can modify your listings</p>
             </div>
@@ -173,9 +196,21 @@ import useWindowSize from '../hooks/useWindowSize';
         <div>
             <button onClick={()=>navigate('/featured-events')}>Learn More</button>
         </div>
+        <SustanabilityWeekEvent />
     </section>
+   
     {/* <CalendarEvent /> */}
-    <SustanabilityWeekEvent />
+    {/* <SustanabilityWeekEvent /> */}
+    {/* <section className={classes.backedByContainer}>
+        <h1>Backed By</h1>
+        <span className={classes.framesContainer}>
+            <img src={frame9} alt='' />
+            <img src={frame10} alt='' />
+            <img src={frame11} alt='' />
+            <img src={frame12} alt='' />
+            <img src={frame13}alt='' />
+        </span>
+    </section> */}
     <ReadyToStart />
     </main>
     </>

@@ -8,9 +8,10 @@
     box-sizing: border-box;
     padding-top: 1rem;
     flex-direction: column;
-    background-image: linear-gradient(to right, #2c2231, #171d32);
+    /* background-image: linear-gradient(to right, #2c2231, #171d32); */
     padding-left: 10%;
     padding-right: 10%;
+    z-index: 1;
 }
 
 .parent>span{
@@ -29,7 +30,7 @@
     border-radius: 20px;
     display: flex;
     justify-content: space-evenly;
-    background-image: linear-gradient(to top right, #2F1818, #000000, #302044);
+    /* background-image: linear-gradient(to top right, #2F1818, #000000, #302044); */
     padding-top: 4rem;
     padding-bottom: 4rem;
     box-sizing: border-box;

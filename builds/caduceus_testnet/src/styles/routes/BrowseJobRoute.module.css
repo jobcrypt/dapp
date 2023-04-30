@@ -15,7 +15,7 @@
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    padding-top: 16rem;
+    /* padding-top: 16rem; */
 }
 
 .heroImage{

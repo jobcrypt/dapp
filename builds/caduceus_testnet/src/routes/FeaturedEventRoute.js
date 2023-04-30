@@ -1,29 +1,38 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import classes from '../styles/routes/FeaturedEventRoute.module.css';
 import backArrow from '../assets/back.png';
 import ReadyToStart from '../components/ReadyToStart';
-import germanyIcon from '../assets/germany.png';
-import ukIcon from '../assets/uk.png';
 import groupIcon from '../assets/group.png';
 import wifiIcon from '../assets/wifi.png';
-import locationIcon from '../assets/location.png';
 import SustanabilityWeekEvent from '../components/SustanabilityWeekEvent';
+import useWindowSize from '../hooks/useWindowSize';
+import ReactPlayer from 'react-player';
+import CalendarEvent2 from '../components/CalendarEvent2';
 
 const FeaturedEventRoute = () =>{
     const navigate = useNavigate();
+    const width = useWindowSize();
+    const location = useLocation();
 
     useEffect(()=>{
-        document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
+        document.getElementById('featured_event').scrollIntoView({ behavior: "smooth" });
   },[]);
 
 
+  
+  const openUrl = (url) =>{
+    window.open(url);
+ }
+
+
     const style={
-        color: '#be8e24'
+        color: '#be8e24',
+        cursor: 'pointer'
     }
     return(
-        <section className={classes.parent} id='parent'>
+        <section className={classes.parent} id='featured_event'>
             <article className={classes.firstContainer}>
                 <div>
                     <span className={classes.pointerContainer}>
@@ -34,13 +43,71 @@ const FeaturedEventRoute = () =>{
                 <h1>Check out our upcoming featured events.</h1>
                 <p className={classes.content}>Our events help us to connect to you where your are, bringing the best in blockchain and web3 education to your city</p>
             </article>
-            <article className={classes.sustainibilityParent}>
+            {width <= 770 &&<article className={classes.sustainibilityParent}>
                <SustanabilityWeekEvent />
-            </article>
+            </article>}
+            {width > 770 &&
+              <main className={classes.main}>
+                    <article className={classes.sustainibilityParent}>
+                    <div className={classes.sustainabilityDiv}>
+                    <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
+                        <p>“Do you live in Europe? Would you like to become part of the fight and save the planet? Then join us for JobCrypt Blockchain Sustainability Week- EU 2023, hosted in Munich Germany. Come and learn how blockchain is changing the face of the fight against pollution, opening new ways for us to achieve a sustainable future</p>
+                        <footer className={classes.footer}>
+                            <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilitydocuseries2023/index.html')}>Learn More</button>
+                        </footer>
+                    </div>
+                    <div className={classes.videoContainer}>
+                        <span>
+                        <ReactPlayer url={'https://youtu.be/7T-NvwciBJM'} style={{ minHeight: '100%', minWidth: '100%', height: '100%'}} controls/>
+                        </span>
+                    </div>
+                    </article>
+                    <article className={classes.sustainibilityParent}>
+                        <div className={classes.sustainabilityDiv}>
+                        <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
+                        <p>“Do you live in Europe? Would you like to become part of the fight and save the planet? Then join us for JobCrypt Blockchain Sustainability Week- EU 2023, hosted in Munich Germany. Come and learn how blockchain is changing the face of the fight against pollution, opening new ways for us to achieve a sustainable future</p>
+                        <footer className={classes.footer}>
+                            <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilitydocuseries2023/index.html')}>Learn More</button>
+                        </footer>
+                        </div>
+                <div className={classes.videoContainer}>
+                    <span>
+                    <ReactPlayer url={'https://youtu.be/Z6OD-EoeHYk'} style={{ minHeight: '100%', minWidth: '100%', height: '100%'}} controls />
+                    </span>
+                </div>
+                </article>
+                <article className={classes.sustainibilityParent}>
+                        <div className={classes.sustainabilityDiv}>
+                        <h2>JobCrypt Blockchain Sustainability Week- EU 2023</h2>
+                        <p>JobCrypt Blockchain Sustainability Week - EU 2023 will bring to you an exciting series of talks every evening through the week. We will cover many different themes such as contrbutions to biodiversity conservation, land preservation and impact investing. In each theme during this week we will delve into the work being done and the new skills that are being brought to bear to tackle the tasks!</p>
+                        <footer className={classes.footer}>
+                            <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilityweekeu2023/index.html')}>Learn More</button>
+                        </footer>
+                        </div>
+                <div className={classes.videoContainer}>
+                    <span>
+                    <ReactPlayer url={'https://youtu.be/JayvCQsVAEo'} style={{ minHeight: '100%', minWidth: '100%', height: '100%'}} controls />
+                    </span>
+                </div>
+                </article>
+         </main>}
             <article className={classes.secondContainer}>
-                <h1>2023 Events Calendar.</h1>
-                <section className={classes.calendarParent}>
-        <article className={classes.calendarArticle}>
+             <CalendarEvent2 />
+            </article>
+            <article className={classes.contactUsContainer}>
+                <h1>Contact</h1>
+                <p>For partnerships or more information about JobCrypt, Contact us on our <strong  onClick={()=>openUrl('https://discord.gg/kDTwvf59')} style={style}>Discord</strong> or <strong style={style} onClick={()=>openUrl('mailto:contact@jobcrypt.com')}>Email</strong> us</p>
+            </article>
+        <ReadyToStart />
+        </section>
+    )
+}
+
+export default FeaturedEventRoute;
+
+/**
+ * 
+ *  <article className={classes.calendarArticle}>
            <div>
                 <header className={classes.eventHeader}>
                     <img src={germanyIcon} alt='' />
@@ -69,7 +136,6 @@ const FeaturedEventRoute = () =>{
                             </span>
                             </li>
                     ))}
-                   
                 </ul>
                 <footer className={classes.eventFooter}>View More</footer>
            </div>
@@ -101,20 +167,8 @@ const FeaturedEventRoute = () =>{
                             </span>
                             </li>
                     ))}
-                   
                 </ul>
                 <footer className={classes.eventFooter}>View More</footer>
            </div>
         </article>
-        <article className={classes.contactUsContainer}>
-            <h1>Contact</h1>
-            <p>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</p>
-        </article>
-        <ReadyToStart />
-    </section>
-            </article>
-        </section>
-    )
-}
-
-export default FeaturedEventRoute;
+ */

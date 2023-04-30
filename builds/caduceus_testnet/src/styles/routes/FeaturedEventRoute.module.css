@@ -64,6 +64,16 @@
     font-family: 'light';
 }
 
+.main{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    row-gap: 100px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
 
 .sustainibilityParent{
     display: flex;
@@ -71,47 +81,100 @@
     align-items: flex-start;
     width: 100%;
     padding-left: 45px;
+    height: fit-content;
  }
 
-.secondContainer{
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  padding-top: 50px;
-  flex-direction: column;
-}
+ .sustainabilityDiv{
+    width: 50%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+ }
 
-
-.secondContainer>h1{
+ .sustainabilityDiv>h2{
     font-family: 'bold';
     color: #fff;
-    font-size: 40px;
-    padding-left: 45px;
-    margin: 0; 
-    margin-bottom: 50px;
-}
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 20px;
+ }
 
+ .sustainabilityDiv>p{
+    font-family: 'light';
+    color: #fff;
+    font-size: 18px;
+    margin: 0;
+ }
 
-.calendarParent{
+ .videoContainer{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 50%;
+    min-height: 300px;
+    max-height: 300px;
     height: 100%;
-    box-sizing: border-box;
-    flex-direction: column;
+    padding-left: 30px;
+    padding-right: 45px;
+ }
+
+.videoContainer>span{
+    min-width: 70%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
 }
 
-/* .calendarParent>span{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem 0px;
-  color: #fff;
-  font-family: 'bold';
-  font-size: 50px;
-  font-weight: bold;
-} */
+
+ .footer{
+    min-height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+}
+
+ .footer>button{
+    border: none;
+    height: fit-content;
+    padding: 8px 20px;
+    border-radius: 3px;
+    color: #fff;
+    font-family: 'light';
+    position: relative;
+    cursor: pointer;
+    background: linear-gradient(to right, #FFFFFF, #92B0FF);
+}
+
+.footer>button::before{
+    position: absolute;
+    content: 'Learn More';
+    top: 1.5px;
+    left: 1.5px;
+    right: 1.5px;
+    bottom: 1.5px;
+    z-index: 1;
+    background-color: #2c2231;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.secondContainer{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    padding-top: 30px;
+    flex-direction: column;
+    /* background-color: green; */
+}
+
 
 .calendarArticle{
   display: flex;
@@ -306,7 +369,8 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding-left: 45px;
+    /* padding-left: 45px; */
+    margin-top: 30px;
 }
 
 .contactUsContainer>h1{

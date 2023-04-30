@@ -1,4 +1,4 @@
-import { readContracts } from "wagmi"
+// import { readContracts } from "wagmi"
 
 
 
@@ -15,7 +15,6 @@ import { getContractInstance } from "./init";
 
      export const registryGetAllContracts = async() =>{
         let CONTRACT_ADDRESSES = [];
-        // console.log('trying to interact wit blockchain')
         const contract = getContractInstance(REGISTRY_ADDRESS, iOpenRegisterAbi, 'provider');
         const RESERVED_OPEN_PRODUCT_CORE = await contract.getAddress('RESERVED_OPEN_PRODUCT_CORE');
         const RESERVED_OPEN_RANKING_CORE = await contract.getAddress('RESERVED_OPEN_RANKING_CORE');
@@ -61,7 +60,7 @@ import { getContractInstance } from "./init";
                 value: RESERVED_JOBCRYPT_VERIFICATION_SERVICE_PAYMENT_MANAGER_CORE})
         }
 
-        console.log(CONTRACT_ADDRESSES);
+        // console.log(CONTRACT_ADDRESSES);
        
         sessionStorage.setItem('contracts', JSON.stringify(CONTRACT_ADDRESSES));
      }

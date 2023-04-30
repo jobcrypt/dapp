@@ -1,11 +1,10 @@
 .parent{
     position: relative;
-    /* width: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 280px;
+    padding-top: 80px;
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 30px;
@@ -70,16 +69,39 @@
     color: #fff;
 }
 
+.connectBtnContainer{
+    width: 100%;
+    column-gap: 20px;
+    row-gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 .connectWalletBtn{
    color: #fff;
-   font-family: 'light';
+   font-family: 'bold';
    font-size: 40px;
    background-image: linear-gradient(to right, #2c2231, #171d32);
    border: none;
    border-radius: 8px;
    cursor: pointer;
-   padding: 30px 50px;
+   padding: 25px 50px;
    margin-top: 20px;
+}
+
+.dashboardBtn{
+    color: #fff;
+    font-family: 'bold';
+    font-size: 35px;
+    /* background-image: linear-gradient(to right, #2c2231, #171d32); */
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 25px 50px;
+    /* margin-top: 20px;  */
+    border: #2c2231 5px solid;
 }
 
 .needCryptoBtn{
@@ -260,22 +282,60 @@
     color: #fff;
     padding: 0 20px;
     box-shadow: 10px 10px 20px 5px #0e121f;
+    border: 1px solid #b0b0b0;
  }
 
- .tallBox>img{
-    width: 300px;
-    height: 400px;
-    margin-top: -40%;
+ /* .tallBox>img{
+    width: 280px;
+    height: 280px;
+    width: 80%;
+    height: 80%;
     position: absolute;
-    top: 0;
+    top: -30%;
+    transition: all 300ms ease-in;
+ } */
+
+ .permissionless{
+    width: 85%;
+    height: 85%;
+    position: absolute;
+    top: -30%;
     transition: all 300ms ease-in;
  }
 
- .tallBox>img:hover{
+ .permissionless:hover{
     transform: translateY(-20px);
     transform: scale(1.1);
     transition: all 300ms ease-in;
  }
+
+ .decentralized{
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: -20%;
+    transition: all 300ms ease-in;
+ }
+
+ .decentralized:hover{
+    transform: translateY(-20px);
+    transform: scale(1.1);
+    transition: all 300ms ease-in;
+ }
+
+ .openIcon{
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: -20%;
+    transition: all 300ms ease-in;
+ }
+
+.openIcon:hover{
+    transform: translateY(-20px);
+    transform: scale(1.1);
+    transition: all 300ms ease-in;
+}
 
  .tallBox>h2{
     font-size: 35px;
@@ -393,7 +453,8 @@
 
 .blueSection{
     width: 100%;
-    height: 600px;
+    /* height: 600px; */
+    max-height: fit-content;
     display: flex;
     justify-content: flex-start;
     align-content: flex-start;
@@ -478,6 +539,21 @@
    cursor: pointer;
 }
 
+.backedByContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.backedByContainer>h1{
+    font-family: 'bold';
+    font-size: 30px;
+    color: #fff;
+}
+
 @media (min-width: 1000px) and (max-width: 1310px) {
     .box{ 
         width: 80vw;
@@ -546,9 +622,20 @@
 .smallSection>p{
     text-align: center;
 }
+
+.connectBtnContainer{
+  flex-direction: column;
+  -ms-flex-direction: column;
+}
+
 .connectWalletBtn{
     padding: 20px 30px;
     cursor: none;
+    font-size: 35px;
+ }
+
+ .dashboardBtn{
+    font-size: 35px;
  }
 
  .needCryptoBtn{

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import classes from '../styles/routes/JobSeekersRoute.module.css';
-import jobseekerIcon from '../assets/Layer.png';
+import jobseekerIcon from '../assets/jobseeker.png';
 import ReadyToStart from '../components/ReadyToStart';
 import backArrow from '../assets/back.png';
 import useWindowSize from '../hooks/useWindowSize';
@@ -20,6 +20,10 @@ const JobSeekersRoute = (props) =>{
         color: '#be8e24',
         fontWeight: 'normal',
         cursor: 'pointer'
+    }
+
+    const openUrl =(url) =>{
+        window.open(url)
     }
 
 
@@ -40,7 +44,7 @@ const JobSeekersRoute = (props) =>{
                 </div>}
             </article>
             <article className={classes.article}>
-                <div className={classes.rightBox}>
+                <div className={classes.rightBox} style={{ minWidth: '100%'}}>
                     <h2>How it works</h2>
                     <span>To get alerts as a Job Seeker, you will need to create your dashboard on JobCrypt and sign up on the form below. Your skill preferences will then be mapped to the skills on our chain search, thus when you access your dashboard, you will receive notification of the latest jobs that have been posted matching your skills.</span>
                 </div>
@@ -51,15 +55,14 @@ const JobSeekersRoute = (props) =>{
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
-                    <span>You can sign up for this programme. Complete the form <strong style={style}>here</strong></span>
+                    <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
                 </div>
             </article>
             <article className={classes.article}>
-                <div className={classes.rightBox}>
-                    <h2>Contact</h2>
-                    <span>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</span>
-                    {/* <p>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</p> */}
-                </div>
+            <article className={classes.contactUsContainer}>
+                <h1>Contact</h1>
+                <p>For partnerships or more information about JobCrypt, Contact us on our <strong  onClick={()=>openUrl('https://discord.gg/kDTwvf59')} style={style}>Discord</strong> or <strong style={style} onClick={()=>openUrl('mailto:contact@jobcrypt.com')}>Email</strong> us</p>
+            </article>
            </article>
         <ReadyToStart />
         </section>

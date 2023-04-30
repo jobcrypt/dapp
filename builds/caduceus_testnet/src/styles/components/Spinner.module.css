@@ -1,0 +1,27 @@
+.spinner{
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    border-radius: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-top-color: #dddddd;
+    border-right-color: #dddddd;
+    border-bottom-color: #dddddd;
+    border-left-color: transparent;
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-timing-function:linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+@keyframes spin {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

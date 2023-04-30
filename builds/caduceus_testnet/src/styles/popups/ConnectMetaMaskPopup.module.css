@@ -13,8 +13,11 @@
 }
 
 .box{
-    width: 60vw;
-    height: 70vh;
+    position: absolute;
+    width: fit-content;
+    width: 50%;
+    height: fit-content;
+    padding: 20px 10px 40px 10px;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
@@ -24,7 +27,7 @@
 
 .header{
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -105,6 +108,11 @@
     -ms-flex-direction: column;
 }
 
+.successContainer>img{
+    width: 170px;
+    height: 170px;
+}
+
 .successContainer>h1{
     color: #fff;
     font-family: 'bold';
@@ -128,6 +136,7 @@
     column-gap: 20px;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .browseBtn{
@@ -174,7 +183,7 @@
 @media screen and (max-width: 770px) {
     .box{
         width: 95%;
-        height: 70vh;
+        /* height: 70vh; */
     }
     .body{
         padding: 4rem 10px;

@@ -8,6 +8,42 @@
       src="https://kit.fontawesome.com/6c1d4fe80b.js"
       crossorigin="anonymous"
     ></script>
+    <!-- Web 3 -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"
+      type="text/javascript"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"
+      integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-5LX7VP442M"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-5LX7VP442M");
+    </script>
     <script>
       document.documentElement.classList.add("js");
     </script>
@@ -21,9 +57,7 @@
       content="blockchain jobs, web3 jobs, tech jobs, job search, jobs, search engine for jobs, job search engine, job listings, search jobs, career, employment, work, find jobs, rss jobs feed xml, devops, biz dev, jobs"
     />
     <link href="./../../dist/output.css" rel="stylesheet" />
-    <link./../../dist/output.css rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -88,14 +122,14 @@
         </div>
       </section>
 
-      <div class="bg-black text-white px-10 py-4">
+      <div class="bg-black text-white px-5 py-4">
         <nav class="border-gray-200">
           <div
-            class="container text-white font-poppins flex-wrap lg:flex-nowrap lg:gap-40 gap-0 flex justify-between items-center"
+            class="container text-white font-poppins flex-wrap lg:flex-nowrap lg:gap-[7rem] gap-0 flex justify-between items-center"
           >
             <a href="#" class="flex">
               <div class="flex items-center gap-2 text-white">
-                <img src="../../assets/images/jclogo.svg" />
+                <img src="../assets/images/jclogo.svg" />
                 <h1 class="text-2xl font-bold whitespace-nowrap">Job Crypt</h1>
               </div>
             </a>
@@ -133,15 +167,15 @@
               </svg>
             </button>
             <div
-              class="hidden lg:flex items-center font-poppins tracking-wider gap-40 justify-between w-full"
+              class="hidden lg:flex items-center font-poppins tracking-wider justify-between w-full"
               id="mobile-menu"
             >
               <ul
-                class="flex-col gap-y-5 lg:flex-row flex space-x-5 mt-4 lg:mt-0 lg:text-base text-sm lg:font-medium"
+                class="flex-col gap-y-5 lg:flex-row flex gap-7 mt-4 lg:mt-0 text-sm lg:font-medium"
               >
                 <li>
                   <a
-                    href="../Index.html"
+                    href="./Index.html"
                     class="text-white block"
                     aria-current="page"
                     >Home</a
@@ -150,7 +184,7 @@
 
                 <li>
                   <a
-                    href="../post-jobs.html"
+                    href="./post-jobs.html"
                     class="font-thin text-white block"
                     aria-current="page"
                     >Post a Job</a
@@ -187,10 +221,12 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a class="nav-link" href="./employer.html">Employer</a>
+                        <a class="nav-link" href="./dashboard/employer.html"
+                          >Employer</a
+                        >
                       </li>
                       <li>
-                        <a class="nav-link" href="./jobseeker.html"
+                        <a class="nav-link" href="./dashboard/jobseeker.html"
                           >Job Seeker</a
                         >
                       </li>
@@ -229,28 +265,28 @@
                       <li>
                         <a
                           class="nav-link scrollto"
-                          href="../jobs/featured-jobs.html"
+                          href="./jobs/featured-jobs.html"
                           >Featured Jobs</a
                         >
                       </li>
                       <li>
                         <a
                           class="nav-link scrollto"
-                          href="../jobs/latest-jobs.html"
+                          href="./jobs/latest-jobs.html"
                           >Latest Jobs</a
                         >
                       </li>
                       <li>
                         <a
                           class="nav-link scrollto"
-                          href="../jobs/popular-jobs.html"
+                          href="./jobs/popular-jobs.html"
                           >Popular Jobs</a
                         >
                       </li>
                       <li>
                         <a
                           class="nav-link scrollto"
-                          href="../jobs/search-jobs.html"
+                          href="./jobs/search-jobs.html"
                           >Search Jobs</a
                         >
                       </li>
@@ -401,12 +437,12 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a class="nav-link scrollto" href="../Index.html#whyus"
+                        <a class="nav-link scrollto" href="./Index.html#whyus"
                           >Why Us</a
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="../about.html"
+                        <a class="nav-link scrollto" href="./about.html"
                           >About Us</a
                         >
                       </li>
@@ -424,12 +460,20 @@
                   </div>
                 </li>
               </ul>
-              <button
-                id="metamaskButton"
-                class="text-black bg-jcBlue font-thin rounded-full px-6 py-2 bg-opacity-90"
-              >
-                Install Metamask to view Jobs
-              </button>
+              <div class="">
+                <span class="text-green-500 text-xs" id="showAccount"></span>
+
+                <span
+                  id="connect_web_3"
+                  class="text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+                ></span>
+                <div class="flex text-white text-xs mt-1">
+                  <span id="start_point_span"></span>
+                  <span id="get_started_button_span"></span>
+                  <span id="connect_video_icon_span"></span
+                  ><span id="connect_video_link_span"></span>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
@@ -1052,5 +1096,61 @@
     <script src="../../assets/js/jc_index.js"></script>
     <script src="../../assets/js/jc_new_jobs.js"></script>
     <script src="../../assets/js/carousel.js"></script>
+
+    <!-- Start of HubSpot Embed Code -->
+    <script
+      type="text/javascript"
+      id="hs-script-loader"
+      async
+      defer
+      src="//js-eu1.hs-scripts.com/25669875.js"
+    ></script>
+    <!-- End of HubSpot Embed Code -->
+    <!-- Web 3 -->
+    <script
+      type="text/javacript"
+      src="../../assets/abi/i_jc_jobcrypt_abi.js"
+    ></script>
+    <script
+      type="text/javacript"
+      src="../../assets/abi/i_jc_job_posting_abi.js"
+    ></script>
+    <script
+      type="text/javacript"
+      src="../../assets/abi/i_jc_employer_dashboard_abi.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <!-- JobCrypt Derivative ABIs -->
+    <script src="../../assets/abi/i_jc_job_posting_abi.js"></script>
+    <script src="../../assets/abi/i_jc_job_posting_editor_abi.js"></script>
+    <script src="../../assets/abi/i_jc_employer_dashboard_abi.js"></script>
+
+    <!-- JobCrypt Core ABIs -->
+    <script src="../../assets/abi/i_jc_stake_manager_abi.js"></script>
+    <script src="../../assets/abi/i_jc_factory_facade_core_abi.js"></script>
+
+    <!-- Open Block EI Derivative ABIs -->
+    <script src="../../assets/abi/i_open_product_abi.js"></script>
+
+    <!-- Open Block EI Core ABIs -->
+    <script src="../../assets/abi/i_open_product_core_abi.js"></script>
+
+    <script src="../../assets/abi/i_open_register_abi.js"></script>
+
+    <!-- OpenZeppelin ABIs -->
+    <script src="../../assets/abi/i_erc20_metadata_abi.js"></script>
+
+    <!-- TEST NET ONLY FAUCET CODE-->
+    <script src="../../assets/abi/i_erc20USDC_abi.js"></script>
+    <script src="../../assets/abi/i_erc20WETH_abi.js"></script>
+
+    <!-- JobCrypt JS -->
+    <script src="../../assets/js/jc/autoconnect.js"></script>
+    <script src="../../assets/js/jc/jobcrypt.js"></script>
+    <script src="../../assets/js/jc/employer_dashboard.js"></script>
+    <script src="../../assets/js/jc/automated_promo_other_page.js"></script>
   </body>
 </html>
