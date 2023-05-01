@@ -1,0 +1,41 @@
+.ul{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 130%;
+    right: 0;
+    /* right: 0; */
+    /* min-width: 200px; */
+    max-width: max-content;
+    height: max-content;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    z-index: 5;
+}
+
+
+.ul>li{
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.networkIcon{
+    width: 30px;
+    height: 30px;
+}
+
+.pTag{
+    font-family: 'bold';
+    font-size: 20px;
+    margin: 0;
+}
+
+.checkIcon{
+    width: 20px;
+    height: 20px;
+}

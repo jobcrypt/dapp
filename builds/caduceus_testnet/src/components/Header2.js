@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import classes from '../styles/components/Header2.module.css';
@@ -7,7 +7,7 @@ import linkedin from '../assets/linkedin.png';
 import tiktok from '../assets/tiktok.png';
 import twitter from '../assets/twitter.png';
 import youtube from '../assets/youtube.png';
-import logo from '../assets/logo.png';
+import logo from '../assets/apple.png';
 import dropdownIcon from '../assets/dropdown.png';
 import tree from '../assets/tree.png';
 import metaIcon from '../assets/metamask.png';
@@ -15,6 +15,7 @@ import thumbsUpIcon from '../assets/thumbs_up.png';
 import hamburger from '../assets/hamburger.png';
 import cancelIcon from '../assets/x.png';
 import frameImage from '../assets/Frame_image.png';
+import caduceusIcon from '../assets/caduceus.png';
 
 import EventsDropdown from '../dropdowns/EventsDropdown';
 import { useReducer } from 'react';
@@ -22,22 +23,25 @@ import ProgramDropdown from '../dropdowns/ProgramDropdown';
 import AboutDropdown from '../dropdowns/AboutDropdown';
 import { isNull } from '../utils/Util';
 import useWindowSize from '../hooks/useWindowSize';
-import useConnectWallet from '../hooks/useConnectWallet';
 import DashboardPopup from '../popups/DashboardPopup';
 import { AccountContext } from '../App';
-import { approveStake, stake, unstake } from '../contracts/ContractManager';
+import { approveStake, getIsStaked, stake, unstake } from '../contracts/ContractManager';
+import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import SwitchChainDropdown from '../dropdowns/SwitchChainDropdown';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
 const DASHBOARD = 'DASHBOARD';
 const ABOUT = 'ABOUT';
+const NETWORK = 'NETWORK';
 
 
 const initialState = {
     events: false,
     programs: false,
     dashboard: false,
-    about: false
+    about: false,
+    network: false
 }
 
 const reducerFunc = (state, action) =>{
@@ -47,28 +51,40 @@ const reducerFunc = (state, action) =>{
                 events: action.status,
                 programs: false,
                 dashboard: false,
-                about: false
+                about: false,
+                network: false
             }
         case PROGRAMS:
             return{
                 events: false,
                 programs: action.status,
                 dashboard: false,
-                about: false
+                about: false,
+                network: false
             }
         case DASHBOARD:
             return{
                 events: false,
                 programs: false,
                 dashboard: action.status,
-                about: false
+                about: false,
+                network: false
             }
         case ABOUT:
             return{
                 events: false,
                 programs: false,
                 dashboard: false,
-                about: action.status
+                about: action.status,
+                network: false
+            }
+        case NETWORK:
+            return{
+                events: false,
+                programs: false,
+                dashboard: false,
+                about: false,
+                network: action.status
             }
         default:
             return state;
@@ -80,15 +96,20 @@ const reducerFunc = (state, action) =>{
 const Header2 = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const navigate = useNavigate();
-    const { wallet: address } = useConnectWallet();
     const [showHamburger, setShowHamburger ] = useState(false);
     const width = useWindowSize();
     const { account, setAccount, isStaked, setIsStaked, setIsApproved, isApproved } = useContext(AccountContext);
-
+    const { connect } = useConnectMetaMask('');
 
     const disconnectMetamask = () =>{
-        navigate('/');
-        setAccount({ address: '', isConnected: false });
+        if(!account.isConnected){
+            connect();
+        }else{
+            setAccount({ address: '', isConnected: false });
+            setIsApproved(false);
+            setIsStaked(false);
+            sessionStorage.removeItem('address');
+        }
     }
 
     const unstakeHandler = async() =>{
@@ -106,10 +127,7 @@ const Header2 = () =>{
         console.log('hash: ',txn.hash);
         if(!isNull(txn.hash)){
             setIsApproved(true);
-            await stakeHandler();
         }
-    }else{
-        await stakeHandler();
     }
     }
 
@@ -120,17 +138,30 @@ const Header2 = () =>{
         }
     }
 
+
+    useEffect(()=>{
+        getIsStaked().then(isStaked=>{
+            console.log('isstaked: ', isStaked)
+            setIsStaked(isStaked)
+        }).catch(err=>{});
+    },[]);
+
+    const openUrl = (url) =>{
+        window.open(url)
+    }
+    
     return(
         <>
        {width > 1020 && <header className={classes.header}>
              <section className={classes.topHeader}>
+             <p className={classes.versionTxt}>v1.0.1</p>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline'}}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
-                    <img src={linkedin} alt='lkln' />
-                    <img src={youtube} alt='lkln' />
-                    <img src={tiktok} alt='lkln' />
-                    <img src={twitter} alt='lkln' />
-                    <img src={discord} alt='lkln' />
+                <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
+                    <img src={youtube} alt='lkln' onClick={()=>openUrl('https://youtube.com/@jobcrypt6750')} />
+                    <img src={tiktok} alt='lkln' onClick={()=>openUrl('https://www.tiktok.com/@jobcrypt?_t=8boKccUSTqv&_r=1')} />
+                    <img src={twitter} alt='lkln' onClick={()=>openUrl('https://twitter.com/JobCrypt?t=lKJ39e8sY9Q2FTktDoQw_g&s=09')} />
+                    <img src={discord} alt='lkln' onClick={()=>openUrl('https://discord.gg/kDTwvf59')} />
                 </div>
              </section>
              <section className={classes.centerHeader}>
@@ -173,7 +204,7 @@ const Header2 = () =>{
                         deviceType='desktop'
                         setShowHamburger={setShowHamburger}
                         />} */}
-                        {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
+                        {dispatch.dashboard && <DashboardPopup setShowHamburger={setShowHamburger} setDispatch={setDispatch} shouldUseDispatch={true} />}
                      </span>
                      <span 
                          className={classes.dropdown}
@@ -193,7 +224,7 @@ const Header2 = () =>{
                             <div>
                                 <img src={metaIcon} alt='' />
                             </div>
-                            <p><strong style={{ fontWeight: 'bold'}}>Caduceus</strong> Connected</p>
+                            <p><strong style={{ fontWeight: 'bold'}}>Caduceus </strong>{`${account.isConnected? 'Connected' : 'Disconected'}`}</p>
                         </span>
                         <span className={classes.wallet}>
                             {!isNull(account.address)? account.address.slice(0,10)+'...'+account.address.slice(-10) : '--'}
@@ -203,12 +234,15 @@ const Header2 = () =>{
              </section>
              <section className={classes.bottomHeader}>
                     <div className={classes.bottomRightContainer}>
-                        <p>Need Crypto?</p>
+                        <div className={classes.needContainer}>
+                           <p className={classes.needTxt}>Need Crypto?</p>
+                        </div>
                         <button className={classes.getSomeBtn} onClick={()=>window.open('https://youtu.be/iW9EAOCsgJc')}>
                             <img src={youtube} alt='' />
                             How to use JobCrypt</button>
                     </div>
-                    <div className={classes.bottomLeftContainer}>
+                     <div className={classes.bottomLeftContainer}>
+                     {account.isConnected &&<>
                         {isStaked &&<span className={classes.likeContainer}>
                             <img src={thumbsUpIcon} alt='' className={classes.thumbsIcon} />
                             <p>Staked: <strong>CMP staked to apply for jobs</strong></p>
@@ -223,13 +257,25 @@ const Header2 = () =>{
                                 <img src={tree} alt='' />
                             </span>
                         </span>}
-                        {!isStaked &&<span className={classes.cmpPortion} onClick={approveHandler}>
+                        {(!isApproved && !isStaked) &&<span className={classes.cmpPortion} onClick={approveHandler}>
+                            <p>Approve CMP</p>
+                            <span className={classes.circle}>
+                                <img src={tree} alt='' />
+                            </span>
+                        </span>}
+                        {(!isStaked && isApproved) &&<span className={classes.cmpPortion} onClick={stakeHandler}>
                             <p>Stake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />
                             </span>
                         </span>}
-                    </div> 
+                        </>}
+                        <span className={classes.caduceusIconContainer}  onClick={()=>setDispatch({ TYPE: NETWORK, status: !dispatch.network })}>
+                            <img src={caduceusIcon} alt='' />
+                            <img src={dropdownIcon} alt='' className={classes.dropdownIcon} />
+                            {dispatch.network && <SwitchChainDropdown setShowHamburger={setShowHamburger} shouldUseDispatch={true} setDispatch={setDispatch} />}
+                        </span>
+                    </div>
              </section>
         </header>}
         {width <= 1020 &&<header className={classes.header__}>
@@ -269,17 +315,17 @@ const Header2 = () =>{
             <div className={classes.bottomRightContainer2__}>
                 <span className={classes.needCryptoParent__}>
                     <p className={classes.needCryptoTxt}>Need Crypto?</p>
-                    <button className={classes.getSomeBtn}>Get Some Here</button>
+                    <button className={classes.getSomeBtn} onClick={()=>window.open('https://www.moonpay.com/buy')}>Get Some Here</button>
                 </span>
                 <div className={classes.connecteMetamaskContainer} onClick={disconnectMetamask}>
                 <span className={classes.metaTop}>
                     <div>
                         <img src={metaIcon} alt='' />
                     </div>
-                    <p><strong style={{ fontWeight: 'bold'}}>Caduceus</strong> Connected</p>
+                    <p><strong style={{ fontWeight: 'bold'}}>Caduceus </strong>{`${account.isConnected? 'Connected' : 'Disconnected'}`}</p>
                 </span>
                 <span className={classes.wallet}>
-                    {!isNull(address)? address.slice(0,10)+'...'+address.slice(-10) : '0x5FD6hg66FFk...78HGQO89FFe6'}
+                {!isNull(account.address)? account.address.slice(0,10)+'...'+account.address.slice(-10) : '--'}
                 </span>
                 </div>
             </div>
@@ -307,7 +353,7 @@ const Header2 = () =>{
                        {/* {dispatch.dashboard &&<DashBoardDropdown deviceType='mobile'
                        setShowHamburger={setShowHamburger}
                        />} */}
-                       {dispatch.dashboard && <DashboardPopup setDispatch={setDispatch} />}
+                       {dispatch.dashboard && <DashboardPopup setShowHamburger={setShowHamburger}  setDispatch={setDispatch} shouldUseDispatch={true} />}
                      </span>
                      <span className={classes.dropdown}>
                        <div className={classes.eventsTitle} onClick={()=>setDispatch({ TYPE: ABOUT, status: !dispatch.about })}>
@@ -320,11 +366,11 @@ const Header2 = () =>{
                  <footer className={classes.footer}>
                  <p className={classes.bottomTxt}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', margin: '0'}}>Learn More</strong></p>
                  <div className={classes.topIconImage}>
-                    <img src={linkedin} alt='lkln' />
-                    <img src={youtube} alt='lkln' />
-                    <img src={tiktok} alt='lkln' />
-                    <img src={twitter} alt='lkln' />
-                    <img src={discord} alt='lkln' />
+                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
+                    <img src={youtube} alt='lkln' onClick={()=>openUrl('https://youtube.com/@jobcrypt6750')} />
+                    <img src={tiktok} alt='lkln' onClick={()=>openUrl('https://www.tiktok.com/@jobcrypt?_t=8boKccUSTqv&_r=1')} />
+                    <img src={twitter} alt='lkln' onClick={()=>openUrl('https://twitter.com/JobCrypt?t=lKJ39e8sY9Q2FTktDoQw_g&s=09')} />
+                    <img src={discord} alt='lkln' onClick={()=>openUrl('https://discord.gg/kDTwvf59')} />
                 </div>
                  </footer>
                  </>}

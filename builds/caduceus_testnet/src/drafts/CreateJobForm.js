@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useLayoutEffect, useState } from 'react';
 
 
 
@@ -11,28 +11,49 @@ import backIcon from '../assets/back.png'
 import dropdownIcon from '../assets/dropdown.png';
 import { isNull } from '../utils/Util';
 import { getHashFromIpfs } from '../contracts/IPFS';
-import { saveToEVM } from '../contracts/ContractManager';
+import { editDraftJobInformation, saveToEVM } from '../contracts/ContractManager';
+import { getProvider } from '../contracts/init';
+import { ethers } from 'ethers';
+import { FormContext } from '../App';
 
 
 const CreateJobForm = (props) =>{
     const { setDispatch } = props;
-    const [ jobTitle, setJobTitle ] = useState({ isValid: false, text: '' });
-    const [ locationType, setLocationType ] = useState({ isValid: false, text: '', isVisible: false });
-    const [ locationSupport, setLocationSupport ] = useState({ isValid: false, text: '', isVisible: false });
-    const [ workLocation, setWorkLocation ] = useState({ isValid: false, text: '' });
-    const [ companyName, setCompanyName ] = useState({ isValid: false, text: '' });
-    const [ companyLink, setCompanyLink ] = useState({ isValid: false, text: '' });
-    const [ companyLogo, setCompanyLogo ] = useState({ isValid: false, text: '' });
-    const [ companySummary, setCompanySummary ] = useState({ isValid: false, text: '' });
-    const [ skills, setSkills ] = useState({ isValid: false, text: '' });
-    const [ searchCategories, setSearchCategories ] = useState({ isValid: false, text: '' });
-    const [ searchTerms, setSearchTerms ] = useState({ isValid: false, text: '' });
-    const [ workType, setWorkType ] = useState({ isValid: false, text: '', isVisible: false });
-    const [ paymentType, setPaymentType ] = useState({ isValid: false, text: '', isVisible: false });
-    const [ jobDesc, setJobDesc ] = useState({ isValid: false, text: '' });
-    const [ jobApplyLink, setJobApplyLink ] = useState({ isValid: false, text: '' });
     const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false});
+    const { jobTitle, setJobTitle, locationType, setLocationType,locationSupport, setLocationSupport, workLocation, setWorkLocation, companyName, setCompanyName, companyLink, setCompanyLink, companySummary, setCompanySummary, skills, setSkills, searchCategories, setSearchCategories, searchTerms, setSearchTerms, workType, setWorkType, paymentType, setPaymentType, jobDesc, setJobDesc, jobApplyLink, setJobApplyLink, employerPostingAddress } = useContext(FormContext);
     
+
+
+    useLayoutEffect(()=>{
+        reset();
+        (async()=>{
+            console.log(employerPostingAddress)
+
+            const data = await editDraftJobInformation(employerPostingAddress);
+            console.log('EDIT : ', data.jobDesc);
+
+            setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
+            setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });
+            setLocationSupport({ text: data.locationSupport, isValid: isNull(data.locationSupport)? false : true });
+            setWorkLocation({ text: data.workLocation, isValid: isNull(data.workLocation)? false : true });
+            setCompanyName({ text: data.companyName, isValid: isNull(data.companyName)? false : true });
+            setCompanyLink({ text: data.companyLink, isValid: isNull(data.companyLink)? false : true });
+            setCompanySummary({ text: data.companySummary, isValid: isNull(data.companySummary)? false : true });
+            try{
+            setSkills({ text: data.skills.join(','), isValid: isNull(data.skills)? false : true });
+            setSearchCategories({ text: data.searchCategory.join(','), isValid: isNull(data.searchCategory)? false : true });
+            }catch(err){}
+            setSearchTerms({ text: data.searchTerms, isValid: isNull(data.searchTerms)? false : true });
+            setWorkType({ text: data.workType, isValid: isNull(data.workType)? false : true });
+            setPaymentType({ text: data.paymentType, isValid: isNull(data.paymentType)? false : true });
+            setJobDesc({ text: data.jobDesc, isValid: isNull(data.jobDesc)? false : true });
+            setJobApplyLink({ text: data.applyLink, isValid: isNull(data.applyLink)? false : true });
+
+            console.log('EDIT : ', data)
+        })();
+    },[]);
+
+
     const updateJobTitleHandler = (e) =>{
         const value = e.target.value;
         if(isNull(value))setJobTitle({ isValid: false, text: value });
@@ -57,11 +78,11 @@ const CreateJobForm = (props) =>{
         else setCompanyLink({ isValid: true, text: value });
     }
 
-    const updateCompanyLogoHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setCompanyLogo({ isValid: false, text: value });
-        else setCompanyLogo({ isValid: true, text: value });
-    }
+    // const updateCompanyLogoHandler = (e) =>{
+    //     const value = e.target.value;
+    //     if(isNull(value))setCompanyLogo({ isValid: false, text: value });
+    //     else setCompanyLogo({ isValid: true, text: value });
+    // }
 
     const updateCompanySummaryHandler = (e) =>{
         const value = e.target.value;
@@ -89,6 +110,7 @@ const CreateJobForm = (props) =>{
 
     const updateJobDescHandler = (e) =>{
         const value = e.target.value;
+        console.log(value)
         if(isNull(value))setJobDesc({ isValid: false, text: value });
         else setJobDesc({ isValid: true, text: value });
     }
@@ -109,6 +131,10 @@ const CreateJobForm = (props) =>{
 
     const saveJobPostingHandler = async() =>{
         // console.log('HASHES: ', result)
+        // const hash = '0x94a31374d85bb028582c7a1876bd03e5d1560f0594043226baa563b4c3cd9f59';
+        // const txn = await getProvider().getTransaction(hash);
+        // console.log(ethers.utils.formatUnits(txn.gasPrice, 6));
+        // return;
         if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
           console.log('all data entered')
             try{
@@ -134,7 +160,7 @@ const CreateJobForm = (props) =>{
                 searchCategories: searchCategories.text.split(',')
             });
 
-            saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash);
+            saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash, employerPostingAddress);
         }catch(err){
             console.log('something happened', err)
         }
@@ -149,7 +175,7 @@ const CreateJobForm = (props) =>{
         setWorkLocation({ isValid: false, text: '' });
         setCompanyName({ isValid: false, text: '' });
         setCompanyLink({ isValid: false, text: '' });
-        setCompanyLogo({ isValid: false, text: '' });
+        // setCompanyLogo({ isValid: false, text: '' });
         setCompanySummary({ isValid: false, text: '' });
         setSkills({ isValid: false, text: '' });
         setSearchCategories({ isValid: false, text: '' });
@@ -173,7 +199,7 @@ const CreateJobForm = (props) =>{
                 <input 
                     type='' 
                     placeholder='Enter Job Title' 
-                    className={classes.input1} 
+                    className={classes.input2} 
                     value={jobTitle.text}
                     onChange={updateJobTitleHandler}
                 />
@@ -215,7 +241,7 @@ const CreateJobForm = (props) =>{
                 <input 
                     type='' 
                     placeholder='Enter Work Location (Optional)' 
-                    className={classes.input1} 
+                    className={classes.input2} 
                     value={workLocation.text}
                     onChange={updateWorkLocationHandler}
                 />
@@ -225,7 +251,7 @@ const CreateJobForm = (props) =>{
                 <input 
                     type='' 
                     placeholder='Enter Company Name' 
-                    className={classes.input1} 
+                    className={classes.input2} 
                     value={companyName.text}
                     onChange={updateCompanyNameHandler}
                 />
@@ -235,7 +261,7 @@ const CreateJobForm = (props) =>{
                 <input 
                     type='' 
                     placeholder='Enter Company Link' 
-                    className={classes.input1} 
+                    className={classes.input2} 
                     value={companyLink.text}
                     onChange={updateCompanyLinkHandler}
                 />
@@ -329,7 +355,7 @@ const CreateJobForm = (props) =>{
                 <input 
                     type='' 
                     placeholder='Link or email' 
-                    className={classes.input1} 
+                    className={classes.input2} 
                     value={jobApplyLink.text}
                     onChange={updateJobApplyLinkHandler}
                 />

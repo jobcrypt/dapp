@@ -8,6 +8,8 @@ export const sendGetRequest = async(url) =>{
         }catch(err){
             console.log(err);
         }
+
+        return '';
     }
 
 

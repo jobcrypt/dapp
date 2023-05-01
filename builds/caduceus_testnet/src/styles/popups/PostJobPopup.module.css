@@ -18,7 +18,7 @@
 
 .box{
     width: 80vw;
-    height: 80vh;
+    /* height: 90vh; */
     height: fit-content;
     display: flex;
     background-color: var(--dim-bg);
@@ -81,6 +81,7 @@
 .jobPostingTxt{
     margin: 0;
     margin-top: 1.5rem;
+    margin-bottom: 5px;
     font-family: 'bold';
     font-size: 20px;
     font-weight: 600; 
@@ -122,7 +123,7 @@
     width: 100%;
     height: fit-content;
     margin-top: 3rem;
-    column-gap: 30px;
+    column-gap: 10px;
 }
 
 .linearGradBtn{
@@ -307,7 +308,7 @@
 }
 
 .textarea{
-    background-color: #bdbdbd;
+    background-color: transparent;
     font-family: 'light';
     font-size: 20px;
     padding: 20px;
@@ -316,6 +317,7 @@
     resize: none;
     border: none;
     border-radius: 5px;
+    border: 2px solid #acacac;
 }
 
 .textarea::placeholder,
@@ -357,6 +359,26 @@
     color: #535353;
 }
 
+.editingTxt{
+  margin: 0;
+  font-family: 'light';
+  font-size: 15px;
+  margin-top: 5px;
+  position: absolute;
+  content: '';
+  top: 120%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.statusTxtRed{
+    font-family: 'light';
+    margin: 0;
+    margin-top: 10px;
+    font-size: 20px;
+    color: rgb(176, 6, 6);
+  }
 
 @media screen and (max-width: 770px) {
     .parent{

@@ -79,6 +79,8 @@
     -ms-flex-direction: column;
     overflow-y: auto;
     margin-top: 20px;
+    /* background-color: green; */
+
 }
 
 .list{
@@ -135,6 +137,24 @@
     height: 13px;
     filter: invert(1);
     transform: rotate(90deg);
+}
+
+.statusTxt{
+    font-family: 'light';
+    font-size: 20px;
+    margin: 0;    
+    text-align: center;
+}
+
+.refreshBtn{
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #fff;
+    background-image: linear-gradient(to right, #2c2231, #171d32);
+    border: none;
+    border-radius: 5px;
+    font-family: 'light';
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1010px) {
@@ -234,5 +254,9 @@
     .rightBox>p{
         margin: 0;
         font-family: 'light';
+    }
+
+    .statusTxt{
+        font-size: 13px;
     }
 }

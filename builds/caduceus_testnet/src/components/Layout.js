@@ -32,7 +32,8 @@ const Layout = (props) =>{
             });
 
             window.ethereum.on('accountsChanged', (accounts)=>{
-                if(!isNull(accounts)){
+                console.log('account changed: ', accounts[0]);
+                if(!isNull(accounts[0])){
                     sessionStorage.setItem('address', accounts[0]);
                     setAccount({ address: accounts[0], isConnected: true });
                     getIsStaked().then(isStaked=>{
@@ -49,7 +50,8 @@ const Layout = (props) =>{
 
     return(
         <main className={classes.parent}>
-            {!account.isConnected? <Header /> : <Header2 />}
+            {/* {!account.isConnected? <Header /> : <Header2 />} */}
+             <Header2 />
             {children}
             <Footer />
         </main>

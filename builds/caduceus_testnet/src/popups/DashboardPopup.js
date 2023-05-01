@@ -1,31 +1,33 @@
 import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
 import classes from '../styles/popups/DashboardPopup.module.css';
 import ConnectMetaMaskPopup from './ConnectMetaMaskPopup';
-import { openMetaMask } from '../store/UserWalletSlice';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardPopup = (props) =>{
-    const { setDispatch } = props;
-    const dispatch = useDispatch();
+    const { setDispatch, setShowHamburger } = props;
+    const navigate = useNavigate();
     const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
-    // const openMetaMaskPopup = useSelector(state=>state.user.openMetaMask);
 
     const employerHandler = () =>{
-        setOpenMetaPopup(true);
-        // dispatch(openMetaMask());
+        navigate('/employer_dashboard');
+        setShowHamburger(false);
+        // setOpenMetaPopup(false);
+        setDispatch({ TYPE: 'DASHBOARD', status: false });
     }
 
     const jobSeekerHandler = () =>{
-        setOpenMetaPopup(true);
-        // dispatch(openMetaMask());
+        navigate('/jobseeker_dashboard');
+        setShowHamburger(false);
+        // setOpenMetaPopup(false);
+        setDispatch({ TYPE: 'DASHBOARD', status: false });
 }
 
      return(
         <section className={classes.parent} onClick={()=>setDispatch({ TYPE: 'DASHBOARD', status: false })}>
-            {openMetaPopup &&<ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} setDispatch={setDispatch} />}
+            {/* {openMetaPopup &&<ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} setDispatch={setDispatch} />} */}
             <div className={classes.box} onClick={(e)=>e.stopPropagation()}>
-           <span className={classes.title}>What are you?</span>
+           <span className={classes.title}>Select Dashboard</span>
            <div className={classes.btnContainer2}>
               <button className={classes.returnBtn} onClick={employerHandler}>Employer</button>
               <button className={classes.postBtn} onClick={jobSeekerHandler}>Job Seeker</button>

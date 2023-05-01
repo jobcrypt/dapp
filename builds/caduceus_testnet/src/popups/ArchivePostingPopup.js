@@ -1,7 +1,7 @@
 import {flushSync} from 'react-dom';
 
 import classes from '../styles/popups/ArchivePostingPopup.module.css';
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import PostJobPopup from './PostJobPopup';
 
 const YES = 'YES';
@@ -33,7 +33,7 @@ const ArchivePostingPopup = (props) =>{
      const { setOpenArchive, setShowJobDetail } = props;
      const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
      const [ openPostJob, setOpenPostJob ] = useState(false);
-     const elementRef = useRef();
+    //  const elementRef = useRef();
 
     const returnToJobBoard = () =>{
         setOpenArchive(false);

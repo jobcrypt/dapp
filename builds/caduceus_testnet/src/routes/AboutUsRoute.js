@@ -20,11 +20,16 @@ const AboutUsRoute = () =>{
     const location = useLocation();
     const width = useWindowSize();
 
-
     useEffect(()=>{
     //    console.log(location)
-       document.getElementById(location.state.scroll).scrollIntoView({ behavior: "smooth" });
+       document.getElementById('about').scrollIntoView({ behavior: "smooth" });
     },[location.state.scroll])
+
+
+    const openUrl = (url) =>{
+        window.open(url);
+    }
+
 
     const style={
         color: '#be8e24',
@@ -111,7 +116,7 @@ const AboutUsRoute = () =>{
                         </span>
                         <div className={classes.caption}>
                         <strong>Browser3000<br/><p style={{ fontWeight: 'normal', margin: '0px'}}>2021</p></strong>
-                        <button>Learn More</button>
+                        <button onClick={()=>window.open('https://browsers3000.devpost.com/')}>Learn More</button>
                         </div>
                     </div>
                     <div>
@@ -120,7 +125,7 @@ const AboutUsRoute = () =>{
                         </span>
                         <div className={classes.caption}>
                             <strong>Filecoin Next Steps Grant Awardee<br/><p style={{ fontWeight: 'normal', margin: '0px'}}>2021</p></strong>
-                            <button>Learn More</button>
+                            <button onClick={()=>window.open('https://github.com/filecoin-project/devgrants/issues/340')}>Learn More</button>
                         </div>
                     </div>
                     <div>
@@ -129,16 +134,16 @@ const AboutUsRoute = () =>{
                         </span>
                         <div className={classes.caption}>
                             <strong>JobCrypt on optimism mainnet<br/><p style={{ fontWeight: 'normal', margin: '0px'}}>2022</p></strong>
-                            <button>Learn More</button>
+                            <button onClick={()=>window.open('https://optimistic.etherscan.io/tx/0xb15a81d8d42fd0de6304dfeddf585af449df394562434d1d9b402ba31c0768cf')}>Learn More</button>
                         </div>
                     </div>
                 </main>
            </section>
            <article className={classes.article} id='contact'>
-                <div className={classes.rightBox}>
-                    <h2>Contact</h2>
-                    <span>For partnerships or more information about JobCrypt, Contact us on our <strong style={style}>Discord</strong> or <strong style={style}>Email</strong> us</span>
-                </div>
+           <article className={classes.contactUsContainer}>
+                <h1>Contact</h1>
+                <p>For partnerships or more information about JobCrypt, Contact us on our <strong  onClick={()=>openUrl('https://discord.gg/kDTwvf59')} style={style}>Discord</strong> or <strong style={style} onClick={()=>openUrl('mailto:contact@jobcrypt.com')}>Email</strong> us</p>
+            </article>
            </article>
         <ReadyToStart />
         </section>

@@ -338,8 +338,13 @@ function processAction(postingAddress) {
 
     if (action === "ARCHIVE") {
         // call posting 
+<<<<<<< HEAD:builds/optimism_testnet/ui/assets/js/jc_employer_dashboard.js
+        iJobPostingContract.methods.executePostingAction(8).send({ from: account })
+            .then(function(response){
+=======
         iJCPostingContract.methods.executePostingAction(8).send({ from: account })
             .then(function(response) {
+>>>>>>> e2a382d17501ef6c921c7f95b0ea483870fd6763:builds/optimism_testnet/v0_2/assets/js/old/jc_employer_dashboard.js
                 console.log(response);
                 actionResultSpan.innerHTML = "ARCHIVED :: " + response.blockhash
             })

@@ -13,6 +13,7 @@ const Wrapper = (props) =>{
     flexDirection: 'column',
     msFlexDirection: 'column',
     rowGap: '10px',
+    overflow: 'hidden'
     // backgroundColor: 'red'
    }
 
