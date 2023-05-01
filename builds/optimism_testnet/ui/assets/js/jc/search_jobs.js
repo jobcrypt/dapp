@@ -1,11 +1,12 @@
 const mainSearchSpan = ge("main_search_span");
 const mainSearchTitle = ge("main_search_title_span");
 const hotSearchTitle = ge("hot_search_title");
-const searchContainer = ge("search-jobs");
+const searchContainer = ge("search-container");
 const headerSearchSpan = ge("header_search_span");
 
 async function getHotSearchTerms(root) {
   hotSearchTitle.innerHTML = "<small><b>Hot search</b></small>";
+
   jcJobCryptContract.methods
     .getHotSearchTerms()
     .call({ from: account })
@@ -50,15 +51,10 @@ function getHeaderSearch() {
 
 function getSearchContainerDiv() {
   searchContainer.innerHTML = "";
-  var c = ce("center");
-  c.append(container);
-  var container = ce("section");
-  container.setAttribute(
+  searchContainer.setAttribute(
     "class",
     "bg-[#F8F7FA] mx-20 my-10 py-20 flex justify-center"
   );
-
-  searchContainer.append(container);
 }
 
 function getMainSearch() {
