@@ -252,16 +252,13 @@ async function getStakeStatus() {
       var small = ce("small");
       if (staked === true) {
         var font = ce("font");
-        font.setAttribute("color", "green");
+        font.setAttribute("color", "black");
         var a = ce("a");
         a.setAttribute("type", "submit");
         a.setAttribute("id", "unstake_button");
         a.setAttribute("onclick", "unstake()");
-        a.setAttribute(
-          "class",
-          "ui-component-button ui-component-button-small"
-        );
-        a.setAttribute("style", "color:green");
+        a.setAttribute("class", "");
+        a.setAttribute("class", " mb-2");
         a.append(text("Un-stake"));
         font.append(a);
         small.append(font);
@@ -271,22 +268,25 @@ async function getStakeStatus() {
         stakeApproveSpan.innerHTML = "";
       } else {
         var font = ce("font");
-        font.setAttribute("color", "red");
-        font.append(text("  Approve FIRST to Stake"));
+        font.setAttribute("color", "black");
+        font.append(text("  Not staked: Approve first to stake"));
         small.append(font);
         stakeButtonSpan.append(small);
         var b = ce("b");
         var bFont = ce("font");
-        bFont.setAttribute("color", "red");
+        bFont.setAttribute("color", "#87CEEB");
         var i = ce("i");
         i.setAttribute("class", "bx bx:lock-open-alt");
         bFont.append(i);
         bFont.append(
           text(
-            "NOT STAKED - To Apply for jobs, please Stake :: " +
+            "Approve" +
+              " " +
               formatCurrency(minStakeAmount) +
               " " +
-              stakeCurrencySymbol
+              stakeCurrencySymbol +
+              " " +
+              "to apply for jobs"
           )
         );
         b.append(bFont);
@@ -326,7 +326,7 @@ async function getStakedAmount() {
       console.log(response);
       var stakeStatusSpan = ge("stake_status_span");
       stakeStatusSpan.innerHTML =
-        '<b><font color="green"><i class="bx bx:lock-alt"></i> STAKED (' +
+        '<b><font color="#87CEEB"><i class="bx bx:lock-alt"></i> STAKED (' +
         formatCurrency(response) +
         " " +
         stakeCurrencySymbol +
@@ -376,7 +376,7 @@ async function stake() {
       console.log(response);
       var stakeStatusSpan = ge("stake_status_span");
       stakeStatusSpan.innerHTML =
-        '<small style="color:green"> STAKED ○ ' +
+        '<small style="color:#87CEEB"> STAKED ○ ' +
         formatCurrency(response) +
         "</small>";
       getStakeStatus();

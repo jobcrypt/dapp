@@ -4,6 +4,7 @@ const IPFS = "https://jobcrypt.infura-ipfs.io/ipfs/";
 
 /** standard elements  */
 const onboardButton = ge("connect_web_3");
+
 const showWallet = ge("showAccount");
 const removeElement = ge("home_not_connected");
 const heroElement = ge("hero");
@@ -94,6 +95,11 @@ function disconnect() {
     storage.removeItem("sessionExpiry");
     connected = false;
     onboardButton.innerText = "Web 3 Disconnected";
+    onboardButton.setAttribute(
+      "class",
+      "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+    );
+
     onboardButton.addEventListener("click", manualConnect);
   }
 }
@@ -118,6 +124,11 @@ function startOnboarding() {
 //This will start the onboarding proccess
 const onClickInstall = () => {
   onboardButton.innerText = "Onboarding in progress";
+  onboardButton.setAttribute(
+    "class",
+    "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+  );
+
   onboardButton.disabled = true;
   //On this object we have startOnboarding which will start the onboarding process for our end user
   startOnboarding();
@@ -130,6 +141,11 @@ const MetaMaskClientCheck = () => {
     console.log("metamask not installed");
     //If it isn't installed we ask the user to click to install it
     onboardButton.innerText = "Click here to install MetaMask!";
+    onboardButton.setAttribute(
+      "class",
+      "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+    );
+
     //When the button is clicked we call this function
     onboardButton.onclick = onClickInstall;
     //The button is now disabled
@@ -138,6 +154,10 @@ const MetaMaskClientCheck = () => {
   } else {
     //If it is installed we change our button text
     onboardButton.disabled = false;
+    onboardButton.setAttribute(
+      "class",
+      "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+    );
     onboardButton.innerText = "Click to Connect Metamask";
 
     console.log("metamask installed");
@@ -307,6 +327,11 @@ function loadConnect() {
     removeElement.remove();
     getAccount();
     onboardButton.innerText = "Web 3 Connected";
+    onboardButton.setAttribute(
+      "class",
+      "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+    );
+
     onboardButton.addEventListener("click", disconnect);
     setSessionTimeout();
     connected = true;

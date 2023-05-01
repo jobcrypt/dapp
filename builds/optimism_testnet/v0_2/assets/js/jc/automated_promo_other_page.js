@@ -514,7 +514,7 @@ function loadPromos() {
       scheduleLink.setAttribute("href", event.scheduleLink);
       scheduleLink.append(event.title);
       box.append(scheduleLink);
-      console.log(event + "");
+     
       qualifierFactor++;
     }
   }
