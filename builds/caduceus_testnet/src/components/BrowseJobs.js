@@ -38,8 +38,8 @@ const POPULAR = 'POPULAR';
 
 
 const initialState = {
-    featured: true,
-    latest: false,
+    featured: false,
+    latest: true,
     popular: false
 }
 
@@ -72,7 +72,7 @@ let isDone = false;
 const BrowseJobs = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const [ openStakePopup, setOpenStakePopup] = useState(false);
-    const [ apply, setApply ] = useState(false);
+    const [ apply, setApply ] = useState({status: false, companyLink: '', applylink: ''});
     const width = useWindowSize();
     const [ showJobDesc, setShowJobDesc ] = useState(false);
     const offset = useRef(0);
@@ -81,6 +81,7 @@ const BrowseJobs = () =>{
     const [ jobDetails, setJobDetails ] = useState(null);
     const [ isLoadingJobDesc, setIsLoadingJobDesc ] = useState({ status: false, message: '' });
     const { isStaked, account, isApproved, setIsApproved, setIsStaked } = useContext(AccountContext);
+    const [ selectedJob, setSelectedJob ] = useState(undefined);
     const navigate = useNavigate();
 
 
@@ -136,7 +137,6 @@ const BrowseJobs = () =>{
             ++offset.current;
             setJobArray(jobs);
         }
-
 
         setIsLoading({ status: false, message: ''})
         console.log('Latest Jobs Addresses: ', jobs);
@@ -203,6 +203,7 @@ const BrowseJobs = () =>{
     }
 
     const fetchJobDetailsHandler = async(address) =>{
+        setSelectedJob(address);
         setJobDetails(null);
         setShowJobDesc(true);//only for mobile
         setIsLoadingJobDesc({ status: true, message: 'Loading job details...' });
@@ -233,15 +234,32 @@ const BrowseJobs = () =>{
 const openCompanyUrl =() =>{
     let url = jobDetails.applyLink || jobDetails.companyLink;
     if(!isStaked)return;
-    if(!isNull(url)){
-      if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
-         window.open(url);
-    } 
+    setApply({ status: true, companyLink: jobDetails.companyLink || '', applylink: jobDetails.applyLink || ''});
+    // if(!isNull(url)){
+    //   if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
+    //      window.open(url);
+    // } 
 }
 
 function getJobTitle(title){
     return (isNull(title)? '' : (title.length > 17)? title.slice(0,17)+'...' : title)
 }
+
+const reloadJobsHandler = () =>{
+    if(dispatch.featured)fetchFeaturedJobs()
+    if(dispatch.latest)fetchLatestJobs();
+    if(dispatch.popular)fetchPopularJobs();
+}
+
+const selectedJobStyle = (address) =>{
+
+}
+
+const style={
+     color: '#fff',
+     backgroundColor: '#2E2230',
+     borderColor: '#fff',
+    }
 
  function header(){
     let element;
@@ -344,6 +362,7 @@ function getJobTitle(title){
             </header>
             {(isNull(jobArray) && !isLoading.status) && <Wrapper>
                 <p className={classes.statusTxt}>Nothing to show!</p>
+                <button className={classes.reloadBtn} onClick={reloadJobsHandler}>Reload</button>
             </Wrapper>}
             {isLoading.status &&<Wrapper>
                 <Spinner />
@@ -352,21 +371,21 @@ function getJobTitle(title){
             </Wrapper>}
             <ul className={classes.unorderedList}>
                 {(!isNull(jobArray)) && jobArray.map((item, idx)=>(
-                    <li key={item.address} onClick={()=>fetchJobDetailsHandler(item.address)}>
+                    <li key={item.address} onClick={()=>fetchJobDetailsHandler(item.address)} style={selectedJob === item.address? style : {}}>
                     <div className={classes.profileBox}>
                         <span className={classes.circle}>
                         {item.companyName.slice(0,1)}
                         </span>
                     </div>
                     <div className={classes.detailContainer}>
-                        <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
-                        <p className={classes.name}>{item.companyName}</p>
-                        <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <h2 className={classes.jobTitle} style={selectedJob === item.address? style : {}}>{getJobTitle(item.jobTitle)}</h2>
+                        <p className={classes.name} style={selectedJob === item.address? style : {}}>{item.companyName}</p>
+                        <p className={classes.locationTxt} style={selectedJob === item.address? style : {}}>{`${item.locationType} | ${item.workType}`}</p>
+                        <p className={classes.locationTxt} style={selectedJob === item.address? style : {}}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
                     </div>
                     <div className={classes.optionContainer}>
-                        <span className={classes.smallCircle}>
-                            <img src={moreIcon} alt='' />
+                        <span className={classes.smallCircle} style={selectedJob === item.address? style : {}}>
+                            <img src={moreIcon} alt='' style={selectedJob === item.address? style : {}} />
                         </span>
                     </div>
                 </li>
@@ -455,6 +474,7 @@ function getJobTitle(title){
             </header>
             {(isNull(jobArray) && !isLoading.status) && <Wrapper>
                 <p className={classes.statusTxt}>Nothing to show!</p>
+                <button className={classes.reloadBtn} onClick={reloadJobsHandler}>Reload</button>
             </Wrapper>}
             {isLoading.status &&<Wrapper>
                 <Spinner />
@@ -552,7 +572,7 @@ function getJobTitle(title){
     return(
         <main className={classes.parent} id='previous_application'>
             {openStakePopup && <StakePopup setOpenStakePopup={setOpenStakePopup} />}
-            {apply && <ApplyForJobPopup setApply={setApply} />}
+            {apply.status && <ApplyForJobPopup setApply={setApply} apply={apply} />}
             <header className={classes.header}>
                 <h1>Browse Jobs</h1>
                 <button onClick={()=>navigate('/jobseeker_dashboard')}>Previous Applications</button>
@@ -564,52 +584,11 @@ function getJobTitle(title){
                         <img src={searchIcon} alt='' />
                      </span>
                 </div>
-                <div className={classes.inputContainer}>
-                     <input type='text' placeholder='London, UK' className={classes.input} />
-                     <span className={classes.searchContainer}>
-                        <img src={location} alt='' />
-                     </span>
-                </div>
                {width > 770 && <button className={classes.searchBtn}>Search Jobs</button>}
-             </div>
-             {width > 770 &&<div className={classes.box}>
-                <div className={classes.selectorContainer}>
-                    <img src={calendar} alt='' className={classes.icon} />
-                    <p>Past Week</p>
-                    <img src={dropdown} alt='' className={classes.dropdown} />
-                </div>
-                <div className={classes.selectorContainer2}>
-                    <img src={block} alt='' className={classes.icon2} />
-                    <p>Featured Jobs</p>
-                    <img src={dropdown} alt='' className={classes.dropdown2}  />
-                </div>
-                <div className={classes.selectorContainer2}>
-                    <img src={box} alt='' className={classes.icon2} />
-                    <p>Full Time</p>
-                    <img src={dropdown} alt='' className={classes.dropdown2} />
-                </div>
-             </div>}
-             {width <= 770 &&<div className={classes.box}>
-                <div className={classes.selectorContainer2}>
-                    <img src={calendar} alt='' className={classes.icon2} />
-                    <p>Past Week</p>
-                    <img src={dropdown} alt='' className={classes.dropdown2} />
-                </div>
-                <div className={classes.selectorContainer2}>
-                    <img src={block} alt='' className={classes.icon2} />
-                    <p>Featured Jobs</p>
-                    <img src={dropdown} alt='' className={classes.dropdown2}  />
-                </div>
-                <div className={classes.selectorContainer2}>
-                    <img src={box} alt='' className={classes.icon2} />
-                    <p>Full Time</p>
-                    <img src={dropdown} alt='' className={classes.dropdown2} />
-                </div>
-                {width <= 770 &&<span className={classes.searchSpan}>
+               {width <= 770 &&<span className={classes.searchSpan}>
                     <img src={searchIcon} alt='' />
                 </span>}
-                {/* <button className={classes.searchBtn}>Search Jobs</button> */}
-             </div>}
+             </div>
              <div className={classes.allJobsParent}>
                 <section className={classes.allJobsBlack}>
                    {width > 770 && desktop}

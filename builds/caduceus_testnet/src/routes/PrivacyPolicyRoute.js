@@ -77,12 +77,12 @@ const PrivacyPolicyRoute = () =>{
                 ICO Website: <strong style={style} onClick={()=>openUrl('https://www.ico.org.uk')}>https://www.ico.org.uk</strong>
                 </p>
             </main>
-            <article className={classes.article}>
+            {/* <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
                     <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
                 </div>
-            </article>
+            </article> */}
             <article className={classes.article}>
             <article className={classes.contactUsContainer}>
                 <h1>Contact</h1>

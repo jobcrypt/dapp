@@ -70,12 +70,12 @@ const CookiePolicyRoute = () =>{
                 You can find out more information cookie settings at third-party information sites, such as <strong style={style} onClick={()=>openUrl('www.allaboutcookies.org')}>www.allaboutcookies.org</strong>
                 </p>
             </main>
-            <article className={classes.article}>
+            {/* <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
                     <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
                 </div>
-            </article>
+            </article> */}
             <article className={classes.article}>
             <article className={classes.contactUsContainer}>
                 <h1>Contact</h1>

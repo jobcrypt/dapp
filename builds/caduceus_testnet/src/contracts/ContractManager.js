@@ -2,6 +2,7 @@ import { isNull } from '../utils/Util';
 import iJCStakeManagerAbi from '../abi/i_jc_stake_manager_abi';
 import iJCJobCryptAbi from '../abi/i_jc_jobcrypt_abi';
 import ierc20MetadataAbi from '../abi/i_erc20_metadata_abi';
+import { iERC20Abi } from '../abi/i_erc20_abi';
 import { iJCFactoryFacadeAbi } from '../abi/i_jc_factory_facade_core_abi';
 import { iOpenProductCoreAbi } from '../abi/i_open_product_core_abi';
 import iOpenProductAbi from '../abi/i_open_product_abi';
@@ -9,8 +10,9 @@ import { iJCJobPostingEditorAbi } from '../abi/i_jc_job_posting_editor_abi';
 import iJCJobPostingAbi from '../abi/i_jc_job_posting_abi';
 import { iJCJobSeekerDashboardAbi } from '../abi/i_jc_job_seeker_dashboard_abi';
 import { iJCEmployerDashboardAbi } from '../abi/i_jc_employer_dashboard_abi';
+import { iJCPaymentManagerAbi } from '../abi/i_jc_payment_manager_abi';
 import { getContractFromRegistry } from './InitializeContracts';
-import { getContractInstance, getContractInstanceWeb3, getProvider, getSigner } from './init';
+import { getContractInstance } from './init';
 import { ethers } from 'ethers';
 import { sendGetRequest } from '../hooks/useAxios';
 
@@ -195,7 +197,7 @@ export const createEmployerDashboard = async() =>{
  return result;
 }
 
-export const loadJobPostings = async() =>{
+export const loadJobProducts = async() =>{
   let openProductCoreAddress = '', result='';
   try{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -210,11 +212,10 @@ export const loadJobPostings = async() =>{
      
       if(!isNull(productAddresses)){
         const addressses = filterOutZeroAddresses(productAddresses);
-        result = await getPostingData(addressses);
+        result = await getProductData(addressses);
       }
 }catch(err){
   console.log('err', err)
-
 }
  return result;
 }
@@ -223,12 +224,12 @@ const filterOutZeroAddresses = (addresses) =>{
   return addresses.filter(address=> address !== ZERO_ADDRESS);
 }
 
-export const getPostingData = async(addresses) =>{
+export const getProductData = async(productAddresses) =>{
   let RESULT = [];
-  for(let i = 0; i < addresses.length; i++){
+  for(let i = 0; i < productAddresses.length; i++){
     try{
-      const address = addresses[i];
-      const contractInstance = getContractInstance(address, iOpenProductAbi);
+      const productAddress = productAddresses[i];
+      const contractInstance = getContractInstance(productAddress, iOpenProductAbi);
       const name = await contractInstance.getName();
       let price = await contractInstance.getPrice();
       const currency = await contractInstance.getCurrency();
@@ -237,10 +238,10 @@ export const getPostingData = async(addresses) =>{
 
       price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
 
-      var optionTxt = name + " - " + formatPrice(price*0.8) + " (ex VAT) [" +formatPrice(price*0.2) + " VAT] You pay: " +  formatPrice(price) +  " (" + currency + ")";
+      var optionTxt = name + " - " + formatPrice(price*0.8, decimals) + " (ex VAT) [" +formatPrice(price*0.2, decimals) + " VAT] You pay: " +  formatPrice(price, decimals) +  " (" + currency + ")";
     //  console.log(optionTxt)
     if(!name.toLowerCase().includes('career')){
-     RESULT.push({ optionTxt, address });
+     RESULT.push({ optionTxt, address: productAddress, price: formatPrice(price, decimals), currency, name });
     }
     }catch(err){
 
@@ -250,14 +251,14 @@ export const getPostingData = async(addresses) =>{
   return RESULT;
 }
 
-const formatPrice = (price)=> {
-  return price / 1e6;
+const formatPrice = (price, decimal)=> {
+  return price / (10 ** decimal);
 }
 
 
-export const createDraftPosting = async(address) =>{
+export const createDraftPosting = async(productAddress) =>{
   let factoryFacadeAddress = '', result='';
-  console.log('selected address: ', address)
+  console.log('selected product: ', productAddress)
   try{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
@@ -267,7 +268,7 @@ export const createDraftPosting = async(address) =>{
       }
 
       const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
-      result = await contractInstance.createJobPosting(address);
+      result = await contractInstance.createJobPosting(productAddress);
      
 }catch(err){
   console.log('err', err)
@@ -342,6 +343,15 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
     // console.log('Job companyLink: ', companyLink);
     let companySummary = await contractInstance.getFeatureSTR("COMPANY_SUMMARY");
     // console.log('Job companySummary: ', companySummary);
+    let companyLogo = await contractInstance.getFeatureSTR("COMPANY_LOGO");
+    try{
+        if(!isNull(companyLogo)){
+          companyLogo = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companyLogo}`);
+        }
+    }catch(err){
+      companyLogo = null;
+    }
+
     try{
       if(!isNull(companySummary)){
       companySummary = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companySummary}`);
@@ -387,8 +397,8 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
     // console.log('Job erc20: ', erc20);
     const currency = await contractInstance2.getCurrency();
     // console.log('Job currency: ', currency);
-    // duration = duration / (7 * 24 * 60 * 60);
-    // const week = duration+' Weeks';
+    duration = duration / (7 * 24 * 60 * 60);
+    const week = duration+' Weeks';
 
     INFO.jobTitle = jobTitle;
     INFO.locationType = locationType;
@@ -407,8 +417,9 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
     INFO.price = price;
     INFO.erc20 = erc20;
     INFO.currency = currency;
-    // INFO.week = week;
-    // INFO.duration = duration;
+    INFO.week = week;
+    INFO.duration = duration;
+
    }catch(err){}
 
    return INFO;
@@ -535,8 +546,8 @@ export const getJobPosting = async(employerDashAddress) =>{
       // const employerDashAddress = sessionStorage.getItem('dash');
       if(!isNull(employerDashAddress)){
         const contractInstance = getContractInstance(employerDashAddress, iJCEmployerDashboardAbi, 'signer');
-        const postedJobAddresses = await contractInstance.getPostings();
-        result = await getJobPostingDetails(postedJobAddresses);
+        const postingAddresses = await contractInstance.getPostings();
+        result = await getJobPostingDetails(postingAddresses);
       }
   }catch(err){}
 
@@ -544,12 +555,12 @@ export const getJobPosting = async(employerDashAddress) =>{
 }
 
 
-const getJobPostingDetails = async(postedJobAddresses) =>{
+const getJobPostingDetails = async(postingAddresses) =>{
   const JOB_POSTINGS = []; let option1='', option2=''
-    for(let i = 0; i < postedJobAddresses.length; i++){
+    for(let i = 0; i < postingAddresses.length; i++){
       try{
-      const postedJobAddress = postedJobAddresses[i];
-      const contractInstance = getContractInstance(postedJobAddress, iJCJobPostingAbi, 'provider');
+      const postingAddress = postingAddresses[i];
+      const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
       let postedDate = await contractInstance.getFeatureUINT("POSTING_DATE_FEATURE");
       const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
       let applicantCount = await contractInstance.getFeatureUINT("APPLICANT_COUNT_FEATURE");
@@ -576,17 +587,17 @@ const getJobPostingDetails = async(postedJobAddresses) =>{
             if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
                  option1 = 'ARCHIVE';
             }
-
-            // console.log('PostedDate: ', postedDate)
-            // console.log('Expiry date: ', expiryDate)
             // console.log('Job Title: ', jobTitle)
             // console.log('Satus: ', status)
             // console.log('applicant count: ', applicantCount)
-            // console.log('options: ', postedJobAddress)
-            postedDate = ethers.BigNumber.from(postedDate).toNumber();
-            applicantCount = ethers.BigNumber.from(applicantCount).toNumber();
-            expiryDate = ethers.BigNumber.from(expiryDate).toNumber()
-            JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postedJobAddress })
+            // console.log('options: ', postingAddress)
+            postedDate = new Date(postedDate.toString());
+            // postedDate = ethers.BigNumber.from(postedDate).toString();
+            applicantCount = ethers.BigNumber.from(applicantCount).toString();
+            expiryDate = ethers.BigNumber.from(expiryDate).toString();
+            console.log('PostedDate: ', postedDate)
+            console.log('Expiry date: ', expiryDate)
+            JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postingAddress })
       }catch(err){}
     }
 
@@ -670,12 +681,9 @@ const terms = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locatio
   const contractInstance = getContractInstance(selectedPostingAddress, iJCJobPostingEditorAbi, 'signer');
   const result = await contractInstance.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms);
   console.log('Result after populating: ',result);
+  
+  return result
   //  setSaveMsg("Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash);
-}
-
-
-function increaseGasLimit(){
-   return { gasPrice: Number(51000).toString(16), gasLimit: Number(1000000000000000).toString(16) };
 }
 
 
@@ -725,4 +733,143 @@ function decomposeDescription(desc) {
 
   // console.log('----Dupped: ', duppedTerms)
   return unique(duppedTerms);
+}
+
+export const getPaymentInformation = async(postingAddress) =>{
+   try{
+    const productAddress = await getProductAddress(postingAddress)
+     const contractInstance = getContractInstance(productAddress,iOpenProductAbi, 'provider');
+     let duration = await contractInstance.getFeatureUINTValue("DURATION");
+     let price = await contractInstance.getPrice();
+     try{
+     duration = ethers.BigNumber.from(duration).toNumber();
+     duration = duration/(60*60*24*7)
+     console.log('duration: ', duration);
+     }catch(err){
+      console.log('duration error: ', err)
+     }
+     try{
+        price = ethers.BigNumber.from(price).toNumber();
+     }catch(err){
+      console.log('price error: ', err)
+     }
+     console.log('price: ', price);
+     const erc20 = await contractInstance.getErc20();
+     console.log('Erc20: ', erc20);
+     const currency = await contractInstance.getCurrency();
+     console.log('currency: ', currency);
+     const decimal = await getDecimal();
+     console.log('Decimal: ',decimal)
+
+     return { duration, erc20, currency, price: (price/(10**decimal)), decimal };
+   }catch(err){}
+
+   return null;
+}
+
+export const approvePayment = async(price, erc20Address) =>{
+  console.log('PRICE TO APPROVE: ', price);
+  let paymentManagerAddress = '';
+  try{
+    const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
+    if(!isNull(CONTRACTS)){
+         paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
+    }else{
+      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
+    }
+
+    const contractInstance = getContractInstance(erc20Address, iERC20Abi, 'signer');
+    const approve = await contractInstance.approve(paymentManagerAddress, price);
+    return approve;
+  }catch{}
+
+  return null;
+}
+
+
+export const buyPosting = async(postingAddress) =>{
+  let paymentManagerAddress = '';
+  try{
+    const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
+    if(!isNull(CONTRACTS)){
+         paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
+    }else{
+      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
+    }
+
+    const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
+    const result = await contractInstance.payForPosting(postingAddress);
+    return result;
+  }catch{}
+
+  return null;
+}
+
+
+const getProductAddress = async(postingAddress) =>{
+  try{
+    const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
+    return await contractInstance.getFeatureADDRESS("PRODUCT_FEATURE");
+   
+  }catch(err){
+    console.log(err)
+  }
+
+return '';
+}
+
+
+export const isPostingPaid = async(postingAddress) =>{
+  let paymentManagerAddress = '';
+  try{
+      const productAddress = await getProductAddress(postingAddress);
+      const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
+    if(!isNull(CONTRACTS)){
+         paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
+    }else{
+      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
+    }
+
+    const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
+    const isPaid = await contractInstance.isProductPaidForPosting(postingAddress, productAddress);
+    return isPaid;
+
+  }catch(err){}
+
+  return false;
+}
+
+ export const getProductAddressInfo = async(postingAddress) =>{
+  console.log('....', postingAddress)
+  const obj = {}; let name='', price, currency, decimals;
+    try{
+      const productAddress = await getProductAddress(postingAddress);
+      const contractInstance = getContractInstance(productAddress, iOpenProductAbi);
+      try{
+       name = await contractInstance.getName();
+      console.log('NAME:', name)
+      }catch(err){
+        console.log('NAME',err)
+      }
+      try{
+       price = await contractInstance.getPrice();
+      console.log('PRICE:', price)
+      }catch(err){
+        console.log('PRICE: ', err)
+      }
+       currency = await contractInstance.getCurrency();
+      console.log('CURRENCY:', currency)
+       decimals = await getDecimal();
+   console.log('DECIMALS: ', decimals);
+      price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
+      obj.name = name;
+      obj.price = formatPrice(price, decimals);
+      obj.currency = currency
+      obj.productAddress = productAddress
+      console.log('Obj: ',obj)
+    }catch(err){
+
+    }
+  
+  return obj;
 }

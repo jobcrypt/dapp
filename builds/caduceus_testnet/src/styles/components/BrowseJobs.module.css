@@ -45,11 +45,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 30px; 
+    column-gap: 20px; 
 }
 
 .inputContainer{
-    width: 30%;
+    width: calc(100% - 10rem);
     height: fit-content;
     border-radius: 10px;
     position: relative;
@@ -106,7 +106,8 @@
     font-size: 20px;
     border: 1px solid #c4c4c4;
     border-radius: 10px;
-    padding: 0px 20px;
+    /* padding: 0px 20px; */
+    min-width: 10rem;
     cursor: pointer;
 }
 
@@ -180,7 +181,7 @@
     justify-content: center;
     align-items: center; 
     border: 1px solid #c8c6c6;
-    width: 40px;
+    min-width: 40px;
     min-height: 40px;
 }
 
@@ -196,7 +197,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 30px;
+    padding-top: 0px;
 }
 
 .allJobsBlack{
@@ -332,6 +333,7 @@
     list-style: none;
     padding: 10px 5px;
     row-gap: 5px;
+    cursor: pointer;
 }
 
 .unorderedList::-webkit-scrollbar{
@@ -737,6 +739,27 @@
 @media screen and (max-width: 770px) {
 .parent{
     padding: 0px 8px;
+    padding-top: 5rem;
+}
+
+.header>h1{
+    font-size: 25px;
+    color: #fff;
+    margin: 0;
+    font-family: 'bold';
+}
+
+.header>button{
+    background-image: linear-gradient(to right, #111C33, #2E2230);
+    /* height: 50px; */
+    border: none;
+    color: #fff;
+    font-family: 'light';
+    font-size: 13px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .box{
@@ -744,7 +767,7 @@
 }
 
 .inputContainer{
-    width: 50%;
+    width: calc(100% - 40px);
 }
 
 .input{

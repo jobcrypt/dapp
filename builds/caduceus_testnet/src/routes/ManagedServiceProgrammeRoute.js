@@ -7,7 +7,7 @@ import backArrow from '../assets/back.png';
 import classes from '../styles/routes/JobSeekersRoute.module.css';
 import useWindowSize from '../hooks/useWindowSize';
 
-const EmployersRoute = (props) =>{
+const ManagedServiceProgrammeRoute = (props) =>{
     const navigate = useNavigate();
     const width = useWindowSize();
 
@@ -55,7 +55,7 @@ const EmployersRoute = (props) =>{
             <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
-                    <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
+                    <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSeRQxNlubRtMEbX3k39CsCRObZS96a23okYe4DeC6k1-D0AUA/viewform')}>here</strong></span>
                 </div>
             </article>
             <article className={classes.article}>
@@ -69,4 +69,4 @@ const EmployersRoute = (props) =>{
     )
 }
 
-export default EmployersRoute;
+export default ManagedServiceProgrammeRoute;

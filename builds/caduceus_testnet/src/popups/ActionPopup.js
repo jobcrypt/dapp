@@ -20,7 +20,7 @@ const ActionPopup = (props) =>{
 
     useLayoutEffect(()=>{
         //save the employer posting address so that it can be acessible in the edit form page.
-        setEmployerPostingAddress(item.postedJobAddress);
+        setEmployerPostingAddress(item.postingAddress);
         ref.current.style.left = (clientX - 110)+'px';//here is supposed to be 130 based on the css, but to make the arrow point directly under, i removed 20px
         ref.current.style.top = (clientY + 20)+'px';
     },[]);
@@ -50,11 +50,11 @@ const ActionPopup = (props) =>{
                 code = 8;
                 status = 'ARCHIVED';
             }
-           const result = await executeJobPostingAction(code, item.postedJobAddress);
+           const result = await executeJobPostingAction(code, item.postingAddress);
            console.log('Execution status: ', result);
-           const wait = await getProvider().getTransactionReceipt(result.hash);
+           const wait = await getProvider().waitForTransaction(result.hash);
            console.log('Wait :: ',wait);
-           if(!isNull(result))item.status = status;
+           if(!isNull(wait.transactionHash) && wait.status === 1)item.status = status;
         }
     }
 

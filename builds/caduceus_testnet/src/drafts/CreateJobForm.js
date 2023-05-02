@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState } from 'react';
+import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
 
 
 
@@ -9,166 +9,27 @@ import WorkTypeList from '../lists/WorkTypeList';
 import PaymentTypeList from '../lists/PaymentTypeList';
 import backIcon from '../assets/back.png'
 import dropdownIcon from '../assets/dropdown.png';
+import cancelIcon from '../assets/x.png';
 import { isNull } from '../utils/Util';
 import { getHashFromIpfs } from '../contracts/IPFS';
-import { editDraftJobInformation, saveToEVM } from '../contracts/ContractManager';
-import { getProvider } from '../contracts/init';
-import { ethers } from 'ethers';
+import { editDraftJobInformation, getProductAddressInfo, isPostingPaid, saveToEVM } from '../contracts/ContractManager';
 import { FormContext } from '../App';
+import { getProvider } from '../contracts/init';
 
+
+let isRunning = false;
 
 const CreateJobForm = (props) =>{
-    const { setDispatch } = props;
-    const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false});
-    const { jobTitle, setJobTitle, locationType, setLocationType,locationSupport, setLocationSupport, workLocation, setWorkLocation, companyName, setCompanyName, companyLink, setCompanyLink, companySummary, setCompanySummary, skills, setSkills, searchCategories, setSearchCategories, searchTerms, setSearchTerms, workType, setWorkType, paymentType, setPaymentType, jobDesc, setJobDesc, jobApplyLink, setJobApplyLink, employerPostingAddress } = useContext(FormContext);
+    const { setDispatch, setOpenPostJob } = props;
+    const [ hasPaid, setHasPaid ] = useState(false);
+    const [ paymentStatus, setPaymentStatus ] = useState({ text: '', color: 'transparent', isSaved: false});
+    const { jobTitle, setJobTitle, locationType, setLocationType,locationSupport, setLocationSupport, workLocation, setWorkLocation, companyName, setCompanyName, companyLink, setCompanyLink, companySummary, setCompanySummary, skills, setSkills, searchCategories, setSearchCategories, searchTerms, setSearchTerms, workType, setWorkType, paymentType, setPaymentType, jobDesc, setJobDesc, jobApplyLink, setJobApplyLink, employerPostingAddress, editingJobPosting, setEditingJobPosting, companyLogo, setCompanyLogo  } = useContext(FormContext);
+    const inputRef = useRef();
+
     
 
-
-    useLayoutEffect(()=>{
-        reset();
-        (async()=>{
-            console.log(employerPostingAddress)
-
-            const data = await editDraftJobInformation(employerPostingAddress);
-            console.log('EDIT : ', data.jobDesc);
-
-            setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
-            setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });
-            setLocationSupport({ text: data.locationSupport, isValid: isNull(data.locationSupport)? false : true });
-            setWorkLocation({ text: data.workLocation, isValid: isNull(data.workLocation)? false : true });
-            setCompanyName({ text: data.companyName, isValid: isNull(data.companyName)? false : true });
-            setCompanyLink({ text: data.companyLink, isValid: isNull(data.companyLink)? false : true });
-            setCompanySummary({ text: data.companySummary, isValid: isNull(data.companySummary)? false : true });
-            try{
-            setSkills({ text: data.skills.join(','), isValid: isNull(data.skills)? false : true });
-            setSearchCategories({ text: data.searchCategory.join(','), isValid: isNull(data.searchCategory)? false : true });
-            }catch(err){}
-            setSearchTerms({ text: data.searchTerms, isValid: isNull(data.searchTerms)? false : true });
-            setWorkType({ text: data.workType, isValid: isNull(data.workType)? false : true });
-            setPaymentType({ text: data.paymentType, isValid: isNull(data.paymentType)? false : true });
-            setJobDesc({ text: data.jobDesc, isValid: isNull(data.jobDesc)? false : true });
-            setJobApplyLink({ text: data.applyLink, isValid: isNull(data.applyLink)? false : true });
-
-            console.log('EDIT : ', data)
-        })();
-    },[]);
-
-
-    const updateJobTitleHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setJobTitle({ isValid: false, text: value });
-        else setJobTitle({ isValid: true, text: value });
-    }
-
-    const updateWorkLocationHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setWorkLocation({ isValid: false, text: value });
-        else setWorkLocation({ isValid: true, text: value });
-    }
-
-    const updateCompanyNameHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setCompanyName({ isValid: false, text: value });
-        else setCompanyName({ isValid: true, text: value });
-    }
-
-    const updateCompanyLinkHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setCompanyLink({ isValid: false, text: value });
-        else setCompanyLink({ isValid: true, text: value });
-    }
-
-    // const updateCompanyLogoHandler = (e) =>{
-    //     const value = e.target.value;
-    //     if(isNull(value))setCompanyLogo({ isValid: false, text: value });
-    //     else setCompanyLogo({ isValid: true, text: value });
-    // }
-
-    const updateCompanySummaryHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setCompanySummary({ isValid: false, text: value });
-        else setCompanySummary({ isValid: true, text: value });
-    }
-
-    const updateSkillsHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setSkills({ isValid: false, text: value });
-        else setSkills({ isValid: true, text: value });
-    }
-
-    const updateSearchCategoriesHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setSearchCategories({ isValid: false, text: value });
-        else setSearchCategories({ isValid: true, text: value });
-    }
-
-    const updateSearchTermsHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setSearchTerms({ isValid: false, text: value });
-        else setSearchTerms({ isValid: true, text: value });
-    }
-
-    const updateJobDescHandler = (e) =>{
-        const value = e.target.value;
-        console.log(value)
-        if(isNull(value))setJobDesc({ isValid: false, text: value });
-        else setJobDesc({ isValid: true, text: value });
-    }
-
-    const updateJobApplyLinkHandler = (e) =>{
-        const value = e.target.value;
-        if(isNull(value))setJobApplyLink({ isValid: false, text: value });
-        else setJobApplyLink({ isValid: true, text: value });
-    }
-
-
-    // const saveJobPostingHandler = () =>{
-    //     // setPaymentStatus({ status: 'none', text: '', color: '', show: false});
-    //     // setDispatch({ TYPE: 'MAKE_PAYMENT' });
-    //     create();
-    // }
-
-
-    const saveJobPostingHandler = async() =>{
-        // console.log('HASHES: ', result)
-        // const hash = '0x94a31374d85bb028582c7a1876bd03e5d1560f0594043226baa563b4c3cd9f59';
-        // const txn = await getProvider().getTransaction(hash);
-        // console.log(ethers.utils.formatUnits(txn.gasPrice, 6));
-        // return;
-        if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
-          console.log('all data entered')
-            try{
-            const jobDescriptionHash = await getHashFromIpfs(jobDesc.text);
-            const companySummaryHash = await getHashFromIpfs(companySummary.text);
-            // console.log('Job Desc hash: ', jobDescriptionHash);
-            // console.log('Company hash: ', companySummaryHash);
-
-            const JOB_JSON = JSON.stringify({
-                jobTitle: jobTitle.text,
-                locationType: locationType.text,
-                locationSupport: locationSupport.text,
-                workLocation: workLocation.text,
-                companyName: companyName.text,
-                companyLink: companyLink.text,
-                companySummary: companySummary.text,
-                workType: workType.text,
-                paymentType: paymentType.text,
-                description: {ops: [{ insert: jobDesc.text} ]},
-                userSearchTerms: searchTerms.text,
-                applicationLink: jobApplyLink.text,
-                skillsRequired: skills.text.split(','),
-                searchCategories: searchCategories.text.split(',')
-            });
-
-            saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash, employerPostingAddress);
-        }catch(err){
-            console.log('something happened', err)
-        }
-        }
-    }
-
-
-    const reset = ()=>{
+    
+    const reset = useCallback(()=>{
         setJobTitle({ isValid: false, text: '' });
         setLocationType({ isValid: false, text: '' });
         setLocationSupport({ isValid: false, text: '' });
@@ -184,7 +45,195 @@ const CreateJobForm = (props) =>{
         setPaymentType({ isValid: false, text: '' });
         setJobDesc({ isValid: false, text: '' });
         setJobApplyLink({ isValid: false, text: '' });
+    },[]);
+
+
+    const hasUserPaidForPosting = useCallback(async() =>{
+        const isPaid = await isPostingPaid(employerPostingAddress);
+        // console.log('Is paid: ', isPaid);
+        setHasPaid(isPaid);
+    },[]);
+
+    const getProductAddressInfoHandler = useCallback(async()=>{
+        console.log('>>>>>>>>>>>>>', employerPostingAddress)
+        const result = await getProductAddressInfo(employerPostingAddress);
+        console.log(result)
+        if(!isNull(result)){
+            setEditingJobPosting(`Note: You are editing ${result.name} - ${result.price} - ${result.currency} (${result.productAddress })`);
+        }
+    },[]);
+
+
+    useLayoutEffect(()=>{
+        reset();
+        hasUserPaidForPosting();
+        getProductAddressInfoHandler();
+        (async()=>{
+            const data = await editDraftJobInformation(employerPostingAddress);
+            // console.log('EDIT : ', data.jobDesc);
+
+            setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
+            setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });
+            setLocationSupport({ text: data.locationSupport, isValid: isNull(data.locationSupport)? false : true });
+            setWorkLocation({ text: data.workLocation, isValid: isNull(data.workLocation)? false : true });
+            setCompanyName({ text: data.companyName, isValid: isNull(data.companyName)? false : true });
+            setCompanyLink({ text: data.companyLink, isValid: isNull(data.companyLink)? false : true });
+            setCompanySummary({ text: data.companySummary, isValid: isNull(data.companySummary)? false : true });
+            setCompanyLogo(data.companyLogo)
+            try{
+            setSkills({ text: data.skills.join(','), isValid: isNull(data.skills)? false : true });
+            setSearchCategories({ text: data.searchCategory.join(','), isValid: isNull(data.searchCategory)? false : true });
+            }catch(err){}
+            setSearchTerms({ text: data.searchTerms, isValid: isNull(data.searchTerms)? false : true });
+            setWorkType({ text: data.workType, isValid: isNull(data.workType)? false : true });
+            setPaymentType({ text: data.paymentType, isValid: isNull(data.paymentType)? false : true });
+            setJobDesc({ text: data.jobDesc, isValid: isNull(data.jobDesc)? false : true });
+            setJobApplyLink({ text: data.applyLink, isValid: isNull(data.applyLink)? false : true });
+
+            // console.log('EDIT : ', data)
+        })();
+            
+    },[setJobTitle, setLocationType,setLocationSupport, setWorkLocation, setCompanyName, setCompanyLink, setCompanySummary, setSkills,setSearchCategories, setSearchTerms, setWorkType, setPaymentType, setJobDesc, setJobApplyLink, reset, hasUserPaidForPosting, getProductAddressInfoHandler]);
+
+
+    const updateJobTitleHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobTitle({ isValid: false, text: value });
+        else setJobTitle({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
     }
+
+    const updateWorkLocationHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setWorkLocation({ isValid: false, text: value });
+        else setWorkLocation({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateCompanyNameHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanyName({ isValid: false, text: value });
+        else setCompanyName({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateCompanyLinkHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanyLink({ isValid: false, text: value });
+        else setCompanyLink({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const onFileChangeHandler = (e) =>{
+        const file = e.target.files[0];
+        console.log(file)
+        setCompanyLogo(file)
+    }
+
+    const updateCompanySummaryHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setCompanySummary({ isValid: false, text: value });
+        else setCompanySummary({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateSkillsHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSkills({ isValid: false, text: value });
+        else setSkills({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateSearchCategoriesHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSearchCategories({ isValid: false, text: value });
+        else setSearchCategories({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateSearchTermsHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setSearchTerms({ isValid: false, text: value });
+        else setSearchTerms({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateJobDescHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobDesc({ isValid: false, text: value });
+        else setJobDesc({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+    const updateJobApplyLinkHandler = (e) =>{
+        const value = e.target.value;
+        if(isNull(value))setJobApplyLink({ isValid: false, text: value });
+        else setJobApplyLink({ isValid: true, text: value });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
+    }
+
+
+    const removeImage = (imageName) =>{
+       setCompanyLogo(null);
+    }
+
+
+    const saveJobPostingHandler = async() =>{
+        // console.log('HASHES: ', result)
+        // const hash = '0x94a31374d85bb028582c7a1876bd03e5d1560f0594043226baa563b4c3cd9f59';
+        // const txn = await getProvider().getTransaction(hash);
+        // console.log(ethers.utils.formatUnits(txn.gasPrice, 6));
+        // return;
+        if(isRunning)return;
+        if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
+            isRunning = true;
+            try{
+            const jobDescriptionHash = await getHashFromIpfs(jobDesc.text);
+            const companySummaryHash = await getHashFromIpfs(companySummary.text);
+            const companyLogoHash = await getHashFromIpfs(companyLogo);
+            // console.log('Job Desc hash: ', jobDescriptionHash);
+            // console.log('Company logo: ', companyLogoHash);
+
+            const JOB_JSON = JSON.stringify({
+                jobTitle: jobTitle.text,
+                locationType: locationType.text,
+                locationSupport: locationSupport.text,
+                workLocation: workLocation.text,
+                companyName: companyName.text,
+                companyLink: companyLink.text,
+                companySummary: companySummary.text,
+                workType: workType.text,
+                paymentType: paymentType.text,
+                description: {ops: [{ insert: jobDesc.text} ]},
+                userSearchTerms: searchTerms.text,
+                applicationLink: jobApplyLink.text,
+                skillsRequired: skills.text.split(','),
+                searchCategories: searchCategories.text.split(','),
+                companyLogoHash: companyLogoHash
+            });
+
+            setPaymentStatus({  text: `Waiting for txn to be confirmed, please wait...`, color: '#956B00', isSaved: false });
+           const result = await saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash, employerPostingAddress);
+           if(!isNull(result.hash)){
+            try{
+                const wait = await getProvider().waitForTransaction(result.hash);
+                if(!isNull(wait.transactionHash) && wait.status === 1){
+                    setPaymentStatus({  text: `Saved: ${wait.transactionHash}`, color: '#159500', isSaved: true});
+                }else{
+                    setPaymentStatus({  text: `Transaction unsuccessful`, color: 'red', isSaved: false });
+                }
+        }catch(err){
+            setPaymentStatus({  text: `Transaction failed`, color: 'red', isSaved: false });
+        }
+            
+        }
+        }catch(err){
+            console.log('something happened', err)
+        }
+        isRunning = false;
+        }
+    }
+    
 
 
     return(
@@ -194,6 +243,7 @@ const CreateJobForm = (props) =>{
         </section>
         <section className={classes.contentSection}>
             <h1 className={classes.fillFormTxt}>Edit Job Posting Details</h1>
+            <p className={classes.noteTxt}>{editingJobPosting}</p>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Job Title*</p>
                 <input 
@@ -266,12 +316,26 @@ const CreateJobForm = (props) =>{
                     onChange={updateCompanyLinkHandler}
                 />
             </div>
-            {/* <div className={classes.inputContainer}>
+            <div className={classes.inputContainer}>
                 <p className={classes.label}>Company Logo*</p>
                 <span className={classes.logoContainer}>
-                    <button className={classes.logoBtn}>Upload Logo</button>
+                    <input 
+                        type='file' 
+                        accept='image/png, image/jpg, image/jpeg' 
+                        ref={inputRef}  
+                        readOnly
+                        style={{ display: 'none'}} 
+                        onChange={onFileChangeHandler}
+                    />
+                    <button className={classes.logoBtn} onClick={()=>inputRef.current.click()}>Upload Logo</button>
+                    <div className={classes.logoList}>
+                        {(!isNull(companyLogo)) && <span className={classes.file}>
+                            <p>{companyLogo.name}</p>
+                            <img src={cancelIcon} alt='' onClick={()=>removeImage(companyLogo.name)} />
+                        </span>}
+                    </div>
                 </span>
-            </div> */}
+            </div>
             <div className={classes.inputContainer}>
                 <p className={classes.label}>Summary about your company*</p>
                 <textarea 
@@ -360,10 +424,13 @@ const CreateJobForm = (props) =>{
                     onChange={updateJobApplyLinkHandler}
                 />
             </div>
+            <p className={classes.statusTxt} style={{ fontWeight: 'bold', fontSize: '18px', color: paymentStatus.color }}>{paymentStatus.text}</p>
             <div className={classes.btnContainer}>
+            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
             <button className={classes.normalBtn} onClick={reset}>Reset</button>
-            <button className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>
-            <p>Warning: This action incurs gas fee</p>
+            {!paymentStatus.isSaved && <button className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
+            {(!hasPaid && paymentStatus.isSaved) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
+            {(!paymentStatus.isSaved || !hasPaid) && <p>Warning: This action incurs gas fee</p>}
         </div>
         </section>
         </main>

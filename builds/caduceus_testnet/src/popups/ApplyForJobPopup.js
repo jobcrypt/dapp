@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ApplyForJobPopup = (props) =>{
-    const { setApply } = props;
+    const { setApply, apply } = props;
     const navigate = useNavigate();
     
     const navigateToJobBoard = () =>{
-        navigate('/browse-job'); 
-        setApply(false);
+        // navigate('/browse-job'); 
+        setApply(prev=>({ ...prev, status: false }));
     }
 
 
@@ -21,7 +21,7 @@ const ApplyForJobPopup = (props) =>{
                 <img src={success} alt='' className={classes.success} />
                 <h1>Congratulations!!!</h1>
                 <p className={classes.sendResumeTxt}>Kindly send your resume to</p>
-                <p className={classes.emailTxt}>career@resume.com</p>
+                <p className={classes.emailTxt}>{apply.applyLink}</p>
                 <button onClick={navigateToJobBoard}>Go To Job Board</button>
             </div>
         </section>
