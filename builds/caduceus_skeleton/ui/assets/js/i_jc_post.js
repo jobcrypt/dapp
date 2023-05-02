@@ -182,7 +182,7 @@ async function createPosting() {
     jcFactoryFacadeContract.methods.createJobPosting(productAddress).send({ from: account })
         .then(function(response) {
             console.log(response);
-            jobPostingCreateDisplay.innerHTML = "Draft Posting Created Txn :: " + response.blockHash;
+          setCreateMsg("Draft Posting Created Txn :: " + response.blockHash);
             updateDraftListings();
         })
         .catch(function(err) {
