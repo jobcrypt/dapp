@@ -1,6 +1,11 @@
-## JobCrypt - Web3 jobs for blockchain people
-<a href="https://www.jobcrypt.com">JobCrypt</a> is a Web 3 job portal, built using IPFS, Solidity, <a href="https://www.blockstarlogic.com/obei">Open Block EI</a> and Node.js.
-Our mission is to become the best Web 3 powered dApp where users can find Web 3 jobs using Web 3 mechanisms .
-This repository contains the front end for the <a href="https://www.jobcrypt.com">Jobcrypt Dapp</a> which is build using IPFS and Node.js as well as the solidity contracts. 
-To see the build as it happens go to JobCrypt.com
-The official launch of the site will be June 2022.
+## JobCrypt - Caduceus Skeleton Project 
+The JobCrypt Caduceus Skeleton project is the baseline smart contract testing apparatus that is used to test user journey flows in the simplest manner possible prior to overlay with React.js for the Caduceus blockchain deployment. 
+This UI should be used for testing only.
+The configuration of this build is as follows  :
+|Item | Configuration | 
+|------|--------------|
+|Register Contract Address | 0xB4fCA8053D2b447Be0ab99EF2c7ECAf1f5372f2B|
+|Staking Currency Address (ERC20 )[mintable] | 0x16314F9Eb1Fb19482cBe1aef2dc9DDD51dB607e2 | 
+|Supported Payment Currencies (ERC20) | 0x16314F9Eb1Fb19482cBe1aef2dc9DDD51dB607e2 |
+|Caduceus Test Net RPC Details | **Chain Name:** Caduceus Testnet <br/> **Chain Id:** 512512<br/> **Chain Rpc Urls:**  https://galaxy.block.caduceus.foundation<br/> **Chain Block Explorer Urls:** https://galaxy.scan.caduceus.foundation<br/> **Native Currency Name:** CMP<br/> **Native Currency Decimals:** 18<br/> **Native Currency Symbol:** CMP<br/> **Chain Native Currency:** nativeCurrency |
+|Test URL | https://jobcryptcaduceusskeleton.on.fleek.co/|
