@@ -23,7 +23,7 @@ Current folders are available for:
  |Deployment | CI Link | 
  |------------|-----------|
  | Optimism 			| https://jobcryptoptimism.on.fleek.co/ |
- | Optimism Testnet 	|  | 
+ | Optimism Testnet 	|jobcryptoptimismtestnet.on.fleek.co  | 
  | Caduceus 			| https://jobcryptcaduceus.on.fleek.co/ |
  | Caduceus Testnet 	| https://jobcryptcaduceustestnet.on.fleek.co/ |
  | OK Chain 			| https://jobcryptokc.on.fleek.co/ | 
