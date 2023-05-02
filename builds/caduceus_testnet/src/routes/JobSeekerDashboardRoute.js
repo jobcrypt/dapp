@@ -29,7 +29,7 @@ const JobSeekerDashboardRoute = () =>{
             setHasDashboard(false)
         }
     
-    },[account.address]);
+    },[account.address, account.isConnected]);
 
     useEffect(()=>{
         findJobSeekerDashboardHandler();
@@ -46,7 +46,7 @@ const JobSeekerDashboardRoute = () =>{
             setHasDashboard(true);
             // sessionStorage.setItem('jobseeker_address', dashAddress);
         }
-    },[account.address]);
+    },[account.address, account.isConnected]);
 
 
     const browseJobsHandler = (type) =>{

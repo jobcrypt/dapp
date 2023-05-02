@@ -95,7 +95,7 @@ const PreviousJobPostings = () =>{
                  {(isNull(postedJobsArray) && !isLoading) &&<button disabled={isLoading} className={classes.refreshBtn} onClick={getJobPostingHandler}>Reload</button>}
                 </Wrapper>}
                 {!isNull(postedJobsArray) && postedJobsArray.map(item=>(
-                    <li key={item.postedJobAddress} className={classes.list}>
+                    <li key={item.postingAddress} className={classes.list}>
                     <span><Moment local>{new Date(item.postedDate)}</Moment></span>
                     <span><Moment local>{new Date(item.expiryDate)}</Moment></span>
                     <span>{item.jobTitle}</span>
@@ -131,7 +131,7 @@ const PreviousJobPostings = () =>{
                  {(isNull(postedJobsArray) && !isLoading) &&<button disabled={isLoading} className={classes.refreshBtn} onClick={getJobPostingHandler}>Reload</button>}
                 </Wrapper>}
                 {!isNull(postedJobsArray) && postedJobsArray.map(item=>(
-                    <li key={item.postedJobAddress} onClick={()=>showPostedJobDetail(item)}>
+                    <li key={item.postingAddress} onClick={()=>showPostedJobDetail(item)}>
                     <div className={classes.leftBox}>
                         <h2>{item.jobTitle}</h2>
                         <p><Moment local>{new Date(item.postedDate)}</Moment></p>

@@ -1,16 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import classes from '../styles/dropdowns/EventsDropdown.module.css';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
-import { closeMetaMask, openMetaMask } from '../store/UserWalletSlice';
 
 
 const DashBoardDropdown = (props) =>{
     const { shouldShow, deviceType, setDispatch, setShowHamburger } = props;
-    // const [openMetaPopup, setOpenMetaPopup] = useState(false);
-    const dispatch = useDispatch();
-    // const openMetaMaskPopup = useSelector(state=>state.user.openMetaMask);
     const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
 
 

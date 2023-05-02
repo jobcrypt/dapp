@@ -546,12 +546,25 @@
     width: 100%;
     flex-direction: column;
     -ms-flex-direction: column;
+    z-index: 1;
+    background-image: var(--background-image);
 }
 
 .backedByContainer>h1{
     font-family: 'bold';
     font-size: 30px;
     color: #fff;
+}
+
+.framesContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 100%;
+}
+
+.framesContainer>img{
+    cursor: pointer;
 }
 
 @media (min-width: 1000px) and (max-width: 1310px) {
@@ -707,5 +720,23 @@
 .blueSection>div>button{
     cursor: none;
  }
+
+ .framesContainer{
+    justify-content: flex-start;
+    max-width: 100%;
+    overflow-x: auto;
+    column-gap: 20px;
+}
+
+.framesContainer>img{
+    cursor: none;
+}
+
+.framesContainer::-webkit-scrollbar,
+.framesContainer::-webkit-scrollbar-thumb,
+.framesContainer::-webkit-scrollbar-track{
+    width: 0;
+    height: 0;
+}
 
 }

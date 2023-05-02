@@ -92,8 +92,6 @@ const CalendarEvent2 = () =>{
                     </div>
                 </span>
             </section>
-
-
             <section className={classes.calendarParent}>
                 <span>
                     <div className={classes.card} onClick={()=>window.open('https://www.jobcrypt.com/blockchainsustainabilityweekeu2023/index.html')}>
@@ -155,8 +153,6 @@ const CalendarEvent2 = () =>{
                     </div>
                 </span>
             </section>
-            Wednesday 19th July 2023 | Blockchain & Web3 Talk | München, Germany | 17:45 - 21:00 GMT+2
-
             <section className={classes.calendarParent}>
                 <span>
                     <div className={classes.card}>

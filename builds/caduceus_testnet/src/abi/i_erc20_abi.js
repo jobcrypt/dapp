@@ -1,4 +1,4 @@
-iERC20Abi = [{
+export const iERC20Abi = [{
         "anonymous": false,
         "inputs": [{
                 "indexed": true,

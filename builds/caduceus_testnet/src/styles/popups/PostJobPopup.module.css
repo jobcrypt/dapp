@@ -10,7 +10,6 @@
     justify-content: center;
     align-items: flex-start;
     backdrop-filter: blur(5px);
-    padding-top: 3rem;
     padding-top: 170px;
     padding-bottom: 50px;
     overflow-y: auto;
@@ -28,7 +27,7 @@
 
 .box2{
     width: 80vw;
-    height: 95vh;
+    height: fit-content;
     display: flex;
     background-color: var(--dim-bg);
     border-radius: 20px;
@@ -122,7 +121,7 @@
     align-items: center;
     width: 100%;
     height: fit-content;
-    margin-top: 3rem;
+    margin-top: 1rem;
     column-gap: 10px;
 }
 
@@ -197,8 +196,17 @@
 .fillFormTxt{
     font-family: 'bold';
     margin: 0;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     font-size: 30px;
+}
+
+.noteTxt{
+  width: 100%;
+  background-color: rgba(213, 8, 8, 0.103);
+  padding: 10px;
+  border-radius: 10px;
+  color: rgb(205, 8, 8);
+  font-family: 'light';
 }
 
 .inputContainer{
@@ -288,13 +296,13 @@
     max-height: 60px; */
     border-radius: 5px;
     border: 2px solid #acacac;
-    padding: 0px 20px;
     background-color: transparent;
     color: #000; 
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 15px 20px;
+    column-gap: 5px;
 }
 
 .logoBtn{
@@ -305,6 +313,46 @@
     padding: 15px 20px; 
     border: none;
     border-radius: 5px;  
+    cursor: pointer;
+}
+
+.logoList{
+  width: 80%;
+  min-height: 65px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 15px;
+  overflow-x: auto;
+}
+
+.logoList::-webkit-scrollbar{
+    height: 5px;
+}
+.file{
+    min-width: fit-content;
+    max-width: 200px;
+    min-height: 40px;
+    max-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px;
+    border: 1px solid #5c5c5c;
+    border-radius: 5px;
+}
+
+.file>p{
+    font-family: 'light';
+    font-size: 15px;
+    margin: 0;
+}
+
+.file>img{
+    width: 10px;
+    height: 10px;
+    margin-left: 13px;
+    cursor: pointer;
 }
 
 .textarea{
@@ -414,8 +462,8 @@
     }
 
     .btnContainer{
-        flex-direction: column;
-        -ms-flex-direction: column;
+        flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
         row-gap: 10px;
         width: 100%;
     }

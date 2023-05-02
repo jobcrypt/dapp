@@ -79,8 +79,8 @@ const PostJobPopup = (props) =>{
         <section className={classes.parent}>
                 {dispatch.create_draft && <CreateDraft  setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
                 {dispatch.edit_draft && <EditDraft setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
-                {dispatch.create_form && <CreateJobForm setDispatch={setDispatch} />}
-                {dispatch.make_payment && <MakePayment setDispatch={setDispatch} />}
+                {dispatch.create_form && <CreateJobForm setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
+                {dispatch.make_payment && <MakePayment setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
         </section>
     )
 }

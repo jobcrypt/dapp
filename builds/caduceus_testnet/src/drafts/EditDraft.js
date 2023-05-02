@@ -12,24 +12,23 @@ import { AccountContext, FormContext } from '../App';
 
 
 const EditDraft = (props) =>{
-    const { setDispatch } = props;
+    const { setDispatch, setOpenPostJob } = props;
     const [ draftArray, setDraftArray ] = useState([]);
     const [ isLoading, setIsLoading ] = useState({ status: false, message: '' });
     const { employerDashAddress } = useContext(AccountContext);
-    const { employerPostingAddress, setEmployerPostingAddress } = useContext(FormContext);
-    const [ isEditing, setIsEditing ] = useState(`EDITING DRAFT :: ${employerPostingAddress}`);
-    const [ selectedDraft, setSelectedDraft ] = useState({ text: `EDITING DRAFT :: ${employerPostingAddress}`, isVisible: false, address: employerPostingAddress });
+    const [ isEditing, setIsEditing ] = useState(`EDITING DRAFT ::`);
+    const [ selectedDraft, setSelectedDraft ] = useState({ text: `EDITING DRAFT ::`, isVisible: false, address: '' });
 
 
     const getDraftPostingsHandler = useCallback(async()=>{
-        console.log('EMPLOYER DASH ADDRESS: ', employerDashAddress);
+        // console.log('EMPLOYER DASH ADDRESS: ', employerDashAddress);
         setIsLoading({ status: true, message: '' });
         setDraftArray([]);
         if(isNull(employerDashAddress))return;
         const result = await getDraftPosting(employerDashAddress);
         setDraftArray(result);
         setIsLoading({ status: false, message: isNull(result)? 'No drafts' : '' });
-        console.log('RESULT IS =======>', result);
+        // console.log('RESULT IS =======>', result);
     },[]);
     
 
@@ -37,10 +36,6 @@ const EditDraft = (props) =>{
         getDraftPostingsHandler();
     },[getDraftPostingsHandler]);
 
-
-    const getExistingJobInformation = async() =>{
-
-    }
 
     const jumpToFormHandler = () =>{
         if(!isNull(selectedDraft.text) && !isNull(isEditing))setDispatch({ TYPE: 'CREATE_FORM' });
@@ -74,8 +69,8 @@ const EditDraft = (props) =>{
                 {selectedDraft.isVisible && <EditDraftList setSelectedDraft={setSelectedDraft} setIsEditing={setIsEditing} setDraftArray={setDraftArray} draftArray={draftArray} isLoading={isLoading.status} message={isLoading.message} />}
             </div>
             <div className={classes.btnContainer}>
-            {/* <button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'CREATE_FORM' })}>Continue Posting</button> */}
-            <button className={classes.normalBtn} onClick={jumpToFormHandler}>Edit Draft Job Posting</button>
+            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
+            <button className={classes.linearGradBtn} onClick={jumpToFormHandler}>Edit Draft Job Posting</button>
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>

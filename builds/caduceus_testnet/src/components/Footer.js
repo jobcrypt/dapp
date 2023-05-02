@@ -37,7 +37,7 @@ const Footer = () =>{
                 </div>
                 <div className={classes.secBox}>
                     <h2>Quick Links</h2>
-                    <p onClick={()=>openUrl('https://www.eventbrite.com/cc/jobcrypt-blockchain-sustainability-week-uk-2023-2015709?utm_source=LinkedIn&utm_medium=link&utm_campaign=Q2')}>Programmes</p>
+                    {/* <p onClick={()=>openUrl('https://www.eventbrite.com/cc/jobcrypt-blockchain-sustainability-week-uk-2023-2015709?utm_source=LinkedIn&utm_medium=link&utm_campaign=Q2')}>Programmes</p> */}
                     <p onClick={()=>navigate('/featured-events', 'featured-events')}>Events</p>
                     <p onClick={()=>navigate('/faq')}>FAQS</p>
                 </div>

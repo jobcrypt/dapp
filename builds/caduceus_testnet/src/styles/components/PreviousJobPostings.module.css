@@ -2,6 +2,7 @@
 .tableParent{
     width: 90vw;
     max-height: 700px;
+    max-height: fit-content;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
