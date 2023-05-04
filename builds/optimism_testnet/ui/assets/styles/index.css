@@ -39,3 +39,52 @@ input::placeholder {
     background-size: cover;
     background-position: center;
 }
+
+.banner-container {
+    overflow: hidden;
+    display: flex;
+    background-image: url('../images/banner-bg.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    /* width: 1500px; */
+    margin: 0 auto;
+}
+
+
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-100%, 0, 0);
+        /* The image width */
+    }
+}
+
+@keyframes slide2 {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.banner-container div {
+    animation: slide 20s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+
+.banner-container :hover {
+    animation-play-state: paused;
+    cursor: pointer;
+}
