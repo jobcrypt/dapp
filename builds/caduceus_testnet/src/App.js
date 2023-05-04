@@ -1,8 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-// import { WagmiConfig, createClient, configureChains } from 'wagmi';
-// import { mainnet, optimism, sepolia } from 'wagmi/chains';
-// import { publicProvider } from 'wagmi/providers/public';
-
 
 
 import HomeRoute from './routes/HomeRoute';
@@ -28,6 +24,7 @@ import CookiePolicyRoute from './routes/CookiePolicyRoute';
 import TermsOfServiceRoute from './routes/TermsOfServiceRoute';
 import PrivacyPolicyRoute from './routes/PrivacyPolicyRoute';
 import FaqRoute from './routes/FaqRoute';
+import ViewJobApplicationDetailRoute from './routes/ViewJobApplicationDetailRoute';
 
 // const { chains, provider, webSocketProvider } = configureChains([sepolia],[publicProvider()]);
 // console.log(chains)
@@ -101,6 +98,7 @@ const [ editingJobPosting, setEditingJobPosting ] = useState('');
           <Route exact path='/employer_dashboard' element={<EmployerDashboardRoute />} />
           <Route exact path='/browse-job' element={<BrowseJobRoute />} />
           <Route exact path='/jobseeker_dashboard' element={<JobSeekerDashboardRoute />} />
+          <Route exact path='/job_application_detail' element={<ViewJobApplicationDetailRoute />} />
           <Route exact path='/cookie-policy' element={<CookiePolicyRoute />} />
           <Route exact path='/terms-of-service' element={<TermsOfServiceRoute />} />
           <Route exact path='/privacy-policy' element={<PrivacyPolicyRoute />} />

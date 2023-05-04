@@ -23,16 +23,17 @@ const Layout = (props) =>{
             setAccount({ address: '', isConnected: false });
         }
 
-        if(window.ethereum){
-            window.ethereum.on('chainChanged', (chainId)=>{
-               if(chainId !== chain.id){
-                 sessionStorage.removeItem('address');
-                 setAccount({ wallet: '', isConnected: false });
-               }
-            });
+        function chainChanged(chainId){
+            window.location.reload();
+            console.log('chainId changed to: ', parseInt(chainId))
+            if(parseInt(chainId) !== chain.id){
+                sessionStorage.removeItem('address');
+                setAccount({ wallet: '', isConnected: false });
+              }
+        }
 
-            window.ethereum.on('accountsChanged', (accounts)=>{
-                console.log('account changed: ', accounts[0]);
+        function accountChanged(accounts){
+            console.log('account changed: ', accounts[0]);
                 if(!isNull(accounts[0])){
                     sessionStorage.setItem('address', accounts[0]);
                     setAccount({ address: accounts[0], isConnected: true });
@@ -43,7 +44,16 @@ const Layout = (props) =>{
                     sessionStorage.removeItem('address');
                     setAccount({ address: '', isConnected: false });
                 }
-            });
+        }
+
+        if(window.ethereum){
+            window.ethereum.on('chainChanged', chainChanged);
+            window.ethereum.on('accountsChanged', accountChanged);
+        }
+
+        return()=>{
+            window.ethereum.removeListener('chainChanged', chainChanged);
+            window.ethereum.removeListener('accountsChanged', accountChanged);
         }
     },[]);
 

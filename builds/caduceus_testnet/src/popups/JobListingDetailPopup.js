@@ -91,11 +91,11 @@ const JobListingDetailPopup = (props) =>{
                 </header>
                 <div className={classes.content}>
                     <h2>Listed Date And Time</h2>
-                    <p><Moment>{new Date(item.postedDate * 1000)}</Moment></p>
+                    <p><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></p>
                 </div>
                 <div className={classes.content}>
                     <h2>Expiry Date And Time</h2>
-                    <p><Moment>{new Date(item.expiryDate * 1000)}</Moment></p>
+                    <p><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate)}</Moment></p>
                 </div>
                 <div className={classes.content}>
                     <h2>Job Title</h2>

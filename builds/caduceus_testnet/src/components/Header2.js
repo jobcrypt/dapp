@@ -25,9 +25,10 @@ import { isNull } from '../utils/Util';
 import useWindowSize from '../hooks/useWindowSize';
 import DashboardPopup from '../popups/DashboardPopup';
 import { AccountContext } from '../App';
-import { approveStake, getIsStaked, stake, unstake } from '../contracts/ContractManager';
+import { approveStake, getIsStaked, getMinStakeAmount, getStakedAmount, getUserStakedAmount, stake, unstake } from '../contracts/ContractManager';
 import useConnectMetaMask from '../hooks/useConnectMetaMask';
 import SwitchChainDropdown from '../dropdowns/SwitchChainDropdown';
+import { ethers } from 'ethers';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
@@ -123,8 +124,8 @@ const Header2 = () =>{
     const approveHandler = async() =>{
         if(!isApproved){
         const txn = await approveStake();
-        console.log(txn)
-        console.log('hash: ',txn.hash);
+        // console.log(txn)
+        // console.log('hash: ',txn.hash);
         if(!isNull(txn.hash)){
             setIsApproved(true);
         }
@@ -138,12 +139,20 @@ const Header2 = () =>{
         }
     }
 
+    const run = async() =>{
+        let stakedAmount = await getUserStakedAmount();
+        let minStakeAmount = await getMinStakeAmount();
+        const isStaked = await getIsStaked();
+        setIsStaked(isStaked);
+        stakedAmount = ethers.BigNumber.from(stakedAmount).toNumber();
+        minStakeAmount = ethers.BigNumber.from(minStakeAmount).toNumber();
+        if(stakedAmount < minStakeAmount)setIsApproved(false);
+        else setIsApproved(true);
+       
+    }
 
     useEffect(()=>{
-        getIsStaked().then(isStaked=>{
-            console.log('isstaked: ', isStaked)
-            setIsStaked(isStaked)
-        }).catch(err=>{});
+        run();
     },[]);
 
     const openUrl = (url) =>{
@@ -154,7 +163,7 @@ const Header2 = () =>{
         <>
        {width > 1020 && <header className={classes.header}>
              <section className={classes.topHeader}>
-             <p className={classes.versionTxt}>v1.0.3</p>
+             <p className={classes.versionTxt}>v1.0.8</p>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline'}}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
