@@ -23,12 +23,12 @@ const EmployerDashboardRoute = () =>{
      const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
 
      const getEmployerDashboard = useCallback(async() =>{
-        console.log('isconnected: ', account.isConnected)
+        // console.log('isconnected: ', account.isConnected)
         if(!account.isConnected)return;
-        console.log('a')
+        // console.log('a')
         const dashAddress = await findEmployerDashboard();
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
-            console.log('dash: ', dashAddress);
+            // console.log('dash: ', dashAddress);
             setHasDashboard(true);
             setEmployerDashAddress(dashAddress);
       }else{
@@ -39,7 +39,7 @@ const EmployerDashboardRoute = () =>{
 
     const createDashboard = async() =>{
         const dashAddress = await createEmployerDashboard();
-        console.log("Dashboard address: ", dashAddress);
+        // console.log("Dashboard address: ", dashAddress);
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
             setHasDashboard(true);
             setEmployerDashAddress(dashAddress);
@@ -50,7 +50,6 @@ const EmployerDashboardRoute = () =>{
     }
 
      useLayoutEffect(()=>{
-        console.log('Employer route running...')
         getEmployerDashboard();
      },[getEmployerDashboard]);
 

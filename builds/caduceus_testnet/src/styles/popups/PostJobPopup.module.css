@@ -220,6 +220,7 @@
     row-gap: 10px;
     margin-bottom: 30px;
     position: relative;
+    box-sizing: border-box;
 }
 
 .label{

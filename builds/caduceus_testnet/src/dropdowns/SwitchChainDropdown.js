@@ -14,7 +14,7 @@ const SwitchChainDropdown = (props) =>{
 
     const navigateToPage = (type) =>{
         if(type === 'optimism'){
-            // window.open(url);
+            window.open('http://jobcrypt.com');
         }
         if(shouldUseDispatch)setDispatch({ TYPE: 'NETWORK', status: false });
         else setShowHamburger(false);

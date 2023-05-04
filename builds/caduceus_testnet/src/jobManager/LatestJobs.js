@@ -5,6 +5,7 @@ import { getContractFromRegistry } from '../contracts/InitializeContracts';
 import { getContractInstance } from '../contracts/init';
 import { isNull } from '../utils/Util';
 import { sendGetRequest } from '../hooks/useAxios';
+import { getApplyLink } from '../contracts/ContractManager';
 // import { JOBCRYPT_IPFS_URL } from '../contracts/IPFS';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
@@ -40,13 +41,14 @@ const fetchDataForContract = async(addresses) =>{
     let JOB_DATA = [];
     for(let i = 0; i < addresses.length; i++){
         try{
-            const address = addresses[i];
-            const contractInstance = getContractInstance(address, iJCJobPostingAbi, 'provider');
+            const postingAddress = addresses[i];
+            const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
             const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
             const companyName = await contractInstance.getFeatureSTR('COMPANY_NAME');
             const companyLink = await contractInstance.getFeatureSTR('COMPANY_LINK');
             const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
             const locationType = await contractInstance.getFeatureSTR('JOB_LOCATION_TYPE');
+            const applyLink = await getApplyLink(postingAddress)
             let postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
             postingDateFeatures = new Date(parseInt(postingDateFeatures));
 
@@ -57,7 +59,8 @@ const fetchDataForContract = async(addresses) =>{
         workType,
         locationType,
         postingDateFeatures,
-        address
+        postingAddress,
+        applyLink
       })
     }catch(err){}
     }
@@ -68,7 +71,7 @@ const fetchDataForContract = async(addresses) =>{
 export const getLatestJobDetails = async(postingAddress, isStaked) =>{
     let JOB_DATA = [], applyLink='', companySummary='', jobDesc ='';
     try{
-        const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
+        const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
         const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
         const companyName = await contractInstance.getFeatureSTR('COMPANY_NAME');
         const companyLink = await contractInstance.getFeatureSTR('COMPANY_LINK');
@@ -91,26 +94,25 @@ export const getLatestJobDetails = async(postingAddress, isStaked) =>{
             if(!isNull(result.ops[0])){
                 jobDesc = result.ops[0].insert
             }
-            console.log('job desc: ', jobDesc)
+            // console.log('job desc: ', jobDesc)
         }catch(err){
             jobDesc = 'Job description not available at the moment.'
         }
         try{
-            if(isStaked) applyLink = await contractInstance.getFeatureSTR('APPLY_LINK');
-            console.log('apply link: ', applyLink)
-            console.log('staked: ', isStaked)
-        }catch(err){}
+            if(isStaked) applyLink = await contractInstance.getFeatureSTR("APPLY_LINK");
+            // console.log('apply link: ', applyLink)
+            // console.log('staked: ', isStaked)
+        }catch(err){
+            // console.log('APPLY LINK is empty')
+        }
 
         postingDateFeatures = new Date(parseInt(postingDateFeatures));
-        console.log(jobLocationSupport);
+        // console.log(jobLocationSupport);
 
         // const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
         // if(!isNull(result.ops[0])){
         //     jobDesc = result.ops[0].insert
         // }
-
-       
-
         JOB_DATA.push({
             jobTitle,
             companyName,

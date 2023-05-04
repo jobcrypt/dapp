@@ -54,11 +54,88 @@
     color: #fff;
     margin: 0; 
     color: rgb(10, 225, 10);
+    cursor: pointer;
+    width: 100%;
+    word-break: break-all;
+    text-align: center;
 }
 
+.emailTxt:hover{
+  text-decoration: underline;
+}
 
-.box>button{
+.copyContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  position: relative;
+  width: 100%;
+  height: fit-content;
+}
+
+.copyContainer>img{
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.copyContainer>span{
+    position: absolute;
+    content: '';
+    width: fit-content;
+    background-color: var(--dim-bg);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'light';
+    font-weight: 600;
+    right: 0;
+    top: 0%;
+}
+
+.getLinkTxt{
+    font-family: 'light';
+    font-size: 15px;
+    color: #fff;
+    margin: 0; 
+    /* color: var(--dim-bg); */
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    word-break: break-all;
+    text-align: center;
+    text-decoration: underline;   
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 50px; 
+
+}
+
+.btn1{
     background-image: linear-gradient(to right,#111C33, #2E2230);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'light';
+    font-size: 25px;
+    /* padding: 1rem 1rem; */
+    width: 15rem;
+    height: 4rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer; 
+}
+
+.btn2{
+    /* background-image: linear-gradient(to right,#111C33, #2E2230); */
+    background-color: transparent;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -66,11 +143,22 @@
     column-gap: 5px;
     font-family: 'light';
     font-size: 25px;
-    /* padding: 1rem 1rem; */
-    width: 15rem;
-    height: 5rem;
+    padding: 10px 20px;
+    width: fit-content;
+    height: 4rem;
     border: none;
     border-radius: 10px;
     cursor: pointer; 
-    margin-top: 50px; 
+    border: 2px solid #111C33;
+
+}
+
+@media screen and (max-width: 770px) {
+    .btn1{
+        width: 100%;
+    }
+
+    .btn2{
+        width: 100%;
+    }
 }

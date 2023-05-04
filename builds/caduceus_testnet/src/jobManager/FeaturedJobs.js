@@ -4,10 +4,11 @@ import iJCJobPostingAbi from '../abi/i_jc_job_posting_abi';
 import { getContractFromRegistry } from '../contracts/InitializeContracts';
 import { getContractInstance } from '../contracts/init';
 import { isNull } from '../utils/Util';
+import { getApplyLink } from '../contracts/ContractManager';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 
-export const getFeaturedJobs = async(signal) =>{
+export const getFeaturedJobs = async() =>{
     let jobCryptAddress = '', data = [];
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -17,10 +18,10 @@ export const getFeaturedJobs = async(signal) =>{
         jobCryptAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_CORE')
     }
     const contractInstance = getContractInstance(jobCryptAddress,iJCJobCryptAbi, 'provider');
-    const result = await contractInstance.getFeaturedJobs({ signal });
+    const result = await contractInstance.getFeaturedJobs();
     if(!isNull(result[0])){
          const filteredAddresses = filterOutZeroAddresses(result[0]);
-         data = await fetchDataForContract(filteredAddresses, signal);
+         data = await fetchDataForContract(filteredAddresses);
     }
 }catch(err){}
 
@@ -37,22 +38,24 @@ const fetchDataForContract = async(addresses) =>{
     let JOB_DATA = [];
     for(let i = 0; i < addresses.length; i++){
         try{
-            const address = addresses[i];
-            const contractInstance = getContractInstance(address, iJCJobPostingAbi, 'provider');
+            const postingAddress = addresses[i];
+            const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
             const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
             const companyName = await contractInstance.getFeatureSTR('COMPANY_NAME');
             const companyLink = await contractInstance.getFeatureSTR('COMPANY_LINK');
             const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
             const locationType = await contractInstance.getFeatureSTR('JOB_LOCATION_TYPE');
             const postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
+            const applyLink = await getApplyLink(postingAddress);
       JOB_DATA.push({
         jobTitle,
         companyName,
         companyLink,
         workType,
         locationType,
-        postingDateFeatures
-      })
+        postingDateFeatures,
+        applyLink
+      });
     }catch(err){}
     }
 

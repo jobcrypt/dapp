@@ -324,7 +324,6 @@ function manualConnect() {
 
 function loadConnect() {
   if (!connected) {
-    removeElement.remove();
     getAccount();
     onboardButton.innerText = "Web 3 Connected";
     onboardButton.setAttribute(
@@ -333,6 +332,7 @@ function loadConnect() {
     );
 
     onboardButton.addEventListener("click", disconnect);
+    // removeElement.remove();
     setSessionTimeout();
     connected = true;
   }

@@ -12,7 +12,7 @@ import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 const JobSeekerDashboardRoute = () =>{
-    const { account } = useContext(AccountContext);
+    const { account, setJobSeekerDashAddress } = useContext(AccountContext);
     const [ hasDashboard, setHasDashboard ] = useState(false);
     const navigate = useNavigate();
     const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
@@ -21,9 +21,10 @@ const JobSeekerDashboardRoute = () =>{
     const findJobSeekerDashboardHandler = useCallback(async() =>{
         if(!account.isConnected)return;
         const dashAddress = await findJobSeekerDashboard();
-        console.log(dashAddress)
+        console.log('Dash address: ',dashAddress)
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
             setHasDashboard(true);
+            setJobSeekerDashAddress(dashAddress);
             // sessionStorage.setItem('jobseeker_address', dashAddress);
         }else{
             setHasDashboard(false)
@@ -39,6 +40,7 @@ const JobSeekerDashboardRoute = () =>{
         document.getElementById('posting').scrollIntoView({ behavior: "smooth" });
      },[]);
     
+
     const createJobSeekerDashboardHandler = useCallback(async() =>{
         if(!account.isConnected)return;
             const dashAddress = await createJobSeekerDashboard();

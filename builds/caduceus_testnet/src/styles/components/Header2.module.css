@@ -22,7 +22,7 @@
    right: 0; */
    display: flex;
    flex-direction: column;
-   z-index: 10;
+   z-index: 100;
    padding-left: 0;
    padding-right: 0;
    box-sizing: border-box;
@@ -263,6 +263,7 @@
    margin: 0;
    font-family: 'bold';
    font-size: 20px;
+   font-size: 1vw;
 }
 
 .circle{

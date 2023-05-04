@@ -1,16 +1,17 @@
 
 
 import classes from '../styles/components/PreviousJobApplications.module.css';
-import moreIcon from '../assets/more.png';
 import useWindowSize from '../hooks/useWindowSize';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import ActionPopup from '../popups/ActionPopup';
 import JobListingDetailPopup from '../popups/JobListingDetailPopup';
-import { getAppliedJobs } from '../contracts/ContractManager';
+import { getAppliedJobsForUser } from '../contracts/ContractManager';
 import { AccountContext } from '../App';
 import { isNull } from '../utils/Util';
 import Wrapper from './Wrapper';
 import Spinner from './Spinner';
+import { useNavigate } from 'react-router-dom';
+import Moment from 'react-moment';
 
 
 const PreviousJobApplications = () =>{
@@ -18,33 +19,34 @@ const PreviousJobApplications = () =>{
     const [ clientXY, setClientXY ] = useState([0, 0]);
     const [ showAction, setShowAction ] = useState(false);
     const [ showJobDetail, setShowJobDetail ] = useState(false);
-    const { account } = useContext(AccountContext);
+    const { account, jobSeekerDashAddress } = useContext(AccountContext);
     const [ appliedJobsArray, setAppliedJobsArray ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ message, setMessage ] = useState('');
+    const navigate = useNavigate();
+    const [ selectedPostingAddress, setSelectedPostingAddress ] = useState('');
 
 
     const getAppliedJobsHandler = useCallback(async()=>{
+        if(isNull(account.address) || isNull(jobSeekerDashAddress))return;
         setIsLoading(true);
         setMessage('Checking for existing job application...');
-        const appliedJobs = await getAppliedJobs(account.address);
-        console.log('APPLIED JOBS: ', appliedJobs);
+        const appliedJobs = await getAppliedJobsForUser(account.address, jobSeekerDashAddress);
         setIsLoading(false);
         setAppliedJobsArray(appliedJobs);
         if(isNull(appliedJobs))setMessage('No previous application.');
-    },[account.isConnected]);
+
+    },[account.isConnected, jobSeekerDashAddress]);
 
 
     useEffect(()=>{
         getAppliedJobsHandler();
     },[getAppliedJobsHandler]);
- 
- 
-    const getClientXY = (e) =>{
-       setClientXY([e.clientX, e.clientY]);
-       setShowAction(true)
-    }
 
+
+    const navigateToJobDetailPage = (postingAddress) =>{
+        navigate('/job_application_detail', { state: { selectedPostingAddress: postingAddress }});
+    }
 
     const getStyle = (status) =>{
          const style ={};
@@ -53,33 +55,39 @@ const PreviousJobApplications = () =>{
 
          return style;
     }
+
+    const trim = (value, length) =>{
+        if(!isNull(value)){
+            return (value.length > length)? value.slice(0, length)+'...' : value;
+        }
+
+        return '';
+    }
  
  
      return(
          <section className={classes.tableParent}>
-             {showAction && <ActionPopup clientX={clientXY[0]} clientY={clientXY[1]} setShowAction={setShowAction} />}
-             {showJobDetail && <JobListingDetailPopup setShowJobDetail={setShowJobDetail} />}
         {width > 770 && <>
          <div className={classes.tableHeader}>
              <span className={classes.postedHeader}>Application Date</span>
              <span className={classes.jobDescHeader}>Job Description</span>
              <span className={classes.linkHeader}>Link</span>
              <span className={classes.applicantHeader}>Applicants</span>
-             <span className={classes.actionHeader}>Action</span>
+             <span className={classes.actionHeader}>Status</span>
          </div>
          <ul className={classes.unorderedList}>
             {isNull(appliedJobsArray)&&<Wrapper height='fit-content'>
                  {!isNull(message) &&<p className={classes.statusTxt}>{message}</p>}
                  {isLoading &&<Spinner size={40} color1={'#171d32'} />}
-                 {(isNull(appliedJobsArray) && !isLoading) &&<button onClick={getAppliedJobsHandler} disabled={isLoading} className={classes.refreshBtn}>Refresh</button>}
+                 {(isNull(appliedJobsArray) && !isLoading) &&<button onClick={getAppliedJobsHandler} disabled={isLoading} className={classes.refreshBtn}>Reload</button>}
                 </Wrapper>}
             {!isNull(appliedJobsArray) && appliedJobsArray.map(item=>(
-                <li key={item.address} className={classes.list}>
-                     <span>{item.apply_date}</span>
-                     <span>{item.jobTitle}</span>
-                     <span>{item.link}</span>
+                <li key={item.postingAddress} className={classes.list} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
+                     <span><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></span>
+                     <span>{trim(item.jobTitle, 20)}</span>
+                     <span>{trim(item.link, 20)}</span>
                      <span>{item.noOfApplicant}</span>
-                     <div className={classes.statusContainer} style={()=>getStyle(item.statusCode)}>{item.status}</div>
+                     <div className={classes.statusContainer} style={getStyle(item.statusCode)}>{item.status}</div>
                  </li>
             ))}   
          </ul>
@@ -88,16 +96,16 @@ const PreviousJobApplications = () =>{
             {isNull(appliedJobsArray)&&<Wrapper height='fit-content'>
                  {!isNull(message) &&<p className={classes.statusTxt}>{message}</p>}
                  {isLoading &&<Spinner size={40} color1={'#171d32'} />}
-                 {(isNull(appliedJobsArray) && !isLoading) &&<button onClick={getAppliedJobsHandler} disabled={isLoading} className={classes.refreshBtn}>Refresh</button>}
+                 {(isNull(appliedJobsArray) && !isLoading) &&<button onClick={getAppliedJobsHandler} disabled={isLoading} className={classes.refreshBtn}>Reload</button>}
                 </Wrapper>}
                  {!isNull(appliedJobsArray) && appliedJobsArray.map((item, idx)=>(
-                 <li key={item.address}>
+                 <li key={item.postingAddress} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
                      <div className={classes.leftBox}>
-                         <h2>{item.jobTitle}</h2>
-                         <p>{item.apply_date}</p>
+                         <h2>{trim(item.jobTitle, 20)}</h2>
+                         <p><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></p>
                      </div>
                      <div className={classes.rightBox}>
-                         <h2 style={()=>getStyle(item.statusCode)}>{item.status}</h2>
+                         <h2 style={getStyle(item.statusCode)}>{item.status}</h2>
                          <p>{item.noOfApplicant}</p>
                      </div>
                  </li>

@@ -1,24 +1,26 @@
 import { useState } from "react";
 
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { isNull } from "../utils/Util";
 
 
-const TextEditor = () =>{
-    const [ editorState, setEditorState ] = useState(false);
+const TextEditor = (props) =>{
+    const { setJobDesc, setPaymentStatus, editorHtmlValue } = props;
 
-    const onEditorStateChange = (e)=>{
-
+    const onEditorStateChange = (html)=>{
+        console.log(html)
+        if(isNull(html))setJobDesc({ isValid: false, text: html });
+        else setJobDesc({ isValid: true, text: html });
+        setPaymentStatus(prev=>({...prev, isSaved: false }));
     }
     
     return(
-        <Editor
-        editorState={editorState}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-        onEditorStateChange={onEditorStateChange}
-/>
+            <ReactQuill
+                onChange={onEditorStateChange}
+                value={editorHtmlValue}
+                style={{ width: '100%', height: '200px', marginBottom: '30px' }}
+        />
     )
 }
 

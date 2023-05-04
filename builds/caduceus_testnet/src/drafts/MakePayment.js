@@ -6,17 +6,19 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
 import { FormContext } from '../App';
-import { approvePayment, buyPosting, getPaymentInformation } from '../contracts/ContractManager';
+import { approvePayment, buyPosting, getPaymentInformation, postAJob } from '../contracts/ContractManager';
 import { isNull } from '../utils/Util';
 import { getProvider } from '../contracts/init';
 import { ethers } from 'ethers';
 
-
+let isRunning = false;
 const MakePayment = (props) =>{
     const { setDispatch, setOpenPostJob } = props;
     const [ paymentStatus, setPaymentStatus ] = useState({text: '', isApproved: false, color: 'transparent', isPaid: false });
     const [ paymentData, setPaymentData ] = useState({ duration: '', erc20: '--',  weeks: '--', price: 0, currency: '--', decimal: 0 });
     const { productAddress, employerPostingAddress } = useContext(FormContext);
+    const [ isPosted, setIsPosted ] = useState(false);
+
 
     const getPaymentInfo = useCallback(async() =>{
         const result = await getPaymentInformation(employerPostingAddress);
@@ -36,6 +38,8 @@ const MakePayment = (props) =>{
 
 
     const approvePaymentHandler = async() =>{
+        if(isRunning)return;
+        isRunning=true;
         setPaymentStatus({ text: 'Waiting for approval...', color: '#956B00', isApproved: false });
         console.log('Price: ', paymentData.price)
         console.log('......', paymentData.decimal)
@@ -51,10 +55,14 @@ const MakePayment = (props) =>{
         }catch(err){
             setPaymentStatus({ text: `Failed to approve, Try again later!`, color: 'red', isApproved: false });
         }
+
+        isRunning = false;
         }
     }
 
     const makePaymentHandler = async() =>{
+        if(isRunning)return;
+        isRunning=true;
         setPaymentStatus(prev=>({ ...prev, text: 'Waiting for payment...', color: '#956B00', isPaid: false }));
         const result = await buyPosting(employerPostingAddress);
         if(!isNull(result)){
@@ -64,14 +72,34 @@ const MakePayment = (props) =>{
                 if(!isNull(waitForTx) && waitForTx.status === 1){
                     setPaymentStatus(prev=>({ ...prev, text: `Paid: ${waitForTx.transactionHash}`, color: '#159500', isPaid: true }));
                 }else{
-                    setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }))
+                    setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }));
                 }
         }catch(err){
             setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }));
         }
+        isRunning=false;
+
         }
     }
 
+    const postJobHandler = async() =>{
+        if(isRunning)return
+        isRunning=true;
+        setPaymentStatus(prev=>({ ...prev, text: `Wait for your posting to finish...`, color: '#956B00' }));
+         const result = await postAJob(employerPostingAddress);
+         try{
+            const wait = await getProvider().waitForTransaction(result.hash);
+            if(!isNull(wait) && wait.status === 1){
+                setPaymentStatus(prev=>({ ...prev, text: `Posting successful: ${wait.transactionHash}`, color: '#159500' }));
+                setIsPosted(true);
+            }else{
+                setPaymentStatus(prev=>({ ...prev, text: `Unable to post this job. Try again later!`, color: 'red' }));
+            }
+         }catch(err){
+            setPaymentStatus(prev=>({ ...prev, text: `Posting spproval failed. Try again later!`, color: 'red' }));
+         }
+         isRunning=false;
+    }
 
     return(
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
@@ -107,8 +135,9 @@ const MakePayment = (props) =>{
             </section>
             <div className={classes.btnContainer}>
             <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
-            {!paymentStatus.isApproved &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>}
-            {paymentStatus.isApproved &&<button style={paymentData.isPid? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
+            {(!paymentStatus.isApproved && !paymentStatus.isPaid) &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>}
+            {(paymentStatus.isApproved && !paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
+            {(paymentStatus.isApproved && paymentStatus.isPaid) && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postJobHandler}>Post Job</button>}
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>

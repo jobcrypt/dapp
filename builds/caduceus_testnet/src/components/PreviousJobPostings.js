@@ -32,7 +32,6 @@ const PreviousJobPostings = () =>{
    }
 
    const getJobPostingHandler = useCallback(async() =>{
-    console.log('clicked and dash address for account is : ', employerDashAddress);
     if(isNull(employerDashAddress))return;
 
     setIsLoading(true);
@@ -46,8 +45,6 @@ const PreviousJobPostings = () =>{
         setIsLoading(false);
         setMessage('You don\t have any job posted yet.');
     }
-   
-
    },[employerDashAddress, account.address]);
 
 
@@ -58,12 +55,15 @@ const PreviousJobPostings = () =>{
 
     const getStyle = (status) =>{
        const style = {};
-       if (status === "DRAFT" || status === 'POSTED' || status === 'FILLED') {
+       if (status === 'POSTED' || status === 'FILLED') {
            style.color = "#159500";
     }
 
     if (status === "CANCELLED" || status === "EXPIRED" || status === "ARCHIVED") {
          style.color ='#E17726';
+    }
+    if(status === 'DRAFT'){
+        style.color = 'rgb(11, 11, 208)';
     }
     return style;
     }
@@ -96,8 +96,8 @@ const PreviousJobPostings = () =>{
                 </Wrapper>}
                 {!isNull(postedJobsArray) && postedJobsArray.map(item=>(
                     <li key={item.postingAddress} className={classes.list}>
-                    <span><Moment local>{new Date(item.postedDate)}</Moment></span>
-                    <span><Moment local>{new Date(item.expiryDate)}</Moment></span>
+                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></span>
+                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate)}</Moment></span>
                     <span>{item.jobTitle}</span>
                     <span>{item.applicantCount}</span>
                     <div className={classes.statusContainer} style={getStyle(item.status)}>{item.status}</div>
@@ -134,7 +134,7 @@ const PreviousJobPostings = () =>{
                     <li key={item.postingAddress} onClick={()=>showPostedJobDetail(item)}>
                     <div className={classes.leftBox}>
                         <h2>{item.jobTitle}</h2>
-                        <p><Moment local>{new Date(item.postedDate)}</Moment></p>
+                        <p><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></p>
                     </div>
                     <div className={classes.rightBox}>
                         <h2 style={getStyle(item.status)}>{item.status}</h2>
