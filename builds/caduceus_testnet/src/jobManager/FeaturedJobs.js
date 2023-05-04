@@ -7,7 +7,7 @@ import { isNull } from '../utils/Util';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 
-export const getFeaturedJobs = async() =>{
+export const getFeaturedJobs = async(signal) =>{
     let jobCryptAddress = '', data = [];
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -17,10 +17,10 @@ export const getFeaturedJobs = async() =>{
         jobCryptAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_CORE')
     }
     const contractInstance = getContractInstance(jobCryptAddress,iJCJobCryptAbi, 'provider');
-    const result = await contractInstance.getFeaturedJobs();
+    const result = await contractInstance.getFeaturedJobs({ signal });
     if(!isNull(result[0])){
          const filteredAddresses = filterOutZeroAddresses(result[0]);
-         data = await fetchDataForContract(filteredAddresses);
+         data = await fetchDataForContract(filteredAddresses, signal);
     }
 }catch(err){}
 

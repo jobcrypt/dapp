@@ -149,7 +149,7 @@ import PostJobPopup from '../popups/PostJobPopup';
             <h2>Job Finders</h2>
             <p>What is finder programme?</p>
             <span>JobCrypt Job Finder Programme has been created to accelerate the job search for you the Job Seeker. By enrolling into the programme you the job...</span>
-            <button className={classes.learnMoreBtn} onClick={()=>navigate('/job-seekers')}>Learn More</button>
+            <button className={classes.learnMoreBtn} onClick={()=>navigate('/job-finder-programme')}>Learn More</button>
         </div>
     </article>
     <article className={classes.article}style={styleCol}>
@@ -157,7 +157,7 @@ import PostJobPopup from '../popups/PostJobPopup';
             <h2>Employer</h2>
             <p>What is Managed Services?</p>
             <span>As a busy employer building the future of commerce and digital in Web3. the JobCrypt Managed Service Programme has been created to help you manages the challengies.</span>
-            <button className={classes.learnMoreBtn} onClick={()=>navigate('/employer')}>Learn More</button>
+            <button className={classes.learnMoreBtn} onClick={()=>navigate('/managed-service-programme')}>Learn More</button>
         </div>
         <div className={classes.leftBox} style={{ justifyContent: 'flex-end'}}>
               <img src={employerIocn} alt='' className={classes.image} />
@@ -171,7 +171,7 @@ import PostJobPopup from '../popups/PostJobPopup';
             <h2>Community</h2>
             <p>What is Community Programme?</p>
             <span>JobCrypt Community Programme has the prupose of supporting new and emergent projects that are looking to scale in Web3 and Blockchcin. The goal of the programme.</span>
-            <button className={classes.learnMoreBtn} onClick={()=>navigate('/community')}>Learn More</button>
+            <button className={classes.learnMoreBtn} onClick={()=>navigate('/community-programme')}>Learn More</button>
         </div>
     </article>
     <article className={classes.article} style={styleCol}>
@@ -179,7 +179,7 @@ import PostJobPopup from '../popups/PostJobPopup';
             <h2>Speakers</h2>
             <p>What is Distinguished Speaker Programme?</p>
             <span>JobCrypt Distinguished S[eakers Programme has been created to support our community Engagement efforts. Our goal is to help...].</span>
-            <button className={classes.learnMoreBtn} onClick={()=>navigate('/speakers')}>Learn More</button>
+            <button className={classes.learnMoreBtn} onClick={()=>navigate('/distinguished-speakers-programme')}>Learn More</button>
         </div>
         <div className={classes.leftBox} style={{ justifyContent: 'flex-end'}}>
               <img src={speakerIcon} alt='' className={classes.image} />
@@ -201,7 +201,7 @@ import PostJobPopup from '../popups/PostJobPopup';
    
     {/* <CalendarEvent /> */}
     {/* <SustanabilityWeekEvent /> */}
-    {/* <section className={classes.backedByContainer}>
+    <section className={classes.backedByContainer}>
         <h1>Backed By</h1>
         <span className={classes.framesContainer}>
             <img src={frame9} alt='' />
@@ -210,7 +210,7 @@ import PostJobPopup from '../popups/PostJobPopup';
             <img src={frame12} alt='' />
             <img src={frame13}alt='' />
         </span>
-    </section> */}
+    </section>
     <ReadyToStart />
     </main>
     </>

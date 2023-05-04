@@ -2,24 +2,73 @@
 
 
 
-import { useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
+import { FormContext } from '../App';
+import { approvePayment, buyPosting, getPaymentInformation } from '../contracts/ContractManager';
+import { isNull } from '../utils/Util';
+import { getProvider } from '../contracts/init';
+import { ethers } from 'ethers';
 
 
 const MakePayment = (props) =>{
-    const { setDispatch } = props;
-    const [ paymentStatus, setPaymentStatus ] = useState({status: 'none', text: '', color: 'transparent', show: false});
+    const { setDispatch, setOpenPostJob } = props;
+    const [ paymentStatus, setPaymentStatus ] = useState({text: '', isApproved: false, color: 'transparent', isPaid: false });
+    const [ paymentData, setPaymentData ] = useState({ duration: '', erc20: '--',  weeks: '--', price: 0, currency: '--', decimal: 0 });
+    const { productAddress, employerPostingAddress } = useContext(FormContext);
+
+    const getPaymentInfo = useCallback(async() =>{
+        const result = await getPaymentInformation(employerPostingAddress);
+        // console.log('product address for approval: ', productAddress);
+        console.log('result of approval: ', result)
+        if(!isNull(result)){
+            setPaymentData({
+                duration: result.duration, erc20: result.erc20,  weeks: result.weeks, price: result.price, currency: result.currency, decimal: result.decimal
+            });
+        }
+    },[]);
 
 
-    const makePaymentHandler = () =>{
-        if(!paymentStatus.show)setPaymentStatus(prev=>({...prev, show: true }));
-        if(paymentStatus.status === 'none'){
-            setPaymentStatus({ status: 'approved', text: 'Approved: 0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32', color: '#956B00', show: true })
-        }else if(paymentStatus.status === 'approved'){
-        setPaymentStatus({ status: 'paid', text: 'Paid: 0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32', color: '#159500', show: true})
-        }else{
-            //close popup
+    useEffect(()=>{
+        getPaymentInfo();
+    },[getPaymentInfo]);
+
+
+    const approvePaymentHandler = async() =>{
+        setPaymentStatus({ text: 'Waiting for approval...', color: '#956B00', isApproved: false });
+        console.log('Price: ', paymentData.price)
+        console.log('......', paymentData.decimal)
+        const price = paymentData.price * (10**paymentData.decimal);
+        const result = await approvePayment(price, paymentData.erc20);
+        if(!isNull(result)){
+            setPaymentStatus({ text: 'Confirming your approval...', color: '#956B00', isApproved: false });
+            try{
+                const waitForTx = await getProvider().waitForTransaction(result.hash);
+                if(!isNull(waitForTx) && waitForTx.status === 1){
+                    setPaymentStatus({ text: `Approved: ${waitForTx.transactionHash}`, color: '#159500', isApproved: true });
+                }
+        }catch(err){
+            setPaymentStatus({ text: `Failed to approve, Try again later!`, color: 'red', isApproved: false });
+        }
+        }
+    }
+
+    const makePaymentHandler = async() =>{
+        setPaymentStatus(prev=>({ ...prev, text: 'Waiting for payment...', color: '#956B00', isPaid: false }));
+        const result = await buyPosting(employerPostingAddress);
+        if(!isNull(result)){
+            setPaymentStatus(prev=>({ ...prev, text: 'Confirming your payment...', color: '#956B00', isPaid: false }));
+            try{
+                const waitForTx = await getProvider().waitForTransaction(result.hash);
+                if(!isNull(waitForTx) && waitForTx.status === 1){
+                    setPaymentStatus(prev=>({ ...prev, text: `Paid: ${waitForTx.transactionHash}`, color: '#159500', isPaid: true }));
+                }else{
+                    setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }))
+                }
+        }catch(err){
+            setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }));
+        }
         }
     }
 
@@ -32,33 +81,34 @@ const MakePayment = (props) =>{
         <section className={classes.contentSection}>
             <h1 className={classes.draftTxt}>Pay For Job Posting</h1>
             <p className={classes.note}>Note: Listings duration only start after posting(Pay later).</p>
-            {paymentStatus.show && <p className={classes.txnText} style={{color: paymentStatus.color}}>{paymentStatus.text}</p>}
+            <p className={classes.txnText} style={{color: paymentStatus.color}}>{paymentStatus.text}</p>
             {/* <p className={classes.titleBold}>Job Postings</p> */}
             <section className={classes.paymentSection}>
                 <div className={classes.payContainer}>
                     <h2>Selected Duration</h2>
-                    <label>2 Weeks standard</label>
+                    <label>{`${paymentData.duration} ${paymentData.duration > 1? 'Weeks' : 'Week'}`}</label>
                 </div>
                 <div className={classes.payContainer}>
                     <h2>Posting Fee</h2>
-                    <label>2,326 CMP</label>
+                    <label>{`${paymentData.price} ${paymentData.currency}`}</label>
                 </div>
-                <div className={classes.payContainer}>
+                {/* <div className={classes.payContainer}>
                     <h2>Selected Duration</h2>
                     <label>2 Weeks standard</label>
-                </div>
+                </div> */}
                 <div className={classes.payContainer}>
                     <h2>Payment Currency</h2>
-                    <label>CMP</label>
+                    <label>{paymentData.currency}</label>
                 </div>
                 <div className={classes.payContainer}>
                     <h2>Curency Contract</h2>
-                    <label>0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32</label>
+                    <label>{paymentData.erc20}</label>
                 </div>
             </section>
             <div className={classes.btnContainer}>
-            <button className={classes.linearGradBtn} onClick={makePaymentHandler}>Approve Payment currency</button>
-            {/* <button className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button> */}
+            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
+            {!paymentStatus.isApproved &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>}
+            {paymentStatus.isApproved &&<button style={paymentData.isPid? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>

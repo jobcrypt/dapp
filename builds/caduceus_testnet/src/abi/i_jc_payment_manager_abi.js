@@ -1,4 +1,4 @@
-const iJCPaymentManagerAbi = [
+export const iJCPaymentManagerAbi = [
 	{
 		"inputs": [
 			{

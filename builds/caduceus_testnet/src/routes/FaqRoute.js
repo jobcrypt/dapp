@@ -83,12 +83,12 @@ const FaqRoute = () =>{
                     <p>To access your Employer dashboard you simply click the Employer link on the home page in the top right hand corner for convinience a shortcut has been provided here <strong style={style} onClick={()=>navigate('/employer_dashboard')}>here</strong></p>
                 </span>
             </main>
-            <article className={classes.article}>
+            {/* <article className={classes.article}>
                 <div className={classes.rightBox}>
                     <h2>Sign Up</h2>
                     <span>You can sign up for this programme. Complete the form <strong style={style} onClick={()=>openUrl('https://docs.google.com/forms/d/e/1FAIpQLSf79sYKcwAyIHhjGKp0zQyVL4zYgHtJRJ_NWANyIibnHzlsPg/viewform')}>here</strong></span>
                 </div>
-            </article>
+            </article> */}
             <article className={classes.article}>
             <article className={classes.contactUsContainer}>
                 <h1>Contact</h1>
