@@ -48,7 +48,7 @@ export const getStakeErc20Address = async() =>{
   return erc20Address;
 }
 
-export const getStakedAmount = async() =>{
+export const getUserStakedAmount = async() =>{
     let stakedAMount = '';
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -74,7 +74,7 @@ export const getIsStaked = async() =>{
         isStaked = await contractInstance.isStaked();
     }
   }catch(err){
-    console.log(err)
+    // console.log(err)
   }
 
   return isStaked;;
@@ -169,7 +169,7 @@ export const findEmployerDashboard = async() =>{
       result = await contractInstance.findDashboard("EMPLOYER_DASHBOARD_TYPE");
      
 }catch(err){
-  console.log('err', err)
+  // console.log('err', err)
 
 }
  return result;
@@ -190,7 +190,7 @@ export const createEmployerDashboard = async() =>{
       result = await contractInstance.getDashboard("EMPLOYER_DASHBOARD_TYPE");
      
 }catch(err){
-  console.log('err', err);
+  // console.log('err', err);
 
 }
 
@@ -215,7 +215,7 @@ export const loadJobProducts = async() =>{
         result = await getProductData(addressses);
       }
 }catch(err){
-  console.log('err', err)
+  // console.log('err', err)
 }
  return result;
 }
@@ -258,7 +258,7 @@ const formatPrice = (price, decimal)=> {
 
 export const createDraftPosting = async(productAddress) =>{
   let factoryFacadeAddress = '', result='';
-  console.log('selected product: ', productAddress)
+  // console.log('selected product: ', productAddress)
   try{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
@@ -271,7 +271,7 @@ export const createDraftPosting = async(productAddress) =>{
       result = await contractInstance.createJobPosting(productAddress);
      
 }catch(err){
-  console.log('err', err)
+  // console.log('err', err)
 
 }
 
@@ -284,12 +284,12 @@ export const getDraftPosting = async(employerDashAddress)=>{
     try{
       const contractInstance = getContractInstance(employerDashAddress, iJCEmployerDashboardAbi, 'signer');
       const draftPostingAddresses = await contractInstance.getDraftPostings();
-      console.log('------', draftPostingAddresses)
+      // console.log('------', draftPostingAddresses)
       if(!isNull(draftPostingAddresses)){
          result = await processDraftPosting(draftPostingAddresses);
       }
     }catch(err){
-      console.log(err);
+      // console.log(err);
     }
 
     return result;
@@ -325,28 +325,23 @@ const processDraftPosting = async(draftPostingAddresses) =>{
 return RESULT;
 }
 
-export const editDraftJobInformation = async(draftPostingAddress)=>{
+export const getJobDetailUsingPostingddress = async(postingAddress)=>{
   let INFO = {}, applyLink='';
    try{
-    const contractInstance = getContractInstance(draftPostingAddress, iJCJobPostingAbi, 'provider');
+    const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
     const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
-    // console.log('Job title: ', jobTitle);
     const locationType = await contractInstance.getFeatureSTR("JOB_LOCATION_TYPE");
-    // console.log('locationType: ', locationType);
     const locationSupport = await contractInstance.getFeatureSTR("JOB_LOCATION_SUPPORT");
-    // console.log('locationSupport: ', locationSupport);
     const workLocation = await contractInstance.getFeatureSTR("JOB_WORK_LOCATION");
-    // console.log('workLocation: ', workLocation);
     const companyName = await contractInstance.getFeatureSTR("COMPANY_NAME");
-    // console.log('Job companyName: ', companyName);
     const companyLink = await contractInstance.getFeatureSTR("COMPANY_LINK");
-    // console.log('Job companyLink: ', companyLink);
     let companySummary = await contractInstance.getFeatureSTR("COMPANY_SUMMARY");
-    // console.log('Job companySummary: ', companySummary);
     let companyLogo = await contractInstance.getFeatureSTR("COMPANY_LOGO");
+    console.log('company logo hash: ', companyLogo);
     try{
         if(!isNull(companyLogo)){
           companyLogo = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companyLogo}`);
+          console.log('COMPANY LOGO DATA: ', companyLogo);
         }
     }catch(err){
       companyLogo = null;
@@ -360,43 +355,33 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
       companySummary = ''
     }
     const workType = await contractInstance.getFeatureSTR("JOB_WORK_TYPE");
-    // console.log('Job workType: ', workType);
     const paymentType = await contractInstance.getFeatureSTR("JOB_PAYMENT_TYPE");
-    // console.log('Job paymentType: ', paymentType);
     let jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
-    // console.log('jobDesc: ', jobDesc);
     try{
       if(!isNull(jobDesc)){
       jobDesc = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
-      // console.log('JOB DESCRIPTION: ', jobDesc)
+      jobDesc = jobDesc.ops[0].insert;
       }
     }catch(err){
       jobDesc = ''
     }
     const searchTerms = await contractInstance.getFeatureSTR("USER_SEARCH_TERMS");
-    console.log('Job searchTerms: ', searchTerms);
     try{
      applyLink = await contractInstance.getFeatureSTR("APPLY_LINK");
-    // console.log('Job applyLink: ', applyLink);
     }catch(err){
       // console.log('APPLY LINK ERROR: ', err);
     }
     const skills = await contractInstance.getFeatureSTRARRAY("SKILLS_FEATURE");
-    // console.log('Job skills: ', skills);
     const searchCategory = await contractInstance.getFeatureSTRARRAY("CATEGORY_FEATURE");
-    // console.log('Job searchCategory: ', searchCategory);
     const productAddress = await contractInstance.getFeatureADDRESS("PRODUCT_FEATURE");
-    // console.log('Job productAddress: ', productAddress);
+    let postedDate = await contractInstance.getFeatureUINT("POSTING_DATE_FEATURE");
+    postedDate = new Date(ethers.BigNumber.from(postedDate).toNumber() * 1000);
 
     const contractInstance2 = getContractInstance(productAddress, iOpenProductAbi, 'provider');
     let duration = await contractInstance2.getFeatureUINTValue("DURATION");
-    // console.log('Job duration: ', duration);
     const price = await contractInstance2.getPrice();
-    // console.log('Job price: ', price);
     const erc20 = await contractInstance2.getErc20();
-    // console.log('Job erc20: ', erc20);
     const currency = await contractInstance2.getCurrency();
-    // console.log('Job currency: ', currency);
     duration = duration / (7 * 24 * 60 * 60);
     const week = duration+' Weeks';
 
@@ -407,6 +392,7 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
     INFO.companyName = companyName;
     INFO.companyLink = companyLink;
     INFO.companySummary = companySummary;
+    INFO.companyLogo = companyLogo;
     INFO.paymentType = paymentType;
     INFO.workType = workType;
     INFO.jobDesc = jobDesc;
@@ -414,6 +400,7 @@ export const editDraftJobInformation = async(draftPostingAddress)=>{
     INFO.applyLink = applyLink;
     INFO.skills = skills;
     INFO.searchCategory = searchCategory;
+    INFO.postedDate=postedDate;
     INFO.price = price;
     INFO.erc20 = erc20;
     INFO.currency = currency;
@@ -442,7 +429,7 @@ export const findJobSeekerDashboard = async() =>{
         result = await contractInstance.findDashboard("JOBSEEKER_DASHBOARD_TYPE");
        
   }catch(err){
-    console.log('err', err)
+    // console.log('err', err)
   
   }
   
@@ -465,7 +452,7 @@ export const createJobSeekerDashboard = async() =>{
       result = await contractInstance.getDashboard("JOBSEEKER_DASHBOARD_TYPE");
      
 }catch(err){
-  console.log('err', err);
+  // console.log('err', err);
 
 }
 
@@ -474,14 +461,13 @@ export const createJobSeekerDashboard = async() =>{
 
 
 //This is for jobseeker
-export const getAppliedJobs = async(applicantAddress) =>{
+export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddress) =>{
+  // console.log('Dash Address; ', jobSeekerDashAddress);
   let result = [];
   try{
-    const jobSeekerDashAddress = sessionStorage.getItem('jobseeker_address');
-
-    const contractInstance = getContractInstance(jobSeekerDashAddress, iJCJobSeekerDashboardAbi, 'provider');
+    const contractInstance = getContractInstance(jobSeekerDashAddress, iJCJobSeekerDashboardAbi, 'signer');
     const appliedJobsAddresses = await contractInstance.getAppliedJobs();
-    console.log('Applied job addresses: ', appliedJobsAddresses)
+    // console.log('Applied job addresses: ', appliedJobsAddresses)
     if(!isNull(appliedJobsAddresses)){
      result = await getApplicationData(appliedJobsAddresses, applicantAddress);
     }
@@ -493,27 +479,38 @@ export const getAppliedJobs = async(applicantAddress) =>{
 
  const getApplicationData = async(appliedJobsAddresses, applicantAddress) =>{
   const APPLICATION_DATA =[];
+  let link='', applicationDate = '';
   for(let i = 0; i < appliedJobsAddresses.length; i++){
     const appliedJobAddress = appliedJobsAddresses[i];
     try{
-        const contractInstance = getContractInstance(appliedJobAddress, iJCJobPostingAbi, 'provider');
+        const contractInstance = getContractInstance(appliedJobAddress, iJCJobPostingAbi, 'signer');
         const applicantData = await contractInstance.getApplicantData(applicantAddress);
         const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
-        const noOfApplicant = await contractInstance. getFeatureUINT("APPLICANT_COUNT_FEATURE");
-        const statusCode = await contractInstance.getStatus();
+        let noOfApplicant = await contractInstance. getFeatureUINT("APPLICANT_COUNT_FEATURE");
+        let statusCode = await contractInstance.getStatus();
         const status = resolveStatus(statusCode);
+        noOfApplicant = ethers.BigNumber.from(noOfApplicant).toNumber();
+        console.log('No of applicant: ', statusCode);
+
+        if(!isNull(applicantData)){
+         applicationDate = new Date(ethers.BigNumber.from(applicantData.applicationDate).toNumber() * 1000);
+         link = applicantData.link
+        }
+
 
         APPLICATION_DATA.push({
-           apply_date: applicantData.applicationDate,
-           link: applicantData.link,
+           apply_date: applicationDate,
+           link: link,
            jobTitle,
            noOfApplicant,
            status,
            statusCode,
-           address: appliedJobAddress
+           postingAddress: appliedJobAddress
         })
        
-    }catch(err){}
+    }catch(err){
+      console.log(err)
+    }
   }
     return APPLICATION_DATA;
 }
@@ -540,10 +537,9 @@ function resolveStatus(x) {
 
 
 export const getJobPosting = async(employerDashAddress) =>{
-  console.log('Employer dash address: ', employerDashAddress)
+  // console.log('Employer dash address: ', employerDashAddress)
   let result =[]
   try{
-      // const employerDashAddress = sessionStorage.getItem('dash');
       if(!isNull(employerDashAddress)){
         const contractInstance = getContractInstance(employerDashAddress, iJCEmployerDashboardAbi, 'signer');
         const postingAddresses = await contractInstance.getPostings();
@@ -560,26 +556,26 @@ const getJobPostingDetails = async(postingAddresses) =>{
     for(let i = 0; i < postingAddresses.length; i++){
       try{
       const postingAddress = postingAddresses[i];
-      const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
+      const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
       let postedDate = await contractInstance.getFeatureUINT("POSTING_DATE_FEATURE");
       const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
       let applicantCount = await contractInstance.getFeatureUINT("APPLICANT_COUNT_FEATURE");
       let expiryDate = await contractInstance.getFeatureUINT("EXPIRY_DATE_FEATURE");
       const status = resolvePostStatus(await contractInstance.getStatus());
             if (status === "DRAFT") {
-                console.log("draft");
+                // console.log("draft");
                  option1 = 'EDIT';
                  option2 = 'ARCHIVE';
             }
 
             if (status === "POSTED") {
-                console.log("posted option");
+                // console.log("posted option");
                  option1 = 'FILL';
                  option2 = 'CANCEL';
             }
 
             if (status === "EXPIRED") {
-                console.log("expired");
+                // console.log("expired");
                  option1 = 'EXTEND';
                  option2 = 'ARCHIVE';
             }
@@ -587,16 +583,15 @@ const getJobPostingDetails = async(postingAddresses) =>{
             if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
                  option1 = 'ARCHIVE';
             }
-            // console.log('Job Title: ', jobTitle)
-            // console.log('Satus: ', status)
+            // console.log('posted date: ', postedDate)
+            // console.log('expiry date: ', expiryDate)
             // console.log('applicant count: ', applicantCount)
             // console.log('options: ', postingAddress)
-            postedDate = new Date(postedDate.toString());
-            // postedDate = ethers.BigNumber.from(postedDate).toString();
-            applicantCount = ethers.BigNumber.from(applicantCount).toString();
-            expiryDate = ethers.BigNumber.from(expiryDate).toString();
-            console.log('PostedDate: ', postedDate)
-            console.log('Expiry date: ', expiryDate)
+            postedDate = new Date(ethers.BigNumber.from(postedDate.toNumber()) * 1000);
+            applicantCount = ethers.BigNumber.from(applicantCount).toNumber();
+            expiryDate = new Date(ethers.BigNumber.from(expiryDate).toNumber() * 1000);
+            // console.log('PostedDate: ', postedDate)
+            // console.log('Expiry date: ', expiryDate)
             JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postingAddress })
       }catch(err){}
     }
@@ -606,33 +601,33 @@ const getJobPostingDetails = async(postingAddresses) =>{
 
 
 function resolvePostStatus(x) {
-  if(x == 0 ) {
-      return "DRAFT"; 
-  }
-  if(x == 1 ) {
-      return "POSTED"; 
-  }
-  if(x == 2 ) {
-      return "FILLED"; 
-  }
-  if(x == 3 ) {
-      return "CANCELLED"; 
-  }
-  if(x == 4 ) {
-      return "EXPIRED"; 
-  }
-  if(x == 5 ) {
-      return "EXTENDED"; 
-  }
-  if(x == 6 ) {
-      return "DEACTIVATED"; 
-  }
-  if(x == 7 ) {
-      return "BARRED"; 
-  }
-  if(x == 8 ) {
-      return "ARCHIVED"; 
-  }  
+      if(x == 0 ) {
+          return "DRAFT"; 
+      }
+      if(x == 1 ) {
+          return "POSTED"; 
+      }
+      if(x == 2 ) {
+          return "FILLED"; 
+      }
+      if(x == 3 ) {
+          return "CANCELLED"; 
+      }
+      if(x == 4 ) {
+          return "EXPIRED"; 
+      }
+      if(x == 5 ) {
+          return "EXTENDED"; 
+      }
+      if(x == 6 ) {
+          return "DEACTIVATED"; 
+      }
+      if(x == 7 ) {
+          return "BARRED"; 
+      }
+      if(x == 8 ) {
+          return "ARCHIVED"; 
+      }  
 }
 
 
@@ -680,7 +675,7 @@ const terms = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locatio
   // console.log('search terms: ', searchTerms);
   const contractInstance = getContractInstance(selectedPostingAddress, iJCJobPostingEditorAbi, 'signer');
   const result = await contractInstance.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms);
-  console.log('Result after populating: ',result);
+  // console.log('Result after populating: ',result);
   
   return result
   //  setSaveMsg("Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash);
@@ -744,22 +739,22 @@ export const getPaymentInformation = async(postingAddress) =>{
      try{
      duration = ethers.BigNumber.from(duration).toNumber();
      duration = duration/(60*60*24*7)
-     console.log('duration: ', duration);
+    //  console.log('duration: ', duration);
      }catch(err){
-      console.log('duration error: ', err)
+      // console.log('duration error: ', err)
      }
      try{
         price = ethers.BigNumber.from(price).toNumber();
      }catch(err){
-      console.log('price error: ', err)
+      // console.log('price error: ', err)
      }
-     console.log('price: ', price);
+    //  console.log('price: ', price);
      const erc20 = await contractInstance.getErc20();
-     console.log('Erc20: ', erc20);
+    //  console.log('Erc20: ', erc20);
      const currency = await contractInstance.getCurrency();
-     console.log('currency: ', currency);
+    //  console.log('currency: ', currency);
      const decimal = await getDecimal();
-     console.log('Decimal: ',decimal)
+    //  console.log('Decimal: ',decimal)
 
      return { duration, erc20, currency, price: (price/(10**decimal)), decimal };
    }catch(err){}
@@ -768,7 +763,7 @@ export const getPaymentInformation = async(postingAddress) =>{
 }
 
 export const approvePayment = async(price, erc20Address) =>{
-  console.log('PRICE TO APPROVE: ', price);
+  // console.log('PRICE TO APPROVE: ', price);
   let paymentManagerAddress = '';
   try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -812,7 +807,7 @@ const getProductAddress = async(postingAddress) =>{
     return await contractInstance.getFeatureADDRESS("PRODUCT_FEATURE");
    
   }catch(err){
-    console.log(err)
+    // console.log(err)
   }
 
 return '';
@@ -840,36 +835,85 @@ export const isPostingPaid = async(postingAddress) =>{
 }
 
  export const getProductAddressInfo = async(postingAddress) =>{
-  console.log('....', postingAddress)
+  // console.log('....', postingAddress)
   const obj = {}; let name='', price, currency, decimals;
     try{
       const productAddress = await getProductAddress(postingAddress);
       const contractInstance = getContractInstance(productAddress, iOpenProductAbi);
       try{
        name = await contractInstance.getName();
-      console.log('NAME:', name)
+      // console.log('NAME:', name)
       }catch(err){
-        console.log('NAME',err)
+        // console.log('NAME',err)
       }
       try{
        price = await contractInstance.getPrice();
-      console.log('PRICE:', price)
+      // console.log('PRICE:', price)
       }catch(err){
-        console.log('PRICE: ', err)
+        // console.log('PRICE: ', err)
       }
        currency = await contractInstance.getCurrency();
-      console.log('CURRENCY:', currency)
+      // console.log('CURRENCY:', currency)
        decimals = await getDecimal();
-   console.log('DECIMALS: ', decimals);
+      // console.log('DECIMALS: ', decimals);
       price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
       obj.name = name;
       obj.price = formatPrice(price, decimals);
       obj.currency = currency
       obj.productAddress = productAddress
-      console.log('Obj: ',obj)
+      // console.log('Obj: ',obj)
     }catch(err){
 
     }
   
   return obj;
+}
+
+export const postAJob = async(postingAddress) =>{
+  try{
+      const contractInstance = getContractInstance(postingAddress,iJCJobPostingEditorAbi, 'signer');
+      const posted = contractInstance.post();
+      return posted;
+  }catch(err){}
+
+  return false
+}
+
+export const getPostJobStatus = async(postingAddress) =>{
+   try{
+    const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
+    const status = await contractInstance.getStatus();
+    return resolvePostStatus(status);
+   }catch(err){}
+
+   return false;
+}
+
+export const permissionToViewApplyLink = async(postingAddress) =>{
+  let applyLink='';
+  try{
+      const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
+      try{
+          applyLink = await contractInstance.applyForJob();
+          console.log('APPLY LINK: ', applyLink);
+          // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
+      }catch(err){
+      }
+      
+  }catch(err){}
+    return applyLink;
+}
+
+export const getApplyLink = async(postingAddress) =>{
+  let applyLink='';
+  try{
+      const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
+      try{
+          applyLink = await contractInstance.getFeatureSTR('APPLY_LINK');
+          // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
+      }catch(err){
+      }
+      
+  }catch(err){}
+    return applyLink;
 }

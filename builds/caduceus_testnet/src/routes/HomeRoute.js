@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 
@@ -25,6 +25,15 @@ import ReadyToStart from '../components/ReadyToStart';
 import useWindowSize from '../hooks/useWindowSize';
 import { AccountContext } from '../App';
 import PostJobPopup from '../popups/PostJobPopup';
+import { getFeaturedJobs } from '../jobManager/FeaturedJobs';
+import { getLatestJobs } from '../jobManager/LatestJobs';
+import { isNull } from '../utils/Util';
+import { getPopularJobs } from '../jobManager/PopularJobs';
+import { ethers } from 'ethers';
+import { approveStake, getIsStaked, getMinStakeAmount, getUserStakedAmount, stake } from '../contracts/ContractManager';
+import Wrapper from '../components/Wrapper';
+import Spinner from '../components/Spinner';
+import ApplyForJobPopup from '../popups/ApplyForJobPopup';
 
 
 
@@ -32,20 +41,22 @@ import PostJobPopup from '../popups/PostJobPopup';
     const navigate = useNavigate();
    const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
    const width = useWindowSize();
-   const { account } = useContext(AccountContext);
+   const { account, setIsStaked, setIsApproved, isStaked, isApproved } = useContext(AccountContext);
    const [ isMetaMaskInstalled, setIsMetamaskInstalled ] = useState(false);
    const [ openPostJob, setOpenPostJob ] = useState(false);
+   const [ featuredJobs, setFeaturedJobs ] = useState(null);
+   const [ latestJobs, setLatestJobs ] = useState(null);
+   const [ popularJobs, setPopularJobs ] = useState(null);
+   const [ isLoading, setIsLoading ] = useState({ featured: false, latest: false, popular: false });
+   const [ apply, setApply ] = useState(false);
+   const [ selectedPostingAddress, setSelectedPostingAddress ] = useState(undefined);
 
-
+   
 
    useEffect(()=>{
-    try{
-      if(window.ethereum)setIsMetamaskInstalled(true);
+      if(account.isConnected)setIsMetamaskInstalled(true);
       else setIsMetamaskInstalled(false)
-    }catch(err){
-        setIsMetamaskInstalled(false);
-    }
-
+    
     document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
    },[]);
 
@@ -61,8 +72,184 @@ import PostJobPopup from '../popups/PostJobPopup';
     }
    }
 
+   const fetchFeaturedJobs = useCallback(async() =>{
+    setIsLoading(prev=>({...prev, featured: true }));
+   const jobs = await getFeaturedJobs(0);
+   if(!isNull(jobs)){
+    // console.log('Featured jobs: ', jobs[0]);
+    const applyLink = jobs[0].applyLink || jobs[0].companyLink;
+    jobs[0].applyLink = applyLink;
+    setFeaturedJobs(jobs[0]);
+   }
+   setIsLoading(prev=>({...prev, featured: false }));
+
+},[]);
+
+const fetchLatestJobs = useCallback(async() =>{
+    setIsLoading(prev=>({...prev, latest: true }));
+    const jobs = await getLatestJobs(0);
+    if(!isNull(jobs)){
+        // console.log('Latest jobs: ', jobs[0]);
+        const applyLink = jobs[0].applyLink || jobs[0].companyLink;
+        jobs[0].applyLink = applyLink;
+        setLatestJobs(jobs[0]);
+    }
+
+    setIsLoading(prev=>({...prev, latest: false }));;
+
+    },[]);
+
+const fetchPopularJobs = useCallback(async() =>{
+    setIsLoading(prev=>({...prev, popular: true }));
+    const jobs = await getPopularJobs(0);
+    if(!isNull(jobs)){
+        console.log('Popular jobs: ', jobs[0]);
+        const applyLink = jobs[0].applyLink || jobs[0].companyLink;
+        jobs[0].applyLink = applyLink;
+        setPopularJobs(jobs[0]);
+    }
+    setIsLoading(prev=>({...prev, popular: false }));
+},[]);
 
 
+const run = useCallback(async() =>{
+    let stakedAmount = await getUserStakedAmount();
+    let minStakeAmount = await getMinStakeAmount();
+    const isStaked = await getIsStaked();
+    setIsStaked(isStaked);
+    stakedAmount = ethers.BigNumber.from(stakedAmount).toNumber();
+    minStakeAmount = ethers.BigNumber.from(minStakeAmount).toNumber();
+    if(stakedAmount < minStakeAmount)setIsApproved(false);
+    else setIsApproved(true);
+},[]);
+
+
+const approveHandler = async() =>{
+    if(!isApproved){
+    const txn = await approveStake();
+    // console.log(txn)
+    // console.log('hash: ',txn.hash);
+    if(!isNull(txn.hash)){
+        setIsApproved(true);
+    }
+}
+}
+
+const stakeHandler = async() =>{
+    const staked = await stake();
+    if(!isNull(staked)){
+    setIsStaked(true);
+    }
+}
+
+useEffect(()=>{
+   fetchFeaturedJobs();
+   fetchLatestJobs();
+   fetchPopularJobs();
+   run();
+ },[fetchFeaturedJobs, fetchLatestJobs, fetchPopularJobs]);
+
+
+ const openPopupHandler = (postingAddress) =>{
+    setSelectedPostingAddress(postingAddress);
+    setApply(true)
+ }
+
+const notConnected = (
+    <section className={classes.center}>
+      <article className={classes.rectangle}>
+          <h1>Job Board</h1>
+          <ul className={classes.box}>
+               <li>
+                   <div className={classes.jobTop}>Featured Jobs</div>
+                   <div className={classes.content}>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                   </div>
+               </li>
+               <li>
+                   <div className={classes.jobTop}>Latest Jobs</div>
+                   <div className={classes.content}>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                   </div>
+               </li>
+               <li>
+                   <div className={classes.jobTop}>Popular Jobs</div>
+                   <div className={classes.content}>
+                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                   </div>
+               </li>
+          </ul>
+      </article>
+    </section>
+)
+
+const connected = (
+    <section className={classes.center}>
+        {apply && <ApplyForJobPopup setApply={setApply} selectedPostingAddress={selectedPostingAddress} />}
+      <article className={classes.rectangle}>
+          <h1>Job Board</h1>
+          <ul className={classes.box}>
+               <li>
+                   <div className={classes.jobTop}>Featured Jobs</div>
+                   <div className={classes.content}>
+                    {isLoading.featured &&<Wrapper height='fit-content'>
+                        <Spinner />
+                    </Wrapper>}
+                      {(!isLoading.featured && !isNull(featuredJobs)) &&<>
+                      <h2>{featuredJobs.jobTitle}</h2>
+                      <p>{featuredJobs.companyName}</p>
+                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
+                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
+                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(featuredJobs.postingAddress)}>Apply</button>}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      </>}
+                      {(!isLoading.featured && isNull(featuredJobs)) &&<Wrapper height='fit-content'>
+                        <p className={classes.errorTxt}>No Jobs available</p>
+                    </Wrapper>}
+                   </div>
+               </li>
+               <li>
+                   <div className={classes.jobTop}>Latest Jobs</div>
+                   <div className={classes.content}>
+                    {isLoading.latest &&<Wrapper height='fit-content'>
+                        <Spinner />
+                    </Wrapper>}
+                      {(!isLoading.latest && !isNull(latestJobs)) &&<>
+                      <h2>{latestJobs.jobTitle}</h2>
+                      <p>{latestJobs.companyName}</p>
+                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
+                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
+                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(latestJobs.postingAddress)}>Apply</button>}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      </>}
+                      {(!isLoading.latest && isNull(latestJobs)) &&<Wrapper height='fit-content'>
+                        <p className={classes.errorTxt}>No Jobs available</p>
+                    </Wrapper>}
+                   </div>
+               </li>
+               <li>
+                   <div className={classes.jobTop}>Popular Jobs</div>
+                   <div className={classes.content}>
+                    {isLoading.popular &&<Wrapper height='fit-content'>
+                        <Spinner />
+                    </Wrapper>}
+                      {(!isLoading.popular && !isNull(popularJobs)) &&<>
+                      <h2>{popularJobs.jobTitle}</h2>
+                      <p>{popularJobs.companyName}</p>
+                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
+                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
+                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(popularJobs.postingAddress)}>Apply</button>}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      </>}
+                      {(!isLoading.popular && isNull(popularJobs)) &&<Wrapper height='fit-content'>
+                        <p className={classes.errorTxt}>No Jobs available</p>
+                    </Wrapper>}
+                   </div>
+               </li>
+          </ul>
+      </article>
+    </section>
+)
 
   return(
     <>
@@ -92,31 +279,7 @@ import PostJobPopup from '../popups/PostJobPopup';
     </section>
     <main className={classes.main}>
     <PromotionPane />
-    {!isMetaMaskInstalled &&<section className={classes.center}>
-      <article className={classes.rectangle}>
-          <h1>Job Board</h1>
-          <ul className={classes.box}>
-               <li>
-                   <div className={classes.jobTop}>Featured Jobs</div>
-                   <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
-                   </div>
-               </li>
-               <li>
-                   <div className={classes.jobTop}>Latest Jobs</div>
-                   <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
-                   </div>
-               </li>
-               <li>
-                   <div className={classes.jobTop}>Popular Jobs</div>
-                   <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
-                   </div>
-               </li>
-          </ul>
-      </article>
-    </section>}
+    {account.isConnected? connected : notConnected}
     <section className={classes.permissionlessContainer}>
       <div className={classes.permissionTop}>
         <p>Reasons why millions of</p>
