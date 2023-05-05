@@ -22,12 +22,13 @@ const PreviousJobApplications = () =>{
     const { account, jobSeekerDashAddress } = useContext(AccountContext);
     const [ appliedJobsArray, setAppliedJobsArray ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ message, setMessage ] = useState('');
+    const [ message, setMessage ] = useState('No previous job application.');
     const navigate = useNavigate();
     const [ selectedPostingAddress, setSelectedPostingAddress ] = useState('');
 
 
     const getAppliedJobsHandler = useCallback(async()=>{
+        console.log('----------', jobSeekerDashAddress)
         if(isNull(account.address) || isNull(jobSeekerDashAddress))return;
         setIsLoading(true);
         setMessage('Checking for existing job application...');

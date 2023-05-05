@@ -14,6 +14,7 @@ import { getContractInstance } from "./init";
      }
 
      export const registryGetAllContracts = async() =>{
+        sessionStorage.removeItem('contracts');
         let CONTRACT_ADDRESSES = [];
         const contract = getContractInstance(REGISTRY_ADDRESS, iOpenRegisterAbi, 'provider');
         const RESERVED_OPEN_PRODUCT_CORE = await contract.getAddress('RESERVED_OPEN_PRODUCT_CORE');

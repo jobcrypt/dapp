@@ -30,7 +30,6 @@ const CalendarEvent2 = () =>{
                </span>
             </div>
 
-
             <section className={classes.calendarParent}>
                 <span>
                     <div className={classes.card} onClick={()=>navigate('/events/germany/Germany_24_5_2023')}>

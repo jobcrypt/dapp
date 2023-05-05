@@ -8,12 +8,13 @@ import { useLayoutEffect } from 'react';
 import { chain, isNull } from '../utils/Util';
 import { AccountContext } from '../App';
 import { getIsStaked } from '../contracts/ContractManager';
+import useConnectMetaMask from '../hooks/useConnectMetaMask';
 
 
 const Layout = (props) =>{
     const { children } = props;
     const { account, setAccount, setIsStaked } = useContext(AccountContext);
-
+    const { connect } = useConnectMetaMask('');
 
     useLayoutEffect(()=>{
         const address = sessionStorage.getItem('address');
@@ -46,6 +47,13 @@ const Layout = (props) =>{
                 }
         }
 
+        // function handleWindowLoad(){
+        //     console.log('page done loading...')
+        //     connect();
+        // }
+
+        // window.addEventListener('load', handleWindowLoad);
+
         if(window.ethereum){
             window.ethereum.on('chainChanged', chainChanged);
             window.ethereum.on('accountsChanged', accountChanged);
@@ -54,6 +62,7 @@ const Layout = (props) =>{
         return()=>{
             window.ethereum.removeListener('chainChanged', chainChanged);
             window.ethereum.removeListener('accountsChanged', accountChanged);
+            // window.removeEventListener('load', handleWindowLoad);
         }
     },[]);
 

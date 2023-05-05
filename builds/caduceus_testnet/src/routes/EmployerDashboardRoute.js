@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState, useCallback } from 'react';
+import { useContext, useLayoutEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -21,6 +21,7 @@ const EmployerDashboardRoute = () =>{
      const [ openPostJob, setOpenPostJob ] = useState(false);
      const { connect } = useConnectMetaMask();
      const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
+     const pathRef = useRef(null);
 
      const getEmployerDashboard = useCallback(async() =>{
         // console.log('isconnected: ', account.isConnected)
@@ -63,15 +64,17 @@ const EmployerDashboardRoute = () =>{
         }else{
             if(type === 'post'){
                 setOpenPostJob(true);
+                pathRef.current = '';
             }else{
                 navigate('/browse-job');
+                pathRef.current = '/browse-job';
             }
         }
      }
 
     return(
         <>
-        {openMetaPopup && <ConnectMetaMaskPopup path='/browse-job' setOpenMetaPopup={setOpenMetaPopup} shouldUseDispatch={false} />}
+        {openMetaPopup && <ConnectMetaMaskPopup path={pathRef.current} setOpenMetaPopup={setOpenMetaPopup} shouldUseDispatch={false} />}
         {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
         <section className={classes.parent} id='listing'>
             <span className={classes.header}>

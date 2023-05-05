@@ -46,7 +46,7 @@ const fetchDataForContract = async(addresses) =>{
             const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
             const locationType = await contractInstance.getFeatureSTR('JOB_LOCATION_TYPE');
             const postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
-            const applyLink = await getApplyLink(postingAddress);
+            // const applyLink = await getApplyLink(postingAddress);
       JOB_DATA.push({
         jobTitle,
         companyName,
@@ -54,7 +54,7 @@ const fetchDataForContract = async(addresses) =>{
         workType,
         locationType,
         postingDateFeatures,
-        applyLink
+        // applyLink
       });
     }catch(err){}
     }

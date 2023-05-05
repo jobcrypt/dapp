@@ -21,16 +21,14 @@ const JobSeekerDashboardRoute = () =>{
     const findJobSeekerDashboardHandler = useCallback(async() =>{
         if(!account.isConnected)return;
         const dashAddress = await findJobSeekerDashboard();
-        console.log('Dash address: ',dashAddress)
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
             setHasDashboard(true);
             setJobSeekerDashAddress(dashAddress);
-            // sessionStorage.setItem('jobseeker_address', dashAddress);
         }else{
-            setHasDashboard(false)
+            setHasDashboard(false);
         }
     
-    },[account.address, account.isConnected]);
+    },[account.address, account.isConnected, setJobSeekerDashAddress]);
 
     useEffect(()=>{
         findJobSeekerDashboardHandler();
@@ -46,7 +44,6 @@ const JobSeekerDashboardRoute = () =>{
             const dashAddress = await createJobSeekerDashboard();
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
             setHasDashboard(true);
-            // sessionStorage.setItem('jobseeker_address', dashAddress);
         }
     },[account.address, account.isConnected]);
 

@@ -68,11 +68,13 @@ const fetchDataForContract = async(addresses) =>{
     return JOB_DATA;
 }
 
-export const getLatestJobDetails = async(postingAddress, isStaked) =>{
-    let JOB_DATA = [], applyLink='', companySummary='', jobDesc ='';
+export const getLatestJobDetails = async(postingAddress) =>{
+    console.log('posting address; ', postingAddress)
+    let JOB_DATA = [], companySummary='', jobDesc ='';
     try{
-        const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
+        const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'provider');
         const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
+        console.log('job title', jobTitle)
         const companyName = await contractInstance.getFeatureSTR('COMPANY_NAME');
         const companyLink = await contractInstance.getFeatureSTR('COMPANY_LINK');
         const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
@@ -94,25 +96,12 @@ export const getLatestJobDetails = async(postingAddress, isStaked) =>{
             if(!isNull(result.ops[0])){
                 jobDesc = result.ops[0].insert
             }
-            // console.log('job desc: ', jobDesc)
         }catch(err){
             jobDesc = 'Job description not available at the moment.'
         }
-        try{
-            if(isStaked) applyLink = await contractInstance.getFeatureSTR("APPLY_LINK");
-            // console.log('apply link: ', applyLink)
-            // console.log('staked: ', isStaked)
-        }catch(err){
-            // console.log('APPLY LINK is empty')
-        }
 
         postingDateFeatures = new Date(parseInt(postingDateFeatures));
-        // console.log(jobLocationSupport);
-
-        // const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
-        // if(!isNull(result.ops[0])){
-        //     jobDesc = result.ops[0].insert
-        // }
+        
         JOB_DATA.push({
             jobTitle,
             companyName,
@@ -126,8 +115,9 @@ export const getLatestJobDetails = async(postingAddress, isStaked) =>{
             categoryFeature,
             skillsFeature,
             jobDesc,
-            applyLink
         });
-    }catch(err){}
+    }catch(err){
+        // console.log(err)
+    }
       return JOB_DATA;
 }

@@ -25,7 +25,7 @@ const ConnectMetaMaskPopup = (props) =>{
         // navigate(path);
         setOpenMetaPopup(false);
         if(!isNull(setDispatch) && shouldUseDispatch){
-            setDispatch({ TYPE: 'DASHBOARD', status: false })
+            setDispatch({ TYPE: 'DASHBOARD', status: false });
         }
         // dispatch(closeMetaMask());
     }

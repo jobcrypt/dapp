@@ -42,7 +42,6 @@ import ApplyForJobPopup from '../popups/ApplyForJobPopup';
    const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
    const width = useWindowSize();
    const { account, setIsStaked, setIsApproved, isStaked, isApproved } = useContext(AccountContext);
-   const [ isMetaMaskInstalled, setIsMetamaskInstalled ] = useState(false);
    const [ openPostJob, setOpenPostJob ] = useState(false);
    const [ featuredJobs, setFeaturedJobs ] = useState(null);
    const [ latestJobs, setLatestJobs ] = useState(null);
@@ -54,10 +53,7 @@ import ApplyForJobPopup from '../popups/ApplyForJobPopup';
    
 
    useEffect(()=>{
-      if(account.isConnected)setIsMetamaskInstalled(true);
-      else setIsMetamaskInstalled(false)
-    
-    document.getElementById('parent').scrollIntoView({ behavior: "smooth" });
+    document.getElementById('parent').scrollIntoView({ behavior: "smooth", top: 0, block: 'start' });
    },[]);
 
    let styleCol, styleRev;
@@ -198,10 +194,10 @@ const connected = (
                       {(!isLoading.featured && !isNull(featuredJobs)) &&<>
                       <h2>{featuredJobs.jobTitle}</h2>
                       <p>{featuredJobs.companyName}</p>
-                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
-                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
-                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(featuredJobs.postingAddress)}>Apply</button>}
-                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      {/* {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>} */}
+                      {/* {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>} */}
+                      {/* {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(featuredJobs.postingAddress)}>Apply</button>} */}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job', { state: {tab: 'featured'}})}>Browse Jobs</button>
                       </>}
                       {(!isLoading.featured && isNull(featuredJobs)) &&<Wrapper height='fit-content'>
                         <p className={classes.errorTxt}>No Jobs available</p>
@@ -217,10 +213,10 @@ const connected = (
                       {(!isLoading.latest && !isNull(latestJobs)) &&<>
                       <h2>{latestJobs.jobTitle}</h2>
                       <p>{latestJobs.companyName}</p>
-                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
-                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
-                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(latestJobs.postingAddress)}>Apply</button>}
-                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      {/* {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>} */}
+                      {/* {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>} */}
+                      {/* {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(latestJobs.postingAddress)}>Apply</button>} */}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job', { state: {tab: 'latest'}})}>Browse Jobs</button>
                       </>}
                       {(!isLoading.latest && isNull(latestJobs)) &&<Wrapper height='fit-content'>
                         <p className={classes.errorTxt}>No Jobs available</p>
@@ -236,10 +232,10 @@ const connected = (
                       {(!isLoading.popular && !isNull(popularJobs)) &&<>
                       <h2>{popularJobs.jobTitle}</h2>
                       <p>{popularJobs.companyName}</p>
-                      {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>}
-                      {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>}
-                      {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(popularJobs.postingAddress)}>Apply</button>}
-                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job')}>Browse Jobs</button>
+                      {/* {(isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={stakeHandler}>Stake To Apply</button>} */}
+                      {/* {(!isApproved && !isStaked) &&<button className={classes.applyBtn} onClick={approveHandler}>Approve 1 CMP</button>} */}
+                      {/* {isStaked &&<button className={classes.applyBtn} onClick={()=>openPopupHandler(popularJobs.postingAddress)}>Apply</button>} */}
+                      <button className={classes.browseBtn} onClick={()=>navigate('/browse-job', { state: {tab: 'popular'}})}>Browse Jobs</button>
                       </>}
                       {(!isLoading.popular && isNull(popularJobs)) &&<Wrapper height='fit-content'>
                         <p className={classes.errorTxt}>No Jobs available</p>
@@ -364,7 +360,7 @@ const connected = (
    
     {/* <CalendarEvent /> */}
     {/* <SustanabilityWeekEvent /> */}
-    <section className={classes.backedByContainer}>
+    {/* <section className={classes.backedByContainer}>
         <h1>Backed By</h1>
         <span className={classes.framesContainer}>
             <img src={frame9} alt='' />
@@ -373,7 +369,7 @@ const connected = (
             <img src={frame12} alt='' />
             <img src={frame13}alt='' />
         </span>
-    </section>
+    </section> */}
     <ReadyToStart />
     </main>
     </>
