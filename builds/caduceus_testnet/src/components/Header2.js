@@ -163,8 +163,8 @@ const Header2 = () =>{
         <>
        {width > 1020 && <header className={classes.header}>
              <section className={classes.topHeader}>
-             <p className={classes.versionTxt}>v1.0.8</p>
-                <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline'}}>Learn More</strong></div>
+             <p className={classes.versionTxt}>v1.0.10</p>
+                <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', cursor: 'pointer'}} onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekuk2023/')}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
                     <img src={youtube} alt='lkln' onClick={()=>openUrl('https://youtube.com/@jobcrypt6750')} />
@@ -244,7 +244,7 @@ const Header2 = () =>{
              <section className={classes.bottomHeader}>
                     <div className={classes.bottomRightContainer}>
                         <div className={classes.needContainer}>
-                           <p className={classes.needTxt}>Need Crypto?</p>
+                           <p className={classes.needTxt} onClick={()=>window.open('https://www.moonpay.com/buy')}>Need Crypto?</p>
                         </div>
                         <button className={classes.getSomeBtn} onClick={()=>window.open('https://youtu.be/iW9EAOCsgJc')}>
                             <img src={youtube} alt='' />

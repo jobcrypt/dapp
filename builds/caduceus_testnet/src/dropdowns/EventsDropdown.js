@@ -20,8 +20,8 @@ const EventsDropdown = (props) =>{
     return(
         <ul className={classes.ul}>
             <li onClick={()=>navigateToPage('/featured-events')}>Featured Event</li>
-            <li onClick={()=>openUrl('https://www.eventbrite.com/cc/jobcrypt-blockchain-sustainability-week-uk-2023-2015709?utm_source=LinkedIn&utm_medium=link&utm_campaign=Q2')}>Blockchain Sustainable Week - UK 2023</li>
-            <li onClick={()=>openUrl('https://www.eventbrite.com/cc/jobcrypt-blockchain-sustainability-week-eu-2023-2015569?utm_source=Website&utm_medium=link&utm_campaign=Q2')}>Blockchain Sustainable Week - EU 2023</li>
+            <li onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekuk2023/')}>Blockchain Sustainable Week - UK 2023</li>
+            <li onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekeu2023/')}>Blockchain Sustainable Week - EU 2023</li>
             <li onClick={()=>navigateToPage('/events_calendar')}>2023 Event Calendar</li>
         </ul>
     )

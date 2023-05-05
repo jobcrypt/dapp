@@ -97,6 +97,7 @@
    width: 60px;
    height: 60px;
    margin-right: 30px;
+   cursor: pointer;
 }
 
 .logoContainer>h1{
@@ -332,6 +333,7 @@
    font-size: 17px;
    font-family: 'light';
    color: #fff;
+   cursor: pointer;
 }
 
 .getSomeBtn{

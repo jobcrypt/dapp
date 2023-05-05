@@ -71,7 +71,7 @@ const CreateJobForm = (props) =>{
     }
 
     const postAJobHandler = async() =>{
-        setPaymentStatus(prev=>({ ...prev, text: `Wait for your posting to finish`, color: '#956B00' }));
+        setPaymentStatus(prev=>({ ...prev, text: `Wait for your posting to finish...`, color: '#956B00' }));
         const result = await postAJob(employerPostingAddress);
         try{
            const wait = await getProvider().waitForTransaction(result.hash);
@@ -93,7 +93,7 @@ const CreateJobForm = (props) =>{
         getPostStatus();
         (async()=>{
             const data = await getJobDetailUsingPostingddress(employerPostingAddress);
-            // console.log('EDIT : ', data.jobDesc);
+            console.log('LOGO : ', data.companyLogo);
 
             setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
             setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });

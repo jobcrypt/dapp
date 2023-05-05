@@ -50,8 +50,8 @@ const FeaturedEventRoute = () =>{
               <main className={classes.main}>
                     <article className={classes.sustainibilityParent}>
                     <div className={classes.sustainabilityDiv}>
-                    <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
-                        <p>“Do you live in Europe? Would you like to become part of the fight and save the planet? Then join us for JobCrypt Blockchain Sustainability Week- EU 2023, hosted in Munich Germany. Come and learn how blockchain is changing the face of the fight against pollution, opening new ways for us to achieve a sustainable future</p>
+                    <h2>JobCrypt Blockchain Sustainability Week- Docuseries 2023</h2>
+                        <p>With our focus on sustainabiluty, we will be launching the JobCrypt Blockchain Sustainability Docuseries, a short form media series, that will shed light on the impact of blockchain in sustainability efforts around the globe!</p>
                         <footer className={classes.footer}>
                             <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilitydocuseries2023/index.html')}>Learn More</button>
                         </footer>
@@ -65,7 +65,7 @@ const FeaturedEventRoute = () =>{
                     <article className={classes.sustainibilityParent}>
                         <div className={classes.sustainabilityDiv}>
                         <h2>JobCrypt Blockchain Sustainability Week- UK 2023</h2>
-                        <p>“Do you live in Europe? Would you like to become part of the fight and save the planet? Then join us for JobCrypt Blockchain Sustainability Week- EU 2023, hosted in Munich Germany. Come and learn how blockchain is changing the face of the fight against pollution, opening new ways for us to achieve a sustainable future</p>
+                        <p>With a global focus, we will be hosting the JobCrypt Blockchain Sustainability Week - UK 2023, in Liverpool UK! As part of the green week celebrations we invite you to come and learn about the UK is supporting global efforts in sustainability around the world using Blockchain!</p>
                         <footer className={classes.footer}>
                             <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilitydocuseries2023/index.html')}>Learn More</button>
                         </footer>
@@ -79,7 +79,7 @@ const FeaturedEventRoute = () =>{
                 <article className={classes.sustainibilityParent}>
                         <div className={classes.sustainabilityDiv}>
                         <h2>JobCrypt Blockchain Sustainability Week- EU 2023</h2>
-                        <p>JobCrypt Blockchain Sustainability Week - EU 2023 will bring to you an exciting series of talks every evening through the week. We will cover many different themes such as contrbutions to biodiversity conservation, land preservation and impact investing. In each theme during this week we will delve into the work being done and the new skills that are being brought to bear to tackle the tasks!</p>
+                        <p>Do you live in europe? Would you like to become part of the climate fight and save the planet? Then join us for JobCrypt Blockchain sustainability week - EU 2023, hosted in Munich, Germany. Come and learn how blockchain is changing the face of the fight against pollution, opening up new ways for us to achieve a sustainable future!</p>
                         <footer className={classes.footer}>
                             <button onClick={()=>openUrl('https://www.jobcrypt.com/blockchainsustainabilityweekeu2023/index.html')}>Learn More</button>
                         </footer>
