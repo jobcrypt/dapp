@@ -132,8 +132,8 @@ var stakeCurrencyAddress;
 var stakeCurrencySymbol;
 var stakeCurrencyDecimals;
 var minStakeAmount; 
-var stakeCurrencySymbol;
 var stakeErc20CurrencyContract; 
+var NATIVE_STAKING = false; 
 
 async function initStakeValues() { 
     getStakeErc20Currency();     
@@ -146,9 +146,17 @@ async function getStakeErc20Currency(){
     .then(function(response) {
         console.log(response);
         stakeCurrencyAddress = response; 
-               
-        stakeErc20CurrencyContract = new web3.eth.Contract(ierc20MetadataAbi, stakeCurrencyAddress); 
-        getStakeCurrencySymbol();
+        if(stakeCurrencyAddress === "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"){
+            NATIVE_STAKING = true;
+           stakeCurrencyDecimals = chain.nativeCurrency.decimals;
+           setStakeCurrencyDcmls(stakeCurrencyDecimals); 
+           stakeCurrencySymbol = chain.nativeCurrency.symbol;
+           getMinStakeAmount(); 
+        }
+        else {
+            stakeErc20CurrencyContract = new web3.eth.Contract(ierc20MetadataAbi, stakeCurrencyAddress); 
+            getStakeCurrencySymbol();
+        }
     })
     .catch(function(err){
         console.log(err);
@@ -234,32 +242,52 @@ async function getStakeStatus() {
             stakeApproveSpan.innerHTML = "";
         }
         else{
-            var font = ce("font");
-            font.setAttribute("color", "red");
-            font.append(text("Approve FIRST to Stake"));
-            small.append(font);
-            stakeButtonSpan.append(small);
-            var b = ce("b");
-            var bFont = ce("font");
-            bFont.setAttribute("color", "red");
-            var i = ce("i");
-            i.setAttribute("class", "fa fa-thumbs-down");
-            bFont.append(i);
-            bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
-            b.append(bFont);
-            stakeStatusSpan.append(b);
-            var aSmall = ce("small");
-            var aA = ce("a");
-            aA.setAttribute("type", "submit");
-            aA.setAttribute("id", "stake_approve_button");
-            aA.setAttribute("onclick", "approveStake()");
-            aA.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
-            var aFont = ce("font");
-            aFont.setAttribute("color", "orange");
-            aFont.append(text("Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol))
-            aA.append(aFont);
-            aSmall.append(aA);
-            stakeApproveSpan.append(aSmall);            
+
+            if(NATIVE_STAKING) {
+                var b = ce("b");
+                var bFont = ce("font");
+                bFont.setAttribute("color", "red");
+                var i = ce("i");
+                i.setAttribute("class", "fa fa-thumbs-down");
+                bFont.append(i);
+                bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
+                b.append(bFont);
+                stakeStatusSpan.append(b);
+                var stakeButtonSpan = ge("stake_button_span");
+                console.log(response);                                
+                stakeButtonSpan.innerHTML = "<small><a type=\"submit\" id=\"stake_button\" onclick=\"stakeNative()\" class=\"ui-component-button ui-component-button-small ui-component-button-secondary \">Stake "+chain.nativeCurrency.symbol+"</a></small></span>";                 
+            
+            }
+            else {
+
+            
+                var font = ce("font");
+                font.setAttribute("color", "red");
+                font.append(text("Approve FIRST to Stake"));
+                small.append(font);
+                stakeButtonSpan.append(small);
+                var b = ce("b");
+                var bFont = ce("font");
+                bFont.setAttribute("color", "red");
+                var i = ce("i");
+                i.setAttribute("class", "fa fa-thumbs-down");
+                bFont.append(i);
+                bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
+                b.append(bFont);
+                stakeStatusSpan.append(b);
+                var aSmall = ce("small");
+                var aA = ce("a");
+                aA.setAttribute("type", "submit");
+                aA.setAttribute("id", "stake_approve_button");
+                aA.setAttribute("onclick", "approveStake()");
+                aA.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+                var aFont = ce("font");
+                aFont.setAttribute("color", "orange");
+                aFont.append(text("Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol))
+                aA.append(aFont);
+                aSmall.append(aA);
+                stakeApproveSpan.append(aSmall);
+            }            
         }
     })
     .catch(function(err){
@@ -274,7 +302,7 @@ async function getStakedAmount() {
     .then(function(response){
         console.log(response);
         var stakeStatusSpan = ge("stake_status_span"); 
-        stakeStatusSpan.innerHTML = "<b><font colo=\"green\"><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+")</font> </b>";
+        stakeStatusSpan.innerHTML = "<b><font color=\"green\"><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+")</font> </b>";
     })
     .catch(function(err){
         console.log(err);
@@ -309,6 +337,19 @@ async function approveStake() {
 
 async function stake(){
     jcStakeManagerContract.methods.stake(minStakeAmount).send({from : account})
+    .then(function(response){
+        console.log(response);
+        var stakeStatusSpan = ge("stake_status_span"); 
+        stakeStatusSpan.innerHTML = "<small style=\"color:green\"> STAKED :: "+formatCurrency(response)+"</small>"; 
+        getStakeStatus();                
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
+async function stakeNative(){
+    jcStakeManagerContract.methods.stake(minStakeAmount).send({from : account, value : minStakeAmount})
     .then(function(response){
         console.log(response);
         var stakeStatusSpan = ge("stake_status_span"); 
