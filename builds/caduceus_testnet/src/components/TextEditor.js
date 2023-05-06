@@ -9,7 +9,6 @@ const TextEditor = (props) =>{
     const { setJobDesc, setPaymentStatus, editorHtmlValue } = props;
 
     const onEditorStateChange = (html)=>{
-        console.log(html)
         if(isNull(html))setJobDesc({ isValid: false, text: html });
         else setJobDesc({ isValid: true, text: html });
         setPaymentStatus(prev=>({...prev, isSaved: false }));

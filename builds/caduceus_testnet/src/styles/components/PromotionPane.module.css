@@ -21,6 +21,14 @@
     align-items: center;
     column-gap: 10px;
     min-width: max-content;
+    position: relative;
+    animation: slide 20s infinite linear;
+    /* animation-name: slide;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: forwards;  */
 }
 
 .jobList>img{
@@ -33,3 +41,19 @@
     font-size: 25px;
     font-family: 'light';
 }
+
+/* .move-horizontal {
+    animation: slide 2s infinite linear;
+  } */
+  
+  @keyframes slide {
+    /* from { transform: translateX(0); } 
+    to { transform: translateX(100%); }  
+    */
+    0% {
+        right: -100%;
+      }
+      100% {
+        right: 100%;
+      }
+  }

@@ -15,14 +15,14 @@ import ApplyForJobPopup from '../popups/ApplyForJobPopup';
 import { isNull } from '../utils/Util';
 import { getProvider } from '../contracts/init';
 import useWindowSize from '../hooks/useWindowSize';
-import { approveStake, getIsStaked, stake } from '../contracts/ContractManager';
+import { approveStake, getIsStaked, searchJob, stake } from '../contracts/ContractManager';
 import { getFeaturedJobs } from '../jobManager/FeaturedJobs';
 import { getLatestJobDetails, getLatestJobs } from '../jobManager/LatestJobs';
 import Spinner from './Spinner';
 import Wrapper from './Wrapper';
 import { getPopularJobs } from '../jobManager/PopularJobs';
 import { AccountContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 
@@ -78,7 +78,9 @@ const BrowseJobs = () =>{
     const [ isLoadingJobDesc, setIsLoadingJobDesc ] = useState({ status: false, message: '' });
     const { isStaked, account, isApproved, setIsApproved, setIsStaked } = useContext(AccountContext);
     const [ selectedPostingAddress, setSelectedPostingAddress ] = useState(undefined);
+    const searchRef = useRef();
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     const approveHandler = async() =>{
@@ -167,6 +169,7 @@ const BrowseJobs = () =>{
         const isStaked = await getIsStaked();
         setIsStaked(isStaked)
        })();
+
         if(!account.isConnected){
             setFeaturedJobArray([]);
             setLatestJobArray([]);
@@ -175,8 +178,23 @@ const BrowseJobs = () =>{
             return;
         }
 
-        setDispatch({ TYPE: LATEST });
-        fetchLatestJobs();
+        if(isNull(location.state)){
+            setDispatch({ TYPE: LATEST });
+            fetchLatestJobs();
+        }else{
+            if(location.state.tab === 'featured'){
+                setDispatch({ TYPE: FEATURED });
+                fetchFeaturedJobs();
+            }
+            if(location.state.tab === 'latest'){
+                setDispatch({ TYPE: LATEST });
+                fetchLatestJobs();
+            }
+            if(location.state.tab === 'popular'){
+                setDispatch({ TYPE: POPULAR });
+                fetchPopularJobs();
+            }
+        }
     },[fetchLatestJobs, account.isConnected]);
 
 
@@ -215,7 +233,7 @@ const BrowseJobs = () =>{
         setShowJobDesc(true);//only for mobile
         setIsLoadingJobDesc({ status: true, message: 'Loading job details...' });
         // console.log('user staked: ', isStaked);
-        const result_ = await getLatestJobDetails(postingAddress, isStaked);
+        const result_ = await getLatestJobDetails(postingAddress);
         if(!isNull(result_[0])){
             const result = result_[0];
         setJobDetails({
@@ -257,8 +275,10 @@ const reloadJobsHandler = () =>{
     if(dispatch.popular)fetchPopularJobs();
 }
 
-const selectedJobStyle = (postingAddress) =>{
-
+const handleSearch = async() =>{
+    console.log('search active')
+   if(isNull(searchRef.current.value))return;
+   const result = await searchJob(searchRef.current.value);
 }
 
 const style={
@@ -701,10 +721,14 @@ const style={
                     </span>
                     </main>
                     <main className={classes.aboutJobDescriptionContainer}>
-                        <h1>About</h1>
+                        {/* <h1>About</h1>
                         <p>{jobDetails.companySummary}</p>
                         <h1>Job Description</h1>
-                        <p className={classes.jobDescription}>{jobDetails.jobDesc}</p>
+                        <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
+                        <h1>About</h1>
+                        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
+                        <h1>Job Description</h1>
+                        <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p>
                     </main>
                     {isStaked &&<div className={classes.applyNowBtnContainer}>
                         <button onClick={openCompanyUrl}>Apply Now</button>
@@ -725,15 +749,15 @@ const style={
             </header>
              <div className={classes.box}>
                 <div className={classes.inputContainer}>
-                     <input type='text' placeholder='UI/UX Designer' className={classes.input} />
-                     <span className={classes.searchContainer}>
+                     <input type='search' ref={searchRef} placeholder='UI/UX Designer' className={classes.input} />
+                     {/* <span className={classes.searchContainer}>
                         <img src={searchIcon} alt='' />
-                     </span>
+                     </span> */}
                 </div>
-               {width > 770 && <button className={classes.searchBtn}>Search Jobs</button>}
-               {width <= 770 &&<span className={classes.searchSpan}>
+               {width > 770 && <button className={classes.searchBtn} type='submit' onClick={handleSearch}>Search Jobs</button>}
+               {/* {width <= 770 &&<span className={classes.searchSpan}>
                     <img src={searchIcon} alt='' />
-                </span>}
+                </span>} */}
              </div>
              <div className={classes.allJobsParent}>
                 <section className={classes.allJobsBlack}>

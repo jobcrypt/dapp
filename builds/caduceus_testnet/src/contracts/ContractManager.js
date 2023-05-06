@@ -20,59 +20,64 @@ const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 const JOBCRYPT_IPFS_URL = "https://jobcrypt.infura-ipfs.io/ipfs/";
 
 export const getMinStakeAmount = async() =>{
-    let minStakeAmount = '';
+    let minStakeAmount = '', stakeAddress ='';
     try{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
-      const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
-
-      const contract = getContractInstance(stakeAddress,iJCStakeManagerAbi, 'provider');
-      minStakeAmount = await contract.getMinimumStakeAmount();
+       stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
     }
+    if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
+
+    const contract = getContractInstance(stakeAddress,iJCStakeManagerAbi, 'provider');
+    minStakeAmount = await contract.getMinimumStakeAmount();
   }catch(err){}
     return minStakeAmount;
 }
 
 export const getStakeErc20Address = async() =>{
-    let erc20Address = '';
+    let erc20Address = '', stakeAddress='';
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
-        const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
-
-        const contractInstance = getContractInstance(stakeAddress,iJCStakeManagerAbi, 'provider');
-        erc20Address = await contractInstance.getStakeErc20Address();
+         stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
     }
+    if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
+       
+       const contractInstance = getContractInstance(stakeAddress,iJCStakeManagerAbi, 'provider');
+        erc20Address = await contractInstance.getStakeErc20Address();
   }catch(err){}
 
   return erc20Address;
 }
 
 export const getUserStakedAmount = async() =>{
-    let stakedAMount = '';
+    let stakedAMount = '', stakeAddress='';
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
-        const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
+         stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
+    }
+    if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
 
         const contractInstance = getContractInstance(stakeAddress,iJCStakeManagerAbi, 'provider');
         stakedAMount = await contractInstance.getStakedAmount();
-    }
   }catch(err){}
 
   return stakedAMount;
 }
 
 export const getIsStaked = async() =>{
-    let isStaked = false;
+    let isStaked = false, jobCryptAddress='';
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
-        const jobCryptAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_CORE')].value;
-
-        const contractInstance = getContractInstance(jobCryptAddress, iJCJobCryptAbi, 'signer');
-        isStaked = await contractInstance.isStaked();
+         jobCryptAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_CORE')].value;
     }
+
+    if(isNull(jobCryptAddress))jobCryptAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_CORE');
+        
+      const contractInstance = getContractInstance(jobCryptAddress, iJCJobCryptAbi, 'signer');
+      isStaked = await contractInstance.isStaked();
   }catch(err){
     // console.log(err)
   }
@@ -83,11 +88,9 @@ export const getIsStaked = async() =>{
 export const getSymbol = async() =>{
     let symbol = '';
     try{
-    const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
-    if(!isNull(CONTRACTS)){
         const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'provider');
         symbol = await contractInstance.symbol();
-    }
+    
   }catch(err){}
   return symbol;
 }
@@ -95,11 +98,9 @@ export const getSymbol = async() =>{
 export const getDecimal = async() =>{
     let decimals = '';
     try{
-    const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
-    if(!isNull(CONTRACTS)){
         const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'provider');
         decimals = await contractInstance.decimals();
-    }
+    
   }catch(err){}
 
   return decimals;
@@ -107,45 +108,49 @@ export const getDecimal = async() =>{
 
 
 export const approveStake = async() =>{
-    let approve = '';
+    let approve = '', stakeAddress='';
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
-        const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
-
-        const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'signer');
-        approve = await contractInstance.approve(stakeAddress, await getMinStakeAmount());
+      stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
     }
+
+    if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
+       
+    const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'signer');
+    approve = await contractInstance.approve(stakeAddress, await getMinStakeAmount());
   }catch(err){}
 
   return approve;
 }
 
 export const stake = async() =>{
-  let decimals = '';
+  let decimals = '', stakeAddress='';
   try{
   const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
   if(!isNull(CONTRACTS)){
-      const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
-
-      const contractInstance = getContractInstance(stakeAddress, iJCStakeManagerAbi, 'signer');
-      decimals = await contractInstance.stake(await getMinStakeAmount());
+       stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
   }
+
+  if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
+  const contractInstance = getContractInstance(stakeAddress, iJCStakeManagerAbi, 'signer');
+  decimals = await contractInstance.stake(await getMinStakeAmount());
 }catch(err){}
 
 return decimals;
 }
 
 export const unstake = async() =>{
-  let decimals = '';
+  let decimals = '', stakeAddress='';
   try{
   const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
   if(!isNull(CONTRACTS)){
-      const stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
-
-      const contractInstance = getContractInstance(stakeAddress, iJCStakeManagerAbi, 'signer');
-      decimals = await contractInstance.unstake();
+       stakeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_STAKE_MANAGER_CORE')].value;
+      if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
   }
+
+  const contractInstance = getContractInstance(stakeAddress, iJCStakeManagerAbi, 'signer');
+      decimals = await contractInstance.unstake();
 }catch(err){}
 
 return decimals;
@@ -161,10 +166,10 @@ export const findEmployerDashboard = async() =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
         factoryFacadeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_FACTORY_FACADE_CORE')].value;
-      }else{
-        factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
       }
 
+    if(isNull(factoryFacadeAddress))factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
+      
       const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
       result = await contractInstance.findDashboard("EMPLOYER_DASHBOARD_TYPE");
      
@@ -182,9 +187,8 @@ export const createEmployerDashboard = async() =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
         factoryFacadeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_FACTORY_FACADE_CORE')].value;
-      }else{
-        factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
       }
+      if(isNull(factoryFacadeAddress))factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');      
 
       const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
       result = await contractInstance.getDashboard("EMPLOYER_DASHBOARD_TYPE");
@@ -203,10 +207,9 @@ export const loadJobProducts = async() =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
         openProductCoreAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_OPEN_PRODUCT_CORE')].value;
-      }else{
-        openProductCoreAddress = await getContractFromRegistry('RESERVED_OPEN_PRODUCT_CORE');
       }
 
+      if(isNull(openProductCoreAddress))openProductCoreAddress = await getContractFromRegistry('RESERVED_OPEN_PRODUCT_CORE');
       const contractInstance = getContractInstance(openProductCoreAddress, iOpenProductCoreAbi, 'provider');
       const productAddresses = await contractInstance.getProducts();
      
@@ -239,7 +242,6 @@ export const getProductData = async(productAddresses) =>{
       price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
 
       var optionTxt = name + " - " + formatPrice(price*0.8, decimals) + " (ex VAT) [" +formatPrice(price*0.2, decimals) + " VAT] You pay: " +  formatPrice(price, decimals) +  " (" + currency + ")";
-    //  console.log(optionTxt)
     if(!name.toLowerCase().includes('career')){
      RESULT.push({ optionTxt, address: productAddress, price: formatPrice(price, decimals), currency, name });
     }
@@ -263,10 +265,9 @@ export const createDraftPosting = async(productAddress) =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
         factoryFacadeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_FACTORY_FACADE_CORE')].value;
-      }else{
-        factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
       }
 
+      if(isNull(factoryFacadeAddress))factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
       const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
       result = await contractInstance.createJobPosting(productAddress);
      
@@ -337,14 +338,13 @@ export const getJobDetailUsingPostingddress = async(postingAddress)=>{
     const companyLink = await contractInstance.getFeatureSTR("COMPANY_LINK");
     let companySummary = await contractInstance.getFeatureSTR("COMPANY_SUMMARY");
     let companyLogo = await contractInstance.getFeatureSTR("COMPANY_LOGO");
-    console.log('company logo hash: ', companyLogo);
     try{
         if(!isNull(companyLogo)){
           companyLogo = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${companyLogo}`);
-          console.log('COMPANY LOGO DATA: ', companyLogo);
         }
     }catch(err){
       companyLogo = null;
+      // console.log(err)
     }
 
     try{
@@ -359,8 +359,7 @@ export const getJobDetailUsingPostingddress = async(postingAddress)=>{
     let jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
     try{
       if(!isNull(jobDesc)){
-      jobDesc = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
-      jobDesc = jobDesc.ops[0].insert;
+      jobDesc = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);      
       }
     }catch(err){
       jobDesc = ''
@@ -369,7 +368,6 @@ export const getJobDetailUsingPostingddress = async(postingAddress)=>{
     try{
      applyLink = await contractInstance.getFeatureSTR("APPLY_LINK");
     }catch(err){
-      // console.log('APPLY LINK ERROR: ', err);
     }
     const skills = await contractInstance.getFeatureSTRARRAY("SKILLS_FEATURE");
     const searchCategory = await contractInstance.getFeatureSTRARRAY("CATEGORY_FEATURE");
@@ -413,7 +411,6 @@ export const getJobDetailUsingPostingddress = async(postingAddress)=>{
 }
 
 
-
 export const findJobSeekerDashboard = async() =>{
   try{
     let factoryFacadeAddress = '', result='';
@@ -421,9 +418,9 @@ export const findJobSeekerDashboard = async() =>{
         const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
         if(!isNull(CONTRACTS)){
           factoryFacadeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_FACTORY_FACADE_CORE')].value;
-        }else{
-          factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
         }
+
+        if(isNull(factoryFacadeAddress))factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
   
         const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
         result = await contractInstance.findDashboard("JOBSEEKER_DASHBOARD_TYPE");
@@ -444,9 +441,9 @@ export const createJobSeekerDashboard = async() =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
       if(!isNull(CONTRACTS)){
         factoryFacadeAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_FACTORY_FACADE_CORE')].value;
-      }else{
-        factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
       }
+
+      if(isNull(factoryFacadeAddress))factoryFacadeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_FACTORY_FACADE_CORE');
 
       const contractInstance = getContractInstance(factoryFacadeAddress, iJCFactoryFacadeAbi, 'signer');
       result = await contractInstance.getDashboard("JOBSEEKER_DASHBOARD_TYPE");
@@ -462,12 +459,10 @@ export const createJobSeekerDashboard = async() =>{
 
 //This is for jobseeker
 export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddress) =>{
-  // console.log('Dash Address; ', jobSeekerDashAddress);
   let result = [];
   try{
     const contractInstance = getContractInstance(jobSeekerDashAddress, iJCJobSeekerDashboardAbi, 'signer');
     const appliedJobsAddresses = await contractInstance.getAppliedJobs();
-    // console.log('Applied job addresses: ', appliedJobsAddresses)
     if(!isNull(appliedJobsAddresses)){
      result = await getApplicationData(appliedJobsAddresses, applicantAddress);
     }
@@ -490,7 +485,6 @@ export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddres
         let statusCode = await contractInstance.getStatus();
         const status = resolveStatus(statusCode);
         noOfApplicant = ethers.BigNumber.from(noOfApplicant).toNumber();
-        console.log('No of applicant: ', statusCode);
 
         if(!isNull(applicantData)){
          applicationDate = new Date(ethers.BigNumber.from(applicantData.applicationDate).toNumber() * 1000);
@@ -509,7 +503,7 @@ export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddres
         })
        
     }catch(err){
-      console.log(err)
+      // console.log(err)
     }
   }
     return APPLICATION_DATA;
@@ -530,7 +524,7 @@ function resolveStatus(x) {
   if(x === 3 ) {
       return "CANCELLED"; 
   }
-  if(x == 4 ||x == 5 || x == 6 || x == 7 || x == 8) {
+  if(x === 4 ||x === 5 || x === 6 || x === 7 || x === 8) {
       return "EXPIRED"; 
   }
 }
@@ -583,15 +577,10 @@ const getJobPostingDetails = async(postingAddresses) =>{
             if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
                  option1 = 'ARCHIVE';
             }
-            // console.log('posted date: ', postedDate)
-            // console.log('expiry date: ', expiryDate)
-            // console.log('applicant count: ', applicantCount)
-            // console.log('options: ', postingAddress)
             postedDate = new Date(ethers.BigNumber.from(postedDate.toNumber()) * 1000);
             applicantCount = ethers.BigNumber.from(applicantCount).toNumber();
             expiryDate = new Date(ethers.BigNumber.from(expiryDate).toNumber() * 1000);
-            // console.log('PostedDate: ', postedDate)
-            // console.log('Expiry date: ', expiryDate)
+
             JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postingAddress })
       }catch(err){}
     }
@@ -601,31 +590,31 @@ const getJobPostingDetails = async(postingAddresses) =>{
 
 
 function resolvePostStatus(x) {
-      if(x == 0 ) {
+      if(x === 0 ) {
           return "DRAFT"; 
       }
-      if(x == 1 ) {
+      if(x === 1 ) {
           return "POSTED"; 
       }
-      if(x == 2 ) {
+      if(x === 2 ) {
           return "FILLED"; 
       }
-      if(x == 3 ) {
+      if(x === 3 ) {
           return "CANCELLED"; 
       }
-      if(x == 4 ) {
+      if(x === 4 ) {
           return "EXPIRED"; 
       }
-      if(x == 5 ) {
+      if(x === 5 ) {
           return "EXTENDED"; 
       }
-      if(x == 6 ) {
+      if(x === 6 ) {
           return "DEACTIVATED"; 
       }
-      if(x == 7 ) {
+      if(x === 7 ) {
           return "BARRED"; 
       }
-      if(x == 8 ) {
+      if(x === 8 ) {
           return "ARCHIVED"; 
       }  
 }
@@ -769,9 +758,9 @@ export const approvePayment = async(price, erc20Address) =>{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
          paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
-    }else{
-      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
     }
+
+    if(isNull(paymentManagerAddress))paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
 
     const contractInstance = getContractInstance(erc20Address, iERC20Abi, 'signer');
     const approve = await contractInstance.approve(paymentManagerAddress, price);
@@ -788,9 +777,9 @@ export const buyPosting = async(postingAddress) =>{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
          paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
-    }else{
-      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
     }
+    
+    if(isNull(paymentManagerAddress))paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
 
     const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
     const result = await contractInstance.payForPosting(postingAddress);
@@ -821,9 +810,9 @@ export const isPostingPaid = async(postingAddress) =>{
       const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
          paymentManagerAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE')].value;
-    }else{
-      paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
     }
+    
+    if(isNull(paymentManagerAddress)) paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
 
     const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
     const isPaid = await contractInstance.isProductPaidForPosting(postingAddress, productAddress);
@@ -895,7 +884,6 @@ export const permissionToViewApplyLink = async(postingAddress) =>{
       const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
       try{
           applyLink = await contractInstance.applyForJob();
-          console.log('APPLY LINK: ', applyLink);
           // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
       }catch(err){
       }
@@ -916,4 +904,28 @@ export const getApplyLink = async(postingAddress) =>{
       
   }catch(err){}
     return applyLink;
+}
+
+
+export const searchJob = async(word) =>{
+  console.log('search word: ', word)
+  let jobCryptAddress ='';
+  try{
+  const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
+  if(!isNull(CONTRACTS)){
+       jobCryptAddress = CONTRACTS[CONTRACTS.findIndex(item=>item.key === 'RESERVED_JOBCRYPT_CORE')].value;
+  }
+
+  if(isNull(jobCryptAddress)) jobCryptAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_CORE');
+  console.log(jobCryptAddress);
+
+  const contractInstance = getContractInstance(jobCryptAddress, iJCJobCryptAbi, 'provider');
+  console.log(contractInstance)
+  const postingAddresses = await contractInstance.findJobs(word);
+  console.log(postingAddresses);
+}catch(err){
+  console.log(err);
+}
+//0x3FB7DaB69caB8b2c92bab03918A33C8d983e4588
+// return 
 }
