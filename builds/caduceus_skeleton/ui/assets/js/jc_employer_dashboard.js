@@ -1,6 +1,5 @@
-/*
-		 <select class="ui-component-form">
-									<option>Select option</option>
+/** 		 <select class="ui-component-form">
+				<option>Select option</option>
   DRAFT         <option>Edit</option>       <!-- edit posting   -->
   DRAFT         <option>Archive</option>    <!-- clear posting from list  -->
 																	<option>Extend</option> <!-- extend posting   -->
@@ -15,8 +14,6 @@
   
 
 */
-
-
 
 const actionResultSpan = ge("action_result_span");
 const employerDashboardTable = ge("employer_dashboard_table");
@@ -116,7 +113,7 @@ function buildPostingTableRow(postingAddress) {
     getApplicantCount(applicantCountCell, iJobPostingContract);
     getExpiryDate(expiryDateCell, iJobPostingContract);
     getStatus(statusCell, iJobPostingContract, postingAddress, actionCell);
-    getActionButton(buttonCell, iJobPostingContract);
+   
 
     /**
     	<tr>
@@ -213,40 +210,48 @@ function getStatus(cell, iJCPostingContract, postinAddress, selectCell) {
             var status = resolvePostStatus(response);
             cell.append(bold(text(status)));
 
-            var actionSelect = ce("select");
-            actionSelect.setAttribute("id", postinAddress);
-            actionSelect.setAttribute("class", "form-control");
-            selectCell.append(actionSelect);
+            if (status === "ARCHIVED") {
+                // do nothing
+            }
+            else{
+                var actionSelect = ce("select");
+                actionSelect.setAttribute("id", postinAddress);
+                actionSelect.setAttribute("class", "form-control");
+                selectCell.append(actionSelect);
 
-            if (status === "DRAFT") {
-                console.log("draft");
-                var editOption = option("EDIT", "edit");
-                var archiveOption = option("ARCHIVE", "archive");
-                actionSelect.append(editOption);
-                actionSelect.append(archiveOption);
+                if (status === "DRAFT") {
+                    console.log("draft");
+                    var editOption = option("EDIT", "edit");
+                    var archiveOption = option("ARCHIVE", "archive");
+                    actionSelect.append(editOption);
+                    actionSelect.append(archiveOption);
+                }
+
+                if (status === "POSTED") {
+                    console.log("posted option");
+                    var fillOption = option("FILL", "fill");
+                    var cancelOption = option("CANCEL", "cancel");
+                    actionSelect.append(fillOption);
+                    actionSelect.append(cancelOption);
+                }
+
+                if (status === "EXPIRED") {
+                    console.log("expired");
+                    var extendOption = option("EXTEND", "extend");
+                    var archiveOption = option("ARCHIVE", "archive");
+
+                    actionSelect.append(extendOption);
+                    actionSelect.append(archiveOption);
+                }
+
+                if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
+                    var archiveOption = option("ARCHIVE", "archive");
+                    actionSelect.append(archiveOption);
+                }
+                getActionButton(buttonCell, postingAddress);
             }
 
-            if (status === "POSTED") {
-                console.log("posted option");
-                var fillOption = option("FILL", "fill");
-                var cancelOption = option("CANCEL", "cancel");
-                actionSelect.append(fillOption);
-                actionSelect.append(cancelOption);
-            }
-
-            if (status === "EXPIRED") {
-                console.log("expired");
-                var extendOption = option("EXTEND", "extend");
-                var archiveOption = option("ARCHIVE", "archive");
-
-                actionSelect.append(extendOption);
-                actionSelect.append(archiveOption);
-            }
-
-            if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
-                var archiveOption = option("ARCHIVE", "archive");
-                actionSelect.append(archiveOption);
-            }
+          
         })
         .catch(function(err) {
             console.log(err);
@@ -285,16 +290,20 @@ function resolvePostStatus(x) {
 
 
 function getActionButton(cell, postingAddress) {
-    var submitButton = ce("button");
-    cell.append(submitButton);
-    submitButton.setAttribute("type", "submit");
+    console.log(postingAddress);
+    var submitButton = ce("a");
+    cell.append(submitButton);   
+    submitButton.setAttribute("href","javascript:processAction('"+postingAddress+"')") ;
     submitButton.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
-    submitButton.setAttribute("onclick", "processAction(" + postingAddress + ")");
     submitButton.append(text("Execute"));
 }
 
 function processAction(postingAddress) {
-    var action = ge(postingAddress);
+    console.log("processing");
+    var iJobPostingContract = getContract(iJCJobPostingEditorAbi, postingAddress);
+    var action = ge(postingAddress).value.toUpperCase();
+     console.log(action);
+
 
     if (action === "EDIT") {
         // send to post page
@@ -311,7 +320,7 @@ function processAction(postingAddress) {
         iJobPostingContract.methods.executePostingAction(2).send({ from: account })
             .then(function(response) {
                 console.log(response);
-                actionResultSpan.innerHTML = "FILLED :: " + response.blockhash
+                actionResultSpan.innerHTML = "FILLED :: " + response.transactionHash
             })
             .catch(function(err) {
                 console.log(err);
@@ -323,7 +332,7 @@ function processAction(postingAddress) {
         iJobPostingContract.methods.executePostingAction(3).send({ from: account })
             .then(function(response) {
                 console.log(response);
-                actionResultSpan.innerHTML = "CANCELLED :: " + response.blockhash
+                actionResultSpan.innerHTML = "CANCELLED :: " + response.transactionHash
             })
             .catch(function(err) {
                 console.log(err);
@@ -335,7 +344,7 @@ function processAction(postingAddress) {
         iJobPostingContract.methods.executePostingAction(8).send({ from: account })
             .then(function(response) {
                 console.log(response);
-                actionResultSpan.innerHTML = "ARCHIVED :: " + response.blockhash
+                actionResultSpan.innerHTML = "ARCHIVED :: " + response.transactionHash
             })
             .catch(function(err) {
                 console.log(err);

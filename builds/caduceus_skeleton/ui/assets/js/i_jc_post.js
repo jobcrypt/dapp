@@ -1,3 +1,5 @@
+const NATIVE_CURRENCY = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
+
 const createDraftPostingButton = ge("create_draft_job_posting");
 createDraftPostingButton.addEventListener('click', createPosting);
 
@@ -116,10 +118,7 @@ async function populateProductSelectPrice(productContract, nme, jobPostingProduc
             console.log(response + " :: " + nme);
             var price = response;
             getPriceErc20Address(productContract, nme, price,jobPostingProductSelect, productAddress);
-
-            
-
-            
+                        
         })
         .catch(function(err) {
             console.log(err);
@@ -131,7 +130,14 @@ function getPriceErc20Address(productContract, nme, price,jobPostingProductSelec
     .then(function(response){
         console.log(response);
         var priceErc20Address = response; 
-        getPriceDecimals(productContract, priceErc20Address, nme, price, jobPostingProductSelect, productAddress)
+        if(priceErc20Address === NATIVE_CURRENCY){
+            var priceDecimals = Number("1e"+chain.nativeCurrency.decimals); 
+            populateProductSelectCurrency(productContract, nme, price, priceDecimals, jobPostingProductSelect, productAddress);
+        }
+        else {
+            console.log(priceErc20Address);
+            getPriceDecimals(productContract, priceErc20Address, nme, price, jobPostingProductSelect, productAddress);
+        }
     })
     .catch(function(err) {
         console.log(err);
@@ -564,36 +570,41 @@ var productContract;
 function updatePaymentBox(productAddress, postingAddress) {
     console.log(postingAddress);
     productContract = getContract(iOpenProductAbi, productAddress);
+    selectedPostingAddress = postingAddress;
     console.log("product contract");
     console.log(productContract);
     productContract.methods.getFeatureUINTValue("DURATION").call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            var duration = response;
-            var weeks = duration / (7 * 24 * 60 * 60);
-            console.log(weeks);
-            console.log(jobPostingDuration);
-            jobPostingDuration.innerHTML = weeks + " Weeks ";
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+    .then(function(response) {
+        console.log(response);
+        var duration = response;
+        var weeks = duration / (7 * 24 * 60 * 60);
+        console.log(weeks);
+        console.log(jobPostingDuration);
+        jobPostingDuration.innerHTML = weeks + " Weeks ";
+        
+        getErc20(productContract);
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
 
-    productContract.methods.getPrice().call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            var price = response;
-            jobPostingFee.innerHTML = price / 1e18;
-            selectedPostingFee = price;
-            getErc20(productContract);
-            getCurrency(productContract);
-            selectedPostingAddress = postingAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        })
-
+  
 }
+
+function setPrice(productContract, decimals) {
+    productContract.methods.getPrice().call({ from: account })
+    .then(function(response) {
+        console.log(response);
+        var price = response;        
+        
+        jobPostingFee.innerHTML = price / Number("1e"+decimals);
+        selectedPostingFee = price;
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
+}
+
 
 function getErc20(productContract) {
     console.log("product erc20 " + productContract);
@@ -603,11 +614,45 @@ function getErc20(productContract) {
             var erc20 = response;
             jobPostingCurrencyErc20Address.innerHTML = erc20;
             selectedERC20Address = erc20;
+            if(erc20 == NATIVE_CURRENCY){ 
+                jobPostingCurrency.innerHTML = chain.nativeCurrency.symbol;
+                setPrice(productContract, chain.nativeCurrency.decimals);
+                disableApprove();
+            }
+            else { 
+                getCurrency(productContract);
+                getDecimalsAndPrice(productContract, erc20);
+                enableApprove();
+            }            
         })
         .catch(function(err) {
             console.log(err);
         })
 }
+
+function disableApprove() {
+    approvePaymentCurrencyButton.disabled = true; 
+    approvePaymentCurrencyButton.setAttribute("class","btn btn-outline");
+}
+
+function enableApprove() {
+    approvePaymentCurrencyButton.disabled = false; 
+    approvePaymentCurrencyButton.setAttribute("class","btn btn-primary");
+}
+
+function getDecimalsAndPrice(productContract, erc20){
+    erc20Metadata = getContract(ierc20MetadataAbi, erc20);
+    erc20Metadata.methods.decimals().call({from : account})
+    .then(function(response){
+        console.log(response);
+        var decimals = response; 
+        setPrice(productContract, decimals);
+    })
+    .catch(function(err) {
+        console.log(err);
+    })
+}
+
 
 function getCurrency(productContract) {
     console.log("product currency " + productContract);
@@ -666,7 +711,7 @@ async function approve_2(erc20Address, price) {
 async function buyPosting() {
     console.log("buying posting: " + selectedPostingAddress);
 
-    if (selectedERC20Address == 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE) {
+    if (selectedERC20Address == NATIVE_CURRENCY) {
         jcPaymentManagerContract.methods.payForPosting(selectedPostingAddress).send({ from: account, value: selectedPostingFee })
             .then(function(response) {
                 console.log(response);
@@ -715,8 +760,6 @@ async function saveJob() {
             console.log(err);
         });
 }
-
-
 
 async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
