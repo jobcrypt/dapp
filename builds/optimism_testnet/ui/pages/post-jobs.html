@@ -9,6 +9,12 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- Editor -->
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+
     <!-- Web 3 -->
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -500,154 +506,611 @@
       </div>
     </header>
 
+    <!-- STke -->
+    <section id="stake" class="">
+      <div class="flex justify-end p-5">
+        <span id="stake_span" class=""> </span>
+      </div>
+    </section>
     <!-- dashboard -->
-    <section class="bg-[#F8F7FA] p-16 m-10 rounded-xl">
+
+    <section id="featured-jobs" class="services">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>JobCrypt Post Your Jobs</h2>
+        </div>
+        <center>
+          <span id="create_onchain_employer_dashboard_button_span"></span><br />
+        </center>
+
+        <section class="bg-[#F8F7FA] m-10 rounded-lg p-10 flex justify-center">
+          <div>
+            <p class="text-jcDarkBlue text-center">Step 1</p>
+            <h2 class="my-5 tracking-wider font-bold font-baiJam text-center">
+              Create Draft Job Posting
+            </h2>
+            <span
+              class="text-center"
+              id="job_posting_create_msg_display_1"
+            ></span>
+            <p class="text-center">
+              NOTE: Listings duration only starts after posting
+            </p>
+            <div class="flex items-center gap-3">
+              <p>Select Draft Job Posting Product( Pay Later)</p>
+
+              <select
+                id="job_posting_product_select"
+                class="rounded-full font-bold border-0 outline-0"
+              >
+                <option value="1-week " class="rounded-2xl" selected>
+                  Connect Metamask for Posting types
+                </option>
+              </select>
+            </div>
+            <span id="job_posting_create_msg_display_2"></span>
+            <div class="flex justify-center mt-5">
+              <button
+                id="create_draft_job_posting"
+                class="bg-jcBlack text-jcBlue font-poppins tracking-wider lg:text-xl py-2 px-6 rounded-full"
+              >
+                Create draft job posting
+              </button>
+            </div>
+          </div>
+          <span id="job_posting_create_msg_display_2"></span>
+        </section>
+        <div class="row">
+          <div
+            class="col-lg-12 pt-4 pt-lg-0 content d-flex flex-column justify-content-top"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <section>
+              <div>
+                <div>
+                  <center>
+                    <span
+                      id="create_onchain_employer_dashboard_button_span"
+                    ></span
+                    ><br />
+                  </center>
+                  <div>
+                    <center>
+                      <h4>Step 1</h4>
+                      <br />
+                      <h2>Create draft Job Posting</h2>
+                      <table>
+                        <tr>
+                          <td>
+                            <span id="job_posting_create_msg_display_1"></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small
+                              >Note: Listings duration only starts after
+                              posting.</small
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+
+                    <center>
+                      <table style="text-align: left">
+                        <tr>
+                          <td colspan="2">
+                            Select Draft Job Posting Product (pay in Step 4)
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <center>
+                              <select
+                                id="job_posting_product_select"
+                                class="form-control"
+                              >
+                                <option value="1-week " selected>
+                                  Connect Metamask for Posting types
+                                </option>
+                              </select>
+                            </center>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <center>
+                              <br />
+                              <a
+                                type="submit"
+                                id="create_draft_job_posting"
+                                type="button "
+                                class="btn btn-primary"
+                                >Create Draft Job Posting
+                              </a>
+                            </center>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">
+                            <center>
+                              <font color="purple"
+                                >This action incurs a minor gas fee</font
+                              >
+                            </center>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">
+                            <span id="job_posting_create_msg_display_2"></span>
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Select Posting -->
+            <section>
+              <div>
+                <div>
+                  <div>
+                    <center>
+                      <h4>Step 2</h4>
+                      <h2>Select Draft Job Posting To Edit</h2>
+                      <span id="job_posting_edit_display"></span>
+
+                      <table style="text-align: center">
+                        <tr>
+                          <td>
+                            <select
+                              id="edit_draft_job_posting_select"
+                              class="form-control"
+                            >
+                              <option value="1-week" selected>
+                                Connect Metamask to edit your draft Job Postings
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <br />
+                            <a
+                              type="submit"
+                              id="edit_draft_posting_button"
+                              type="button "
+                              class="btn btn-primary"
+                              >Edit Draft Posting
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Edit Posting -->
+            <section>
+              <div>
+                <div>
+                  <div style="text-align: center">
+                    <center>
+                      <h4>Step 3</h4>
+                      <br />
+                      <h2>Enter Job Posting Details</h2>
+                      <span id="job_posting_save_msg_display_1"></span>
+
+                      <table style="text-align: left">
+                        <tr>
+                          <td>Job Title<font color="red">*</font></td>
+                          <td>
+                            <input
+                              type="text "
+                              id="job_title"
+                              placeholder=" enter job title ... "
+                              required
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Location Type<font color="red">*</font></td>
+                          <td>
+                            <select id="job_location_type" class="form-control">
+                              <option value="Geo-Local">Geo Local</option>
+                              <option value="Geo-Remote" selected>
+                                Geo Remote
+                              </option>
+                              <option value="Mixed-Mode ">
+                                Geo Mixed Mode
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Location Support<font color="red">*</font></td>
+                          <td>
+                            <select
+                              id="job_location_support"
+                              class="form-control"
+                            >
+                              <option value="Paid-Relocation ">
+                                Paid Relocation
+                              </option>
+                              <option value="Supported-Relocation " selected>
+                                Supported Relocation
+                              </option>
+                              <option value="Not-Provided">Not Provided</option>
+                              <option value="N/A">N/A</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Work Location</td>
+                          <td>
+                            <input
+                              type="text "
+                              id="job_work_location"
+                              placeholder=" enter work location (optional) ... "
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Company Name<font color="red">*</font></td>
+                          <td>
+                            <input
+                              type="text "
+                              id="company_name"
+                              placeholder=" enter company name ... "
+                              required
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Company Link<font color="red">*</font></td>
+                          <td>
+                            <input
+                              type="text "
+                              id="company_link"
+                              placeholder=" enter company link ... "
+                              required
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Company Logo<font color="red">*</font></td>
+                          <td>
+                            <input
+                              type="file"
+                              id="company_logo"
+                              required
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Current Logo</td>
+                          <td>
+                            <i class="icon"
+                              ><span id="company_logo_display"></span
+                            ></i>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Summary about your Company<font color="red">*</font>
+                          </td>
+                          <td>
+                            <textarea
+                              id="company_summary"
+                              name="contact "
+                              width="15 "
+                              height="30 "
+                              placeholder="enter summary ... "
+                              class="form-control"
+                            ></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Skills Required<font color="red">*</font></td>
+                          <td>
+                            <textarea
+                              id="job_skills_required"
+                              name="contact "
+                              width="15 "
+                              height="30 "
+                              placeholder="enter skills required ... "
+                              required
+                              class="form-control"
+                            ></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Search Categories<font color="red">*</font></td>
+                          <td>
+                            <textarea
+                              id="job_search_categories"
+                              width="15 "
+                              height="30 "
+                              placeholder="enter search categories ... "
+                              required
+                              class="form-control"
+                            ></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Search Terms<font color="red">*</font></td>
+                          <td>
+                            <textarea
+                              id="user_search_terms"
+                              width="15 "
+                              height="30 "
+                              placeholder="enter search terms ... "
+                              required
+                              class="form-control"
+                            ></textarea>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Work Type<font color="red">*</font></td>
+                          <td>
+                            <select id="job_work_type" class="form-control">
+                              <option value="Contract">Contract</option>
+                              <option value="Full-time " selected>
+                                Full-time
+                              </option>
+                              <option value="Part-time ">Part-time</option>
+                              <option value="Intern ">Intern</option>
+                              <option value="Volunteer ">Volunteer</option>
+                              <option value="Associate ">Associate</option>
+                              <option value="Alternative ">Alternative</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Payment Type<font color="red">*</font></td>
+                          <td>
+                            <select id="job_payment_type" class="form-control">
+                              <option value="crypto ">Cryptocurrency</option>
+                              <option value="fiat " selected>Fiat</option>
+                              <option value="mixed ">Mixed Mode</option>
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Job Description<font color="red">*</font></td>
+                          <td>
+                            <div id="job_description">
+                              <p>
+                                Delete this and enter your
+                                <strong>job description</strong>...
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Job Application Link<font color="red">*</font>
+                          </td>
+                          <td>
+                            <input
+                              type="text "
+                              id="job_application_link"
+                              placeholder="link or email "
+                              required
+                              class="form-control"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                      <br />
+                      <table>
+                        <tr>
+                          <td>
+                            <a
+                              type="submit"
+                              id="reset_draft_posting_button"
+                              type="button "
+                              class="btn btn-dark"
+                              >reset
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              type="submit"
+                              id="save_draft_posting_button"
+                              type="button "
+                              class="btn btn-primary"
+                              >save your job posting
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>
+                            <font color="purple"
+                              >This action incurs gas fee</font
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                      <span id="job_posting_save_msg_display_2"></span>
+                    </center>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Pay For Posting -->
+            <section class="ui-section-content">
+              <div class="ui-layout-container">
+                <div class="ui-layout-column-10 ui-layout-column-center">
+                  <div class="ui-component-card">
+                    <center>
+                      <h4>Step 4</h4>
+                      <br />
+                      <h2>Pay for Job Posting</h2>
+                    </center>
+                    <center>
+                      <table>
+                        <tr>
+                          <td><span id="job_posting_pay_display"></span></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small
+                              >Note: Listings duration only starts after
+                              posting.</small
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                    <center>
+                      <table style="text-align: left">
+                        <tr>
+                          <td>Selected Duration</td>
+                          <td>
+                            <span id="job_posting_duration_view"
+                              >Time in Weeks</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Posting Fee</td>
+                          <td>
+                            <span id="job_posting_fee_view"
+                              >Total Price of Posting</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Payment Currency</td>
+                          <td>
+                            <span id="job_posting_currency_view">Crypto</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Currency Contract</td>
+                          <td>
+                            <span id="job_posting_currency_erc20_address_view"
+                              >0x...</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <a
+                              type="submit"
+                              id="approve_payment_currency_button"
+                              type="button "
+                              class="btn btn-primary"
+                              >approve payment currency
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              type="submit"
+                              id="buy_job_posting_button"
+                              type="button "
+                              class="btn btn-outline-dark"
+                              disabled
+                              >buy your listing
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <font color="purple"
+                              >Approval action incurs gas fee.</font
+                            >
+                          </td>
+                          <td>
+                            <font color="purple"
+                              >You pay full price of listing plus gas</font
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- POST JOB -->
+            <section class="ui-section-content">
+              <div class="ui-layout-container">
+                <div class="ui-layout-column-10 ui-layout-column-center">
+                  <div class="ui-component-card" style="text-align: center">
+                    <h4>Step 5</h4>
+                    <br />
+                    <h2>Post your job</h2>
+                    <br />
+
+                    <span id="job_posting_post_display"></span>
+                    <center>
+                      <table>
+                        <tr>
+                          <td>
+                            Save before Posting:
+                            <input
+                              type="checkbox"
+                              id="save_before_post_checkbox"
+                            />
+                          </td>
+                          <td>
+                            <a
+                              type="submit"
+                              id="post_job_button"
+                              type="button "
+                              class="btn btn-primary"
+                              >post
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <small
+                              >Note: Save before posting will trigger<br />
+                              an additional transaction</small
+                            >
+                          </td>
+                          <td>
+                            <font color="purple"
+                              >This action incurs gas fee.</font
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </center>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="bg-[#F8F7FA] p-16 m-10 rounded-xl">
       <h2 class="font-baiJam text-2xl text-center font-bold tracking-wider">
         Create your Dashboard
       </h2>
       <p class="font-poppins text-center mt-5">
         An onchain dashboard is needed to view your job application information
       </p>
-      <div class="flex justify-center mt-10">
-        <span
-          id="create_onchain_employer_dashboard_button_span"
-          class=""
-        ></span>
-      </div>
-    </section>
-
-    <!-- Job Board -->
-    <section
-      class="bg-black mt-20 mb-20 py-2 delay-[100ms] duration-[100ms] taos:translate-y-[200px] taos:opacity-60"
-      data-taos-offset="300"
-    >
-      <h2 class="text-center font-bold text-3xl mt-3 text-white">Job Board</h2>
-      <div
-        class="bg-[#D9D9D9] bg-opacity-10 rounded-lg flex justify-center gap-10 p-10 px-20 m-5"
-      >
-        <div>
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Featured Jobs
-          </h2>
-
-          <p
-            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour,
-            <span class="text-jcBlue"> Install Metamask </span> to view
-            available jobs.
-          </p>
-        </div>
-        <div class="">
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Latest Jobs
-          </h2>
-          <p
-            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour,
-            <span class="text-jcBlue"> Install Metamask </span> to view
-            available jobs.
-          </p>
-        </div>
-        <div class="">
-          <h2
-            class="text-center text-white text-lg mb-3 font-baiJam tracking-wider"
-          >
-            Popular Jobs
-          </h2>
-
-          <p
-            class="border-8 rounded-xl w-[20rem] h-[8rem] text-lg bg-white text-black text-center border-black p-2"
-          >
-            Multiple jobs are uploaded on the blockchain by the hour,
-            <span class="text-jcBlue"> Install Metamask </span> to view
-            available jobs.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Events -->
-    <section>
-      <div class="slideshow-container mt-20">
-        <div class="mySlides fade">
-          <div
-            class="bsweu px-10 py-5 flex justify-between text-white gap-20 rounded-lg"
-          >
-            <div>
-              <h2 class="font-bold text-3xl">
-                Blockchain <br />
-                Sustainability Week <br />
-                EU
-              </h2>
-              <span class="flex items-center gap-1 my-2">
-                <i class="fa-sharp fa-regular fa-calendar-range"></i>
-                <p class="text-xs">5th-9th June, 2023</p>
-              </span>
-              <span class="flex items-center gap-1">
-                <i class="fa-regular fa-arrow-up-right-from-square"></i>
-                <a href="" class="text-xs">See event details</a>
-              </span>
-            </div>
-            <div>
-              <p class="text-2xl font-baiJam tracking-wider">
-                Join JobCrypt Blockchain <br />
-                Sustainability Week in <br />
-                EU
-              </p>
-
-              <button class="px-6 py-2 rounded-xl bg-jcBlue mt-5">
-                Get your Tickets now
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="mySlides fade">
-          <div
-            class="bswuk mt-10 px-10 py-5 flex justify-between text-white gap-20 rounded-lg"
-          >
-            <div>
-              <h2 class="font-bold text-3xl">
-                Blockchain <br />
-                Sustainability Week <br />
-                UK
-              </h2>
-              <span class="flex items-center gap-1 my-2">
-                <i class="fa-sharp fa-regular fa-calendar-range"></i>
-                <p class="text-xs">12th-16th June, 2023</p>
-              </span>
-              <span class="flex items-center gap-1">
-                <i class="fa-regular fa-arrow-up-right-from-square"></i>
-                <a href="" class="text-xs">See event details</a>
-              </span>
-            </div>
-            <div>
-              <p class="text-2xl font-baiJam tracking-wider">
-                Join JobCrypt Blockchain <br />
-                Sustainability Week in <br />
-                UK
-              </p>
-
-              <button class="px-6 py-2 rounded-xl bg-jcBlue mt-5">
-                Get your Tickets now
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-
-      <div style="text-align: center">
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </section>
+      
+    </section> -->
 
     <!-- Users -->
     <section class="bg-[#CEC2DC] bg-opacity-50 py-10 mt-20">
@@ -1065,6 +1528,12 @@
 
     <script src="https://unpkg.com/taos@1.0.3/dist/taos.js"></script>
 
+    <script>
+      const quill = new Quill("#job_description", {
+        theme: "snow",
+      });
+    </script>
+
     <!-- Start of HubSpot Embed Code -->
     <script
       type="text/javascript"
@@ -1106,8 +1575,11 @@
 
     <!-- Job crypt js -->
     <script src="/assets/js/jc/autoconnect.js"></script>
-    <script src="/assets/js/jc/persist.js"></script>
-    <script src="/assets/js/jc/i_jc_post.js"></script>
+    <script src="/assets/js/jc/index.js"></script>
+    <script src="/assets/js/jc/stake.js"></script>
     <script src="/assets/js/jc/jobcrypt.js "></script>
+    <script src="/assets/js/jc/i_jc_post.js"></script>
+
+    <script src="/assets/js/jc/persist.js"></script>
   </body>
 </html>
