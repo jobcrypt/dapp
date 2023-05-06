@@ -88,7 +88,7 @@
 
     <!-- Template Main CSS File -->
     <link href="/assets/template/css/style.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="/assets/css/v2/events.css" />
     <!-- =======================================================
   * Template Name: BizLand
   * Updated: Mar 10 2023 with Bootstrap v5.2.3
@@ -100,15 +100,15 @@
 
   <body>
     <div class="wrapper">
-      <div class="bg-munich-InP">
+      <div class="bg-events pb-5">
         <!-- ======= Header ======= -->
-        <header id="" class="d-flex align-items-center">
+        <header id="" class="d-flex align-items-center bg-dark-blue">
           <div
             class="container d-flex align-items-center justify-content-between"
           >
             <h1 class="logo">
               <a href="../../index.html"
-                ><img src="/assets/images/logo/apple-touch-icon-57x57.png"
+                ><img src="/assets/images/coming-soon/jc-dark-logo.svg"
               /></a>
             </h1>
             <!-- Uncomment below if you prefer to use an image logo -->
@@ -128,18 +128,6 @@
                 ><a href="#" class="btn-primary"></a
               ></span>
             </li> -->
-                <li>
-                  <a href="#about-event" class="nav-link text-light">
-                    About Event</a
-                  >
-                </li>
-
-                <li>
-                  <a href="#location" class="nav-link text-light"> Location</a>
-                </li>
-                <li>
-                  <a href="#schedule" class="nav-link text-light"> Schedule</a>
-                </li>
               </ul>
 
               <i class="bi bi-list mobile-nav-toggle"></i>
@@ -148,9 +136,9 @@
               <a
                 href="https://bit.ly/446EMpr"
                 target="_blank"
-                class="btn btn-primary text-light rounded-pill"
+                class="btn btn-primary text-light rounded-pill mt-3"
               >
-                Tickets Coming Soon
+                Get Tickets
               </a>
             </li>
             <!-- .navbar -->
@@ -158,443 +146,89 @@
         </header>
         <!-- End Header -->
 
-        <main id="main" class="mt-5" data-aos="zoom-out" data-aos-delay="100">
-          <div>
-            <p class="text-uppercase px-5 text-light mt-5 fw-bold fs-1 w-75">
+        <main
+          id="main"
+          class="mt-5 d-flex justify-content-center px-5"
+          data-aos="zoom-out"
+          data-aos-delay="100"
+        >
+          <div class="bg-overlay">
+            <p
+              class="text-uppercase text-center px-5 text-light mt-5 fw-bold fs-1"
+            >
               Blockchain Educated - Blockchain verändert die Art und Weise, wie
               wir lernen
             </p>
-            <p class="text-uppercase px-5 mt-2 text-light fw-bold w-50">
-              Blockchain Educated - Blockchain Changing the Way We Learn
+            <p class="text-uppercase text-center px-5 mt-2 text-light fw-bold">
+              (Blockchain Educated - Blockchain Changing the Way We Learn)
             </p>
 
-            <div class="d-flex px-5">
+            <div
+              class="d-lg-flex text-light d-md-block text-xs align-items-center justify-content-center"
+            >
+              <div class="pe-5 d-flex align-items-center mt-2">
+                <div class="">
+                  <img src="/assets/images/coming-soon/location.svg" alt="" />
+                </div>
+                <div class="">
+                  <p class="m-1">München, Deutschland</p>
+                  <p class="m-1">Munich, Germany</p>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mt-2">
+                <div class="">
+                  <img src="/assets/images/coming-soon/calender.svg" alt="" />
+                </div>
+                <div class="">
+                  <p class="m-1">
+                    Mittwoch, 22. November 2023, 17:45 Uhr - 21:00 Uhr GMT +2
+                  </p>
+                  <p class="m-1">
+                    Wednesday, 22nd November 2023 17:45 - 21:00 GMT +2
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
               <a
                 href="https://bit.ly/446EMpr"
                 target="_blank"
-                class="btn btn-primary text-light rounded-pill mt-3"
+                class="btn btn-primary text-light mt-5"
               >
-                Join Discord
+                Apply to Attend
               </a>
             </div>
           </div>
         </main>
       </div>
-      <section class="container" id="location">
-        <div class="d-lg-flex d-md-block text-xs align-items-center">
-          <div class="col-lg-8 col-md-12 d-flex align-items-center mt-2">
-            <div class="col-5 d-flex align-items-center gap-2">
-              <img src="/assets/images/events/calender.svg" alt="" />
-              <span
-                ><p class="text-primary m-1 fw-bold">Datum und Uhrzeit</p>
-                <p class="m-1 fw-bold">Date and time</p></span
-              >
-            </div>
-            <div class="col-7">
-              <p class="text-primary m-1">
-                Donnerstag, 22nd November 2023, 17:45 Uhr - 21:00 Uhr GMT +2
-              </p>
-              <p class="m-1">
-                Thursday, 22nd November 2023 17:45 - 21:00 GMT +2
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-12 d-flex align-items-center mt-2">
-            <div class="col d-flex align-items-center gap-2">
-              <img src="/assets/images/events/location.svg" alt="" />
-              <span
-                ><p class="text-primary m-1 fw-bold">Ort</p>
-                <p class="m-1 fw-bold">Location</p></span
-              >
-            </div>
-            <div class="col">
-              <p class="text-primary m-1">München, Deutschland</p>
-              <p class="m-1">Munich, Germany</p>
-            </div>
-          </div>
+
+      <div class="bg-light p-5">
+        <div class="d-flex justify-content-center">
+          <img src="/assets/images/coming-soon/perspective.svg" alt="" />
         </div>
-      </section>
-      <hr class="line" />
-      <!-- End #main -->
-      <div
-        class="container my-5 bg-primary text-light rounded-3 p-4"
-        data-aos="fade-up"
-        data-aos-delay="100"
-        id="about-event"
-      >
-        <div class="px-3">
-          <h2 class="">Über das Ereignis</h2>
-          <h5 class="text-dark">About the Event</h5>
+
+        <div class="d-flex justify-content-center pt-5 text-primary">
+          <p class="text-center text-wrap" style="width: 30rem">
+            Schauen Sie bald wieder vorbei, um zu sehen, was Jobcrypt auf der
+            Blockchain Educated Veranstaltung tun wird.
+          </p>
         </div>
-        <div
-          class="d-lg-flex d-md-block align-items-center justify-content-between mb-3"
-        >
-          <div class="col m-3">
-            <p>
-              Schließen Sie sich uns an, wenn wir uns von 2023 verabschieden und
-              Blockchain-Highlights und neue Freunde feiern
-            </p>
-          </div>
-          <div class="col m-3">
-            <img
-              src="/assets/images/events/bs-german.jpg"
-              class="img-fluid rounded-3"
-              alt=""
-            />
-          </div>
-        </div>
-        <div
-          class="d-lg-flex d-md-block align-items-center justify-content-between"
-        >
-          <div class="col m-3">
-            <img
-              src="/assets/images/events/munich-in-Person-bg.jpg"
-              class="img-fluid rounded-3"
-              alt=""
-            />
-          </div>
-          <div class="col m-3">
-            <p>
-              Join us as we bid goodbye to 2023, celebrating blockchain
-              highlights and new friends
-            </p>
-          </div>
-        </div>
+        <di class="d-flex justify-content-center pb-5">
+          <p class="text-center text-wrap" style="width: 30rem">
+            Check back soon to see what Jobcrypt will be doing at the Blockchain
+            Educated event.
+          </p>
+        </di>
       </div>
 
-      <!--Schedule  -->
-      <section class="" data-aos="fade-left" data-aos-delay="100" id="schedule">
-        <div class="container">
-          <h4 class="text-uppercase text-primary text-center fw-bold">
-            Termin und Veranstaltung
-          </h4>
-          <h6 class="text-uppercase text-center fw-bold">Schedule and Event</h6>
-          <div class="bg-primary rounded-5 p-4 text-light text-xs">
-            <div class="row">
-              <div class="col-3">
-                <p>16:45 - 17:45</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Veranstaltungsort</p>
-                <p>Venue Open</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Kostenlose Pizza und Getränke</p>
-                <p>Free Pizza and Drinks</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>17:45 - 18:00</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Eisbrecher</p>
-                <p>Ice Breakers</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">
-                  Swag-Werbegeschenk und Eisbrecher Wettbewerben
-                </p>
-                <p>Swag giveaway and icebreaker competitions</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>18:00 - 18:10</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Sich warm laufen</p>
-                <p>Warm up</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Lernen Sie JobCrypt kennen</p>
-                <p>Get to know JobCrypt</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>18:10 - 18:40</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Mini-Werkstatt</p>
-                <p>Mini-Workshop</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">
-                  Einführung in Non Fungible Tokens (NFTs) und wie sie
-                  funktionieren
-                </p>
-                <p>
-                  Introduction to Non Fungible Tokens (NFTs) and how they work
-                </p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>18:40 - 18:45</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Die Pause</p>
-                <p>Break</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Ankündigungen</p>
-                <p>Announcements</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>18:45 - 19:15</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Mini-Werkstatt</p>
-                <p>Mini Workshop</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">
-                  Blockchain-Einzigartigkeit am Arbeitsplatz
-                </p>
-                <p>Blockchain uniqueness in the Workplace</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>19:15 - 19:20</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Die Pause</p>
-                <p>Break</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Ankündigungen</p>
-                <p>Announcements</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>19:20 - 19:50</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Mini-Werkstatt</p>
-                <p>Mini workshop</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Unterhaltungswelt im Wandel</p>
-                <p>Changing world of entertainment</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>19:50 - 19:55</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Die Pause</p>
-                <p>Break</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Ankündigungen</p>
-                <p>Announcements</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>19:55 - 20:25</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Mini-Werkstatt</p>
-                <p>Mini workshop</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">
-                  Freunde und NFTs finden, um Gutes und Soziales zu tun
-                </p>
-                <p>Making friends and NFTs for doing good and social</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>20:25 - 20:30</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Einpacken</p>
-                <p>Wrap up</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Swag-Werbegeschenk</p>
-                <p>Swag Giveaway</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-            <div class="row">
-              <div class="col-3">
-                <p>20:30 - 21:00</p>
-              </div>
-              <div class="col-3">
-                <p class="fw-bold">Vernetzung</p>
-                <p>Networking</p>
-              </div>
-              <div class="col-6">
-                <p class="fw-bold">Treffen Sie die Sprecher</p>
-                <p>Meet the Speakers</p>
-              </div>
-            </div>
-            <hr class="text-light" />
-          </div>
-        </div>
-      </section>
-
-      <!-- Themes -->
-      <section class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="bg-early-bird-daos">
-          <h1 class="text-center text-light">Tickets Coming Soon...</h1>
-        </div>
-      </section>
-
-      <!-- Upcoming Events -->
-      <section
-        class="container text-center d-flex justify-content-center"
-        data-aos="fade-up"
-        data-aos-delay="100"
-      >
-        <div>
-          <h2 class="text-uppercase text-center mt-2 fw-bold text-primary">
-            KOMMENDE VERANSTALTUNGEN
-          </h2>
-          <h6 class="text-uppercase text-center mt-2 fw-bold">
-            upcoming Events
-          </h6>
-          <div class="d-lg-flex d-md-block gap-5 mt-5">
-            <div
-              class="col mb-3 rounded-3 text-center text-sm bg-blockchainBlue"
-            >
-              <img
-                src="/assets/images/events/upcomingevents/1.svg "
-                class="img-fluid"
-                alt=""
-              />
-              <div class="px-3 py-4">
-                <p class="text-center fw-bold">BlockChain & Web 3 Talk</p>
-                <div class="d-flex align-items-center gap-2 mt-3">
-                  <img
-                    src="/assets/images/events/upcomingevents/map-pin.svg"
-                    alt=""
-                  />
-                  <div class="">
-                    <p class="text-xs m-0 text-primary">München, Deutschland</p>
-                    <p class="text-xs m-0">Munich, Germany</p>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center gap-2 mt-3">
-                  <img
-                    src="/assets/images/events/upcomingevents/calender-pin.svg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="text-xs m-0 text-primary">
-                      August 10th 2023, 17:45-21:00
-                    </p>
-                    <p class="text-xs m-0">August 10th 2023, 17:45-21:00</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col mb-3 rounded-3 text-center text-sm bg-blockchainBlue"
-            >
-              <img
-                src="/assets/images/events/upcomingevents/2.svg"
-                class="img-fluid"
-                alt=""
-              />
-              <div class="px-3 py-4">
-                <p class="text-center fw-bold">
-                  JobCrypt Grillen im Sommer (Summer BBQ)
-                </p>
-                <div class="d-flex align-items-center gap-2">
-                  <img
-                    src="/assets/images/events/upcomingevents/map-pin.svg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="text-xs m-0 text-primary">München, Deutschland</p>
-                    <p class="text-xs m-0">Munich, Germany</p>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center gap-2 mt-3">
-                  <img
-                    src="/assets/images/events/upcomingevents/calender-pin.svg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="text-xs m-0 text-primary">
-                      August 26th 2023, 17:45-21:00
-                    </p>
-                    <p class="text-xs m-0">August 26th 2023, 17:45-21:00</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col rounded-3 mb-3 text-center text-sm bg-blockchainBlue"
-            >
-              <img
-                src="/assets/images/events/upcomingevents/3.svg"
-                alt=""
-                class="img-fluid"
-              />
-              <div class="px-3 py-4">
-                <p class="text-center fw-bold">BlockChain & Web 3 Talk</p>
-                <div class="d-flex align-items-center gap-2">
-                  <img
-                    src="/assets/images/events/upcomingevents/map-pin.svg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="text-xs m-0 text-primary">München, Deutschland</p>
-                    <p class="text-xs m-0">Munich, Germany</p>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center gap-2 mt-3">
-                  <img
-                    src="/assets/images/events/upcomingevents/calender-pin.svg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="text-xs m-0 text-primary">
-                      20th September 2023, 17:45-21:00
-                    </p>
-                    <p class="text-xs m-0">20th September 2023, 17:45-21:00</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
       <!-- ======= Footer ======= -->
       <footer class="bg-black text-light py-5">
         <div class="d-flex justify-content-center align-items-center">
-          <img src="/assets/images/logo/apple-touch-icon-57x57.png" />
+          <img src="/assets/images/coming-soon/jc-dark-logo.svg" />
           <span class="px-2">JobCrypt 2023</span>
         </div>
-        <div class="d-flex justify-content-center align-items-center my-5">
-          <a href="" class="text-light px-1">Home</a>
-          <a href="" class="text-light px-1">About</a>
-          <a href="" class="text-light px-1">Collections</a>
-          <a href="" class="text-light px-1">Locations</a>
-          <a href="" class="text-light px-1">Community</a>
-        </div>
-        <div class="d-flex justify-content-center align-items-center mt-5">
+
+        <div class="d-flex justify-content-center align-items-center mt-2">
           <div class="social-links mt-3 text-light">
             <a href="https://www.twitter.com/JobCrypt" class="text-light px-2"
               ><i class="bx bxl-twitter" width></i

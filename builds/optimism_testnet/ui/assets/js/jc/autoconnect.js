@@ -225,7 +225,7 @@ function setInstallPlayList() {
   getStartedButtonSpan.innerHTML = "";
   getStartedButtonSpan.append(button);
 
-  var f = getColoredNode("red");
+  var f = getColoredNode("white");
   connectVideoLinkSpan.append(
     createVideoLink(
       howToInstallMetamaskPlaylist,
@@ -234,7 +234,7 @@ function setInstallPlayList() {
     )
   );
 
-  var c = getColoredNode("red");
+  var c = getColoredNode("white");
   connectVideoIconSpan.append(createVideoIcon(howToInstallMetamaskPlaylist, c));
 }
 
