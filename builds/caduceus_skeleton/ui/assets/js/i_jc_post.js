@@ -35,8 +35,6 @@ const jobPostingPostDisplay = ge("job_posting_post_display");
 
 const jobPostingProductSelect = ge("job_posting_product_select");
 
-
-
 const jobPostingDraftSelect = ge("edit_draft_job_posting_select");
 
 const jobPostingDuration = ge("job_posting_duration_view");
@@ -50,6 +48,11 @@ const jobPostingCurrencyErc20Address = ge("job_posting_currency_erc20_address_vi
 const createOnchainEmployerDashboardButtonSpan = ge("create_onchain_employer_dashboard_button_span");
 
 const saveBeforePostCheckBox = ge("save_before_post_checkbox");
+
+var companyLogo = ge("company_logo");
+companyLogo.value = ""; 
+
+var logoCid = null; 
 
 
 var selectedPostingAddress;
@@ -413,6 +416,7 @@ function editListing() {
     var companyName = ge("company_name");
     var companyLink = ge("company_link");
     var companySummary = ge("company_summary");
+    var companyLogoDisplay = ge("company_logo_display");
     var skillsRequired = ge("job_skills_required");
     var searchCategories = ge("job_search_categories");
     var workType = ge("job_work_type");
@@ -465,6 +469,24 @@ function editListing() {
         .then(function(response) {
             console.log(response);
             companyName.value = response;
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+
+        postingContract.methods.getFeatureSTR("COMPANY_LOGO").call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            companyLogoDisplay.innerHTML = "";
+            var cid = response; 
+            if(cid != "" && cid != null){ 
+                logoCid = cid; 
+            }
+            var logo = ce("img");
+            logo.setAttribute("src", IPFS+cid);
+            logo.setAttribute("width", "57");
+            logo.setAttribute("height", "57");
+            companyLogoDisplay.append(logo);
         })
         .catch(function(err) {
             console.log(err);
@@ -750,7 +772,28 @@ async function saveJob() {
                     companySummaryHash = res[0].hash;
                     jobJSON.companySummaryHash = companySummaryHash; 
                     console.log("company hash : " + companySummaryHash);
-                    saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+                    var companyLogo = ge("company_logo");
+                    var image = companyLogo.files[0];
+                    console.log(image);
+                    if(image != null && image != "") {
+                        ipfs.add(image)
+                        .then(function(res2){
+                            companyLogoHash = res2[0].hash;
+                            jobJSON.companyLogoHash = companyLogoHash;  
+                            saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                    }
+                    else { 
+                        if(logoCid != null && logoCid != "" ){
+                            jobJSON.companyLogoHash = logoCid;                            
+                        }
+                        saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash);
+                      
+                    }
                 })
                 .catch(function(err) {
                     console.log(err);
@@ -762,8 +805,9 @@ async function saveJob() {
 }
 
 async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
-    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LINK", "COMPANY_SUMMARY", "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
-    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "", jobJSON.companyLink, companySummaryHash + "", jobJSON.workType + "", jobJSON.paymentType + "", jobDescriptionHash + "", jobJSON.userSearchTerms + "", jobJSON.applicationLink + ""];
+    var featureNames = ["JOB_TITLE", "JOB_LOCATION_TYPE", "JOB_LOCATION_SUPPORT", "JOB_WORK_LOCATION", "COMPANY_NAME", "COMPANY_LOGO", "COMPANY_LINK", "COMPANY_SUMMARY",  "JOB_WORK_TYPE", "JOB_PAYMENT_TYPE", "JOB_DESCRIPTION", "USER_SEARCH_TERMS", "APPLY_LINK"];
+    var featureValues = [jobJSON.jobTitle + "", jobJSON.locationType + "", jobJSON.locationSupport + "", jobJSON.workLocation + "", jobJSON.companyName + "",jobJSON.companyLogoHash + "", jobJSON.companyLink, companySummaryHash + "", jobJSON.workType + "", jobJSON.paymentType + "", jobDescriptionHash + "", jobJSON.userSearchTerms + "", jobJSON.applicationLink + ""];
+    
     console.log(featureNames);
     console.log(featureValues);
     var postingEditorContract = getContract(iJCJobPostingEditorAbi, selectedPostingAddress);
@@ -781,7 +825,17 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     postingEditorContract.methods.populate(featureNames, featureValues, jobJSON.searchCategories, jobJSON.skillsRequired, searchTerms).send({ from: account })
         .then(function(response) {
             console.log(response);
-            setSaveMsg("Saved @> EVM :: " + response.blockHash + " :: IPFS COMPANY SUMMARY HASH :: " +companySummaryHash+"IPFS JOB DESCRIPTION :: " + jobDescriptionHash);
+            var s = ce("span");
+            s.append(text("Saved @> EVM :: "));
+            s.append(getTransactionHashLink(response.blockHash));
+            s.append(text(" :: "));
+            s.append(text(" IPFS Company Summary Hash :: "));
+            s.append(getIPFSLink(companySummaryHash));
+            s.append(text(" IPFS Job Description :: "));
+            s.append(getIPFSLink(jobDescriptionHash));  
+            s.append(text(" IPFS Company Logo Hash :: "));
+            s.append(getIPFSLink(jobJSON.companyLogoHash));          
+            setSaveMsg(s);
         })
         .catch(function(err) {
             console.log(err);
@@ -825,6 +879,7 @@ function getJobToPost() {
         strfy("locationSupport") + " : " + strfy(locationSupport.value) + "," +
         strfy("workLocation") + " : " + strfy(workLocation.value) + "," +
         strfy("companyName") + " : " + strfy(companyName.value) + "," +
+        strfy("companyLogoHash") + " : " + strfy("") +","+
         strfy("companyLink") + " : " + strfy(companyLink.value) + "," +
         strfy("companySummary") + " : " + strfy(companySummary.value) + "," +
         strfy("skillsRequired") + " : [" + toJSONStringArray(skillsRequired.value) + "]," +
@@ -838,6 +893,7 @@ function getJobToPost() {
     var jobJSON = JSON.parse(jString);
     return jobJSON;
 }
+
 
 function strfy(value) {
     return JSON.stringify(value);
@@ -974,6 +1030,28 @@ function decomposeText(text) {
     }
     return Array.from(q.values());
 }
+
+function getIPFSLink(hash) {
+    return getHashLink(IPFS+hash, hash);
+}
+
+function getTransactionHashLink(hash) {
+    return getHashLink(chain.blockExplorerUrls[0]+"/tx/"+hash, hash);
+}
+
+function getAddressLink( address ){
+    return getHashLink(chain.blockExplorerUrls[0]+"/address/"+address, address);
+}
+
+function getHashLink(url, hash) {
+    var a = ce("a");
+    a.setAttribute("href", url);
+    a.setAttribute("target", "_blank");
+    a.setAttribute("style", "color:orange");
+    a.append(text(hash));
+    return a; 
+}
+
 
 function ce(element) {
     return document.createElement(element);

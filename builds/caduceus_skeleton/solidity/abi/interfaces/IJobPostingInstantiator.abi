@@ -1,0 +1,26 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_product",
+				"type": "address"
+			}
+		],
+		"name": "getPostingAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "_jobPostingAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

@@ -1,4 +1,6 @@
 console.log("loading core js");
+const IPFS = "https://jobcrypt.infura-ipfs.io/ipfs/"; 
+
 
 /** standard elements  */
 const onboardButton = ge("connect_web_3");
