@@ -8,10 +8,11 @@ import "https://github.com/Block-Star-Logic/open-roles/blob/732f4f476d87bece7e53
 import "https://github.com/Block-Star-Logic/open-register/blob/85c0a12e23b69c71a0c256938f6084cfdf651c77/blockchain_ethereum/solidity/V1/interfaces/IOpenRegister.sol";
 
 import "../interfaces/IJobCryptStakeManager.sol";
-/**
- * @author Tony Ushe - JobCrypt ©2023
- * @title JobCryptStakeManager
- * @dev 
+
+/** 
+ * @author Tony Ushe - JobCrypt ©2023 
+ * @title JobCryptSortable 
+ * @dev
  */
 contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOpenVersion, IOpenRolesManaged { 
 
@@ -20,7 +21,7 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
     using LOpenUtilities for address;
 
     string name                      = "RESERVED_JOBCRYPT_STAKE_MANAGER_CORE";
-    uint256 version                  = 3;
+    uint256 version                  = 4;
 
     IOpenRegister               registry; 
     
@@ -117,6 +118,10 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
         return limitsByName[stakeLimitKey];
     }
 
+    function getStakedUserCount() view external returns (uint256 _stakedUsers) {
+        return stakedUsers.length; 
+    }
+
     function setLimit(string memory _limit, uint256 _amount) external returns (bool _set) {
         require(isSecure(jobCryptAdminRole, "setLimit")," admin only ");
         limitsByName[_limit] = _amount; 
@@ -125,6 +130,7 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
 
     function notifyChangeOfAddress() external returns(bool _nofified) {
         require(isSecure(jobCryptAdminRole, "notifyChangeOfAddress")," admin only ");
+        require(stakedUsers.length == 0, "unstake all users first");
         registry = IOpenRegister(registry.getAddress(registerCA));        
 
         setRoleManager(registry.getAddress(roleManagerCA));          
@@ -138,10 +144,15 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
         return true; 
     }   
 
-    function forceUnstake() external returns (uint256 _unstakedUserCount, uint256 _stakedUserCount) {   
+    function forceUnstake(uint256 _batchSize) external returns (uint256 _unstakedUserCount, uint256 _stakedUserCount) {   
         require(isSecure(jobCryptAdminRole, "forceUnstake")," admin only ");      
-        _stakedUserCount = stakedUsers.length; 
-        for(uint256 x = 0; x < stakedUsers.length; x++) {
+        if(_batchSize == 0) {
+            _stakedUserCount = stakedUsers.length; 
+        }
+        else { 
+            _stakedUserCount = _batchSize;
+        }
+        for(uint256 x = 0; x < _stakedUserCount; x++) {
             address stakedUser = stakedUsers[x];
             unstakeInternal(stakedUser);
             _unstakedUserCount++;
@@ -160,9 +171,10 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
      function stakeInternal(uint256 _amount) internal returns (bool) {        
          address _owner = msg.sender; 
         require(!isStakedByAddress[_owner], " already staked ");
+        require(_amount >= limitsByName[stakeLimitKey], " in sufficient stake ");
+
         if(NATIVE_STAKING) {
-            require(msg.value >= _amount, " sent value <-> declared value mis-match "); 
-            require(_amount >= limitsByName[stakeLimitKey], " in sufficient stake ");
+            require(msg.value >= _amount, " sent value <-> declared value mis-match ");             
             stakeAmountsByAddress[_owner] = msg.value; 
           
         }
@@ -179,8 +191,11 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
 
     function unstakeInternal(address _owner) internal returns (uint256 _unstakedAmount) {        
         _unstakedAmount = stakeAmountsByAddress[_owner];
-        if(isStakedByAddress[_owner]){
-            stakeAmountsByAddress[_owner] -= _unstakedAmount; 
+        if(isStakedByAddress[_owner] && _unstakedAmount > 0){
+            stakeAmountsByAddress[_owner] -= _unstakedAmount;             
+            delete isStakedByAddress[_owner];
+            stakedUsers = _owner.remove(stakedUsers);
+        
             if(NATIVE_STAKING){
                 address payable leaver = payable(_owner);
                 leaver.transfer(_unstakedAmount);
@@ -189,8 +204,6 @@ contract JobCryptStakeManager is IJobCryptStakeManager, OpenRolesSecureCore, IOp
                 IERC20 erc20_ = IERC20(stakeErc20Address);
                 erc20_.transfer(_owner, _unstakedAmount);
             }
-            stakedUsers = _owner.remove(stakedUsers);
-            delete isStakedByAddress[_owner];
         }
         return _unstakedAmount; 
     }

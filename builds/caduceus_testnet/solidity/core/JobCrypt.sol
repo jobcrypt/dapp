@@ -16,12 +16,13 @@ import "../interfaces/IJobPostingEditor.sol";
 import "../interfaces/IJobCryptFactoryFacade.sol";
 import "../interfaces/IJobCryptStakeManager.sol";
 import "../interfaces/IJobCryptPaymentManager.sol";
+import "../interfaces/IJobCryptNFTManager.sol";
 
 import "./JobCryptSortable.sol";
-/**
- * @author Tony Ushe - JobCrypt ©2023
- * @title JobCrypt Core
- * @dev 
+/** 
+ * @author Tony Ushe - JobCrypt ©2023 
+ * @title JobCrypt
+ * @dev
  */
 contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesManaged { 
 
@@ -30,47 +31,48 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
     using LOpenUtilities for address; 
     using LOpenUtilities for address[];
 
-    uint256 private version = 41; 
+    uint256 constant private version = 43; 
 
-    string private name                 = "RESERVED_JOBCRYPT_CORE";    
+    string constant private name                 = "RESERVED_JOBCRYPT_CORE";    
 
-    address NATIVE = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+    address constant NATIVE = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
-    string searchManagerCA              = "RESERVED_OPEN_SEARCH_CORE";
-    string rankingManagerCA             = "RESERVED_OPEN_RANKING_CORE";
-    string roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
-    string registryCA                   = "RESERVED_OPEN_REGISTER_CORE";    
-    string jobCryptStakeManagerCA       = "RESERVED_JOBCRYPT_STAKE_MANAGER_CORE";
-    string jobCryptFactoryFacadeCA      = "RESERVED_JOBCRYPT_FACTORY_FACADE_CORE";
-    string jobCryptPaymentManagerCA     = "RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE";
+    string constant searchManagerCA              = "RESERVED_OPEN_SEARCH_CORE";
+    string constant rankingManagerCA             = "RESERVED_OPEN_RANKING_CORE";
+    string constant roleManagerCA                = "RESERVED_OPEN_ROLES_CORE";
+    string constant registryCA                   = "RESERVED_OPEN_REGISTER_CORE";    
+    string constant jobCryptStakeManagerCA       = "RESERVED_JOBCRYPT_STAKE_MANAGER_CORE";
+    string constant jobCryptFactoryFacadeCA      = "RESERVED_JOBCRYPT_FACTORY_FACADE_CORE";
+    string constant jobCryptPaymentManagerCA     = "RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE";
+    string constant jobCryptNFTManagerCA         = "RESERVED_JOBCRYPT_NFT_MANAGER_CORE";
 
-    string popularJobsRankingList        = "POPULAR_JOBS_RANKING_LIST";
+    string constant popularJobsRankingList        = "POPULAR_JOBS_RANKING_LIST";
+ 
+    string constant latestJobDisplayLimitKey     = "LATEST_JOB_DISPLAY_LIMIT_KEY"; 
+    string constant popularJobDisplayLimitKey    = "POPULAR_JOB_DISPLAY_LIMIT_KEY";
+    string constant featuredJobDisplayLimitKey   = "FEATURED_JOB_DISPLAY_LIMIT_KEY";
+    string constant jobAgeLimitKey               = "JOB_AGE_LIMIT_KEY";
+    string constant searchResultLimitKey         = "SEARCH_RESULT_LIMIT_KEY";
+    string constant pageLimitKey                 = "JOB_PAGE_LIMIT_KEY";
+    string constant stakeLimitKey                = "STAKE_LIMIT_KEY";
 
-    string latestJobDisplayLimitKey     = "LATEST_JOB_DISPLAY_LIMIT_KEY"; 
-    string popularJobDisplayLimitKey    = "POPULAR_JOB_DISPLAY_LIMIT_KEY";
-    string featuredJobDisplayLimitKey   = "FEATURED_JOB_DISPLAY_LIMIT_KEY";
-    string jobAgeLimitKey               = "JOB_AGE_LIMIT_KEY";
-    string searchResultLimitKey         = "SEARCH_RESULT_LIMIT_KEY";
-    string pageLimitKey                 = "JOB_PAGE_LIMIT_KEY";
-    string stakeLimitKey                = "STAKE_LIMIT_KEY";
+    string constant postingCategoriesSearchField = "POSTING_CATEGORIES_SEARCH_FIELD";
+    string constant postingSkillsSearchField     = "POSTING_SKILLS_SEARCH_FIELD";
+    string constant postingTitleSearchField      = "POSTING_TITLE_SEARCH_FIELD";
+    string constant postingCompanySearchField    = "POSTING_COMPANY_SEARCH_FIELD";
 
-    string postingCategoriesSearchField = "POSTING_CATEGORIES_SEARCH_FIELD";
-    string postingSkillsSearchField     = "POSTING_SKILLS_SEARCH_FIELD";
-    string postingTitleSearchField      = "POSTING_TITLE_SEARCH_FIELD";
-    string postingCompanySearchField    = "POSTING_COMPANY_SEARCH_FIELD";
+    string constant postingFeatureExpiryDateKey      = "EXPIRY_DATE_FEATURE";
+    string constant postingFeatureApplicantCountKey  = "APPLICANT_COUNT_FEATURE";
+    string constant postingFeatureProductKey         = "PRODUCT_FEATURE";
+    string constant postingFeatureCompanyNameKey     = "COMPANY_NAME";
+    string constant postingFeatureTitleKey           = "JOB_TITLE";
 
-    string postingFeatureExpiryDateKey      = "EXPIRY_DATE_FEATURE";
-    string postingFeatureApplicantCountKey  = "APPLICANT_COUNT_FEATURE";
-    string postingFeatureProductKey         = "PRODUCT_FEATURE";
-    string postingFeatureCompanyNameKey     = "COMPANY_NAME";
-    string postingFeatureTitleKey           = "JOB_TITLE";
-
-    string jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
-    string jobCryptBusinessAdminRole    = "JOBCRYPT_BUSINESS_ADMIN_ROLE";
+    string constant jobCryptAdminRole            = "JOBCRYPT_ADMIN_ROLE";
+    string constant jobCryptBusinessAdminRole    = "JOBCRYPT_BUSINESS_ADMIN_ROLE";
 
     string [] roleNames = [jobCryptAdminRole, jobCryptBusinessAdminRole]; 
        
-    string jobPostingType               = "JOBCRYPT_JOB_POSTING_TYPE";
+    string constant jobPostingType               = "JOBCRYPT_JOB_POSTING_TYPE";
 
     mapping(string=>bool) hasDefaultFunctionsByRole;
     mapping(string=>string[]) defaultFunctionsByRole;
@@ -82,6 +84,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
     IJobCryptFactoryFacade      factoryFacade; 
     IJobCryptStakeManager       stakeManager; 
     IJobCryptPaymentManager     paymentManager; 
+    IJobCryptNFTManager         nftManager; 
 
     address [] latestJobs;      
     address [] activeJobs;     
@@ -113,6 +116,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         stakeManager            = IJobCryptStakeManager(registry.getAddress(jobCryptStakeManagerCA));
         paymentManager          = IJobCryptPaymentManager(registry.getAddress(jobCryptPaymentManagerCA));
         factoryFacade           = IJobCryptFactoryFacade(registry.getAddress(jobCryptFactoryFacadeCA));
+        nftManager              = IJobCryptNFTManager(registry.getAddress(jobCryptNFTManagerCA));
 
         setRoleManager(registry.getAddress(roleManagerCA));
         
@@ -123,6 +127,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         addConfigurationItem(address(factoryFacade));
         addConfigurationItem(address(paymentManager));
         addConfigurationItem(address(stakeManager));
+        addConfigurationItem(address(nftManager));
 
         addConfigurationItem(name, self, version);
 
@@ -130,11 +135,11 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         initDisplayDefaults();
     }
 
-    function getVersion() override view external returns (uint256 _version) { 
+    function getVersion() override pure external returns (uint256 _version) { 
         return version;  
     }
 
-    function getName() override view external returns (string memory _contractName){  
+    function getName() override pure external returns (string memory _contractName){  
         return name;
     }
 
@@ -235,7 +240,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         
         IJobPosting posting_ = IJobPosting(_jobPostingAddress); 
         
-        require(paymentManager.isProductPaidForPosting(_jobPostingAddress, IOpenProduct(posting_.getFeatureADDRESS(postingFeatureProductKey)).getFeatureUADDRESSValue("EXTENSION"))," repost not paid. ");
+        require(paymentManager.isProductPaidForPosting(_jobPostingAddress, IOpenProduct(posting_.getFeatureADDRESS(postingFeatureProductKey)).getFeatureADDRESSValue("EXTENSION"))," repost not paid. ");
         // list the job for repost
         list(_jobPostingAddress);
 
@@ -249,10 +254,10 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
     function logJobApplication(address _jobApplicantAddress, address _postingAddress) override external returns (bool _logged){
         checkPosting(_postingAddress);                  
         // check the job applicant is staked 
-        require(stakeManager.isStaked(_jobApplicantAddress), " applicant stake required. ");  
+        require(stakeManager.isStaked(_jobApplicantAddress) || nftManager.isRecognised(_jobApplicantAddress), " recognised NFT / applicant stake required. ");  
     
         factoryFacade.linkApplicationToJobSeekerDashboard(_jobApplicantAddress, _postingAddress);
-        
+         
         updatePopularJobs(_postingAddress);
             
          // emit chain notification event 
@@ -270,6 +275,7 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         paymentManager          = IJobCryptPaymentManager(registry.getAddress(jobCryptPaymentManagerCA));
         factoryFacade           = IJobCryptFactoryFacade(registry.getAddress(jobCryptFactoryFacadeCA));
         stakeManager            = IJobCryptStakeManager(registry.getAddress(jobCryptStakeManagerCA));
+        nftManager              = IJobCryptNFTManager(registry.getAddress(jobCryptNFTManagerCA));
 
         addConfigurationItem(address(registry));   
         addConfigurationItem(address(roleManager));         
@@ -278,6 +284,8 @@ contract JobCrypt is OpenRolesSecureCore, IOpenVersion, IJobCrypt, IOpenRolesMan
         addConfigurationItem(address(paymentManager));
         addConfigurationItem(address(factoryFacade));
         addConfigurationItem(address(stakeManager));
+        addConfigurationItem(address(nftManager));
+
         return true; 
     }
 
