@@ -81,23 +81,25 @@ function processRow(postingAddress) {
   );
   var div = cardDiv();
   searchResultsSpan.append(div);
-  var br = ce("br");
-  searchResultsSpan.append(br);
+  //   var br = ce("br");
+  //   searchResultsSpan.append(br);
   var resultTable = table();
+
   div.append(resultTable);
   var row = resultTable.insertRow();
-  row.setAttribute("class", "grid grid-cols-3 gap-2");
-
-  var companyCell = row.insertCell();
-  var titleCell = row.insertCell();
 
   var row1 = resultTable.insertRow();
-  var locationCell = row1.insertCell();
-  var jobAgeCell = row1.insertCell();
   var row2 = resultTable.insertRow();
-  row2.insertCell();
+  var row3 = resultTable.insertRow();
+  var row4 = resultTable.insertRow();
+  var row5 = resultTable.insertRow();
+  var titleCell = row1.insertCell();
+  var companyCell = row2.insertCell();
+  var locationCell = row3.insertCell();
+  var jobAgeCell = row4.insertCell();
+  var jobLinkCell = row5.insertCell();
 
-  var jobLinkCell = row2.insertCell();
+  row2.insertCell();
 
   getCompany(companyCell, iJobPostingContract);
   getTitle(titleCell, iJobPostingContract, postingAddress);
