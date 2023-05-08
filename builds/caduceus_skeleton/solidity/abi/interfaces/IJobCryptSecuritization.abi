@@ -1,0 +1,74 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_dashboard",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_dashboardOwner",
+				"type": "address"
+			}
+		],
+		"name": "secureEmployerDashboard",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_secured",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_jobPosting",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_dashboardOwner",
+				"type": "address"
+			}
+		],
+		"name": "secureJobPosting",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_secured",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_dashboard",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_dashboardOwner",
+				"type": "address"
+			}
+		],
+		"name": "secureJobSeekerDashboard",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_secured",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
