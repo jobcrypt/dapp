@@ -190,7 +190,7 @@
               >
                 <li>
                   <a
-                    href="../Index.html"
+                    href="../../index.html"
                     class="text-white block"
                     aria-current="page"
                     >Home</a
@@ -496,6 +496,15 @@
       </div>
     </section>
 
+    <section>
+      <div class="flex justify-center">
+        <div>
+          <h5 class="text-center font-bold">Search for more jobs</h5>
+          <span id="header_search_span"></span>
+        </div>
+      </div>
+    </section>
+
     <main id="main">
       <span id="usdc_faucet_button_span"></span>&nbsp;<span
         id="weth_faucet_button_span"
@@ -503,82 +512,70 @@
       <!-- ======= Terms & Conditions Section ======= -->
       <section id="featured-jobs" class="services">
         <div class="container" data-aos="fade-up">
-          <div class="class=" col-md-6 col-lg-6 d-flex align-items-stretch mb-5
-          mb-lg-0 "">
-          <center>
-            <small
-              ><span id="stake_span"
-                ><font color="RED" size="5"
-                  ><b
-                    >BE SURE TO STAKE IF YOU WISH TO APPLY <br />
-                    WHEN YOU HAVE FINISHED APPLYING TO ALL ROLES YOU ARE
-                    INTERESTED IN <br />
-                    YOU CAN UNSTAKE TO GET YOUR MONEY BACK
-                  </b></font
-                ></span
-              ></small
-            >
-          </center>
-          <span id="stake_approve_span"></span
-          ><span id="stake_button_span"></span> <br /><span
-            id="stake_status_span"
-          ></span>
+          <div class="">
+            <div class="flex justify-center">
+              <span id="stake_span">
+                <p class="text-sm text-red-500 text-center font-bold">
+                  BE SURE TO STAKE IF YOU WISH TO APPLY <br />
+                  WHEN YOU HAVE FINISHED APPLYING TO ALL ROLES YOU ARE
+                  INTERESTED IN <br />
+                  YOU CAN UNSTAKE TO GET YOUR MONEY BACK
+                </p>
+              </span>
+            </div>
+            <span id="stake_approve_span"></span
+            ><span id="stake_button_span"></span> <br />
+            <span id="stake_status_span"></span>
+          </div>
         </div>
-        <div class="section-title">
-          <h2>About the Role</h2>
+        <div class="bg-[#F8F7FA] m-10 rounded-lg p-10">
+          <div class="icon-box aos-init aos-animate">
+            <!-- Job Title -->
+            <div class="flex justify-center">
+              <div
+                id="title_table"
+                class="font-bold text-xl mb-3 text-center"
+              ></div>
+            </div>
+            <div class="flex justify-center mb-3">
+              <div id="company_name" class="text-center"></div>
+            </div>
+          </div>
+          <div class="" data-aos="fade-right" data-aos-delay="100">
+            <!-- Job Description -->
+            <span id="job_description_span"></span>
+          </div>
+          <div class="flex justify-center">
+            <div id="location_name"></div>
+          </div>
         </div>
-        <div class="row">
+
+        <div class="grid grid-cols-2 gap-5 mx-10">
           <div
-            class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-top"
+            class="bg-[#F8F7FA] rounded-lg px-10 py-5 grid grid-rows-3"
             data-aos="fade-up"
             data-aos-delay="100"
           >
-            <span id="connect_warning_span"
-              ><center>
-                <font color="RED"
-                  ><b
-                    >CONNECT YOUR METAMASK TO VIEW THE ROLE<br />THIS IS A WEB3
-                    SITE NOT WEB2</b
-                  ></font
-                >
-              </center></span
-            >
-
-            <p style="text-align: justify"></p>
-
-            <div
-              class="icon-box aos-init aos-animate"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <!-- Job Title -->
-              <center>
-                <table id="title_table"></table>
-              </center>
+            <div class="section-title">
+              <h2 class="font-bold">About the Role</h2>
+              <span id="company_summary" class="text-sm"></span>
             </div>
-            <div
-              class="icon-box aos-init aos-animate"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <!-- Key Skills -->
-              <h3>Key Skills</h3>
-              <font size="2 "><span id="key_skills"></span></font>
-            </div>
-            <br />
+            <span id="connect_warning_span">
+              <p class="text-xs text-red-500">
+                CONNECT YOUR METAMASK TO VIEW THE ROLE<br />THIS IS A WEB3 SITE
+                NOT WEB2
+              </p>
+            </span>
 
             <div
               class="icon-box aos-init aos-animate"
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              <!-- Job Categories -->
-              <h3>Job Categories</h3>
-              <font size="2 "><span id="job_categories"></span></font>
-
               <span id="posted_date_span"></span>
             </div>
-
+          </div>
+          <div class="bg-[#F8F7FA] rounded-lg px-10 py-5 w-full">
             <div
               class="icon-box aos-init aos-animate"
               data-aos="fade-up"
@@ -587,26 +584,30 @@
               <!-- Apply Link -->
               <h4><span id="apply_link"></span></h4>
               <span id="apply_details_span"></span>
-              <a href="https://www.youtube.com/watch?v=uDb__IyBfWs"
-                ><i class="fab fa-youtube-square"></i> How to Apply with
+              <a
+                href="https://www.youtube.com/watch?v=uDb__IyBfWs"
+                class="text-xs mt-5"
+              >
+                <i class="fab fa-youtube-square"></i> How to Apply with
                 JobCrypt</a
               >
             </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
             <div
               class="icon-box aos-init aos-animate"
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              <!-- Job Description -->
-              <span id="job_description_span"></span>
+              <!-- Key Skills -->
+              <h3 class="mt-5 font-bold">Key Skills</h3>
+              <span id="key_skills" class="text-xs"></span>
+              <h3 class="mt-5 font-bold">Job Categories</h3>
+              <span id="job_categories" class="text-xs"></span>
             </div>
           </div>
         </div>
       </section>
     </main>
+
     <!-- Users -->
     <section
       class="bg-[#CEC2DC] bg-opacity-50 py-10 mt-20 delay-[300ms] duration-[600ms] taos:scale-[0.6] taos:opacity-0"
@@ -1095,7 +1096,7 @@
     <script src="/assets/js/jc/index.js"></script>
     <script src="/assets/js/jc/stake.js"></script>
     <script src="/assets/js/jc/search_jobs.js"></script>
-    <script src="/assets/js/jc/job_detail.js"></script>
     <script src="/assets/js/jc/jobcrypt.js"></script>
+    <script src="/assets/js/jc/job_detail.js"></script>
   </body>
 </html>
