@@ -45,14 +45,15 @@ var chain = {};
 	chain.nativeCurrency = nativeCurrency; 
 */
 
-chain.name 				= 'Optimistim';
-chain.id 				= 10;
-chain.rpcUrls 			= ['https://mainnet.optimism.io'];
-chain.blockExplorerUrls = ['https://optimistic.etherscan.io/'];
+
+chain.name 				= 'Caduceus';
+chain.id 				= 256256;
+chain.rpcUrls 			= ['https://mainnet.block.caduceus.foundation/'];
+chain.blockExplorerUrls = ['https://mainnet.scan.caduceus.foundation'];
 var nativeCurrency 		= {}; 
-nativeCurrency.name 	= 'ETH';
+nativeCurrency.name 	= 'CMP';
 nativeCurrency.decimals = 18;
-nativeCurrency.symbol 	= 'ETH';
+nativeCurrency.symbol 	= 'CMP';
 chain.nativeCurrency 	= nativeCurrency; 
 
 const web3 = new Web3(window.ethereum);
