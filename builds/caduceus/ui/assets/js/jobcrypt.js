@@ -17,6 +17,8 @@ const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegiste
 
 async function configureContracts(requiredContracts) {
     console.log("registry contract");
+
+    console.log(account);
     console.log(openRegistryContract);
 
     console.log(requiredContracts);
@@ -113,11 +115,7 @@ async function configureContracts(requiredContracts) {
             });
     }
     
-    if(requiredContracts.includes("STAKE_MANAGER")){
-        // REMOVE FOR LIVE
-        console.log("loading faucet");
-        loadFaucet();
-    }
+
   
 }
 

@@ -82,7 +82,7 @@ liverpoolCoronationCelebration20230508.scheduleLink =
 liverpoolCoronationCelebration20230508.title = "UK Coronation NFT Airdrop ";
 liverpoolCoronationCelebration20230508.location = "Online";
 liverpoolCoronationCelebration20230508.country = "UK";
-liverpoolCoronationCelebration20230508.date = "8th May 2023";
+liverpoolCoronationCelebration20230508.date = "15th May 2023";
 liverpoolCoronationCelebration20230508.startTime = "17:45";
 liverpoolCoronationCelebration20230508.endTime = "20:00";
 liverpoolCoronationCelebration20230508.timezone = "BST";
@@ -90,7 +90,7 @@ liverpoolCoronationCelebration20230508.ticketsLink =
   "https://discord.gg/Mmwq9QkPhY";
 liverpoolCoronationCelebration20230508.btntxt = "Join Discord";
 liverpoolCoronationCelebration20230508.startDate = 1678902341000;
-liverpoolCoronationCelebration20230508.endDate = 1683564300000;
+liverpoolCoronationCelebration20230508.endDate = 1684172700000;
 
 var liverpoolOnline20230511 = {};
 liverpoolOnline20230511.scheduleLink =
@@ -98,14 +98,14 @@ liverpoolOnline20230511.scheduleLink =
 liverpoolOnline20230511.title = "Introduction to DAOs in Sustainability";
 liverpoolOnline20230511.location = "Online";
 liverpoolOnline20230511.country = "UK";
-liverpoolOnline20230511.date = "11th May 2023";
+liverpoolOnline20230511.date = "18th May 2023";
 liverpoolOnline20230511.startTime = "17:45";
 liverpoolOnline20230511.endTime = "20:00";
 liverpoolOnline20230511.timezone = "BST";
 liverpoolOnline20230511.ticketsLink = "https://bit.ly/40oaA6j";
 liverpoolOnline20230511.btntxt = "Get Tickets";
 liverpoolOnline20230511.startDate = 1680029100000;
-liverpoolOnline20230511.endDate = 1683823500000;
+liverpoolOnline20230511.endDate = 1684431900000;
 
 var munichInPerson20230524 = {};
 munichInPerson20230524.scheduleLink =

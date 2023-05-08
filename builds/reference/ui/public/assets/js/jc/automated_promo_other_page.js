@@ -1,4 +1,4 @@
-
+const locationRoot = "https://events.jobcrypt.com/";
 const pagePromoSpot = ge("page_promo_spot");
 
 var munichOnline20230209 = {};
@@ -49,8 +49,9 @@ munichOnline20230406.ticketsLink 	= "http://bit.ly/40EiKYV";
 munichOnline20230406.startDate 		= 1677629565000; 
 munichOnline20230406.endDate 		= 1681325100000; 
 
+const locationRoot = "https://events.jobcrypt.com/"
 var liverpoolInPerson20230419 			= {};
-liverpoolInPerson20230419.scheduleLink 			= "/pages/promotions/liverpool/2023-04-25-In-Person-Talk.html";
+liverpoolInPerson20230419.scheduleLink 			= locationRoot+"promotions/liverpool/2023-04-25-In-Person-Talk.html";
 liverpoolInPerson20230419.title 		= "UK Sustainability powered by Blockchain";
 liverpoolInPerson20230419.location 		= "Liverpool"; 
 liverpoolInPerson20230419.country 		= "UK"; 
@@ -64,33 +65,33 @@ liverpoolInPerson20230419.endDate 		= 1681922700000;
 
 // MAY
 var liverpoolCoronationCelebration20230508 			= {}
-liverpoolCoronationCelebration20230508.scheduleLink = "/pages/promotions/liverpool/2023-05-08-Coronation-Celebration.html";
+liverpoolCoronationCelebration20230508.scheduleLink = locationRoot+"promotions/liverpool/2023-05-15-Coronation-Celebration.html";
 liverpoolCoronationCelebration20230508.title 		= "UK Coronation NFT Airdrop ";
 liverpoolCoronationCelebration20230508.location 	= "Online"; 
 liverpoolCoronationCelebration20230508.country 		= "UK"; 
-liverpoolCoronationCelebration20230508.date 		= "8th May 2023"
+liverpoolCoronationCelebration20230508.date 		= "15th May 2023"
 liverpoolCoronationCelebration20230508.startTime 	= "17:45";
 liverpoolCoronationCelebration20230508.endTime		= "20:00";
 liverpoolCoronationCelebration20230508.timezone 	= "BST";
 liverpoolCoronationCelebration20230508.ticketsLink 	= "https://discord.gg/Mmwq9QkPhY"; 
 liverpoolCoronationCelebration20230508.startDate 	= 1678902341000; 
-liverpoolCoronationCelebration20230508.endDate 		= 1683564300000; 
+liverpoolCoronationCelebration20230508.endDate 		= 1684172700000; 
 
 var liverpoolOnline20230511 = {}
-liverpoolOnline20230511.scheduleLink 	= "/pages/promotions/liverpool/2023-05-11-Online-Talk.html"
+liverpoolOnline20230511.scheduleLink 	=  locationRoot+"promotions/liverpool/2023-05-18-Online-Talk.html"
 liverpoolOnline20230511.title 			= "Introduction to DAOs in Sustainability";
 liverpoolOnline20230511.location 		= "Online"; 
 liverpoolOnline20230511.country 		= "UK"; 
-liverpoolOnline20230511.date 			= "11th May 2023"
+liverpoolOnline20230511.date 			= "18th May 2023"
 liverpoolOnline20230511.startTime 		= "17:45";
 liverpoolOnline20230511.endTime			= "20:00";
 liverpoolOnline20230511.timezone 		= "BST";
 liverpoolOnline20230511.ticketsLink 	= "https://bit.ly/40oaA6j"
 liverpoolOnline20230511.startDate 		= 1680029100000; 
-liverpoolOnline20230511.endDate 		= 1683823500000; 
+liverpoolOnline20230511.endDate 		= 1684431900000; 
 
 var munichInPerson20230524 = {};
-munichInPerson20230524.scheduleLink = "/pages/promotions/munich/2023-05-24-In-Person-Talk.html";
+munichInPerson20230524.scheduleLink =  locationRoot+"promotions/munich/2023-05-24-In-Person-Talk.html";
 munichInPerson20230524.title 		= "Introduction to Blockchain NFTs in Work, Entertainment and Social ";
 munichInPerson20230524.location 	= "Munich"; 
 munichInPerson20230524.country 		= "Germany"; 
@@ -106,7 +107,7 @@ munichInPerson20230524.endDate 		= 1684946700000;
 // JUNE
 // sustainability week
 var munichOnline20230608 = {};
-munichOnline20230608.scheduleLink	= "/pages/promotions/munich/2023-06-08-Online-Talk.html"; 
+munichOnline20230608.scheduleLink	=  locationRoot+"promotions/munich/2023-06-08-Online-Talk.html"; 
 munichOnline20230608.title			= "TBC"; 
 munichOnline20230608.location 		= "Online"; 
 munichOnline20230608.country 		= "Germany"; 
@@ -120,7 +121,7 @@ munichOnline20230608.endDate 		= 1686242700000;
 
 // sustainability week 
 var liverpoolInPerson20230621 			= {};
-liverpoolInPerson20230621.scheduleLink 			= "/pages/promotions/liverpool/2023-06-21-In-Person-Talk.html"
+liverpoolInPerson20230621.scheduleLink 			=  locationRoot+"promotions/liverpool/2023-06-21-In-Person-Talk.html"
 liverpoolInPerson20230621.title 		= " TBC ";
 liverpoolInPerson20230621.location 		= "In Person"; 
 liverpoolInPerson20230621.country 		= "UK"; 
@@ -136,7 +137,7 @@ liverpoolInPerson20230621.endDate 		= 1687365900000;
 // JULY
 
 var liverpoolOnline20230708 		= {};
-liverpoolOnline20230708.scheduleLink 		= "/pages/promotions/liverpool/2023-07-08-Online-Talk.html"; 
+liverpoolOnline20230708.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-07-08-Online-Talk.html"; 
 liverpoolOnline20230708.title 		= "Blockchain in Health - (United Kingdom) - Online - 08/07/2023"; 
 liverpoolOnline20230708.location 	= "Online"; 
 liverpoolOnline20230708.country 	= "UK"; 
@@ -149,7 +150,7 @@ liverpoolOnline20230708.startDate  	= 1683823500000;
 liverpoolOnline20230708.endDate 	= 1688834700000; 
 
 var munichInPerson20230719 			= {};
-munichInPerson20230719.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+munichInPerson20230719.scheduleLink =  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 munichInPerson20230719.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/> (<small>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023</small>)";
 munichInPerson20230719.location 	= "Munich"; 
 munichInPerson20230719.country 		= "Germany"; 
@@ -165,7 +166,7 @@ munichInPerson20230719.endDate 		= 1689785100000;
 // August
 
 var liverpoolInPerson20230806 		= {};
-liverpoolInPerson20230806.scheduleLink 	= "/pages/promotions/liverpool/2023-08-06-JobCrypt-Summar-BBQ-UK.html"; 
+liverpoolInPerson20230806.scheduleLink 	=  locationRoot+"promotions/liverpool/2023-08-06-JobCrypt-Summar-BBQ-UK.html"; 
 liverpoolInPerson20230806.title 		= "JobCrypt Summer BBQ - Liverpool (United Kingdom) - In Person - 05/08/2023"; 
 liverpoolInPerson20230806.location 		= "Online"; 
 liverpoolInPerson20230806.country 		= "UK"; 
@@ -178,7 +179,7 @@ liverpoolInPerson20230806.startDate  	= 1683823500000;
 liverpoolInPerson20230806.endDate 		= 1688834700000; 
 
 var munichOnline20230810 		 = {};
-munichOnline20230810.scheduleLink 		= "/pages/promotions/liverpool/2023-08-10-Online-Talk.html"; 
+munichOnline20230810.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-08-10-Online-Talk.html"; 
 munichOnline20230810.title 	 	 = "Blockchain in Health - (United Kingdom) - Online - 10/08/2023"; 
 munichOnline20230810.location  	 = "Online"; 
 munichOnline20230810.country 	 = "UK"; 
@@ -192,7 +193,7 @@ munichOnline20230810.endDate 	 = 1688834700000;
 
 
 var liverpoolInPerson20230823 			= {};
-liverpoolInPerson20230823.scheduleLink = "/pages/promotions/munich/2023-08-23-In-Person-Talk.html"
+liverpoolInPerson20230823.scheduleLink =  locationRoot+"promotions/munich/2023-08-23-In-Person-Talk.html"
 liverpoolInPerson20230823.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023";
 liverpoolInPerson20230823.location 		= "Liverpool"; 
 liverpoolInPerson20230823.country 		= "UK"; 
@@ -206,7 +207,7 @@ liverpoolInPerson20230823.endDate 		= 1689785100000;
 
 
 var munichInPerson20230826 			= {};
-munichInPerson20230826.scheduleLink = "/pages/promotions/munich/2023-08-26--JobCrypt-Summar-BBQ-DE.html"
+munichInPerson20230826.scheduleLink =  locationRoot+"promotions/munich/2023-08-26--JobCrypt-Summar-BBQ-DE.html"
 munichInPerson20230826.title 		= "JobCrypt Summer BBQ - München (Deutschland) - persönlich - 19.07.2023 <br/> (<small>JobCrypt Summer BBQ - Munich (Germany)</small>) ";
 munichInPerson20230826.location 	= "Munich"; 
 munichInPerson20230826.country 		= "Germany"; 
@@ -224,7 +225,7 @@ munichInPerson20230826.endDate 		= 1689785100000;
 // September 
 
 var liverpoolOnline20230907 		= {};
-liverpoolOnline20230907.scheduleLink 		= "/pages/promotions/liverpool/2023-07-08-Online-Talk.html"; 
+liverpoolOnline20230907.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-07-08-Online-Talk.html"; 
 liverpoolOnline20230907.title 		= "Blockchain in Health - (United Kingdom) - Online - 08/07/2023"; 
 liverpoolOnline20230907.location 	= "Online"; 
 liverpoolOnline20230907.country 	= "UK"; 
@@ -237,7 +238,7 @@ liverpoolOnline20230907.startDate  	= 1683823500000;
 liverpoolOnline20230907.endDate 	= 1688834700000; 
 
 var munichInPerson20230920 			= {};
-munichInPerson20230920.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+munichInPerson20230920.scheduleLink =  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 munichInPerson20230920.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023";
 munichInPerson20230920.location 	= "Munich"; 
 munichInPerson20230920.country 		= "Germany"; 
@@ -252,7 +253,7 @@ munichInPerson20230920.endDate 		= 1689785100000;
 // October 
 
 var munichOnline20231005 		= {};
-munichOnline20231005.scheduleLink 		= "/pages/promotions/liverpool/2023-07-08-Online-Talk.html"; 
+munichOnline20231005.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-07-08-Online-Talk.html"; 
 munichOnline20231005.title 		= "Blockchain in Health - (United Kingdom) - Online - 08/07/2023"; 
 munichOnline20231005.location 	= "Online"; 
 munichOnline20231005.country 	= "UK"; 
@@ -265,7 +266,7 @@ munichOnline20231005.startDate  	= 1683823500000;
 munichOnline20231005.endDate 	= 1688834700000; 
 
 var munichInPerson20231007 			= {};
-munichInPerson20231007.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+munichInPerson20231007.scheduleLink =  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 munichInPerson20231007.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023";
 munichInPerson20231007.location 	= "Munich"; 
 munichInPerson20231007.country 		= "Germany"; 
@@ -278,7 +279,7 @@ munichInPerson20231007.startDate 	= 1684946700000;
 munichInPerson20231007.endDate 		= 1689785100000; 
 
 var liverpoolInPerson20231025		= {};
-liverpoolInPerson20231025.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+liverpoolInPerson20231025.scheduleLink =  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 liverpoolInPerson20231025.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023";
 liverpoolInPerson20231025.location 	= "Munich"; 
 liverpoolInPerson20231025.country 		= "Germany"; 
@@ -294,7 +295,7 @@ liverpoolInPerson20231025.endDate 		= 1689785100000;
 // November 
 
 var liverpoolInPerson20231104 			= {};
-liverpoolInPerson20231104.scheduleLink 	= "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+liverpoolInPerson20231104.scheduleLink 	=  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 liverpoolInPerson20231104.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>The Blockchain Sound - an introduction to blockchain in the music industry - in person - 19/07/2023";
 liverpoolInPerson20231104.location 		= "Munich"; 
 liverpoolInPerson20231104.country 		= "Germany"; 
@@ -307,7 +308,7 @@ liverpoolInPerson20231104.startDate 	= 1684946700000;
 liverpoolInPerson20231104.endDate 		= 1689785100000; 
 
 var liverpoolOnline20231109 		= {};
-liverpoolOnline20231109.scheduleLink 		= "/pages/promotions/liverpool/2023-07-08-Online-Talk.html"; 
+liverpoolOnline20231109.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-07-08-Online-Talk.html"; 
 liverpoolOnline20231109.title 		= "Blockchain in Health - (United Kingdom) - Online - 08/07/2023"; 
 liverpoolOnline20231109.location 	= "Online"; 
 liverpoolOnline20231109.country 	= "UK"; 
@@ -320,7 +321,7 @@ liverpoolOnline20231109.startDate  	= 1683823500000;
 liverpoolOnline20231109.endDate 	= 1688834700000; 
 
 var munichInPerson20231122 			= {};
-munichInPerson20231122.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+munichInPerson20231122.scheduleLink =  locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 munichInPerson20231122.title 		= "Der Blockchain-Sound - eine Einführung in die Blockchain in der Musikindustrie - München (Deutschland) - persönlich - 19.07.2023 <br/>JobCrypt Christmas Party - In Person - 14/12/2023";
 munichInPerson20231122.location 	= "Munich"; 
 munichInPerson20231122.country 		= "Germany"; 
@@ -334,7 +335,7 @@ munichInPerson20231122.endDate 		= 1689785100000;
 
 // December 
 var liverpoolInPerson20231207 		= {};
-liverpoolInPerson20231207.scheduleLink 		= "/pages/promotions/liverpool/2023-07-08-Online-Talk.html"; 
+liverpoolInPerson20231207.scheduleLink 		=  locationRoot+"promotions/liverpool/2023-07-08-Online-Talk.html"; 
 liverpoolInPerson20231207.title 		= "JobCrypt Christmas Party - Liverpool, UK - In Person - 07/12/2023"; 
 liverpoolInPerson20231207.location 	= "Online"; 
 liverpoolInPerson20231207.country 	= "UK"; 
@@ -347,7 +348,7 @@ liverpoolInPerson20231207.startDate  	= 1683823500000;
 liverpoolInPerson20231207.endDate 	= 1688834700000; 
 
 var munichInPerson20231214 			= {};
-munichInPerson20231214.scheduleLink = "/pages/promotions/munich/2023-07-19-In-Person-Talk.html"
+munichInPerson20231214.scheduleLink = locationRoot+"promotions/munich/2023-07-19-In-Person-Talk.html"
 munichInPerson20231214.title 		= "JobCrypt-Weihnachtsfeier- München (Deutschland) - persönlich - 14.12.2023 <br/> JobCrypt Christmas Party - In Person - 14/12/2023";
 munichInPerson20231214.location 	= "Munich"; 
 munichInPerson20231214.country 		= "Germany"; 
