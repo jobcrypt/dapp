@@ -297,8 +297,31 @@ function buildApplyLink() {
         .catch(function(err) {
             console.log(err);
             console.log("rebuilding apply");
-            applyLink();
+            getStatus();            
         });
+}
+
+function getStatus() { 
+    jobPostingContract.methods.getStatus().call({from : account})
+    .then(function(response){
+        console.log(response);
+        var status = resolvePostStatus(response); 
+        console.log(status);
+        if(status === "ARCHIVED" || status === "FILLED" || status === "CANCELLED"){
+            applyLinkSpan.innerHTML = ""; 
+            applyLinkSpan.innerHTML = "<small>This post is nolonger available because it has been<font color=\"green\"><b> " + status.toLowerCase() + "</b></font> by the owner </small>"; 
+        }
+        else { 
+            applyLink();
+        }
+
+    })
+    .catch(function(err) {
+        console.log(err);
+ 
+        
+    });
+
 }
 
 function applyLink() {
@@ -359,4 +382,34 @@ function getSmallNode(node) {
     var small = document.createElement("small");
     small.appendChild(node);
     return small;
+}
+
+function resolvePostStatus(x) {
+    if(x == 0 ) {
+        return "DRAFT"; 
+    }
+    if(x == 1 ) {
+        return "POSTED"; 
+    }
+    if(x == 2 ) {
+        return "FILLED"; 
+    }
+    if(x == 3 ) {
+        return "CANCELLED"; 
+    }
+    if(x == 4 ) {
+        return "EXPIRED"; 
+    }
+    if(x == 5 ) {
+        return "EXTENDED"; 
+    }
+    if(x == 6 ) {
+        return "DEACTIVATED"; 
+    }
+    if(x == 7 ) {
+        return "BARRED"; 
+    }
+    if(x == 8 ) {
+        return "ARCHIVED"; 
+    }  
 }

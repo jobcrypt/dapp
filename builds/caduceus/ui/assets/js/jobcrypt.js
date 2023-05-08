@@ -11,12 +11,8 @@ var jcFactoryFacadeAddress;
 var jcStakeManagerAddress; 
 var openProductCoreAddress;
 
-// const usdcfaucetButtonSpan = ge("usdc_faucet_button_span");
-// const wethfaucetButtonSpan = ge("weth_faucet_button_span");
-//
-// const openRegisterAddress = "0x4d7AC8C6602083F1f9b56fe6B4fb0BCD2C44eC41";
+const openRegisterAddress = "0xDa801ba7B09fe484f661403295cb06a55a3e61de";
 
-const openRegisterAddress = "0xB5fC104567DC63E6D9cde372c518E6CCadfD3C32";
 const openRegistryContract = new web3.eth.Contract(iOpenRegisterAbi, openRegisterAddress);
 
 async function configureContracts(requiredContracts) {
@@ -116,22 +112,23 @@ async function configureContracts(requiredContracts) {
                 console.log(err);
             });
     }
-/*    
+    
     if(requiredContracts.includes("STAKE_MANAGER")){
         // REMOVE FOR LIVE
-        // console.log("loading faucet");
-        // loadFaucet();
+        console.log("loading faucet");
+        loadFaucet();
     }
-*/  
+  
 }
 
  
 
 var stakeCurrencyAddress; 
 var stakeCurrencySymbol;
+var stakeCurrencyDecimals;
 var minStakeAmount; 
-var stakeCurrencySymbol;
 var stakeErc20CurrencyContract; 
+var NATIVE_STAKING = false; 
 
 async function initStakeValues() { 
     getStakeErc20Currency();     
@@ -144,8 +141,17 @@ async function getStakeErc20Currency(){
     .then(function(response) {
         console.log(response);
         stakeCurrencyAddress = response; 
-        stakeErc20CurrencyContract = new web3.eth.Contract(ierc20MetadataAbi, stakeCurrencyAddress); 
-        getStakeCurrencySymbol();
+        if(stakeCurrencyAddress === "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"){
+            NATIVE_STAKING = true;
+           stakeCurrencyDecimals = chain.nativeCurrency.decimals;
+           setStakeCurrencyDcmls(stakeCurrencyDecimals); 
+           stakeCurrencySymbol = chain.nativeCurrency.symbol;
+           getMinStakeAmount(); 
+        }
+        else {
+            stakeErc20CurrencyContract = new web3.eth.Contract(ierc20MetadataAbi, stakeCurrencyAddress); 
+            getStakeCurrencySymbol();
+        }
     })
     .catch(function(err){
         console.log(err);
@@ -158,10 +164,25 @@ async function getStakeCurrencySymbol() {
     .then(function(response){
          console.log(response);
          stakeCurrencySymbol = response; 
-         getMinStakeAmount();               
+         setStakeCurrencyDecimals(stakeCurrencyAddress)       
     })
     .catch(function(err){
          console.log(err);
+    });
+}
+
+
+function setStakeCurrencyDecimals(erc20Address) {
+    var erc20 = getContract(ierc20MetadataAbi, erc20Address); 
+    erc20.methods.decimals().call({from : account})
+    .then(function(resp){
+        console.log(resp);
+        var dec = resp; 
+        setStakeCurrencyDcmls(dec);
+        getMinStakeAmount(); 
+    })
+    .catch(function(err) {
+        console.log(err);
     });
 }
 
@@ -216,32 +237,52 @@ async function getStakeStatus() {
             stakeApproveSpan.innerHTML = "";
         }
         else{
-            var font = ce("font");
-            font.setAttribute("color", "red");
-            font.append(text("Approve FIRST to Stake"));
-            small.append(font);
-            stakeButtonSpan.append(small);
-            var b = ce("b");
-            var bFont = ce("font");
-            bFont.setAttribute("color", "red");
-            var i = ce("i");
-            i.setAttribute("class", "fa fa-thumbs-down");
-            bFont.append(i);
-            bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
-            b.append(bFont);
-            stakeStatusSpan.append(b);
-            var aSmall = ce("small");
-            var aA = ce("a");
-            aA.setAttribute("type", "submit");
-            aA.setAttribute("id", "stake_approve_button");
-            aA.setAttribute("onclick", "approveStake()");
-            aA.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
-            var aFont = ce("font");
-            aFont.setAttribute("color", "orange");
-            aFont.append(text("Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol))
-            aA.append(aFont);
-            aSmall.append(aA);
-            stakeApproveSpan.append(aSmall);            
+
+            if(NATIVE_STAKING) {
+                var b = ce("b");
+                var bFont = ce("font");
+                bFont.setAttribute("color", "red");
+                var i = ce("i");
+                i.setAttribute("class", "fa fa-thumbs-down");
+                bFont.append(i);
+                bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
+                b.append(bFont);
+                stakeStatusSpan.append(b);
+                var stakeButtonSpan = ge("stake_button_span");
+                console.log(response);                                
+                stakeButtonSpan.innerHTML = "<small><a type=\"submit\" id=\"stake_button\" onclick=\"stakeNative()\" class=\"ui-component-button ui-component-button-small ui-component-button-secondary \">Stake "+chain.nativeCurrency.symbol+"</a></small></span>";                 
+            
+            }
+            else {
+
+            
+                var font = ce("font");
+                font.setAttribute("color", "red");
+                font.append(text("Approve FIRST to Stake"));
+                small.append(font);
+                stakeButtonSpan.append(small);
+                var b = ce("b");
+                var bFont = ce("font");
+                bFont.setAttribute("color", "red");
+                var i = ce("i");
+                i.setAttribute("class", "fa fa-thumbs-down");
+                bFont.append(i);
+                bFont.append(text("NOT STAKED - To Apply for jobs, please Stake :: "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol));
+                b.append(bFont);
+                stakeStatusSpan.append(b);
+                var aSmall = ce("small");
+                var aA = ce("a");
+                aA.setAttribute("type", "submit");
+                aA.setAttribute("id", "stake_approve_button");
+                aA.setAttribute("onclick", "approveStake()");
+                aA.setAttribute("class", "ui-component-button ui-component-button-small ui-component-button-primary");
+                var aFont = ce("font");
+                aFont.setAttribute("color", "orange");
+                aFont.append(text("Approve "+formatCurrency(minStakeAmount)+" "+stakeCurrencySymbol))
+                aA.append(aFont);
+                aSmall.append(aA);
+                stakeApproveSpan.append(aSmall);
+            }            
         }
     })
     .catch(function(err){
@@ -256,7 +297,7 @@ async function getStakedAmount() {
     .then(function(response){
         console.log(response);
         var stakeStatusSpan = ge("stake_status_span"); 
-        stakeStatusSpan.innerHTML = "<b><font colo=\"green\"><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+")</font> </b>";
+        stakeStatusSpan.innerHTML = "<b><font color=\"green\"><i class=\"fa fa-thumbs-up\"></i> STAKED ("+formatCurrency(response)+" "+stakeCurrencySymbol+")</font> </b>";
     })
     .catch(function(err){
         console.log(err);
@@ -302,6 +343,19 @@ async function stake(){
     });
 }
 
+async function stakeNative(){
+    jcStakeManagerContract.methods.stake(minStakeAmount).send({from : account, value : minStakeAmount})
+    .then(function(response){
+        console.log(response);
+        var stakeStatusSpan = ge("stake_status_span"); 
+        stakeStatusSpan.innerHTML = "<small style=\"color:green\"> STAKED :: "+formatCurrency(response)+"</small>"; 
+        getStakeStatus();                
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+}
+
 async function unstake() { 
     jcStakeManagerContract.methods.unstake().send({from : account})
     .then(function(response){
@@ -315,99 +369,10 @@ async function unstake() {
     });
 }
 
-// REMOVE FOR LIVE
-/*
-const testUSDCAddress = "0x41bDACc871Cbc8f3C9B410a868101dcE1BADcf33";
-const testWETHAddress = "0xa17D2895778ff13397DE6D37aBa44B0a34F0BB7E";
-
-var usdcContract;
-var wethContract;
-
-async function loadFaucet() {
-    usdcContract = new web3.eth.Contract(iErc20USDCAbi, testUSDCAddress);
-    wethContract = new web3.eth.Contract(iErc20WETHAbi, testWETHAddress);
-    console.log("checking faucet");
-    // check the account has enough balance 
-    usdcContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            console.log(response);
-            if (response < (300 * 1e18)) {
-                showUSDCFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err)
-        });
-
-    wethContract.methods.balanceOf(account).call({ from: account })
-        .then(function(response) {
-            if (response < (0.1 * 1e18)) {
-                showWETHFaucetButton();
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-
-
+function setStakeCurrencyDcmls(decimal){
+    stakeCurrencyDecimals = Number("1e"+decimal);
+    return stakeCurrencyDecimals; 
 }
-
-
-function showUSDCFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("USDC FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsUSDC);
-    usdcfaucetButtonSpan.appendChild(faucetButton);
-}
-
-function showWETHFaucetButton() {
-
-    var faucetButton = ce("a");
-    var icon = ce("i");
-    icon.setAttribute("class", "fas fa-faucet");
-    faucetButton.appendChild(icon);
-    faucetButton.appendChild(text("WETH FAUCET"));
-    faucetButton.setAttribute("href", "#");
-    faucetButton.setAttribute("class", "btn-secondary");
-    faucetButton.addEventListener('click', reloadFaucetFundsWETH);
-    wethfaucetButtonSpan.appendChild(faucetButton);
-}
-
-async function reloadFaucetFundsUSDC() {
-    // call mint function 
-    usdcContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            usdcfaucetButtonSpan.innerHTML = "USDC CREDITED- TOKEN CONTRACT : " + testUSDCAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-async function reloadFaucetFundsWETH() {
-    // call mint function 
-    wethContract.methods.mint(account).send({ from: account })
-        .then(function(response) {
-            console.log(response);
-            wethfaucetButtonSpan.innerHTML = "WETH CREDITED - TOKEN CONTRACT : " + testWETHAddress;
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-*/
-// END REMOVE FOR LIVE
-
-
-
 
 function ce(element) {
     return document.createElement(element);
@@ -422,7 +387,7 @@ function ge(id){
 }
 
 function formatCurrency(number) {
-    return number / 1e6; 
+    return number / stakeCurrencyDecimals; 
 }
 
 function getContract(abi, address) {
