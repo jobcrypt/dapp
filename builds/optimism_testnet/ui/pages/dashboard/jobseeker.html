@@ -474,7 +474,7 @@
     <!-- Header end -->
 
     <!-- dashboard -->
-    <section class="bg-[#F8F7FA] lg:p-16 p-5 lg:m-10 m-5 rounded-xl">
+    <!-- <section class="bg-[#F8F7FA] lg:p-16 p-5 lg:m-10 m-5 rounded-xl">
       <h2 class="font-baiJam text-2xl text-center font-bold tracking-wider">
         Create your Dashboard
       </h2>
@@ -487,6 +487,50 @@
         >
           Click here to Create your dashboard onchain
         </button>
+      </div>
+    </section> -->
+
+    <section id="featured-jobs" class="flex justify-center mt-10">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2 class="text-center font-bold text-xl">
+            Your Job Seeker Dashboard
+          </h2>
+        </div>
+        <div class="row" id="featured_jobs_view">
+          <div
+            class="col-lg-12 pt-4 pt-lg-0 content d-flex flex-column justify-content-center"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <center>
+              <h4>Your Latest Job Applications</h4>
+            </center>
+            <center>
+              <span id="create_jobseeker_onchain_dashboard_button_span"></span>
+            </center>
+            <div
+              class="icon-box aos-init aos-animate"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <center>
+                <span id="dashboard_message_span"></span>
+                <span id="action_result_span"></span>
+
+                <table id="applicant_dashboard_table">
+                  <tr>
+                    <th>Application Date</th>
+                    <th>Title</th>
+                    <th>Link</th>
+                    <th>Other Applicants</th>
+                    <th>Status</th>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
