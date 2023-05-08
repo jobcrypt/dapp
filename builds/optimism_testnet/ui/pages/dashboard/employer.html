@@ -177,7 +177,7 @@
               >
                 <li>
                   <a
-                    href="index.html"
+                    href="../../index.html"
                     class="text-white block"
                     aria-current="page"
                     >Home</a
@@ -486,7 +486,7 @@
     <!-- Header end -->
 
     <!-- dashboard -->
-    <section class="bg-[#F8F7FA] lg:p-16 p-5 lg:m-10 m-5 rounded-xl">
+    <!-- <section class="bg-[#F8F7FA] lg:p-16 p-5 lg:m-10 m-5 rounded-xl">
       <h2 class="font-baiJam text-2xl text-center font-bold tracking-wider">
         Create your Dashboard
       </h2>
@@ -499,6 +499,54 @@
         >
           Click here to Create your dashboard onchain
         </button>
+      </div>
+    </section> -->
+
+    <section
+      id="featured-jobs"
+      class="bg-[#F8F7FA] lg:p-16 p-5 lg:m-10 m-5 rounded-xl font-poppins"
+    >
+      <div class="container" data-aos="fade-up flex justify-center">
+        <div class="section-title">
+          <h2 class="text-center font-bold text-lg">Your Employer Dashboard</h2>
+        </div>
+        <div class="row" id="featured_jobs_view">
+          <div
+            class="col-lg-12 pt-4 pt-lg-0 content d-flex flex-column justify-content-center"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <h2 class="text-center mb-3">Your Latest Job Postings</h2>
+
+            <div
+              class="icon-box aos-init aos-animate"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <center>
+                <span id="create_onchain_employer_dashboard_button_span"></span>
+              </center>
+              <center>
+                <span id="employer_dashboard_message"></span>
+                <span id="action_result_span"></span>
+
+                <table id="employer_dashboard_table">
+                  <tr
+                    class="grid grid-cols-7 gap-5 bg-[#D9D9D9] bg-opacity-50 p-2 rounded-lg"
+                  >
+                    <th>Post Date</th>
+                    <th>Title</th>
+                    <th>Applicants</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </table>
+              </center>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
