@@ -278,27 +278,35 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a class="nav-link scrollto" href="./featured-jobs.html"
+                        <a
+                          class="nav-link scrollto"
+                          href="../jobs/featured-jobs.html"
                           >Featured Jobs</a
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="./latest-jobs.html"
+                        <a
+                          class="nav-link scrollto"
+                          href="../jobs/latest-jobs.html"
                           >Latest Jobs</a
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="./popular-jobs.html"
+                        <a
+                          class="nav-link scrollto"
+                          href="./jobs/popular-jobs.html"
                           >Popular Jobs</a
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="./search-jobs.html"
+                        <a
+                          class="nav-link scrollto"
+                          href="../jobs/search-jobs.html"
                           >Search Jobs</a
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="#stake"
+                        <a class="nav-link scrollto" href="../docs/staking.html"
                           >Stake to Apply for Jobs</a
                         >
                       </li>
@@ -496,60 +504,63 @@
       </div>
     </section>
 
-    <div class="" data-aos="zoom-out" data-aos-delay="100">
-      <span id="main_search_span"></span>
-      <br />
-      <span class="flex justify-center">
-        <table id="hot_search_table">
-          <tr>
-            <td colspan="4 "></td>
-          </tr>
-        </table>
-      </span>
-      <div class="flex justify-center">
-        <span id="hot_search_title" class="text-center">
-          <b>Connect Web 3 to view the latest jobs!!</b>
+    <section class="bg-[#F8F7FA] mx-10 p-5 rounded-lg">
+      <div class="" data-aos="zoom-out" data-aos-delay="100">
+        <span id="main_search_span"></span>
+        <br />
+        <span class="flex justify-center">
+          <table id="hot_search_table">
+            <tr>
+              <td colspan="4 "></td>
+            </tr>
+          </table>
         </span>
-      </div>
-    </div>
-
-    <main id="main" class="mt-10">
-      <section id="featured-jobs" class="services">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <div class="flex justify-center">
-              <h2 class="text-center text-xl">
-                JobCrypt On Chain Search Results
-              </h2>
-            </div>
-          </div>
-          <div class="flex items-center mt-10 mx-10">
-            <div class="w-2/3" data-aos="fade-up" data-aos-delay="100">
-              <span id="search_results_span" class="grid grid-cols-3 gap-2"
-                ><!-- populate result --></span
-              >
-            </div>
-
-            <div class="w-1/3" data-aos="fade-right" data-aos-delay="100">
-              <span id="featured_jobs_title"></span>
-              <span id="featured_jobs_view"></span>
-            </div>
-          </div>
-          <div
-            class="mt-10"
-            data-aos="fade-up"
-            data-aos-delay="100"
-            id="popular_jobs"
-          >
-            <h6 class="text-center font-bold">Popular Jobs</h6>
-            <span
-              id="popular_jobs_view"
-              class="bg-[#D9D9D9] grid grid-cols-5 gap-2"
-            ></span>
-          </div>
+        <div class="flex justify-center">
+          <span id="hot_search_title" class="text-center">
+            <b>Connect Web 3 to view the latest jobs!!</b>
+          </span>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <main id="main" class="mt-10">
+        <section id="featured-jobs" class="services">
+          <div class="container" data-aos="fade-up">
+            <div class="section-title">
+              <div class="flex justify-center">
+                <h2 class="text-center text-xl">
+                  JobCrypt On Chain Search Results
+                </h2>
+              </div>
+            </div>
+            <div class="flex items-center mt-10 mx-10">
+              <div class="w-2/3" data-aos="fade-up" data-aos-delay="100">
+                <span id="search_results_span" class="grid grid-cols-3 gap-2"
+                  ><!-- populate result --></span
+                >
+              </div>
+
+              <div class="w-1/3" data-aos="fade-right" data-aos-delay="100">
+                <span id="featured_jobs_title"></span>
+                <span id="featured_jobs_view"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- Popular Jobs -->
+    <section>
+      <div
+        class="mt-10 mx-10"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        id="popular_jobs"
+      >
+        <h6 class="text-center font-bold mb-5">Popular Jobs</h6>
+        <span id="popular_jobs_view" class="grid grid-cols-5 gap-5"></span>
+      </div>
+    </section>
 
     <!-- Users -->
     <section
@@ -567,7 +578,7 @@
         class="flex lg:flex-row flex-col lg:gap-10 gap-5 mt-10 lg:px-20 px-5 font-poppins text-white"
       >
         <div
-          class="lg:w-1/3 w-full lg:py-40 py-10 items-start rounded-md bg-jcBlack py-10 px-5"
+          class="lg:w-1/3 w-full lg:py-40 items-start rounded-md bg-jcBlack py-10 px-5"
         >
           <img src="../../assets/images/parcel.svg" />
           <h2 class="mt-3 font-semibold text-lg">Open</h2>

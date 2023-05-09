@@ -71,12 +71,12 @@ function buildPopularEntry(iJobPostingContract) {
       popularJobsView.append(holder);
       holder.setAttribute(
         "class",
-        " bg-[#D9D9D9] px-2 py-2 rounded-xl text-xs "
+        " bg-[#D9D9D9] p-2 rounded-xl text-xs  text-center"
       );
       holder.setAttribute("data-aos", "zoom-in");
       holder.setAttribute("data-aos-delay", "100");
       var img = ce("img");
-      img.setAttribute("class", "mb-1");
+      img.setAttribute("class", " mx-auto");
       img.src = "/assets/images/joblogo.svg";
       holder.append(img);
 
