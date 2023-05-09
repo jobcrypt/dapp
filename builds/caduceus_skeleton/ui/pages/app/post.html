@@ -270,6 +270,14 @@
                                 <td><input type="text " id="company_link" placeholder=" enter company link ... " class="ui-component-input ui-component-input-medium " required></td>
                             </tr>
                             <tr>
+                                <td>Company Logo<font color="red">*</font></td>
+                                <td><input type="file" id="company_logo" required class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>Current Logo</td>
+                                <td><i class="icon"><span id="company_logo_display"></span></i></td>
+                            </tr>
+                            <tr>
                                 <td>Summary about your Company*</td>
                                 <td><textarea id="company_summary" class="ui-component-input ui-component-input-medium " name="contact " width="15 " height="30 " placeholder="enter summary ... "></textarea></td>
                             </tr>
@@ -304,6 +312,8 @@
                                 <td><select class="ui-component-input ui-component-input-medium " id="job_payment_type">
                                     <option value="crypto ">Cryptocurrency</option>
                                     <option value="fiat " selected>Fiat</option>
+                                    <option value="equity " selected>Equity</option>
+                                    <option value="alternative " selected>Alternative</option>
                                     <option value="mixed ">Mixed Mode</option>
                                 </select></td>
                             </tr>

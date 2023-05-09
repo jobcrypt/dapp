@@ -49,7 +49,7 @@ function buildLatestJobs(postingAddresses) {
 
 function processRow(postingAddress) {
   var jobDetailLinkDestination =
-    "./app/job_detail_template.html?postingAddress=" + postingAddress;
+    "/pages/app/job_detail_template.html?postingAddress=" + postingAddress;
 
   console.log(jobDetailLinkDestination);
   latestJobsTitle.innerHTML = "Latest Jobs";
