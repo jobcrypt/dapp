@@ -8,7 +8,7 @@ import { createEmployerDashboard, findEmployerDashboard } from '../contracts/Con
 import { AccountContext } from '../App';
 import { isNull } from '../utils/Util';
 import PostJobPopup from '../popups/PostJobPopup';
-import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import useConnectMetaMask from '../hooks/useMetamask';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 
 

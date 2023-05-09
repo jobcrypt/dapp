@@ -429,6 +429,13 @@
     color: rgb(176, 6, 6);
   }
 
+  
+  .error{
+    font-family: 'bold';
+    margin: 0;
+    margin-top: 10px;
+}
+
 @media screen and (max-width: 770px) {
     .parent{
         padding-top: 80px;

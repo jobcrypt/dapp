@@ -84,9 +84,9 @@ const PreviousJobApplications = () =>{
                 </Wrapper>}
             {!isNull(appliedJobsArray) && appliedJobsArray.map(item=>(
                 <li key={item.postingAddress} className={classes.list} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
-                     <span><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></span>
-                     <span>{trim(item.jobTitle, 20)}</span>
-                     <span>{trim(item.link, 20)}</span>
+                     <span className={classes.postedSpan}><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></span>
+                     <span className={classes.jobTitleSpan}>{trim(item.jobTitle, 20)}</span>
+                     <span className={classes.Span}>{trim(item.link, 20)}</span>
                      <span>{item.noOfApplicant}</span>
                      <div className={classes.statusContainer} style={getStyle(item.statusCode)}>{item.status}</div>
                  </li>
@@ -111,6 +111,18 @@ const PreviousJobApplications = () =>{
                      </div>
                  </li>
                  ))}
+                 {/* {new Array(20).fill().map((item, idx)=>(
+                 <li key={idx}>
+                     <div className={classes.leftBox}>
+                         <h2>Job Title</h2>
+                         <p>2nd May 2023</p>
+                     </div>
+                     <div className={classes.rightBox}>
+                         <h2 style={getStyle(1)}>DRAFT</h2>
+                         <p>5</p>
+                     </div>
+                 </li>
+                 ))} */}
          </ul>}
      </section>
      )

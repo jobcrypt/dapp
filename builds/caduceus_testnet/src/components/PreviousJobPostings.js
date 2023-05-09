@@ -96,12 +96,12 @@ const PreviousJobPostings = () =>{
                 </Wrapper>}
                 {!isNull(postedJobsArray) && postedJobsArray.map(item=>(
                     <li key={item.postingAddress} className={classes.list}>
-                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></span>
-                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate)}</Moment></span>
-                    <span>{item.jobTitle}</span>
-                    <span>{item.applicantCount}</span>
+                    <span className={classes.postedDateSpan}><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></span>
+                    <span className={classes.expiryDateSpan}><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate)}</Moment></span>
+                    <span className={classes.jobTitleSpan}>{item.jobTitle}</span>
+                    <span className={classes.applicantSpan}>{item.applicantCount}</span>
                     <div className={classes.statusContainer} style={getStyle(item.status)}>{item.status}</div>
-                    <span>
+                    <span className={classes.actionSpan}>
                         <div className={classes.blackCircle} onClick={(event)=>getClientXY(event, item)}>
                             <img src={moreIcon} alt='' />
                         </div>

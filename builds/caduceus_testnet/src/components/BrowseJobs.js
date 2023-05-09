@@ -278,7 +278,7 @@ const reloadJobsHandler = () =>{
 const handleSearch = async() =>{
     console.log('search active')
    if(isNull(searchRef.current.value))return;
-   const result = await searchJob(searchRef.current.value);
+   const result = await searchJob(searchRef.current.value.toLowerCase());
 }
 
 const style={
@@ -480,9 +480,9 @@ const style={
                         <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
                     </div>
                     <div className={classes.optionContainer}>
-                        <span className={classes.smallCircle} style={selectedPostingAddress === item.postingAddress? style : {}}>
+                        {/* <span className={classes.smallCircle} style={selectedPostingAddress === item.postingAddress? style : {}}>
                             <img src={moreIcon} alt='' style={selectedPostingAddress === item.postingAddress? style : {}} />
-                        </span>
+                        </span> */}
                     </div>
                 </li>
                 ))}
@@ -541,9 +541,15 @@ const style={
                         <h1>About</h1>
                         {/* <p>{jobDetails.companySummary}</p> */}
                         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
-                        <h1>Job Description</h1>
+                        {/* <h1>Job Description</h1> */}
                         {/* <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
-                        <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p>
+                        {/* <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></div> */}
+                        {!isNull(jobDetails.jobDesc) && jobDetails.jobDesc.map((item, idx)=>(
+                            <>
+                            {!isNull(item.attributes) && item.attributes.bold && <strong className={classes.jobDescription} style={{ fontWeight: 'bold'}}>{item.insert}</strong>}
+                            <div key={idx} className={classes.jobDescription}>{item.insert}</div>
+                            </>
+                        ))}
                     </main>
                     {isStaked &&<div className={classes.applyNowBtnContainer}>
                         <button onClick={openCompanyUrl}>Apply Now</button>
@@ -725,10 +731,16 @@ const style={
                         <p>{jobDetails.companySummary}</p>
                         <h1>Job Description</h1>
                         <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
-                        <h1>About</h1>
+                        {/* <h1>About</h1>
                         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
                         <h1>Job Description</h1>
-                        <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p>
+                        <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p> */}
+                        {!isNull(jobDetails.jobDesc) && jobDetails.jobDesc.map((item, idx)=>(
+                        <>
+                        {!isNull(item.attributes) && item.attributes.bold && <strong className={classes.jobDescription} style={{ fontWeight: 'bold'}}>{item.insert}</strong>}
+                        <div key={idx} className={classes.jobDescription}>{item.insert}</div>
+                        </>
+                    ))}
                     </main>
                     {isStaked &&<div className={classes.applyNowBtnContainer}>
                         <button onClick={openCompanyUrl}>Apply Now</button>

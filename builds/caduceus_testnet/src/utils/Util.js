@@ -32,7 +32,7 @@ export const isNull = (value) =>{
 export const chain = {};
 chain.chainId = `0x${Number(512512).toString(16)}`;
 chain.chainName = 'Caduceus Testnet';
-// chain.id =  512512;
+chain.id =  512512;
 let nativeCurrency = {}; 
 nativeCurrency.name = 'CMP';
 nativeCurrency.decimals = 18;

@@ -26,9 +26,10 @@ import useWindowSize from '../hooks/useWindowSize';
 import DashboardPopup from '../popups/DashboardPopup';
 import { AccountContext } from '../App';
 import { approveStake, getIsStaked, getMinStakeAmount, getStakedAmount, getUserStakedAmount, stake, unstake } from '../contracts/ContractManager';
-import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import useMetamask from '../hooks/useMetamask';
 import SwitchChainDropdown from '../dropdowns/SwitchChainDropdown';
 import { ethers } from 'ethers';
+import { getProvider } from '../contracts/init';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
@@ -93,14 +94,14 @@ const reducerFunc = (state, action) =>{
 }
 
 
-
+let isRunning = false;
 const Header2 = () =>{
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState);
     const navigate = useNavigate();
     const [showHamburger, setShowHamburger ] = useState(false);
     const width = useWindowSize();
     const { account, setAccount, isStaked, setIsStaked, setIsApproved, isApproved } = useContext(AccountContext);
-    const { connect } = useConnectMetaMask('');
+    const { connect } = useMetamask('');
 
     const disconnectMetamask = () =>{
         if(!account.isConnected){
@@ -122,33 +123,47 @@ const Header2 = () =>{
     }
 
     const approveHandler = async() =>{
+        if(isRunning)return;
+        isRunning = true;
+        console.log('approved clicked')
         if(!isApproved){
         const txn = await approveStake();
         // console.log(txn)
         // console.log('hash: ',txn.hash);
-        if(!isNull(txn.hash)){
+        const wait = await getProvider().waitForTransaction(txn.hash)
+        if(!isNull(wait.transactionHash) && wait.status === 1){
             setIsApproved(true);
         }
     }
+    isRunning = false;
     }
 
     const stakeHandler = async() =>{
-        const staked = await stake();
-        if(!isNull(staked)){
-        setIsStaked(true);
+        if(isRunning)return;
+        isRunning = true;
+        const txn = await stake();
+        console.log(txn);
+        const wait = await getProvider().waitForTransaction(txn.hash)
+        if(!isNull(wait.transactionHash) && wait.status === 1){
+            setIsStaked(true);
         }
+        isRunning = false;
     }
 
     const run = async() =>{
+        if(isRunning)return;
+        isRunning = true;
         let stakedAmount = await getUserStakedAmount();
         let minStakeAmount = await getMinStakeAmount();
         const isStaked = await getIsStaked();
+        console.log('is staked: ', isStaked)
         setIsStaked(isStaked);
-        stakedAmount = ethers.BigNumber.from(stakedAmount).toNumber();
-        minStakeAmount = ethers.BigNumber.from(minStakeAmount).toNumber();
+        stakedAmount = ethers.BigNumber.from(stakedAmount).toString();
+        minStakeAmount = ethers.BigNumber.from(minStakeAmount).toString();
         if(stakedAmount < minStakeAmount)setIsApproved(false);
         else setIsApproved(true);
        
+        isRunning = false;
     }
 
     useEffect(()=>{
@@ -163,7 +178,7 @@ const Header2 = () =>{
         <>
        {width > 1020 && <header className={classes.header}>
              <section className={classes.topHeader}>
-             <p className={classes.versionTxt}>v1.0.10</p>
+             <p className={classes.versionTxt}>v1.0.14</p>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', cursor: 'pointer'}} onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekuk2023/')}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
@@ -236,7 +251,7 @@ const Header2 = () =>{
                             <p><strong style={{ fontWeight: 'bold'}}>Caduceus </strong>{`${account.isConnected? 'Connected' : 'Disconected'}`}</p>
                         </span>
                         <span className={classes.wallet}>
-                            {!isNull(account.address)? account.address.slice(0,10)+'...'+account.address.slice(-10) : '--'}
+                            {!isNull(account.address)? account.address.slice(0,10)+'...'+account.address.slice(-10) : 'Connect wallet'}
                         </span>
                      </div>
                  </div>
@@ -266,13 +281,19 @@ const Header2 = () =>{
                                 <img src={tree} alt='' />
                             </span>
                         </span>}
-                        {(!isApproved && !isStaked) &&<span className={classes.cmpPortion} onClick={approveHandler}>
+                        {/* {(!isApproved && !isStaked) &&<span className={classes.cmpPortion} onClick={approveHandler}>
                             <p>Approve CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />
                             </span>
-                        </span>}
-                        {(!isStaked && isApproved) &&<span className={classes.cmpPortion} onClick={stakeHandler}>
+                        </span>} */}
+                        {/* {(!isStaked && isApproved) &&<span className={classes.cmpPortion} onClick={stakeHandler}>
+                            <p>Stake CMP</p>
+                            <span className={classes.circle}>
+                                <img src={tree} alt='' />
+                            </span>
+                        </span>} */}
+                        {(!isStaked) &&<span className={classes.cmpPortion} onClick={stakeHandler}>
                             <p>Stake CMP</p>
                             <span className={classes.circle}>
                                 <img src={tree} alt='' />
@@ -290,7 +311,7 @@ const Header2 = () =>{
         {width <= 1020 &&<header className={classes.header__}>
             <header className={classes.topHeader__}>
                 <div className={classes.logoPart__}>
-                    <img src={logo} alt='' />
+                    <img src={logo} alt='' onClick={()=>navigate('/')}  />
                     <h1>JobCrypt</h1>
                 </div>
                 <div className={classes.hamburger__}>

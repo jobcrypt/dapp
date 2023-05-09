@@ -43,7 +43,8 @@ const FeaturedEventRoute = () =>{
                 <h1>Check out our upcoming featured events.</h1>
                 <p className={classes.content}>Our events help us to connect to you where your are, bringing the best in blockchain and web3 education to your city</p>
             </article>
-            {width <= 770 &&<article className={classes.sustainibilityParent}>
+            <SustanabilityWeekEvent />
+            {/* {width <= 770 &&<article className={classes.sustainibilityParent}>
                <SustanabilityWeekEvent />
             </article>}
             {width > 770 &&
@@ -90,8 +91,15 @@ const FeaturedEventRoute = () =>{
                     </span>
                 </div>
                 </article>
-         </main>}
+         </main>} */}
             <article className={classes.secondContainer}>
+            <main className={classes.main2}>
+               <h1 className={classes.title}>JobCrypt Events Calendar</h1>
+               <span className={classes.cloudContainer}>
+                {/* <img src={cloudIcon} alt='' /> */}
+                <p><strong>View Past Events</strong></p>
+               </span>
+            </main>
              <CalendarEvent2 />
             </article>
             <article className={classes.contactUsContainer}>

@@ -22,6 +22,7 @@ const CreateDraft = (props) =>{
      const [ isLoading, setIsLoading ] = useState({ status: true, message: ''});
      const [ jobProductArray, setJobProductArray ] = useState([]);
      const [ selectedProductAddress, setSelectedProductddress ] = useState('');
+     const [ error, setError ] = useState('');
      const { account, setEmployerDashAddress } = useContext(AccountContext);
      const { setProductAddress, setEditingJobPosting  } = useContext(FormContext);
 
@@ -30,8 +31,9 @@ const CreateDraft = (props) =>{
         const dashAddress = await findEmployerDashboard();
         // console.log('DASH ADDRESS ', dashAddress)
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
-            console.log('dash: ', dashAddress);
+            // console.log('dash: ', dashAddress);
             setEmployerDashAddress(dashAddress);
+            getJobProducts();
       }
     },[])
 
@@ -47,18 +49,20 @@ const CreateDraft = (props) =>{
 
      useEffect(()=>{
         getEmployerDashboard();
-        getJobProducts();
      },[getJobProducts, getEmployerDashboard]);
 
 
      //after user has selected the product plans, then proceed to create a posting address which the user can use to add, save and pay for.
     const createJobPosting = async() =>{
         // console.log('isConnected: ', account.isConnected)
-
-        if(isNull(selectedProductAddress))return;
+        if(isNull(selectedProductAddress)){
+            setError('You have to select an option');
+            return;
+        };
         if(!account.isConnected)return;
         // sessionStorage.setItem('posting_address', selectedProductAddress);
         isRunning = true;
+        setError('');
        const result = await createDraftPosting(selectedProductAddress);
        setTxnHash({ text: 'Waiting for your transaction to be confirmed, Please wait...', color: '#956B00', confirmed: false });
        try{
@@ -110,9 +114,10 @@ const CreateDraft = (props) =>{
                  </div>
                 ))}
             </section>
+            {!isNull(error) &&<p style={{ color: '#159500'}} className={classes.error}>{error}</p>}
             <div className={classes.btnContainer}>
-            {(!txnHash.confirmed) && <button disabled={isRunning} className={classes.linearGradBtn} onClick={createJobPosting}>Create Draft Job Posting</button>}
             <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
+            {(!isNull(jobProductArray)) && <button disabled={isRunning} className={classes.linearGradBtn} onClick={createJobPosting}>Create Draft Job Posting</button>}
             {txnHash.confirmed &&<button className={classes.linearGradBtn} onClick={continueToEditPane}>Continue</button>}
             <p>Warning: This action incurs gas fee</p>
         </div>

@@ -12,115 +12,131 @@
     backdrop-filter: blur(5px);
 }
 
+
 .box{
     /* position: absolute; */
-    width: 400px;
-    height: 200px;
-    background-color: var(--dim-bg);
+    width: 800px;
+    height: 478px;
+    background-image: linear-gradient(to top right,#302044, #000000, #2F1818);
+    background-image: -moz-linear-gradient(to top right,#302044, #000000, #2F1818);
+    background-image: -o-linear-gradient(to top right,#302044, #000000, #2F1818);
+    background-image: -webkit-gradient(to top right,#302044, #000000, #2F1818);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     -ms-flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     row-gap: 20px;
-    padding: 0px 10px;
+    padding: 10px 10px 10px 10px;
     z-index: 1;
+    margin: auto;
+    row-gap: 50px;
 }
 
-.title{
-    width: 100%;
-    font-family: 'light';
-    font-size: 20px;
-    text-align: center;
-}
-
-.btnContainer{
+.cancelParent{
   width: 100%;
+  height: fit-content;
+  justify-content: flex-end;
+  align-items: flex-end;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 20px;
 }
 
-
-.yesBtn{
-    background-image: linear-gradient(to right, #2c2231, #171d32);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-family: 'light';
-    font-size: 20px;
-    padding: 6px 20px;
-    cursor: pointer;
-}
-
-.noBtn{
-    color: #fff;
-    border: none;
-    border: 2px solid #171d32;
-    border-radius: 5px;
-    font-family: 'light';
-    font-size: 20px;
-    padding: 5px 20px;
-    color: #171d32;
-    cursor: pointer;
-}
-
-
-.btnContainer2{
-    width: 100%;
+.cancel{
+    min-width: 25px;
+    max-width: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    -ms-flex-direction: column;
-    row-gap: 10px;
-  }
-  
-  
-  .returnBtn{
-      background-image: linear-gradient(to right, #2c2231, #171d32);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-family: 'light';
-      font-size: 20px;
-      padding: 6px 20px;
-      width: 90%;
-      cursor: pointer;
-  }
-  
-  .postBtn{
-      color: #fff;
-      border: none;
-      border: 2px solid #171d32;
-      border-radius: 5px;
-      font-family: 'light';
-      font-size: 20px;
-      padding: 5px 20px;
-      width: 90%;
-      color: #171d32;
-      cursor: pointer;
-  }
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.cancel>img{
+    width: 10px;
+    height: 10px;
+}
+
+.titleContainer{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   column-gap: 20px;
+   width: 100%;
+}
+
+.titleContainer>img{
+    width: 53px;
+    height: 53px;
+}
+
+.titleContainer>h1{
+    color: #fff;
+    font-family: 'bold';
+    font-size: 50px;
+    font-weight: 700;
+}
+
+
+.btnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    width: 100%;
+}
+
+.btnContainer>button{
+    border: none;
+    background-image: linear-gradient(to right, #111C33, #2E2230);
+    background-image: -moz-linear-gradient(to right, #111C33, #2E2230);
+    background-image: -o-linear-gradient(to right, #111C33, #2E2230);
+    background-image: -webkit-gradient(to right, #111C33, #2E2230);
+    /* padding: 20px 30px; */
+    width: 350px;
+    height: 78px;
+    color: #fff;
+    /* border: 5px solid #2E2230; */
+    font-size: 25px;
+    font-weight: 700;
+    font-family: 'bold';
+    cursor: pointer;
+}
+
 
 @media screen and (max-width: 770px) {
    .box{
-    width: 80%;
+    width: 95%;
+    height: fit-content;
+    padding-bottom: 30px;
    }
-    .yesBtn{
-        cursor: none;
-    }
 
-    .noBtn{
-        cursor: none;
-    }
+   .cancel{
+     cursor: none;
+   }
+   .titleContainer{
+     column-gap: 10px;
+   }
 
-    .returnBtn{
-        cursor: none
-    }
+   .titleContainer>h1{
+    font-size: 25px;
+   }
 
-    .postBtn{
-        cursor: none
-    }
+   .titleContainer>img{
+    width: 20px;
+    height: 20px;
+   }
+
+   .btnContainer{
+    flex-direction: column;
+    -ms-flex-direction: column;
+    row-gap: 20px;
+   }
+
+   .btnContainer>button{
+    width: 90%;
+   }
 }

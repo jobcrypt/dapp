@@ -389,6 +389,42 @@
     max-width: 50%;
 }
 
+
+.main2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .main2>div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  
+  .title{
+      font-family: 'bold';
+      color: #fff;
+      font-size: 40px;
+      margin: 0; 
+  }
+  
+  .cloudContainer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 5px;
+  }
+  
+  .cloudContainer>p{
+      color: #fff;
+      font-family: 'light';
+      font-size: 20px;
+      cursor: pointer;
+  }
+    
+
 @media (min-width: 771px) and (max-width: 1300px) {
     .parent{
      padding: 0px 20px;
@@ -413,6 +449,16 @@
 
 .blockContainer>p{
     font-size: 18px;
+}
+
+.main2{
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.title{
+    font-size: 25px;
+    text-align: center;
 }
 }
 
@@ -441,6 +487,16 @@
         -ms-flex-direction: column;
         row-gap: 30px;
       }
+
+      .main2{
+        flex-direction: column;
+        -ms-flex-direction: column;
+    }
+
+    .title{
+        font-size: 25px;
+        text-align: center;
+    }
 
     .calendarArticle>div{
         min-width: 100%;

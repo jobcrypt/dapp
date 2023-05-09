@@ -1,4 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 
 
@@ -22,7 +22,7 @@ let isRunning = false;
 const CreateJobForm = (props) =>{
     const { setDispatch, setOpenPostJob } = props;
     const [ hasPaid, setHasPaid ] = useState(false);
-    const [ paymentStatus, setPaymentStatus ] = useState({ text: '', color: 'transparent', isSaved: true});
+    const [ paymentStatus, setPaymentStatus ] = useState({ text: '', color: 'transparent', isSaved: false});
     const { jobTitle, setJobTitle, locationType, setLocationType,locationSupport, setLocationSupport, workLocation, setWorkLocation, companyName, setCompanyName, companyLink, setCompanyLink, companySummary, setCompanySummary, skills, setSkills, searchCategories, setSearchCategories, searchTerms, setSearchTerms, workType, setWorkType, paymentType, setPaymentType, jobDesc, setJobDesc, jobApplyLink, setJobApplyLink, employerPostingAddress, editingJobPosting, setEditingJobPosting, companyLogo, setCompanyLogo  } = useContext(FormContext);
     const inputRef = useRef();
     const [ postStatus, setPostStatus ] = useState('');
@@ -51,14 +51,14 @@ const CreateJobForm = (props) =>{
 
     const hasUserPaidForPosting = useCallback(async() =>{
         const isPaid = await isPostingPaid(employerPostingAddress);
-        // console.log('Is paid: ', isPaid);
+        console.log('Is paid: ', isPaid);
         setHasPaid(isPaid);
     },[]);
 
     const getProductAddressInfoHandler = useCallback(async()=>{
-        // console.log('>>>>>>>>>>>>>', employerPostingAddress)
+        // console.log('POSTING ADDRSES>>>>>>>>>>>>>', employerPostingAddress)
         const result = await getProductAddressInfo(employerPostingAddress);
-        // console.log(result)
+        console.log(result)
         if(!isNull(result)){
             setEditingJobPosting(`Note: You are editing ${result.name} - ${result.price} - ${result.currency} (${result.productAddress })`);
         }
@@ -86,14 +86,9 @@ const CreateJobForm = (props) =>{
         } 
     }
 
-    useLayoutEffect(()=>{
-        reset();
-        hasUserPaidForPosting();
-        getProductAddressInfoHandler();
-        getPostStatus();
-        (async()=>{
+    const run = useCallback(async() =>{
             const data = await getJobDetailUsingPostingddress(employerPostingAddress);
-            console.log('LOGO : ', data.companyLogo);
+            // console.log('LOGO : ', data.companyLogo);
 
             setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
             setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });
@@ -114,9 +109,17 @@ const CreateJobForm = (props) =>{
             setJobApplyLink({ text: data.applyLink, isValid: isNull(data.applyLink)? false : true });
             // setPaymentStatus(prev=>({...prev, isSaved: true }));//assume it is saved here
             // console.log('EDIT : ', data)
-        })();
+    },[]);
+
+    useEffect(()=>{
+        run();
+        reset();
+        hasUserPaidForPosting();
+        getProductAddressInfoHandler();
+        getPostStatus();
+       
             
-    },[setJobTitle, setLocationType,setLocationSupport, setWorkLocation, setCompanyName, setCompanyLink, setCompanySummary, setSkills,setSearchCategories, setSearchTerms, setWorkType, setPaymentType, setJobDesc, setJobApplyLink, reset, hasUserPaidForPosting, getProductAddressInfoHandler]);
+    },[setJobTitle, setLocationType,setLocationSupport, setWorkLocation, setCompanyName, setCompanyLink, setCompanySummary, setSkills,setSearchCategories, setSearchTerms, setWorkType, setPaymentType, setJobDesc, setJobApplyLink, reset, hasUserPaidForPosting, getProductAddressInfoHandler, run]);
 
 
     const updateJobTitleHandler = (e) =>{
@@ -451,6 +454,7 @@ const CreateJobForm = (props) =>{
         <div className={classes.btnContainer}>
             <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
             <button className={classes.normalBtn} onClick={reset}>Reset</button>
+
             {!paymentStatus.isSaved && <button className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
             {(!hasPaid && paymentStatus.isSaved) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
             {(hasPaid && postStatus === 'DRAFT') && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postAJobHandler}>Post Job</button>}

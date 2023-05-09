@@ -45,6 +45,7 @@ const MakePayment = (props) =>{
         console.log('......', paymentData.decimal)
         const price = paymentData.price * (10**paymentData.decimal);
         const result = await approvePayment(price, paymentData.erc20);
+        console.log(result)
         if(!isNull(result)){
             setPaymentStatus({ text: 'Confirming your approval...', color: '#956B00', isApproved: false });
             try{
@@ -55,16 +56,17 @@ const MakePayment = (props) =>{
         }catch(err){
             setPaymentStatus({ text: `Failed to approve, Try again later!`, color: 'red', isApproved: false });
         }
-
-        isRunning = false;
         }
+        isRunning = false;
     }
 
     const makePaymentHandler = async() =>{
         if(isRunning)return;
         isRunning=true;
         setPaymentStatus(prev=>({ ...prev, text: 'Waiting for payment...', color: '#956B00', isPaid: false }));
+        console.log(employerPostingAddress);
         const result = await buyPosting(employerPostingAddress);
+        console.log('result: ', result);
         if(!isNull(result)){
             setPaymentStatus(prev=>({ ...prev, text: 'Confirming your payment...', color: '#956B00', isPaid: false }));
             try{
@@ -135,8 +137,9 @@ const MakePayment = (props) =>{
             </section>
             <div className={classes.btnContainer}>
             <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
-            {(!paymentStatus.isApproved && !paymentStatus.isPaid) &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>}
-            {(paymentStatus.isApproved && !paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
+            {/* {(!paymentStatus.isApproved && !paymentStatus.isPaid) &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>} */}
+            {/* {(paymentStatus.isApproved && !paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>} */}
+            {(!paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
             {(paymentStatus.isApproved && paymentStatus.isPaid) && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postJobHandler}>Post Job</button>}
             <p>Warning: This action incurs gas fee</p>
         </div>

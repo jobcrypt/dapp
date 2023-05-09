@@ -7,8 +7,8 @@
     row-gap: 20px;
     background-image: linear-gradient(to right, #2c2231, #171d32);
     padding-top: 3rem;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .header{
@@ -699,9 +699,30 @@
 }
 
 @media screen and (max-width: 1300px) {
+    .parent{
+        padding-left: 5%;
+        padding-right: 5%;
+    }
     .allJobsParent{
         padding-left: 0%;
         padding-right: 0%;
+    }
+    .jobTitleColoredDivLeft>h1{
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .parent{
+        padding-left: 1%;
+        padding-right: 1%;
+    }
+    .allJobsParent{
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    .jobTitleColoredDivLeft>h1{
+        font-size: 18px;
     }
 }
 
