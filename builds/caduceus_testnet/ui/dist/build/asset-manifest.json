@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.8bbc18eb.css",
-    "main.js": "/static/js/main.597dcf0b.js",
-    "static/js/27.82119556.chunk.js": "/static/js/27.82119556.chunk.js",
+    "main.css": "/static/css/main.69e7ebf1.css",
+    "main.js": "/static/js/main.5220949f.js",
+    "static/js/334.6359f21a.chunk.js": "/static/js/334.6359f21a.chunk.js",
     "static/media/hero.png": "/static/media/hero.f6228f0ef693c48791d8.png",
     "static/media/corporate_businessman.png": "/static/media/corporate_businessman.1aa2a55014747e385395.png",
     "static/media/community.png": "/static/media/community.6844c77e181823379bff.png",
@@ -22,6 +22,7 @@
     "static/media/uk_flag.png": "/static/media/uk_flag.0a25305e073a9fa15053.png",
     "static/media/filecoin.png": "/static/media/filecoin.79734e3cb0fb8889d947.png",
     "static/media/jobcrypt_flag.png": "/static/media/jobcrypt_flag.ecf6826c1fc0d2107222.png",
+    "static/media/check2.png": "/static/media/check2.0e163e83492acb677d72.png",
     "static/media/hackathon.png": "/static/media/hackathon.ad84199f949ff2dba310.png",
     "static/media/uk.png": "/static/media/uk.b9a2ba74e5f8a55977e7.png",
     "static/media/hamburger.png": "/static/media/hamburger.46723dd6327ddc8d113d.png",
@@ -40,7 +41,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.8bbc18eb.css",
-    "static/js/main.597dcf0b.js"
+    "static/css/main.69e7ebf1.css",
+    "static/js/main.5220949f.js"
   ]
 }
