@@ -5,6 +5,7 @@ import { getContractFromRegistry } from '../contracts/InitializeContracts';
 import { getContractInstance } from '../contracts/init';
 import { isNull } from '../utils/Util';
 import { getApplyLink } from '../contracts/ContractManager';
+import { ethers } from 'ethers';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 
@@ -45,8 +46,11 @@ const fetchDataForContract = async(addresses) =>{
             const companyLink = await contractInstance.getFeatureSTR('COMPANY_LINK');
             const workType = await contractInstance.getFeatureSTR('JOB_WORK_TYPE');
             const locationType = await contractInstance.getFeatureSTR('JOB_LOCATION_TYPE');
-            const postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
+            let postingDateFeatures = await contractInstance.getFeatureUINT('POSTING_DATE_FEATURE');
             // const applyLink = await getApplyLink(postingAddress);
+            if(ethers.BigNumber.isBigNumber(postingDateFeatures)){
+                postingDateFeatures = ethers.BigNumber.from(postingDateFeatures).toNumber();
+            }
       JOB_DATA.push({
         jobTitle,
         companyName,

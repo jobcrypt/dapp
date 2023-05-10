@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 
 
@@ -15,10 +15,26 @@ import jobcryptFlag from '../assets/jobcrypt_flag.png';
 const PromotionPane = () =>{
     const [promoArray] = useState([ vector1, vector2, vector1, vector2, vector1, vector2, vector1, vector2 ]);
 
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+      const container = containerRef.current;
+  
+      const handleAnimationEnd = () => {
+        const firstItem = container.firstChild;
+        container.appendChild(firstItem);
+      };
+  
+      container.addEventListener('animationend', handleAnimationEnd);
+  
+      return () => {
+        container.removeEventListener('animationend', handleAnimationEnd);
+      };
+    }, []);
 
     return(
        <main className={classes.main}>
-        <section className={classes.promotionPane}>
+        <section className={classes.promotionPane} ref={containerRef}>
          <div className={classes.card1}>
           <span className={classes.span1}>
               <h2>Introduction to DAOs in Sustainability - UK 2023</h2>

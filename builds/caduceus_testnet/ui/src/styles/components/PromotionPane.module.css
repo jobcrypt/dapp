@@ -1,8 +1,12 @@
 .main{
   display: flex;
-  background-color: #202020;
+  background-image: linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -o-linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -ms-linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -webkit-linear-gradient(to right, #302044, #000000, #2F1818);
   width: 100%;
   overflow-x: auto;
+  /* background-color: red; */
 }
 
 .main::-webkit-scrollbar{
@@ -16,8 +20,10 @@
     align-items: center;
     width: 100%;
     min-height: 80px;
-    background-color: var(--dim-bg);
-    background-color: #202020;
+    /* background-image: linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -o-linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -ms-linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -webkit-linear-gradient(to right, #302044, #000000, #2F1818); */
     column-gap: 20px;
     padding: 10px;
     display: flex;

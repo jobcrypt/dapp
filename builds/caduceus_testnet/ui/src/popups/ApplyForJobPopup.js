@@ -3,14 +3,16 @@
 import classes from '../styles/popups/ApplyForJobPopup.module.css';
 import success from '../assets/Success2.png';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { getApplyLink, permissionToViewApplyLink } from '../contracts/ContractManager';
 import { isNull } from '../utils/Util';
 import { getProvider } from '../contracts/init';
 import copyIcon from '../assets/copy.png';
+import checkIcon from '../assets/check2.png';
 
 
-const ApplyForJobPopup = (props) =>{
+
+const ApplyForJobPopup = (props, ref) =>{
     const { setApply, apply, selectedPostingAddress } = props;
     const navigate = useNavigate();
     const [ applyLink, setApplyLink ] = useState('');
@@ -19,6 +21,10 @@ const ApplyForJobPopup = (props) =>{
     const [ isCopied, setIsCopied ] = useState(false);
     const [ showLink, setShowLink ] = useState(false);
     
+
+    useEffect(()=>{
+        console.log('useeffect ran')
+    },[]);
 
     const getApplyLinkHandler = async()=>{
         const applyLink = await getApplyLink(selectedPostingAddress);
@@ -43,6 +49,7 @@ const ApplyForJobPopup = (props) =>{
             }
            }
         }else{
+            // const result = await permissionToViewApplyLink(selectedPostingAddress);
             setShouldShow(false);
             setApplyLink(applyLink);
             setShowLink(true);
@@ -54,6 +61,7 @@ const ApplyForJobPopup = (props) =>{
             navigate('/jobseeker_dashboard');
         }
         setApply(false);
+        ref.current.close();
     }
 
     const formatLink = () =>{
@@ -84,16 +92,22 @@ const ApplyForJobPopup = (props) =>{
         }
     }
 
+    const closeHandler = () =>{
+        setApply(false);
+        ref.current.close();
+    }
+
    return(
-        <section className={classes.parent} onClick={()=>setApply(false)}>
+        <dialog className={classes.parent}  onClick={closeHandler}>
             <div className={classes.box} onClick={(e)=>e.stopPropagation()}>
                 <img src={success} alt='' className={classes.success} />
                 <h1>Congratulations!!!</h1>
                 <p className={classes.sendResumeTxt}>Kindly send your resume to</p>
                 {showLink &&<div className={classes.copyContainer}>
                 <p className={classes.emailTxt} onClick={openLinkHandler}>{formatLink()}</p>
-                <img src={copyIcon} alt='' onClick={copyLinkHandler} />
-                {isCopied &&<span>Copied!</span>}
+                {!isCopied && <img src={copyIcon} alt='' onClick={copyLinkHandler} className={classes.copyIcon} />}
+                {isCopied &&<img src={checkIcon} alt="" className={classes.checkIcon} />}
+                {/* {isCopied &&<span>Copied!</span>} */}
                 </div>}
                 {shouldShow &&<p className={classes.getLinkTxt} onClick={getApplyLinkHandler}>Click to view apply link</p>}
                 {status.isVisible &&<p className={classes.getLinkTxt} style={{ color: status.color, textDecoration: 'none', fontSize: '20px' }}>{status.text}</p>}
@@ -102,8 +116,8 @@ const ApplyForJobPopup = (props) =>{
                     <button className={classes.btn2} onClick={()=>navigateToJobBoard(2)}>Previous Applications</button>
                 </div>
             </div>
-        </section>
+        </dialog>
    )
 }
 
-export default ApplyForJobPopup;
+export default forwardRef(ApplyForJobPopup);

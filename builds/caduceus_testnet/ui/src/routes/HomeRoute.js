@@ -35,6 +35,7 @@ import Wrapper from '../components/Wrapper';
 import Spinner from '../components/Spinner';
 import ApplyForJobPopup from '../popups/ApplyForJobPopup';
 import DashboardPopup from '../popups/DashboardPopup';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 
 
@@ -252,6 +253,7 @@ const connected = (
     <>
     {openMetaPopup && <ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} />}
     {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
+    {/* <ReceiptPopup /> */}
     {/* <DashboardPopup /> */}
     <section className={classes.parent} id='parent'>
       <span className={classes.heroContainer}>

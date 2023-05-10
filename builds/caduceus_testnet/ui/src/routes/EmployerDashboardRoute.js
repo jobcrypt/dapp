@@ -23,13 +23,14 @@ const EmployerDashboardRoute = () =>{
      const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
      const pathRef = useRef(null);
 
+     
      const getEmployerDashboard = useCallback(async() =>{
         // console.log('isconnected: ', account.isConnected)
         if(!account.isConnected)return;
         // console.log('a')
         const dashAddress = await findEmployerDashboard();
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
-            // console.log('dash: ', dashAddress);
+            console.log('dash: ', dashAddress);
             setHasDashboard(true);
             setEmployerDashAddress(dashAddress);
       }else{

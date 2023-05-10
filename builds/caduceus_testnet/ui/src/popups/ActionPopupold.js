@@ -12,7 +12,7 @@ import { getProvider } from "../contracts/init";
 
 
 const ActionPopup = (props, ref) =>{
-    const { clientX, clientY, setShowAction, item, setShowDialog } = props;
+    const { clientX, clientY, setShowAction, item, display } = props;
     const ref2 = useRef();
     const [ openPostJob, setOpenPostJob ] = useState(false);
     const [ openArchive, setOpenArchive ] = useState(false);
@@ -24,13 +24,10 @@ const ActionPopup = (props, ref) =>{
 
 
         //save the employer posting address so that it can be acessible in the edit form page.
-        // ref2.current.style.left = (clientX - 110)+'px';//here is supposed to be 130 based on the css, but to make the arrow point directly under, i removed 20px
-        // ref2.current.style.top = (clientY + 20)+'px';
-
-        if(isNull(item))return       
-        else setEmployerPostingAddress(item.postingAddress);
-
-    },[item.postingAddress]);
+        setEmployerPostingAddress(item.postingAddress);
+        ref2.current.style.left = (clientX - 110)+'px';//here is supposed to be 130 based on the css, but to make the arrow point directly under, i removed 20px
+        ref2.current.style.top = (clientY + 20)+'px';
+    },[]);
 
 
 
@@ -43,7 +40,9 @@ const ActionPopup = (props, ref) =>{
         console.log('options: ', option)
         let code, status='';
         if(option === 'EDIT'){
-            setOpenPostJob(true);  
+            console.log(option)
+            setOpenPostJob(true);
+            // ref1.current.close();
         }
         // if(option === 'EXTEND')
         else{
@@ -65,31 +64,21 @@ const ActionPopup = (props, ref) =>{
            console.log('Wait :: ',wait);
            if(!isNull(wait.transactionHash) && wait.status === 1)item.status = status;
         }
-        // setShowDialog(false);
-        // ref.current.close();
     }
-
-    const closeDialogHandler = () =>{
-        ref.current.close();
-        setShowDialog(false);
-    }
-
 
     const element = (
         <>
         {openPostJob && <PostJobPopup formToOpen='CREATE_FORM' setOpenPostJob={setOpenPostJob} />}
-        {/* {openArchive && <ArchivePostingPopup setOpenArchive={setOpenArchive} />} */}
-            <div className={classes.box} onClick={(e)=>e.stopPropagation()}>
-                <header className={classes.header}>Select an option</header>
-                {/* <img src={dropdown} alt='' /> */}
-                {!isNull(item) && item.options.map((option, idx)=>(
+        {openArchive && <ArchivePostingPopup setOpenArchive={setOpenArchive} />}
+        <dialog className={classes.parent} onClick={()=>setShowAction(false)}>
+            <div className={classes.box} ref={ref2} onClick={(e)=>e.stopPropagation()}>
+                <img src={dropdown} alt='' />
+                {!isNull(item.options) && item.options.map((option, idx)=>(
                     <p key={`${idx+1}${option}${idx}`} onClick={()=>handleOption(option)}>{option}</p>
                 ))}
-                <div className={classes.btnContainer}>
-                    <button onClick={closeDialogHandler}>Close</button>
-                </div>
-                
+               
             </div>
+        </dialog>
         </>
     );
 

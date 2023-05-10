@@ -97,14 +97,14 @@
     color: #fff;
     font-family: 'bold';
     font-size: 35px;
-    /* background-image: linear-gradient(to right, #2c2231, #171d32); */
+    background-image: linear-gradient(to right, #2c2231, #171d32);
     background-color: transparent;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     padding: 25px 50px;
     /* margin-top: 20px;  */
-    border: #2c2231 5px solid;
+    /* border: #2c2231 5px solid; */
 }
 
 .needCryptoBtn{

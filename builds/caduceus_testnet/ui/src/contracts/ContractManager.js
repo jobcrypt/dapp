@@ -497,7 +497,11 @@ export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddres
         noOfApplicant = ethers.BigNumber.from(noOfApplicant).toNumber();
 
         if(!isNull(applicantData)){
-         applicationDate = new Date(ethers.BigNumber.from(applicantData.applicationDate).toNumber() * 1000);
+          applicationDate = applicantData.applicationDate;
+          if(!isNull(applicantData.applicationDate)){
+            if(ethers.BigNumber.isBigNumber(applicationDate))applicationDate = ethers.BigNumber.from(applicationDate).toNumber();
+          } 
+         
          link = applicantData.link
         }
 
@@ -587,9 +591,15 @@ const getJobPostingDetails = async(postingAddresses) =>{
             if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
                  option1 = 'ARCHIVE';
             }
-            postedDate = new Date(ethers.BigNumber.from(postedDate.toNumber()) * 1000);
             applicantCount = ethers.BigNumber.from(applicantCount).toNumber();
-            expiryDate = new Date(ethers.BigNumber.from(expiryDate).toNumber() * 1000);
+            if(ethers.BigNumber.isBigNumber(postedDate)){
+              postedDate = ethers.BigNumber.from(postedDate).toNumber();
+            }
+            if(ethers.BigNumber.isBigNumber(expiryDate)){
+              expiryDate = ethers.BigNumber.from(expiryDate).toNumber();
+            }
+            console.log('Posted date: ',postedDate);
+            console.log('Expiry date: ',expiryDate);
 
             JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postingAddress })
       }catch(err){}
@@ -735,6 +745,7 @@ export const getPaymentInformation = async(postingAddress) =>{
      const contractInstance = getContractInstance(productAddress,iOpenProductAbi, 'provider');
      let duration = await contractInstance.getFeatureUINTValue("DURATION");
      let price = await contractInstance.getPrice();
+     let rawPrice = price;
      try{
      duration = ethers.BigNumber.from(duration).toNumber();
      duration = duration/(60*60*24*7)
@@ -755,7 +766,7 @@ export const getPaymentInformation = async(postingAddress) =>{
      const decimal = await getDecimal();
     //  console.log('Decimal: ',decimal)
 
-     return { duration, erc20, currency, price: (price/(10**decimal)), decimal };
+     return { duration, erc20, currency, price: (price/(10**decimal)), rawPrice, decimal };
    }catch(err){}
 
    return null;
@@ -788,8 +799,10 @@ export const approvePayment = async(price, erc20Address) =>{
 }
 
 
-export const buyPosting = async(postingAddress) =>{
-  let paymentManagerAddress = '';
+export const buyPosting = async(postingAddress, selectedPostingFee, erc20, walletAddress) =>{
+  console.log(postingAddress)
+  // console.log('wallet: ', walletAddress)
+  let paymentManagerAddress = '', result = '';
   try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
@@ -798,8 +811,12 @@ export const buyPosting = async(postingAddress) =>{
     
     if(isNull(paymentManagerAddress))paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
 
+
     const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
-    const result = await contractInstance.payForPosting(postingAddress);
+    console.log('Posting fee',selectedPostingFee)
+    if(erc20 === NATIVE_TOKEN) result = await contractInstance.payForPosting(postingAddress, { value: selectedPostingFee });
+    else result = await contractInstance.payForPosting(postingAddress);
+
     return result;
   }catch{}
 
@@ -875,10 +892,12 @@ export const isPostingPaid = async(postingAddress) =>{
   return obj;
 }
 
-export const postAJob = async(postingAddress) =>{
+export const postAJob = async(postingAddress, erc20Address) =>{
+  let posted = null;
   try{
       const contractInstance = getContractInstance(postingAddress,iJCJobPostingEditorAbi, 'signer');
-      const posted = contractInstance.post();
+      if(erc20Address === NATIVE_TOKEN) posted = await contractInstance.post();
+      else posted = await contractInstance.post();
       return posted;
   }catch(err){}
 
@@ -895,15 +914,17 @@ export const getPostJobStatus = async(postingAddress) =>{
    return false;
 }
 
-export const permissionToViewApplyLink = async(postingAddress) =>{
+export const permissionToViewApplyLink = async(postingAddress, erc20Address) =>{
   let applyLink='';
   try{
       const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
-      try{
-          applyLink = await contractInstance.applyForJob();
-          // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
-      }catch(err){
-      }
+    try{
+         applyLink = await contractInstance.applyForJob();
+    // else posted = await contractInstance.applyForJob();
+        // applyLink = await contractInstance.applyForJob();
+        // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
+    }catch(err){
+    }
       
   }catch(err){}
     return applyLink;

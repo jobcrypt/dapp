@@ -23,6 +23,7 @@ import Wrapper from './Wrapper';
 import { getPopularJobs } from '../jobManager/PopularJobs';
 import { AccountContext } from '../App';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 
 
@@ -81,6 +82,8 @@ const BrowseJobs = () =>{
     const searchRef = useRef();
     const navigate = useNavigate();
     const location = useLocation();
+    const dialogRef = useRef();
+    const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
 
 
     const approveHandler = async() =>{
@@ -109,6 +112,7 @@ const BrowseJobs = () =>{
         }else{
             setIsStaked(false);
         }
+        setShowReceipt({ hash: staked.hash, type: 'Gas Fee', isVisible: true }); 
         // setOpenStakePopup(true);
        isRunning = false;
     },[]);
@@ -195,7 +199,7 @@ const BrowseJobs = () =>{
                 fetchPopularJobs();
             }
         }
-    },[fetchLatestJobs, account.isConnected]);
+    },[fetchLatestJobs, account.isConnected, location.state]);
 
 
     const selectedJobHandler = (type)=>{
@@ -259,6 +263,9 @@ const BrowseJobs = () =>{
 const openCompanyUrl =() =>{
     if(!isStaked)return;
     setApply(true);
+    if(!dialogRef.current.open){
+        dialogRef.current.showModal();
+    }
     // if(!isNull(url)){
     //   if(!url.startsWith('http') || !url.startsWith('https')) url = `https://${url}`
     //      window.open(url);
@@ -409,7 +416,7 @@ const style={
                         <h2 className={classes.jobTitle} style={selectedPostingAddress === item.postingAddress? style : {}}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.companyName}</p>
                         <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         {/* <span className={classes.smallCircle} style={selectedPostingAddress === item.postingAddress? style : {}}>
@@ -443,7 +450,7 @@ const style={
                         <h2 className={classes.jobTitle} style={selectedPostingAddress === item.postingAddress? style : {}}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.companyName}</p>
                         <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         {/* <span className={classes.smallCircle} style={selectedPostingAddress === item.postingAddress? style : {}}>
@@ -477,7 +484,7 @@ const style={
                         <h2 className={classes.jobTitle} style={selectedPostingAddress === item.postingAddress? style : {}}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.companyName}</p>
                         <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt} style={selectedPostingAddress === item.postingAddress? style : {}}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         {/* <span className={classes.smallCircle} style={selectedPostingAddress === item.postingAddress? style : {}}>
@@ -500,8 +507,8 @@ const style={
                         </div>
                     </div>
                     <div className={classes.jobTitleColoredDivRight}>
-                        {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>}
-                        {(!isStaked && isApproved) &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                        {/* {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>} */}
+                        {(!isStaked) &&<p onClick={stakeHandler}>Please stake to apply</p>}
                         {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
                     </div>
                 </header>}
@@ -543,11 +550,11 @@ const style={
                         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
                         {/* <h1>Job Description</h1> */}
                         {/* <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
-                        {/* <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></div> */}
-                        {!isNull(jobDetails.jobDesc) && jobDetails.jobDesc.map((item, idx)=>(
+                        {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'string') &&<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></div>}
+                        {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'object') && jobDetails.jobDesc.map((item, idx)=>(
                             <>
                             {!isNull(item.attributes) && item.attributes.bold && <strong className={classes.jobDescription} style={{ fontWeight: 'bold'}}>{item.insert}</strong>}
-                            <div key={idx} className={classes.jobDescription}>{item.insert}</div>
+                            {isNull(item.attributes) &&<div key={idx} className={classes.jobDescription}>{item.insert}</div>}
                             </>
                         ))}
                     </main>
@@ -598,7 +605,7 @@ const style={
                         <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name}>{item.companyName}</p>
                         <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         {/* <span className={classes.smallCircle}>
@@ -631,7 +638,7 @@ const style={
                         <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name}>{item.companyName}</p>
                         <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         <span className={classes.smallCircle}>
@@ -664,7 +671,7 @@ const style={
                         <h2 className={classes.jobTitle}>{getJobTitle(item.jobTitle)}</h2>
                         <p className={classes.name}>{item.companyName}</p>
                         <p className={classes.locationTxt}>{`${item.locationType} | ${item.workType}`}</p>
-                        <p className={classes.locationTxt}><Moment fromNow>{item.postingDateFeatures}</Moment></p>
+                        <p className={classes.locationTxt}>{item.postingDateFeatures === 0? '--' : <Moment fromNow>{new Date(item.postingDateFeatures * 1000)}</Moment>}</p>
                     </div>
                     <div className={classes.optionContainer}>
                         <span className={classes.smallCircle}>
@@ -690,8 +697,8 @@ const style={
                             </div>
                         </div>
                         <div className={classes.jobTitleColoredDivRight}>
-                        {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>}
-                        {(!isStaked && isApproved) &&<p onClick={stakeHandler}>Please stake to apply</p>}
+                        {/* {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>} */}
+                        {(!isStaked) &&<p onClick={stakeHandler}>Please stake to apply</p>}
                         {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
                         </div>
                     </header>}
@@ -731,14 +738,15 @@ const style={
                         <p>{jobDetails.companySummary}</p>
                         <h1>Job Description</h1>
                         <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
-                        {/* <h1>About</h1>
-                        <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
-                        <h1>Job Description</h1>
-                        <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p> */}
-                        {!isNull(jobDetails.jobDesc) && jobDetails.jobDesc.map((item, idx)=>(
+                        <h1>About</h1>
+                         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
+                        {/* <h1>Job Description</h1> */}
+
+                        {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'string') && <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p>}
+                        {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'object') && jobDetails.jobDesc.map((item, idx)=>(
                         <>
                         {!isNull(item.attributes) && item.attributes.bold && <strong className={classes.jobDescription} style={{ fontWeight: 'bold'}}>{item.insert}</strong>}
-                        <div key={idx} className={classes.jobDescription}>{item.insert}</div>
+                        {isNull(item.attributes) &&<div key={idx} className={classes.jobDescription}>{item.insert}</div>}
                         </>
                     ))}
                     </main>
@@ -754,7 +762,11 @@ const style={
     return(
         <main className={classes.parent} id='previous_application'>
             {openStakePopup && <StakePopup setOpenStakePopup={setOpenStakePopup} />}
-            {apply && <ApplyForJobPopup setApply={setApply} selectedPostingAddress={selectedPostingAddress} />}
+            {/* {apply && <ApplyForJobPopup ref={dialogRef} setApply={setApply} selectedPostingAddress={selectedPostingAddress} />} */}
+            <dialog ref={dialogRef} style={{ display: apply? 'flex' : 'none'}}>
+                  {apply && <ApplyForJobPopup ref={dialogRef} setApply={setApply} selectedPostingAddress={selectedPostingAddress} />}
+            </dialog>
+            {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
             <header className={classes.header}>
                 <h1>Browse Jobs</h1>
                 <button onClick={()=>navigate('/jobseeker_dashboard')}>Previous Applications</button>

@@ -84,7 +84,7 @@ const PreviousJobApplications = () =>{
                 </Wrapper>}
             {!isNull(appliedJobsArray) && appliedJobsArray.map(item=>(
                 <li key={item.postingAddress} className={classes.list} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
-                     <span className={classes.postedSpan}><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></span>
+                     <span className={classes.postedSpan}>{item.apply_date === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.apply_date * 1000)}</Moment>}</span>
                      <span className={classes.jobTitleSpan}>{trim(item.jobTitle, 20)}</span>
                      <span className={classes.Span}>{trim(item.link, 20)}</span>
                      <span>{item.noOfApplicant}</span>
@@ -103,7 +103,7 @@ const PreviousJobApplications = () =>{
                  <li key={item.postingAddress} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
                      <div className={classes.leftBox}>
                          <h2>{trim(item.jobTitle, 20)}</h2>
-                         <p><Moment format="MMM Do YYYY, h:mm:ss a">{item.apply_date}</Moment></p>
+                         <p>{item.apply_date === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.apply_date * 1000)}</Moment>}</p>
                      </div>
                      <div className={classes.rightBox}>
                          <h2 style={getStyle(item.statusCode)}>{item.status}</h2>

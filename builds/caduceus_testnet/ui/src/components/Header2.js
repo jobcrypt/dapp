@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import classes from '../styles/components/Header2.module.css';
@@ -30,20 +30,24 @@ import useMetamask from '../hooks/useMetamask';
 import SwitchChainDropdown from '../dropdowns/SwitchChainDropdown';
 import { ethers } from 'ethers';
 import { getProvider } from '../contracts/init';
+import PostJobPopup from '../popups/PostJobPopup';
+import JobsDropdown from '../dropdowns/JobsDropdown';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 const EVENTS = 'EVENTS';
 const PROGRAMS = 'PROGRAMS';
 const DASHBOARD = 'DASHBOARD';
 const ABOUT = 'ABOUT';
 const NETWORK = 'NETWORK';
-
+const JOBS = 'JOBS';
 
 const initialState = {
     events: false,
     programs: false,
     dashboard: false,
     about: false,
-    network: false
+    network: false,
+    jobs: false
 }
 
 const reducerFunc = (state, action) =>{
@@ -54,7 +58,8 @@ const reducerFunc = (state, action) =>{
                 programs: false,
                 dashboard: false,
                 about: false,
-                network: false
+                network: false,
+                jobs: false
             }
         case PROGRAMS:
             return{
@@ -62,7 +67,8 @@ const reducerFunc = (state, action) =>{
                 programs: action.status,
                 dashboard: false,
                 about: false,
-                network: false
+                network: false,
+                jobs: false
             }
         case DASHBOARD:
             return{
@@ -70,7 +76,8 @@ const reducerFunc = (state, action) =>{
                 programs: false,
                 dashboard: action.status,
                 about: false,
-                network: false
+                network: false,
+                jobs: false
             }
         case ABOUT:
             return{
@@ -78,7 +85,8 @@ const reducerFunc = (state, action) =>{
                 programs: false,
                 dashboard: false,
                 about: action.status,
-                network: false
+                network: false,
+                jobs: false
             }
         case NETWORK:
             return{
@@ -86,8 +94,18 @@ const reducerFunc = (state, action) =>{
                 programs: false,
                 dashboard: false,
                 about: false,
-                network: action.status
+                network: action.status,
+                jobs: false
             }
+        case JOBS:
+            return{
+                events: false,
+                programs: false,
+                dashboard: false,
+                about: false,
+                network: false,
+                jobs: action.status
+            }  
         default:
             return state;
     }
@@ -101,7 +119,11 @@ const Header2 = () =>{
     const [showHamburger, setShowHamburger ] = useState(false);
     const width = useWindowSize();
     const { account, setAccount, isStaked, setIsStaked, setIsApproved, isApproved } = useContext(AccountContext);
+    const [ openPostJob, setOpenPostJob ] = useState(false);
     const { connect } = useMetamask('');
+    const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
+    const dialogRef = useRef();
+    
 
     const disconnectMetamask = () =>{
         if(!account.isConnected){
@@ -114,13 +136,20 @@ const Header2 = () =>{
         }
     }
 
+   
     const unstakeHandler = async() =>{
-       const unstaked = await unstake();
-       if(!isNull(unstaked)){
-        setIsStaked(false);
-        setIsApproved(false);
-       }
-    }
+        if(isRunning)return;
+        isRunning = true;
+        const txn = await unstake();
+        const wait = await getProvider().waitForTransaction(txn.hash)
+        if(!isNull(wait.transactionHash) && wait.status === 1){
+            setIsStaked(false);
+            setIsApproved(false);
+        }
+        setShowReceipt({ hash: txn.hash, type: 'Gas Fee', isVisible: true }); 
+        isRunning = false;
+     }
+
 
     const approveHandler = async() =>{
         if(isRunning)return;
@@ -138,15 +167,17 @@ const Header2 = () =>{
     isRunning = false;
     }
 
+
     const stakeHandler = async() =>{
         if(isRunning)return;
         isRunning = true;
         const txn = await stake();
-        console.log(txn);
+        // console.log(txn);
         const wait = await getProvider().waitForTransaction(txn.hash)
         if(!isNull(wait.transactionHash) && wait.status === 1){
             setIsStaked(true);
         }
+        setShowReceipt({ hash: txn.hash, type: 'Gas Fee', isVisible: true }); 
         isRunning = false;
     }
 
@@ -177,8 +208,10 @@ const Header2 = () =>{
     return(
         <>
        {width > 1020 && <header className={classes.header}>
+       {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
+       {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
              <section className={classes.topHeader}>
-             <p className={classes.versionTxt}>v1.0.14</p>
+             <p className={classes.versionTxt}>v1.0.15</p>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', cursor: 'pointer'}} onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekuk2023/')}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />
@@ -194,6 +227,20 @@ const Header2 = () =>{
                     <h1>JobCrypt</h1>
                  </div>
                  <div className={classes.eventSideContainer}>
+                    <span className={classes.dropdown} onClick={()=>navigate('/')}>
+                        <p>Home</p>
+                    </span>
+                    <span 
+                         className={classes.dropdown} 
+                         onClick={()=>setDispatch({ TYPE: JOBS, status: !dispatch.jobs })}
+                    >
+                        <p>Jobs</p>
+                        <img src={dropdownIcon} alt='' />
+                       {dispatch.jobs && <JobsDropdown 
+                          setDispatch={setDispatch} 
+                          setShowHamburger={setShowHamburger}
+                       />}
+                     </span>
                      <span 
                          className={classes.dropdown} 
                          onClick={()=>setDispatch({ TYPE: EVENTS, status: !dispatch.events })}
@@ -241,6 +288,8 @@ const Header2 = () =>{
                         setShowHamburger={setShowHamburger}
                         />}
                      </span>
+                     <button className={classes.postJobBtn} onClick={()=>setOpenPostJob(true)}>Post A Job</button>
+                    
                  </div>
                  <div className={classes.connectedSide}>
                      <div className={classes.connecteMetamaskContainer} onClick={disconnectMetamask}>

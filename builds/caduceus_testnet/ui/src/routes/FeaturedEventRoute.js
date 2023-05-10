@@ -16,8 +16,32 @@ const FeaturedEventRoute = () =>{
     const width = useWindowSize();
     const location = useLocation();
 
+    const navigateAndScrollPage = () =>{
+        try{
+            let clientHeight = document.documentElement.clientHeight;
+            let scrollTop = document.documentElement.scrollTop;
+            console.log('Scroll top',scrollTop)
+            const interval = setInterval(()=>{
+                 if(clientHeight > 0){
+                    console.log('----')
+                     clientHeight = clientHeight - 20;
+                     window.scrollTo(0, clientHeight);
+                 }else {
+                     clearInterval(interval);
+                     return;
+                 }
+             },10);
+        }catch(err){
+            window.scrollTo(0, 0);
+        }
+    }
+
     useEffect(()=>{
-        document.getElementById('featured_event').scrollIntoView({ behavior: "smooth" });
+        // navigateAndScrollPage();
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = -10;
+        document.body.scrollTop = -10;
+        // document.getElementById('featured_event').scrollIntoView({ behavior: "smooth" });
   },[]);
 
 

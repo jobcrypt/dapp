@@ -2,6 +2,7 @@
 
 // export const REGISTRY_ADDRESS = '0xEfdeAC0C0778DED8eA0a72be3D93258F44Ff9627';//sepolia testnet registry
 export const REGISTRY_ADDRESS ='0xB4fCA8053D2b447Be0ab99EF2c7ECAf1f5372f2B'//caduceus testnet registry
+export const BLOCK_EXPLORER = 'https://galaxy.scan.caduceus.foundation/tx'
 export const isNull = (value) =>{
     if(value === undefined)return true;
     if(value === null)return true;
