@@ -29,7 +29,7 @@ input::placeholder {
 
 
 .euflag {
-    background-image: url("../images/closeup-shot-realistic-waving-flag-europe-with-interesting-textures\ 1.png");
+    background-image: url("../images/flageu.png");
     background-size: cover;
     background-position: center;
 }
@@ -54,29 +54,9 @@ input::placeholder {
 
 
 
-@keyframes slide {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-
-    100% {
-        transform: translate3d(-100%, 0, 0);
-        /* The image width */
-    }
-}
-
-@keyframes slide2 {
-    0% {
-        transform: translateX(0%);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
-}
 
 .banner-container div {
-    animation: slide 20s linear infinite;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -84,7 +64,19 @@ input::placeholder {
 }
 
 
-.banner-container :hover {
+/* .banner-container :hover {
     animation-play-state: paused;
     cursor: pointer;
+} */
+
+.bg-home {
+    background-image: url('../images/home-bg.png');
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: 150px;
+}
+
+.back-filter {
+    backdrop-filter: blur(10px);
 }

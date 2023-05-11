@@ -21,7 +21,10 @@ function getFeaturedJobs() {
 function buildFeaturedJobs(jobAddresses) {
   feauturedJobsTitle.innerHTML = "Featured Jobs";
   featuredJobsSpan.innerHTML = "";
-  feauturedJobsTitle.setAttribute("class", "text-center text-2xl mt-20");
+  feauturedJobsTitle.setAttribute(
+    "class",
+    "text-center text-2xl mt-20 text-white"
+  );
   //  jobAddresses = ["0xd131FcEdA33B197513eCa94c2d0c18a42be198B7"];
   console.log("featured job addresses : " + jobAddresses.length);
   if (jobAddresses.length > 0) {
@@ -34,6 +37,7 @@ function buildFeaturedJobs(jobAddresses) {
   } else {
     var c = ce("center");
     c.append(text("New Features are on the way!"));
+    c.setAttribute("class", "text-white");
     featuredJobsSpan.append(c);
   }
 }
@@ -45,7 +49,7 @@ function addFeaturedJob(postingAddress) {
   console.log(jobDetailLinkDestination);
 
   var layoutDiv = document.createElement("div");
-  layoutDiv.setAttribute("class", "bg-[#CEC2DC] border-2 border-[#0AFF4F]");
+  layoutDiv.setAttribute("class", "text-white border border-white");
   layoutDiv.setAttribute("data-aos", "zoom-in");
   layoutDiv.setAttribute("data-aos-delay", 100);
   featuredJobsSpan.appendChild(layoutDiv);
