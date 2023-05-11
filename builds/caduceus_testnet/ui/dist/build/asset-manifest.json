@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c37eac43.css",
-    "main.js": "/static/js/main.6e7e9412.js",
+    "main.css": "/static/css/main.0742f2f0.css",
+    "main.js": "/static/js/main.7c7737c4.js",
     "static/js/27.82119556.chunk.js": "/static/js/27.82119556.chunk.js",
     "static/media/hero.png": "/static/media/hero.f6228f0ef693c48791d8.png",
     "static/media/corporate_businessman.png": "/static/media/corporate_businessman.1aa2a55014747e385395.png",
@@ -41,7 +41,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.c37eac43.css",
-    "static/js/main.6e7e9412.js"
+    "static/css/main.0742f2f0.css",
+    "static/js/main.7c7737c4.js"
   ]
 }

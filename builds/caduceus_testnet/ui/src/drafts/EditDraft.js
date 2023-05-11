@@ -5,7 +5,7 @@ import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
 import dropdownIcon from '../assets/dropdown.png';
 import EditDraftList from '../lists/EditDraftList';
-import { getDraftPosting } from '../contracts/ContractManager';
+import { getDraftPosting, getProductAddressInfo } from '../contracts/ContractManager';
 import { isNull } from '../utils/Util';
 import { AccountContext, FormContext } from '../App';
 
@@ -16,9 +16,27 @@ const EditDraft = (props, ref) =>{
     const [ draftArray, setDraftArray ] = useState([]);
     const [ isLoading, setIsLoading ] = useState({ status: false, message: '' });
     const { employerDashAddress } = useContext(AccountContext);
+    const { employerPostingAddress, setEmployerPostingAddress, setEditingJobPosting, setProductAddress } = useContext(FormContext);
     const [ isEditing, setIsEditing ] = useState(`EDITING DRAFT ::`);
-    const [ selectedDraft, setSelectedDraft ] = useState({ text: `EDITING DRAFT ::`, isVisible: false, address: '' });
+    const [ selectedDraft, setSelectedDraft ] = useState({ text: `Click to select an existing job posting ::`, isVisible: false, address: '' });
 
+
+    // const getProductAddressInfoHandler = useCallback(async()=>{
+    //     console.log('POSTING ADDRSES>>>>>>>>>>>>>', employerPostingAddress)
+    //     const result = await getProductAddressInfo(employerPostingAddress);
+    //     // console.log(result)
+    //     if(!isNull(result)){
+    //         setEditingJobPosting(`Note: You are editing ${result.name} - ${result.price} - ${result.currency} (${result.productAddress })`);
+
+    //         const value ="Title :: " + item.jobTitle + " :: status :: " + item.status + " :: " + item.draftPostingAddress + " :: "+ item.name;
+    //         setSelectedDraft({ text: value, isVisible: false, address: item.draftPostingAddress });
+    //         setIsEditing('EDITING DRAFT :: '+employerPostingAddress);
+    //         setEmployerPostingAddress(employerPostingAddress);
+    //         setProductAddress(result.productAddress);
+    //         // console.log(item.productAddress)
+    //         // console.log(item.draftPostingAddress)
+    //     }
+    // },[]);
 
     const getDraftPostingsHandler = useCallback(async()=>{
         // console.log('EMPLOYER DASH ADDRESS: ', employerDashAddress);
@@ -33,6 +51,7 @@ const EditDraft = (props, ref) =>{
     
 
     useEffect(()=>{
+        // getProductAddressInfoHandler();
         getDraftPostingsHandler();
     },[getDraftPostingsHandler]);
 
@@ -54,7 +73,7 @@ const EditDraft = (props, ref) =>{
         <section className={classes.backSection}>
             <img src={backIcon} alt=''  onClick={()=>setDispatch({ TYPE: 'CREATE_DRAFT' })} />
         </section>
-        <section className={classes.contentSection}>
+        <section className={classes.contentSection} style={{ height: '400px'}}>
             <h1 className={classes.draftTxt}>Edit Draft Job Posting</h1>
             <p className={classes.note}>Note: Listings duration only start after posting(Pay later).</p>
             <p className={classes.jobPostingTxt}>Select Draft Job Posting To Edit*</p>

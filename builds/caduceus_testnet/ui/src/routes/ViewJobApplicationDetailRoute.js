@@ -27,10 +27,12 @@ const ViewJobApplicationDetailRoute = (props) =>{
     const getDetail = useCallback(async() =>{
         if(isNull(location.state.selectedPostingAddress))return;
         const result = await getJobDetailUsingPostingddress(location.state.selectedPostingAddress);
-        console.log(result);
+        // console.log(result);
+        // console.log(result.jobDesc)
+        // console.log(typeof result.jobDesc)
         // jobDesc.ops[0].insert
         setData({
-            jobTitle: result.jobTitle, locationType: result.locationType, locationSupport: result.locationSupport, workLocation: result.workLocation, companyName: result.companyName, companyLink: result.companyLink, companySummary: result.companySummary, paymentType: result.paymentType, workType: result.workType, jobDesc: result.jobDesc.ops[0].insert, searchTerms: result.searchTerms, applyLink: result.applyLink, skills: result.skills, searchCategory: result.searchCategory,postedDate: result.postedDate
+            jobTitle: result.jobTitle, locationType: result.locationType, locationSupport: result.locationSupport, workLocation: result.workLocation, companyName: result.companyName, companyLink: result.companyLink, companySummary: result.companySummary, paymentType: result.paymentType, workType: result.workType, jobDesc: result.jobDesc, searchTerms: result.searchTerms, applyLink: result.applyLink, skills: result.skills, searchCategory: result.searchCategory,postedDate: result.postedDate
         });
     },[]);
 
@@ -97,21 +99,19 @@ const ViewJobApplicationDetailRoute = (props) =>{
                         </span>
                     </div>
                 </section>
-                <section className={classes.roleContainer}>
-                    <h1>About the Role</h1>
-                    <ul className={classes.ul}>
-                        {(!isNull(data.jobDesc)) &&<li dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.jobDesc)}}></li>}
-                       {/* {new Array(6).fill().map((item, idx)=>(
-                         <li key={idx}>Produce awesome UI designs, assets and user experience improvements to a consistently high quality.</li>
-                       ))}
-                    </ul>
-                    <h1>Requirement</h1>
-                    <ul className={classes.ul}>
-                       {new Array(6).fill().map((item, idx)=>(
-                         <li key={idx}>Produce awesome UI designs, assets and user experience improvements to a consistently high quality.</li>
-                       ))} */}
-                    </ul>
-                </section>
+                <main className={classes.aboutJobDescriptionContainer}>
+                         <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.companySummary)}}></p>
+                            {console.log(data.jobDesc)}
+                        {(!isNull(data.jobDesc) && typeof data.jobDesc === 'string') && <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(data.jobDesc)}} className={classes.jobDescription}></p>}
+
+                        {(!isNull(data.jobDesc) && typeof data.jobDesc === 'object') && data.jobDesc.map((item, idx)=>(
+                        <>
+                        {!isNull(item.attributes) && item.attributes.bold && <strong key={idx+item
+                        .insert} className={classes.jobDescription} style={{ fontWeight: 'bold'}}>{item.insert}</strong>}
+                        {isNull(item.attributes) &&<div key={idx} className={classes.jobDescription}>{item.insert}</div>}
+                        </>
+                    ))}
+                    </main>
                 <footer className={classes.footer}>
                     <div className={classes.footerDiv}>
                         <h1>Skills</h1>

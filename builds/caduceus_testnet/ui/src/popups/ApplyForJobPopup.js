@@ -1,7 +1,7 @@
 
 
 import classes from '../styles/popups/ApplyForJobPopup.module.css';
-import success from '../assets/Success2.png';
+import success from '../assets/good.png';
 import { useNavigate } from 'react-router-dom';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { getApplyLink, permissionToViewApplyLink } from '../contracts/ContractManager';
@@ -9,6 +9,8 @@ import { isNull } from '../utils/Util';
 import { getProvider } from '../contracts/init';
 import copyIcon from '../assets/copy.png';
 import checkIcon from '../assets/check2.png';
+import ReceiptPopup from './ReceiptPopup';
+import { useRef } from 'react';
 
 
 
@@ -20,11 +22,10 @@ const ApplyForJobPopup = (props, ref) =>{
     const [ shouldShow, setShouldShow ] = useState(true);
     const [ isCopied, setIsCopied ] = useState(false);
     const [ showLink, setShowLink ] = useState(false);
-    
+    const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
+    const dialogRef = useRef();
 
-    useEffect(()=>{
-        console.log('useeffect ran')
-    },[]);
+
 
     const getApplyLinkHandler = async()=>{
         const applyLink = await getApplyLink(selectedPostingAddress);
@@ -47,6 +48,7 @@ const ApplyForJobPopup = (props, ref) =>{
             }else{
                 setStatus({ isVisible: true, text: 'Transaction failed.', color: 'red' });
             }
+            setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
            }
         }else{
             // const result = await permissionToViewApplyLink(selectedPostingAddress);
@@ -88,7 +90,7 @@ const ApplyForJobPopup = (props, ref) =>{
         if(regex.test(url)){
         window.open(`mailto:${url}`);
         }else{
-            window.open(url)
+            window.open(url);
         }
     }
 
@@ -99,6 +101,7 @@ const ApplyForJobPopup = (props, ref) =>{
 
    return(
         <dialog className={classes.parent}  onClick={closeHandler}>
+            {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
             <div className={classes.box} onClick={(e)=>e.stopPropagation()}>
                 <img src={success} alt='' className={classes.success} />
                 <h1>Congratulations!!!</h1>

@@ -145,6 +145,9 @@ const Header2 = () =>{
         if(!isNull(wait.transactionHash) && wait.status === 1){
             setIsStaked(false);
             setIsApproved(false);
+        }else{
+            setIsStaked(true);
+            setIsApproved(true);
         }
         setShowReceipt({ hash: txn.hash, type: 'Gas Fee', isVisible: true }); 
         isRunning = false;
@@ -211,7 +214,7 @@ const Header2 = () =>{
        {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
        {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
              <section className={classes.topHeader}>
-             <p className={classes.versionTxt}>v1.0.15</p>
+             <p className={classes.versionTxt}>v1.0.17</p>
                 <div className={classes.topCenter}>Jobcrypt Blockchain Sustainable Week - UK 2023&nbsp;<strong style={{ textDecoration: 'underline', cursor: 'pointer'}} onClick={()=>openUrl('https://events.jobcrypt.com/blockchainsustainabilityweekuk2023/')}>Learn More</strong></div>
                 <div className={classes.topIconImage}>
                 <img src={linkedin} alt='lkln' onClick={()=>openUrl('https://www.linkedin.com/company/jobcrypt/')} />

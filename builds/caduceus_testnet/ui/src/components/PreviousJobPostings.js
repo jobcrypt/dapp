@@ -11,7 +11,7 @@ import { isNull } from '../utils/Util';
 import Wrapper from './Wrapper';
 import Spinner from './Spinner';
 import { getJobPosting } from '../contracts/ContractManager';
-import { AccountContext } from '../App';
+import { AccountContext, FormContext } from '../App';
 
 
 const PreviousJobPostings = () =>{
@@ -23,6 +23,7 @@ const PreviousJobPostings = () =>{
    const [ isLoading, setIsLoading ] = useState(false);
    const [ message, setMessage ] = useState('You don\'t have any job posted yet.');
    const { employerDashAddress, account } = useContext(AccountContext);
+   const { employerPostingAddress } = useContext(FormContext);
    const actionRef = useRef();
    const [ showDialog, setShowDialog ] = useState(false);
 
@@ -49,7 +50,7 @@ const PreviousJobPostings = () =>{
         setIsLoading(false);
         setMessage('You don\t have any job posted yet.');
     }
-   },[employerDashAddress, account.address]);
+   },[employerDashAddress, account.address, employerPostingAddress]);
 
 
     useEffect(()=>{        

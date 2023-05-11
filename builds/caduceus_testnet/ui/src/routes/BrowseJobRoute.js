@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import classes from '../styles/routes/BrowseJobRoute.module.css';
 import hero from '../assets/hero.png';
 import moreIcon from '../assets/more.png';
-import PromotionPane from '../components/PromotionPane';
+import PromotionPane from '../components/PromotionPane_old';
 import BrowseJobs from '../components/BrowseJobs';
 import { useState } from 'react';
 import PreviousApplicationPopup from '../popups/PreviousApplicationPopup';

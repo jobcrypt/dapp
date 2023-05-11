@@ -508,12 +508,12 @@
 
 .applyNowBtn{
     border: none;
-    padding: 10px 20px;
+    padding: 13px 16px;
     border-radius: 10px;
     margin-top: 20px;
     color: #fff;
     font-family: 'light';
-    font-size: 20px;
+    font-size: 18px;
     position: relative;
     cursor: pointer;
     background: linear-gradient(to right, #0048FF, #FF1303);
@@ -521,7 +521,7 @@
 
 .applyNowBtn::before{
     position: absolute;
-    content: 'Apply Now';
+    content: attr(val);
     border-radius: 10px;
     top: 2px;
     left: 2px;
