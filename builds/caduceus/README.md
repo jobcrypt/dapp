@@ -1,6 +1,13 @@
-## JobCrypt - Web3 jobs for blockchain people
-<a href="https://www.jobcrypt.com">JobCrypt</a> is a Web 3 job portal, built using IPFS, Solidity, <a href="https://www.blockstarlogic.com/obei">Open Block EI</a> and Node.js.
-Our mission is to become the best Web 3 powered dApp where users can find Web 3 jobs using Web 3 mechanisms .
-This repository contains the front end for the <a href="https://www.jobcrypt.com">Jobcrypt Dapp</a> which is build using IPFS and Node.js as well as the solidity contracts. 
-To see the build as it happens go to JobCrypt.com
-The official launch of the site will be June 2022.
+## JobCrypt - Caduceus Live 
+This is the live deployment for the Caduceus Blockchain 
+Connection and registry details are below:
+|Item| Value | 
+|---|---| 
+|Network Name | Caduceus |
+|RPC URL | https://mainnet.block.caduceus.foundation/|
+|Chain ID | 256256 |
+|Symbol | CMP |
+|Block Explorer | https://mainnet.scan.caduceus.foundation |
+|Deployment URL | https://caduceus.jobcrypt.com/ |
+|Registry Address | 0xDa801ba7B09fe484f661403295cb06a55a3e61de | 
+
