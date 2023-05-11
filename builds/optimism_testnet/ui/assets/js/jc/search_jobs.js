@@ -96,7 +96,7 @@ function getForm() {
   input.setAttribute("placeholder", "Search e.g. Solidity, blockchain");
   input.setAttribute(
     "class",
-    "bg-[#D9D9D9] bg-opacity-40 border-2 border-black outline-none p-2  w-[25rem] rounded-md"
+    "bg-[#D9D9D9] w-[400px] bg-opacity-40 border-2 border-black outline-none p-2  w-[25rem] rounded-md"
   );
   form.append(input);
   var a = ce("a");

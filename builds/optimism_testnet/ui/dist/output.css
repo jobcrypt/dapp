@@ -1076,6 +1076,10 @@ input:checked + .toggle-bg {
   z-index: 50;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
 .m-10 {
   margin: 2.5rem;
 }
@@ -1132,6 +1136,16 @@ input:checked + .toggle-bg {
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }
 
 .mb-1 {
@@ -1399,8 +1413,16 @@ input:checked + .toggle-bg {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
+.grid-cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .grid-rows-3 {
   grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+.flex-row {
+  flex-direction: row;
 }
 
 .flex-col {
@@ -1510,6 +1532,14 @@ input:checked + .toggle-bg {
 
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.whitespace-normal {
+  white-space: normal;
 }
 
 .whitespace-nowrap {
@@ -1712,6 +1742,10 @@ input:checked + .toggle-bg {
   --tw-gradient-to-position:  ;
 }
 
+.p-0 {
+  padding: 0px;
+}
+
 .p-1 {
   padding: 0.25rem;
 }
@@ -1841,6 +1875,10 @@ input:checked + .toggle-bg {
 
 .pt-4 {
   padding-top: 1rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 
 .text-center {
@@ -2078,20 +2116,12 @@ input:checked + .toggle-bg {
   transition-delay: 0ms !important;
 }
 
-.delay-\[100ms\] {
-  transition-delay: 100ms;
-}
-
 .delay-\[300ms\] {
   transition-delay: 300ms;
 }
 
 .\!duration-\[0ms\] {
   transition-duration: 0ms !important;
-}
-
-.duration-\[100ms\] {
-  transition-duration: 100ms;
 }
 
 .duration-\[600ms\] {
@@ -2282,6 +2312,16 @@ input:checked + .toggle-bg {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+@media (min-width: 640px) {
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:flex-col {
+    flex-direction: column;
+  }
+}
+
 @media (min-width: 768px) {
   .md\:w-auto {
     width: auto;
@@ -2351,6 +2391,11 @@ input:checked + .toggle-bg {
     margin-bottom: 5rem;
   }
 
+  .lg\:mx-10 {
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+  }
+
   .lg\:mt-0 {
     margin-top: 0px;
   }
@@ -2381,6 +2426,14 @@ input:checked + .toggle-bg {
 
   .lg\:w-\[18rem\] {
     width: 18rem;
+  }
+
+  .lg\:grid-cols-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .lg\:flex-row {

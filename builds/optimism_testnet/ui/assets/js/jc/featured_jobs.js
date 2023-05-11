@@ -49,7 +49,7 @@ function addFeaturedJob(postingAddress) {
   console.log(jobDetailLinkDestination);
 
   var layoutDiv = document.createElement("div");
-  layoutDiv.setAttribute("class", "text-white border border-white");
+  layoutDiv.setAttribute("class", "text-white bg-jcBlack border border-white");
   layoutDiv.setAttribute("data-aos", "zoom-in");
   layoutDiv.setAttribute("data-aos-delay", 100);
   featuredJobsSpan.appendChild(layoutDiv);

@@ -18,7 +18,6 @@ async function loadPageData() {
   getFeaturedJobs();
   getMainSearch();
   getHotSearchTerms(pageRoot);
-
   getStakeStatus();
   loadPromos();
 }

@@ -71,7 +71,7 @@ function buildPopularEntry(iJobPostingContract) {
       popularJobsView.append(holder);
       holder.setAttribute(
         "class",
-        " bg-[#D9D9D9] p-2 rounded-xl text-xs  text-center"
+        " bg-jcBlack p-2 rounded-xl text-xs  text-center"
       );
       holder.setAttribute("data-aos", "zoom-in");
       holder.setAttribute("data-aos-delay", "100");
@@ -81,7 +81,7 @@ function buildPopularEntry(iJobPostingContract) {
       holder.append(img);
 
       var box = ce("div");
-      box.setAttribute("class", "bg-[#D9D9D9]");
+      box.setAttribute("class", "text-white");
       holder.append(box);
       var br = ce("br");
       holder.append(br);

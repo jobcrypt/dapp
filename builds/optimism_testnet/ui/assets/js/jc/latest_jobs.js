@@ -59,20 +59,17 @@ function processRow(postingAddress) {
   latestJobsTitle.innerHTML = "Latest Jobs";
   latestJobsTitle.setAttribute(
     "class",
-    "text-center text-2xl font-bold text-white"
+    " mt-16 text-center text-2xl font-bold "
   );
 
   latestJobsSubtitle.innerHTML =
     "Check out our latest jobs constantly updated on-chain ";
-  latestJobsSubtitle.setAttribute(
-    "class",
-    "text-center text-lg my-3  text-white"
-  );
+  latestJobsSubtitle.setAttribute("class", "text-center text-lg my-3  ");
 
   var layoutDiv = document.createElement("div");
   layoutDiv.setAttribute(
     "class",
-    " text-white border border-white text-center whitespace-normal px-2  py-4 rounded-lg text-xs lg:text-sm "
+    " text-white bg-jcBlack border border-white text-center whitespace-normal px-2  py-4 rounded-lg text-xs lg:text-sm "
   );
   layoutDiv.setAttribute("data-aos", "zoom-in");
   layoutDiv.setAttribute("data-aos-delay", 100);

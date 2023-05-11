@@ -80,6 +80,10 @@ function processRow(postingAddress) {
     postingAddress
   );
   var div = cardDiv();
+  div.setAttribute(
+    "class",
+    "bg-jcBlack text-white rounded-md border-2 border-white p-2"
+  );
   searchResultsSpan.append(div);
   //   var br = ce("br");
   //   searchResultsSpan.append(br);
@@ -240,7 +244,7 @@ function bold(node) {
 
 function cardDiv() {
   var div = ce("div");
-  div.setAttribute("class", "icon-box aos-init aos-animate");
+  div.setAttribute("class", "bg-black p-5");
   div.setAttribute("data-aos", "fade-up");
   div.setAttribute("data-aos-delay", "400");
   return div;

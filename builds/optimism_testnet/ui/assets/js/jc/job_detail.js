@@ -348,7 +348,7 @@ function applyLink() {
         var applyLink = createTextButton("apply()", "Apply Here");
         applyLink.setAttribute(
           "class",
-          "bg-jcBlack text-jcDarkBlue rounded-xl px-5 py-2 mb-10 cursor-pointer"
+          "bg-jcBlack text-white rounded-xl px-5 py-2 mb-10 cursor-pointer"
         );
         applyLinkSpan.appendChild(applyLink);
       } else {
@@ -391,7 +391,7 @@ function apply() {
 function getSmall(str) {
   var small = document.createElement("small");
   small.appendChild(getTextNode(str));
-  small.setAttribute("style", "color:blue");
+  small.setAttribute("style", "color:black");
   return small;
 }
 

@@ -65,7 +65,7 @@ async function configureCoreContracts() {
 function loadPageData() {
   loadProducts();
   updateDraftListings();
-  //   loadPromos();
+  loadPromos();
 }
 
 async function loadProducts() {

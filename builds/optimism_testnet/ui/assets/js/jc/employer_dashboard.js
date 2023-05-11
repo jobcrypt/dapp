@@ -328,7 +328,7 @@ function processAction(postingAddress) {
 
   if (action === "EDIT") {
     // send to post page
-    window.open("/pages/app/post.html?postingAddress=" + postingAddress);
+    window.open("/pages/post-jobs.html?postingAddress=" + postingAddress);
   }
   if (action === "EXTEND") {
     // modal

@@ -21,15 +21,12 @@ function getPostingAddresses(jcSortableAddresses) {
   popularJobsTitle.innerHTML = "Popular Jobs";
   popularJobsTitle.setAttribute(
     "class",
-    " text-white text-center text-2xl font-bold"
+    " mt-16 text-center text-2xl font-bold"
   );
 
   popularJobsSubtitle.innerHTML =
     "Check out our popular jobs constantly updated on-chain ";
-  popularJobsSubtitle.setAttribute(
-    "class",
-    " text-white text-center text-lg my-3 "
-  );
+  popularJobsSubtitle.setAttribute("class", "  text-center text-lg my-3 ");
 
   for (var x = 0; x < jcSortableAddresses.length; x++) {
     buildPopularJobs(jcSortableAddresses[x]);
@@ -85,7 +82,7 @@ function buildPopularEntry(iJobPostingContract) {
       popularJobsView.append(holder);
       holder.setAttribute(
         "class",
-        "text-center text-white border border-white px-2 py-2 whitespace-normal text-xs lg:text-sm rounded-xl text-xs"
+        "text-center text-white bg-jcBlack border border-white px-2 py-4 whitespace-normal text-xs lg:text-sm rounded-xl text-xs"
       );
       holder.setAttribute("data-aos", "zoom-in");
       holder.setAttribute("data-aos-delay", "100");

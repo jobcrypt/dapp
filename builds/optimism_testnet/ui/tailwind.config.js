@@ -18,7 +18,6 @@ module.exports = {
         jcGray: "#D9D9D9",
         jcBlack: "#231F20",
         jcLightGray: "#CEC2DC",
-        gradient: "gradient-to-b from-jcBlue to-jcPurple",
       },
       fontSize: {
         xxs: "0.5rem",
