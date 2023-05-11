@@ -369,11 +369,21 @@ export const getJobDetailUsingPostingddress = async(postingAddress)=>{
     let jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
     try{
       if(!isNull(jobDesc)){
-      jobDesc = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);      
+         const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`); 
+         console.log(result)
+   
+         if(typeof result === 'object'){
+          if(!isNull(result.ops)){
+              jobDesc = result.ops
+          }
+      }else{
+          jobDesc = result;
+      }  
       }
     }catch(err){
-      jobDesc = ''
+      jobDesc = 'Job Description not available'
     }
+
     const searchTerms = await contractInstance.getFeatureSTR("USER_SEARCH_TERMS");
     try{
      applyLink = await contractInstance.getFeatureSTR("APPLY_LINK");

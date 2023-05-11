@@ -58,7 +58,7 @@
     flex-direction: column;
     -ms-flex-direction: column;
     margin-bottom: 2rem;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .draftTxt{
@@ -271,6 +271,10 @@
     padding: 0px 20px;
 }
 
+.input1:focus{
+    border-color: blue;
+}
+
 .input2{
     width: 100%;
     min-height: 50px;
@@ -294,6 +298,9 @@
     padding: 0px 20px;
 }
 
+.input2:focus{
+    border-color: rgb(9, 141, 77);
+}
 .dropDownContainer{
     width: 50px;
     min-height: 50px;
@@ -388,6 +395,7 @@
     border: none;
     border-radius: 5px;
     border: 2px solid #acacac;
+    outline: none;
 }
 
 .textarea::placeholder,
@@ -395,6 +403,10 @@
     font-family: 'light';
     font-size: 20px;
     padding: 0px 20px;  
+}
+
+.textarea:focus{
+    border-color: rgb(9, 141, 77);
 }
 
 .paymentSection{

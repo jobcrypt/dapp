@@ -85,12 +85,16 @@
 
 .list{
     width: 100%;
-    min-height: 40px;
+    min-height: 50px;
     display: flex;
     padding: 0px 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
+.list:hover{
+    background-color: #cdcccc;
+}
 
 .list>span{
     min-height: 100%;

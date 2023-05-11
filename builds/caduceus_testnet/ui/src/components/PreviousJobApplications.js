@@ -82,12 +82,21 @@ const PreviousJobApplications = () =>{
                  {isLoading &&<Spinner size={40} color1={'#171d32'} />}
                  {(isNull(appliedJobsArray) && !isLoading) &&<button onClick={getAppliedJobsHandler} disabled={isLoading} className={classes.refreshBtn}>Reload</button>}
                 </Wrapper>}
+                {/* {new Array(5).fill().map(item=>(
+                <li className={classes.list}>
+                     <span className={classes.postedSpan}>May 29, 2023</span>
+                     <span className={classes.jobTitleSpan}>Senior delevloer</span>
+                     <span className={classes.linkSpan}>hr@gmail.ocm</span>
+                     <span className={classes.applicantSpan}>3</span>
+                     <div className={classes.statusContainer}>POSTED</div>
+                 </li>
+            ))}   */}
             {!isNull(appliedJobsArray) && appliedJobsArray.map(item=>(
                 <li key={item.postingAddress} className={classes.list} onClick={()=>navigateToJobDetailPage(item.postingAddress)}>
                      <span className={classes.postedSpan}>{item.apply_date === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.apply_date * 1000)}</Moment>}</span>
                      <span className={classes.jobTitleSpan}>{trim(item.jobTitle, 20)}</span>
-                     <span className={classes.Span}>{trim(item.link, 20)}</span>
-                     <span>{item.noOfApplicant}</span>
+                     <span className={classes.linkSpan}>{trim(item.link, 20)}</span>
+                     <span className={classes.applicantSpan}>{item.noOfApplicant}</span>
                      <div className={classes.statusContainer} style={getStyle(item.statusCode)}>{item.status}</div>
                  </li>
             ))}   

@@ -26,6 +26,8 @@ export const getPopularJobs = async() =>{
             const filteredAddresses = filterOutZeroAddresses(result);
             data = await getSortableAddresses(filteredAddresses);
         }
+
+        console.log(data);
 }catch(err){}
 
     return data;

@@ -1,5 +1,4 @@
-import { forwardRef, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { SHA256 } from 'crypto-js';
+import { forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 
 import classes from '../styles/popups/PostJobPopup.module.css';
@@ -32,33 +31,20 @@ const CreateJobForm = (props, ref) =>{
     const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
     const dialogRef = useRef();
     const existingValues = useRef('');
-    const [ isSaved, setIsSaved ] = useState(true);
+    const [ isSaved, setIsSaved ] = useState(false);
+    const [ disableSaveBtn, setDisableSaveBtn ] = useState(true);
+    const [ showpaymentBtn, setShowPaymentBtn ] = useState(false);
     
 
     useEffect(()=>{
-        let newValues=jobTitle.text+''+locationType.text+''+locationSupport.text+''+workLocation.text+''+companyName.text+''+companyLink.text+''+companySummary.text+''+skills.text+''+searchCategories.text+''+searchTerms.text+''+workType.text+''+paymentType.text+''+jobDesc.text+''+jobApplyLink.text;
-        console.log('----------')
-        if(isNull(newValues) && isNull(existingValues.current))return;
-        console.log('not null')
-        newValues = getHash(newValues);
-        existingValues.current = getHash(existingValues.current);
-        console.log('new values',newValues);
-        console.log('existing: ',existingValues.current);
-        if(newValues === existingValues.current){
-            console.log(true)
-            setIsSaved(true)
+        if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
+            setDisableSaveBtn(false);
         }else{
-            console.log(false)
-            setIsSaved(false);
+            setDisableSaveBtn(true);
         }
-
-
     },[jobTitle,locationType,locationSupport,workLocation,companyName,companyLink,companySummary,skills,searchCategories,searchTerms,workType,paymentType,jobDesc,jobApplyLink])
     
-    const getHash = (value) =>{
-        return SHA256(value).toString();
-    }
-
+ 
     const reset = useCallback(()=>{
         setJobTitle({ isValid: false, text: '' });
         setLocationType({ isValid: false, text: '' });
@@ -85,7 +71,7 @@ const CreateJobForm = (props, ref) =>{
     },[]);
 
     const getProductAddressInfoHandler = useCallback(async()=>{
-        // console.log('POSTING ADDRSES>>>>>>>>>>>>>', employerPostingAddress)
+        console.log('POSTING ADDRSES>>>>>>>>>>>>>', employerPostingAddress)
         const result = await getProductAddressInfo(employerPostingAddress);
         // console.log(result)
         if(!isNull(result)){
@@ -131,7 +117,7 @@ const CreateJobForm = (props, ref) =>{
             setCompanyName({ text: data.companyName, isValid: isNull(data.companyName)? false : true });
             setCompanyLink({ text: data.companyLink, isValid: isNull(data.companyLink)? false : true });
             setCompanySummary({ text: data.companySummary, isValid: isNull(data.companySummary)? false : true });
-            setCompanyLogo(data.companyLogo)
+            setCompanyLogo(data.companyLogo);
             try{
                 skills = data.skills.join(',');
                 searchCategory = data.searchCategory.join(',');
@@ -280,18 +266,21 @@ const CreateJobForm = (props, ref) =>{
            const result = await saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash, employerPostingAddress);
            if(!isNull(result.hash)){
             try{
+                setDisableSaveBtn(true);
                 setPaymentStatus({  text: `Waiting for txn to be confirmed, please wait...`, color: '#956B00', isSaved: false });
                 const wait = await getProvider().waitForTransaction(result.hash);
                 if(!isNull(wait.transactionHash) && wait.status === 1){
                     setPaymentStatus({  text: `Saved: ${wait.transactionHash}`, color: '#159500', isSaved: true});
+                    setShowPaymentBtn(true);//show the payment button here and remove the save jobs button
+                    setIsSaved(true);
                 }else{
                     setPaymentStatus({  text: `Transaction unsuccessful`, color: 'red', isSaved: false });
                 }
+                setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
         }catch(err){
             setPaymentStatus({  text: `Transaction failed`, color: 'red', isSaved: false });
         }
         // console.log('SHow receipt')
-           setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
         }
         }catch(err){
             // console.log('something happened', err)
@@ -314,7 +303,7 @@ const CreateJobForm = (props, ref) =>{
             <img src={backIcon} alt=''  onClick={()=>setDispatch({ TYPE: 'EDIT_DRAFT' })} />
         </section>
         <section className={classes.contentSection}>
-            <h1 className={classes.fillFormTxt}>Edit Job Posting Details</h1>
+            <h1 className={classes.fillFormTxt}>Fill Your Draft Form</h1>
             <p className={classes.noteTxt}>{editingJobPosting}</p>
             <div className={classes.inputContainer}>
                 <span className={classes.titleSpan}>
@@ -382,7 +371,7 @@ const CreateJobForm = (props, ref) =>{
             </div>
             <div className={classes.inputContainer}>
                 <span className={classes.titleSpan}>
-                    <p className={classes.label}>Company Name</p>
+                    <p className={classes.label}>Company Name*</p>
                      {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
                 </span>
                 <input 
@@ -550,8 +539,8 @@ const CreateJobForm = (props, ref) =>{
             <button className={classes.normalBtn} onClick={closeHandler}>Close</button>
             <button className={classes.normalBtn} onClick={reset}>Reset</button>
 
-            {!isSaved && <button className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
-            {(!hasPaid) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
+            {!isSaved &&<button disabled={disableSaveBtn} className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
+            {(!hasPaid && showpaymentBtn) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
             {(hasPaid && postStatus === 'DRAFT') && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postAJobHandler}>Post Job</button>}
             {(!paymentStatus.isSaved || !hasPaid) && <p>Warning: This action incurs gas fee</p>}
         </div>

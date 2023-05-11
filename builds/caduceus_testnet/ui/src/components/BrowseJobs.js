@@ -294,87 +294,87 @@ const style={
      borderColor: '#fff',
     }
 
- function header(){
-    let element;
-    if(isNull(jobDetails)){
-        element = (
-            <header className={classes.jobTitleColored}>
-            <div className={classes.jobTitleColoredDivLeft}>
-                <h1>--</h1>
-                <div className={classes.jobTitleNameContainer}>
-                    <span></span>
-                    <p>--</p>
-                </div>
-            </div>
-            <div className={classes.jobTitleColoredDivRight}>
-            <p></p>
-            </div>
-        </header>
-        )
-    }else{
-     element = (
-        <header className={classes.jobTitleColored}>
-            <div className={classes.jobTitleColoredDivLeft}>
-                <h1>{jobDetails.jobTitle}</h1>
-                <div className={classes.jobTitleNameContainer}>
-                    <span>{jobDetails.companyName.slice(0,1)}</span>
-                    <p>{jobDetails.companyName}</p>
-                </div>
-            </div>
-            <div className={classes.jobTitleColoredDivRight}>
-                {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
-                {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
-            </div>
-        </header>
-    )
-    }
+//  function header(){
+//     let element;
+//     if(isNull(jobDetails)){
+//         element = (
+//             <header className={classes.jobTitleColored}>
+//             <div className={classes.jobTitleColoredDivLeft}>
+//                 <h1>--</h1>
+//                 <div className={classes.jobTitleNameContainer}>
+//                     <span></span>
+//                     <p>--</p>
+//                 </div>
+//             </div>
+//             <div className={classes.jobTitleColoredDivRight}>
+//             <p></p>
+//             </div>
+//         </header>
+//         )
+//     }else{
+//      element = (
+//         <header className={classes.jobTitleColored}>
+//             <div className={classes.jobTitleColoredDivLeft}>
+//                 <h1>{jobDetails.jobTitle}</h1>
+//                 <div className={classes.jobTitleNameContainer}>
+//                     <span>{jobDetails.companyName.slice(0,1)}</span>
+//                     <p>{jobDetails.companyName}</p>
+//                 </div>
+//             </div>
+//             <div className={classes.jobTitleColoredDivRight}>
+//                 {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
+//                 {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
+//             </div>
+//         </header>
+//     )
+//     }
 
-     return element;
- }
+//      return element;
+//  }
 
- function headerMobile(){
-    let element;
-    if(isNull(jobDetails)){
-        element = (
-            <header className={classes.jobTitleColored}>
-            <div className={classes.backwardIconContainer}>
-                <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
-            </div>
-                <div className={classes.jobTitleColoredDivLeft}>
-                    <h1>--</h1>
-                    <div className={classes.jobTitleNameContainer}>
-                        <span></span>
-                        <p>--</p>
-                    </div>
-                </div>
-                <div className={classes.jobTitleColoredDivRight}>
-                    {/* <p></p> */}
-                </div>
-            </header>
-        )
-    }else{
-       element=(
-        <header className={classes.jobTitleColored}>
-        <div className={classes.backwardIconContainer}>
-            <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
-        </div>
-            <div className={classes.jobTitleColoredDivLeft}>
-                <h1>{jobDetails.jobTitle}</h1>
-                <div className={classes.jobTitleNameContainer}>
-                    <span>{jobDetails.companyName.slice(0,1)}</span>
-                    <p>{jobDetails.companyName}</p>
-                </div>
-            </div>
-            <div className={classes.jobTitleColoredDivRight}>
-                {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
-                {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
-            </div>
-        </header>
-       )
-    }
+//  function headerMobile(){
+//     let element;
+//     if(isNull(jobDetails)){
+//         element = (
+//             <header className={classes.jobTitleColored}>
+//             <div className={classes.backwardIconContainer}>
+//                 <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
+//             </div>
+//                 <div className={classes.jobTitleColoredDivLeft}>
+//                     <h1>--</h1>
+//                     <div className={classes.jobTitleNameContainer}>
+//                         <span></span>
+//                         <p>--</p>
+//                     </div>
+//                 </div>
+//                 <div className={classes.jobTitleColoredDivRight}>
+//                     {/* <p></p> */}
+//                 </div>
+//             </header>
+//         )
+//     }else{
+//        element=(
+//         <header className={classes.jobTitleColored}>
+//         <div className={classes.backwardIconContainer}>
+//             <img src={backIcon} alt='' className={classes.backIcon} onClick={()=>setShowJobDesc(false)} />
+//         </div>
+//             <div className={classes.jobTitleColoredDivLeft}>
+//                 <h1>{jobDetails.jobTitle}</h1>
+//                 <div className={classes.jobTitleNameContainer}>
+//                     <span>{jobDetails.companyName.slice(0,1)}</span>
+//                     <p>{jobDetails.companyName}</p>
+//                 </div>
+//             </div>
+//             <div className={classes.jobTitleColoredDivRight}>
+//                 {!isStaked &&<p onClick={stakeHandler}>Please stake to apply</p>}
+//                 {isStaked &&<button onClick={()=>setApply(true)} className={classes.applyNowBtn}>Apply Now</button>}
+//             </div>
+//         </header>
+//        )
+//     }
 
-    return element;
- }
+//     return element;
+//  }
 
     const desktop = (
         <>
@@ -508,8 +508,8 @@ const style={
                     </div>
                     <div className={classes.jobTitleColoredDivRight}>
                         {/* {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>} */}
-                        {(!isStaked) &&<p onClick={stakeHandler}>Please stake to apply</p>}
-                        {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
+                        {!isStaked &&<button val='Stake To Apply' onClick={stakeHandler} className={classes.applyNowBtn}>Stake To Apply</button>}
+                        {isStaked &&<button val='Apply Now' onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
                     </div>
                 </header>}
                     {(isNull(jobDetails) && !isLoadingJobDesc.status) && 
@@ -698,8 +698,8 @@ const style={
                         </div>
                         <div className={classes.jobTitleColoredDivRight}>
                         {/* {(!isApproved && !isStaked) &&<p onClick={approveHandler}>Approve 1 CMP to stake</p>} */}
-                        {(!isStaked) &&<p onClick={stakeHandler}>Please stake to apply</p>}
-                        {isStaked &&<button onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
+                        {!isStaked &&<button val='Stake To Apply' onClick={stakeHandler} className={classes.applyNowBtn}>Stake To Apply</button>}
+                        {isStaked &&<button val='Apply Now' onClick={openCompanyUrl} className={classes.applyNowBtn}>Apply Now</button>}
                         </div>
                     </header>}
                     {(isNull(jobDetails) && !isLoadingJobDesc.status) && <Wrapper>
@@ -740,7 +740,6 @@ const style={
                         <p className={classes.jobDescription}>{jobDetails.jobDesc}</p> */}
                         <h1>About</h1>
                          <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(jobDetails.companySummary)}}></p>
-                        {/* <h1>Job Description</h1> */}
 
                         {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'string') && <p dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(jobDetails.jobDesc)}} className={classes.jobDescription}></p>}
                         {(!isNull(jobDetails.jobDesc) && typeof jobDetails.jobDesc === 'object') && jobDetails.jobDesc.map((item, idx)=>(
@@ -789,7 +788,7 @@ const style={
                    {width <= 770 && mobile}
                 </section>
              </div>
-             
+             {/* <header>Sustainability Week Event</header> */}
         </main>
     )
 }
