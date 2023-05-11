@@ -2,6 +2,7 @@
 
 // export const REGISTRY_ADDRESS = '0xEfdeAC0C0778DED8eA0a72be3D93258F44Ff9627';//sepolia testnet registry
 export const REGISTRY_ADDRESS ='0xB4fCA8053D2b447Be0ab99EF2c7ECAf1f5372f2B'//caduceus testnet registry
+export const BLOCK_EXPLORER = 'https://galaxy.scan.caduceus.foundation/tx'
 export const isNull = (value) =>{
     if(value === undefined)return true;
     if(value === null)return true;
@@ -32,7 +33,7 @@ export const isNull = (value) =>{
 export const chain = {};
 chain.chainId = `0x${Number(512512).toString(16)}`;
 chain.chainName = 'Caduceus Testnet';
-// chain.id =  512512;
+chain.id =  512512;
 let nativeCurrency = {}; 
 nativeCurrency.name = 'CMP';
 nativeCurrency.decimals = 18;

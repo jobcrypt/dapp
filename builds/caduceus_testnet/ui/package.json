@@ -1,6 +1,6 @@
 {
   "name": "caduceus_testnet",
-  "version": "1.0.10",
+  "version": "1.0.15",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

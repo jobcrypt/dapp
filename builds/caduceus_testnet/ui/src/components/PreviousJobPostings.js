@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Moment from 'react-moment';
 
 
@@ -23,12 +23,16 @@ const PreviousJobPostings = () =>{
    const [ isLoading, setIsLoading ] = useState(false);
    const [ message, setMessage ] = useState('You don\'t have any job posted yet.');
    const { employerDashAddress, account } = useContext(AccountContext);
+   const actionRef = useRef();
+   const [ showDialog, setShowDialog ] = useState(false);
 
 
    const getClientXY = (e, item) =>{
       setClientXY([e.clientX, e.clientY]);
       if(item.status === 'ARCHIVED')return;
       setShowAction({ isVisible: true, item: item })
+      setShowDialog(true);
+      if(!actionRef.current.open)actionRef.current.showModal();
    }
 
    const getJobPostingHandler = useCallback(async() =>{
@@ -77,7 +81,10 @@ const PreviousJobPostings = () =>{
 
     return(
         <section className={classes.tableParent}>
-            {showAction.isVisible && <ActionPopup clientX={clientXY[0]} clientY={clientXY[1]} setShowAction={setShowAction} item ={showAction.item} />}
+            {/* {showAction.isVisible && <ActionPopup ref1={actionRef} clientX={clientXY[0]} clientY={clientXY[1]} setShowAction={setShowAction} item ={showAction.item} />} */}
+            <dialog ref={actionRef} className={classes.dialog} style={{ display: showDialog?'flex' : 'none'}}>
+                {!isNull(showAction.item) &&<ActionPopup clientX={clientXY[0]} clientY={clientXY[1]} setShowAction={setShowAction} item={showAction.item} ref={actionRef} setShowDialog={setShowDialog}/>}
+            </dialog>
             {showJobDetail.isVisible && <JobListingDetailPopup setShowJobDetail={setShowJobDetail} item ={showJobDetail.item} />}
        {width > 770 && <>
         <div className={classes.tableHeader}>
@@ -96,12 +103,12 @@ const PreviousJobPostings = () =>{
                 </Wrapper>}
                 {!isNull(postedJobsArray) && postedJobsArray.map(item=>(
                     <li key={item.postingAddress} className={classes.list}>
-                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></span>
-                    <span><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate)}</Moment></span>
-                    <span>{item.jobTitle}</span>
-                    <span>{item.applicantCount}</span>
+                    <span className={classes.postedDateSpan}>{item.postedDate === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate * 1000)}</Moment>}</span>
+                    <span className={classes.expiryDateSpan}>{item.expiryDate === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.expiryDate * 1000)}</Moment>}</span>
+                    <span className={classes.jobTitleSpan}>{item.jobTitle}</span>
+                    <span className={classes.applicantSpan}>{item.applicantCount}</span>
                     <div className={classes.statusContainer} style={getStyle(item.status)}>{item.status}</div>
-                    <span>
+                    <span className={classes.actionSpan}>
                         <div className={classes.blackCircle} onClick={(event)=>getClientXY(event, item)}>
                             <img src={moreIcon} alt='' />
                         </div>
@@ -134,7 +141,7 @@ const PreviousJobPostings = () =>{
                     <li key={item.postingAddress} onClick={()=>showPostedJobDetail(item)}>
                     <div className={classes.leftBox}>
                         <h2>{item.jobTitle}</h2>
-                        <p><Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment></p>
+                        <p>{item.postedDate === 0? '--' : <Moment format="MMM Do YYYY, h:mm:ss a">{new Date(item.postedDate)}</Moment>}</p>
                     </div>
                     <div className={classes.rightBox}>
                         <h2 style={getStyle(item.status)}>{item.status}</h2>

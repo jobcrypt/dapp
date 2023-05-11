@@ -27,42 +27,42 @@
     justify-content: flex-start;
     align-items: center;
     font-family: 'bold';
-    font-size: 18px;
+    font-size: 15px;
     /* font-weight: 600; */
     color: #363636;
 }
 
 .postedHeader{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 25%;
+    max-width: 25%;
     min-height: 100%;
     max-height: 100%;
 }
 
 .jobDescHeader{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 30%;
+    max-width: 30%;
     min-height: 100%;
     max-height: 100%;
 }
 
 .linkHeader{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 25%;
+    max-width: 25%;
     min-height: 100%;
     max-height: 100%;
 }
 
 .applicantHeader{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 10%;
+    max-width: 10%;
     min-height: 100%;
     max-height: 100%;
 }
 
 .actionHeader{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 10%;
+    max-width: 10%;
     min-height: 100%;
     max-height: 100%;
 }
@@ -93,32 +93,49 @@
 
 
 .list>span{
-    min-width: 20%;
-    max-width: 20%;
     min-height: 100%;
     max-height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-family: 'bold';
+    font-family: 'light';
     font-size: 15px;
+    font-weight: 600;
     color: #464646;
-    padding-left: 10px;
+    /* padding-left: 10px; */
+}
+
+.postedSpan{
+    min-width: 25%;
+    max-width: 25%;
+}
+
+.jobTitleSpan{
+    min-width: 30%;
+    max-width: 30%;
+}
+
+.linkSpan{
+    min-width: 25%;
+    max-width: 25%;
+}
+
+.applicantSpan{
+    min-width: 10%;
+    max-width: 10%;
 }
 
 .statusContainer{
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 10%;
+    max-width: 10%;
     min-height: 100%;
     max-height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-family: 'bold';
+    font-family: 'light';
+    font-weight: 600;
     font-size: 15px;
-    /* color: #159500;
-    color: #E17726; */
-    padding-left: 10px;
 }
 
 

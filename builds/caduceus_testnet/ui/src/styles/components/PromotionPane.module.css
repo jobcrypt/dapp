@@ -1,3 +1,18 @@
+.main{
+  display: flex;
+  background-image: linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -o-linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -ms-linear-gradient(to right, #302044, #000000, #2F1818);
+  background-image: -webkit-linear-gradient(to right, #302044, #000000, #2F1818);
+  width: 100%;
+  overflow-x: auto;
+  /* background-color: red; */
+}
+
+.main::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
 
 .promotionPane{
     display: flex;
@@ -5,55 +20,192 @@
     align-items: center;
     width: 100%;
     min-height: 80px;
-    overflow-x: auto;
-    background-color: var(--dim-bg);
+    /* background-image: linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -o-linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -ms-linear-gradient(to right, #302044, #000000, #2F1818);
+    background-image: -webkit-linear-gradient(to right, #302044, #000000, #2F1818); */
     column-gap: 20px;
+    padding: 10px;
+    display: flex;
+    animation: slide 10s infinite linear;
+    /* white-space: nowrap; */
 }
 
-.promotionPane::-webkit-scrollbar{
-    width: 0;
-    height: 0;
+.promotionPane:hover{
+    animation-play-state: paused;
 }
 
-.jobList{
+.promotionPane>div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* column-gap: 10px; */
+    width: max-content;
+    height: fit-content;
+    min-height: 150px;
+    max-height: 150px;
+    border-radius: 20px;
+}
+
+.card1{
+    background-image: linear-gradient(to right, #89000E,#152866);
+    background-image: -moz-linear-gradient(to right, #89000E,#152866);
+    background-image: -o-linear-gradient(to right, #89000E,#152866);
+    /* position: relative;
+    animation: slide 10s infinite linear;
+    animation-fill-mode: both; */
+}
+
+.card2{
+    background-image: linear-gradient(to right, #080808,#3D0906, #DD0D00, #F3C916);
+    background-image: -moz-linear-gradient(to right, #080808,#3D0906, #DD0D00, #F3C916);
+    background-image: -o-linear-gradient(to right, #080808,#3D0906, #DD0D00, #F3C916);
+    /* position: relative;
+    animation: slide 10s infinite linear;
+    animation-fill-mode: both; */
+}
+
+.card3{
+    background-image: linear-gradient(to right, #111C33,#2E2230);
+    background-image: -moz-linear-gradient(to right, #111C33,#2E2230);
+    background-image: -o-linear-gradient(to right, #111C33,#2E2230);
+    /* position: relative;
+    animation: slide 10s infinite linear;
+    animation-fill-mode: both; */
+}
+
+.span1{
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  min-width: 470px;
+  max-width: 470px;
+  min-height: fit-content;
+  row-gap: 10px;
+  padding: 20px 20px;
+}
+
+.span1>h2{
+    color: #fff;
+    font-size: 14px;
+    font-family: 'bold';
+    margin: 0;
+}
+
+.span1>p{
+    color: #fff;
+    font-size: 11px;
+    font-family: 'light';
+    margin: 0;
+}
+
+.line{
+    /* margin: 25px 0; */
+    height: 1px;
+    background: black;
+    background: -webkit-gradient(linear, 100% 50%, 50% 0, from(transparent), to(white), color-stop(50%, transparent));
+}
+
+.firstSection{
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  row-gap: 10px;
+  width: 70%;
+}
+
+.bottom{
+    display: flex;
+    /* flex-direction: column;
+    -ms-flex-direction: column; */
+    max-width: 450px;
+    row-gap: 10px;
+}
+
+.firstSection>span{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     column-gap: 10px;
-    min-width: max-content;
-    position: relative;
-    animation: slide 20s infinite linear;
-    /* animation-name: slide;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-fill-mode: forwards;  */
 }
 
-.jobList>img{
-    width: 30px;
-    height: 30px;
+.firstSection>span>img{
+    width: 15px;
+    height: 15px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
 }
 
-.jobList>h1{
-    color: #000;
-    font-size: 25px;
+.firstSection>span>p{
+    color: #fff;
+    font-size: 11px;
     font-family: 'light';
+    margin: 0;
 }
 
+.secondSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.secondSection>button{
+   background-color: #fff;
+   border: none;
+   border-radius: 20px;
+   padding: 7px 18px;
+   font-family: 'light';
+   box-shadow: 1px 1px 1px 2px #565656;
+   cursor: pointer;
+}
+
+.span2{
+    width: 170px;
+    min-height: 150px;
+    max-height: 150px;
+    display: flex;
+    /* padding: 5px; */
+    /* overflow: hidden; */
+    /* background-color: red; */
+    margin-left: -20px;
+}
+
+.span2>img{
+    /* display: block; */
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: fill;
+    border-radius: 0px 20px 20px 0px;
+    /* background-color: red; */
+}
 /* .move-horizontal {
     animation: slide 2s infinite linear;
   } */
   
   @keyframes slide {
-    /* from { transform: translateX(0); } 
-    to { transform: translateX(100%); }  
-    */
-    0% {
+    /* 0% {
         right: -100%;
       }
       100% {
         right: 100%;
+      } */
+      0% {
+        transform: translateX(0%);
       }
-  }
+      100% {
+        transform: translateX(-100%);
+      }
+}
+
+@media screen and (max-width: 770px) {
+    .card1{
+        min-height: fit-content;
+        max-height: fit-content;
+    }
+    .secondSection>button{
+        cursor: none;
+     }
+}

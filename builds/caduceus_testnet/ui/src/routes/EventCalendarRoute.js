@@ -19,7 +19,12 @@ const EventCalendarRoute = () =>{
         <section className={classes.parent} id='calendar'>
             <span className={classes.header}>
                 <img src={backArrow} alt='' onClick={()=>navigate('/')} />
-                {/* <h1>2023 Events Calendar</h1> */}
+                <main className={classes.main2}>
+                    <h1 className={classes.title}>JobCrypt Events Calendar</h1>
+                    <span className={classes.cloudContainer}>
+                        <p><strong>View Past Events</strong></p>
+                    </span>
+            </main>
             </span>
             <CalendarEvent2 />
         </section>

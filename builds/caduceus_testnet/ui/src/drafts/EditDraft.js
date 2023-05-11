@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useContext } from 'react';
+import { useCallback, useEffect, useState, useContext, forwardRef } from 'react';
 
 
 import classes from '../styles/popups/PostJobPopup.module.css';
@@ -11,8 +11,8 @@ import { AccountContext, FormContext } from '../App';
 
 
 
-const EditDraft = (props) =>{
-    const { setDispatch, setOpenPostJob } = props;
+const EditDraft = (props, ref) =>{
+    const { setDispatch, setOpenPostJob, setShowDialog } = props;
     const [ draftArray, setDraftArray ] = useState([]);
     const [ isLoading, setIsLoading ] = useState({ status: false, message: '' });
     const { employerDashAddress } = useContext(AccountContext);
@@ -42,6 +42,12 @@ const EditDraft = (props) =>{
         else return;
     }
 
+    const closeHandler = () =>{
+        setOpenPostJob(false);
+        setShowDialog(false);
+        ref.current.close();
+    }
+
 
     return(
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
@@ -69,7 +75,7 @@ const EditDraft = (props) =>{
                 {selectedDraft.isVisible && <EditDraftList setSelectedDraft={setSelectedDraft} setIsEditing={setIsEditing} setDraftArray={setDraftArray} draftArray={draftArray} isLoading={isLoading.status} message={isLoading.message} />}
             </div>
             <div className={classes.btnContainer}>
-            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
+            <button className={classes.normalBtn} onClick={closeHandler}>Close</button>
             <button className={classes.linearGradBtn} onClick={jumpToFormHandler}>Edit Draft Job Posting</button>
             <p>Warning: This action incurs gas fee</p>
         </div>
@@ -78,4 +84,4 @@ const EditDraft = (props) =>{
     )
 }
 
-export default EditDraft;
+export default forwardRef(EditDraft);

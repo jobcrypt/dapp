@@ -10,13 +10,14 @@ import successIcon from '../assets/good.png';
 import { chain, isNull } from '../utils/Util';
 import { useContext } from 'react';
 import { AccountContext } from '../App';
-import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import useMetamask from '../hooks/useMetamask';
+
 
 const ConnectMetaMaskPopup = (props) =>{
     const { setOpenMetaPopup, setDispatch, shouldUseDispatch, path } = props;
     // const navigate = useNavigate();
     // const { account, setAccount } = useContext(AccountContext);
-    const { connect } = useConnectMetaMask(path);
+    const { connect } = useMetamask(path);
 
    
 

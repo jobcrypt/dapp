@@ -10,9 +10,12 @@
     justify-content: center;
     align-items: flex-start;
     backdrop-filter: blur(5px);
-    padding-top: 170px;
+    padding-top: 30px;
     padding-bottom: 50px;
     overflow-y: auto;
+    min-height: 100%;
+    min-width: 100%;
+    border: none;
 }
 
 .box{
@@ -85,6 +88,7 @@
     font-size: 20px;
     font-weight: 600; 
     color: #535353;
+    /* color: rgba(230, 9, 9, 0.725); */
 }
 
 .radioSection{
@@ -129,11 +133,16 @@
     padding: 12px 15px;
     font-size: 18px;
     color: #fff;
-    background-image: linear-gradient(to right, #2c2231, #171d32);
+    background-image: linear-gradient(to right, #2c2231, #171d32); 
     border: none;
     border-radius: 5px;
     font-family: 'light';
     cursor: pointer;
+}
+
+.linearGradBtn:disabled{
+    background-image: linear-gradient(to right, #8e8991, #5a6075);
+    cursor: not-allowed;
 }
 
 .normalBtn{
@@ -223,12 +232,24 @@
     box-sizing: border-box;
 }
 
+.titleSpan{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .label{
   font-family: 'bold';
   font-size: 18px;
   margin: 0;
 }
 
+.loadingTxt{
+    font-family: 'light';
+    font-size: 13px;
+    margin: 0;
+}
 
 .input1{
     width: 100%;
@@ -428,6 +449,13 @@
     font-size: 20px;
     color: rgb(176, 6, 6);
   }
+
+  
+  .error{
+    font-family: 'bold';
+    margin: 0;
+    margin-top: 10px;
+}
 
 @media screen and (max-width: 770px) {
     .parent{

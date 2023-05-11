@@ -34,6 +34,8 @@ import { approveStake, getIsStaked, getMinStakeAmount, getUserStakedAmount, stak
 import Wrapper from '../components/Wrapper';
 import Spinner from '../components/Spinner';
 import ApplyForJobPopup from '../popups/ApplyForJobPopup';
+import DashboardPopup from '../popups/DashboardPopup';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 
 
@@ -113,8 +115,8 @@ const run = useCallback(async() =>{
     let minStakeAmount = await getMinStakeAmount();
     const isStaked = await getIsStaked();
     setIsStaked(isStaked);
-    stakedAmount = ethers.BigNumber.from(stakedAmount).toNumber();
-    minStakeAmount = ethers.BigNumber.from(minStakeAmount).toNumber();
+    stakedAmount = ethers.BigNumber.from(stakedAmount).toString();
+    minStakeAmount = ethers.BigNumber.from(minStakeAmount).toString();
     if(stakedAmount < minStakeAmount)setIsApproved(false);
     else setIsApproved(true);
 },[]);
@@ -159,19 +161,19 @@ const notConnected = (
                <li>
                    <div className={classes.jobTop}>Featured Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                      <p>Featured Jobs are designed to attract Employer’s quick responses and suitable Job Seekers.</p>
                    </div>
                </li>
                <li>
                    <div className={classes.jobTop}>Latest Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                      <p>We are your best decentralized job board, multiple jobs are uploaded on the blockchain by the hour.</p>
                    </div>
                </li>
                <li>
                    <div className={classes.jobTop}>Popular Jobs</div>
                    <div className={classes.content}>
-                      <p>Multiple jobs are uploaded on the blockchain by the hour. <a href='https://metamask.io'>Install metamask</a> to view available jobs</p>
+                      <p>Our comprehensive list of Jobs will help you find the perfect categories that will suit your career.</p>
                    </div>
                </li>
           </ul>
@@ -251,6 +253,8 @@ const connected = (
     <>
     {openMetaPopup && <ConnectMetaMaskPopup setOpenMetaPopup={setOpenMetaPopup} />}
     {openPostJob && <PostJobPopup formToOpen='CREATE_DRAFT' setOpenPostJob={setOpenPostJob} />}
+    {/* <ReceiptPopup /> */}
+    {/* <DashboardPopup /> */}
     <section className={classes.parent} id='parent'>
       <span className={classes.heroContainer}>
          <img src={hero} alt='' className={classes.hero} />
@@ -259,7 +263,7 @@ const connected = (
             {/* <img src={welcomeIcon} alt='Welcome to JobCrypt' /> */}
             <h1>Welcome To JobCrypt</h1>
          </span>
-         <p className={classes.applicantTxt}>Where every applicant is a WEB 3 user</p>
+         <p className={classes.applicantTxt}>JobCrypt bring employers and job seekers together using the power of blockchain to enable a faster, cleaner and more efficient hiring process.</p>
          <section className={classes.smallSection}>
             {/* <p>Install caduceus to metamask and stake to apply or post web3 jobs </p> */}
             {account.isConnected &&<p>Welcome onboard, Choose what you want to do.</p>}
@@ -283,12 +287,12 @@ const connected = (
       </div>
       <article className={classes.permissionBoxParent}>
             <div className={classes.tallBox}>
-                <img src={permissionless} alt='' className={classes.permissionless} />
+                <img src={permissionless} alt='' className={classes.permissionless} height={'338px'}/>
                 <h2>Permissionless</h2>
                 <p>Posting on Jobcrypt is permissionless, Post your job when you want. Only you have access to your listings.</p>
             </div>
             <div className={classes.tallBox}>
-                <img src={decentralized} alt='' className={classes.decentralized} />
+                <img src={decentralized} alt='' className={classes.decentralized} height={'266.54px'}/>
                 <h2>Decentralized</h2>
                 <p>Job listings are 100% decentralized, we don't have any secret databases anywhere.</p>
             </div>
@@ -349,13 +353,15 @@ const connected = (
     <article className={classes.railContainer}>
         <img src={rail} alt='' />
     </article>
-        <img src={businessIcon} alt='' />
+        {/* <img src={businessIcon} alt='' /> */}
         <h1>Featured Events</h1>
         <p>Our events help us to conect to you, bring the best in blockchain and web3 education to your city</p>
         <div>
             <button onClick={()=>navigate('/featured-events')}>Learn More</button>
         </div>
-        <SustanabilityWeekEvent />
+        <span className={classes.sustainable}>
+           <SustanabilityWeekEvent />
+        </span>
     </section>
    
     {/* <CalendarEvent /> */}

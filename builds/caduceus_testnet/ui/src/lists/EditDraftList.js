@@ -20,6 +20,8 @@ const EditDraftList = (props) =>{
         setIsEditing('EDITING DRAFT :: '+item.draftPostingAddress);
         setEmployerPostingAddress(item.draftPostingAddress);
         setProductAddress(item.productAddress);
+        console.log(item.productAddress)
+        console.log(item.draftPostingAddress)
     }
 
     const display = (titleTxt, status, postingAddress, name)=>{

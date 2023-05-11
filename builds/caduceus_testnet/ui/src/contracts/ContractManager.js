@@ -1,4 +1,4 @@
-import { isNull } from '../utils/Util';
+import { chain, isNull } from '../utils/Util';
 import iJCStakeManagerAbi from '../abi/i_jc_stake_manager_abi';
 import iJCJobCryptAbi from '../abi/i_jc_jobcrypt_abi';
 import ierc20MetadataAbi from '../abi/i_erc20_metadata_abi';
@@ -17,6 +17,7 @@ import { ethers } from 'ethers';
 import { sendGetRequest } from '../hooks/useAxios';
 
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
+const NATIVE_TOKEN = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
 const JOBCRYPT_IPFS_URL = "https://jobcrypt.infura-ipfs.io/ipfs/";
 
 export const getMinStakeAmount = async() =>{
@@ -96,19 +97,22 @@ export const getSymbol = async() =>{
 }
 
 export const getDecimal = async() =>{
-    let decimals = '';
-    try{
-        const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'provider');
-        decimals = await contractInstance.decimals();
+  // console.log('stake address: ', await getStakeErc20Address());
+  //   let decimals = '';
+  //   try{
+  //       const contractInstance = getContractInstance(await getStakeErc20Address(), ierc20MetadataAbi, 'provider');
+  //       decimals = await contractInstance.decimals();
     
-  }catch(err){}
+  // }catch(err){}
 
-  return decimals;
+  // return decimals;
+  return chain.nativeCurrency.decimals;
 }
 
 
 export const approveStake = async() =>{
     let approve = '', stakeAddress='';
+    
     try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
@@ -125,7 +129,8 @@ export const approveStake = async() =>{
 }
 
 export const stake = async() =>{
-  let decimals = '', stakeAddress='';
+  console.log(ethers.BigNumber.from(await getMinStakeAmount()).toString() / (10 ** await getDecimal()));
+  let result = '', stakeAddress='';
   try{
   const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
   if(!isNull(CONTRACTS)){
@@ -133,11 +138,16 @@ export const stake = async() =>{
   }
 
   if(isNull(stakeAddress))stakeAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_STAKE_MANAGER_CORE');
+  // stakeAddress = '0x506fb30eeac47da87503a0c12223c9482b06891e';
   const contractInstance = getContractInstance(stakeAddress, iJCStakeManagerAbi, 'signer');
-  decimals = await contractInstance.stake(await getMinStakeAmount());
-}catch(err){}
+  const minStakeAmount = await getMinStakeAmount();
 
-return decimals;
+  result = await contractInstance.stake(minStakeAmount, { value: minStakeAmount });
+}catch(err){
+  console.log(err)
+}
+
+return result;
 }
 
 export const unstake = async() =>{
@@ -239,14 +249,14 @@ export const getProductData = async(productAddresses) =>{
       const decimals = await getDecimal();
       // console.log('Name: ', name,' Price: ', price,' Currency: ', currency);
 
-      price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
+      // price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
 
       var optionTxt = name + " - " + formatPrice(price*0.8, decimals) + " (ex VAT) [" +formatPrice(price*0.2, decimals) + " VAT] You pay: " +  formatPrice(price, decimals) +  " (" + currency + ")";
     if(!name.toLowerCase().includes('career')){
      RESULT.push({ optionTxt, address: productAddress, price: formatPrice(price, decimals), currency, name });
     }
     }catch(err){
-
+  //  console.log(err)
     }
   }
 
@@ -481,13 +491,17 @@ export const getAppliedJobsForUser = async(applicantAddress, jobSeekerDashAddres
         const contractInstance = getContractInstance(appliedJobAddress, iJCJobPostingAbi, 'signer');
         const applicantData = await contractInstance.getApplicantData(applicantAddress);
         const jobTitle = await contractInstance.getFeatureSTR("JOB_TITLE");
-        let noOfApplicant = await contractInstance. getFeatureUINT("APPLICANT_COUNT_FEATURE");
+        let noOfApplicant = await contractInstance.getFeatureUINT("APPLICANT_COUNT_FEATURE");
         let statusCode = await contractInstance.getStatus();
         const status = resolveStatus(statusCode);
         noOfApplicant = ethers.BigNumber.from(noOfApplicant).toNumber();
 
         if(!isNull(applicantData)){
-         applicationDate = new Date(ethers.BigNumber.from(applicantData.applicationDate).toNumber() * 1000);
+          applicationDate = applicantData.applicationDate;
+          if(!isNull(applicantData.applicationDate)){
+            if(ethers.BigNumber.isBigNumber(applicationDate))applicationDate = ethers.BigNumber.from(applicationDate).toNumber();
+          } 
+         
          link = applicantData.link
         }
 
@@ -577,9 +591,15 @@ const getJobPostingDetails = async(postingAddresses) =>{
             if (status === "FILLED" || status === "CANCELLED" || status === "EXPIRED") {
                  option1 = 'ARCHIVE';
             }
-            postedDate = new Date(ethers.BigNumber.from(postedDate.toNumber()) * 1000);
             applicantCount = ethers.BigNumber.from(applicantCount).toNumber();
-            expiryDate = new Date(ethers.BigNumber.from(expiryDate).toNumber() * 1000);
+            if(ethers.BigNumber.isBigNumber(postedDate)){
+              postedDate = ethers.BigNumber.from(postedDate).toNumber();
+            }
+            if(ethers.BigNumber.isBigNumber(expiryDate)){
+              expiryDate = ethers.BigNumber.from(expiryDate).toNumber();
+            }
+            console.log('Posted date: ',postedDate);
+            console.log('Expiry date: ',expiryDate);
 
             JOB_POSTINGS.push({ postedDate, expiryDate, jobTitle, status, applicantCount, options: [option1, option2],  postingAddress })
       }catch(err){}
@@ -725,6 +745,7 @@ export const getPaymentInformation = async(postingAddress) =>{
      const contractInstance = getContractInstance(productAddress,iOpenProductAbi, 'provider');
      let duration = await contractInstance.getFeatureUINTValue("DURATION");
      let price = await contractInstance.getPrice();
+     let rawPrice = price;
      try{
      duration = ethers.BigNumber.from(duration).toNumber();
      duration = duration/(60*60*24*7)
@@ -745,7 +766,7 @@ export const getPaymentInformation = async(postingAddress) =>{
      const decimal = await getDecimal();
     //  console.log('Decimal: ',decimal)
 
-     return { duration, erc20, currency, price: (price/(10**decimal)), decimal };
+     return { duration, erc20, currency, price: (price/(10**decimal)), rawPrice, decimal };
    }catch(err){}
 
    return null;
@@ -753,7 +774,7 @@ export const getPaymentInformation = async(postingAddress) =>{
 
 export const approvePayment = async(price, erc20Address) =>{
   // console.log('PRICE TO APPROVE: ', price);
-  let paymentManagerAddress = '';
+  let paymentManagerAddress = '', approve='';
   try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
@@ -761,9 +782,16 @@ export const approvePayment = async(price, erc20Address) =>{
     }
 
     if(isNull(paymentManagerAddress))paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
+    // console.log('payment address: ', paymentManagerAddress);
+    // console.log('price: ', price);
+    console.log('erc20 address: ', erc20Address);
 
-    const contractInstance = getContractInstance(erc20Address, iERC20Abi, 'signer');
-    const approve = await contractInstance.approve(paymentManagerAddress, price);
+    const contractInstance = getContractInstance(erc20Address, ierc20MetadataAbi, 'signer');
+
+    if(paymentManagerAddress === NATIVE_TOKEN){
+       approve = await contractInstance.approve(paymentManagerAddress, price);
+    }
+    
     return approve;
   }catch{}
 
@@ -771,8 +799,10 @@ export const approvePayment = async(price, erc20Address) =>{
 }
 
 
-export const buyPosting = async(postingAddress) =>{
-  let paymentManagerAddress = '';
+export const buyPosting = async(postingAddress, selectedPostingFee, erc20, walletAddress) =>{
+  console.log(postingAddress)
+  // console.log('wallet: ', walletAddress)
+  let paymentManagerAddress = '', result = '';
   try{
     const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
     if(!isNull(CONTRACTS)){
@@ -781,8 +811,12 @@ export const buyPosting = async(postingAddress) =>{
     
     if(isNull(paymentManagerAddress))paymentManagerAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_PAYMENT_MANAGER_CORE');
 
+
     const contractInstance = getContractInstance(paymentManagerAddress, iJCPaymentManagerAbi, 'signer');
-    const result = await contractInstance.payForPosting(postingAddress);
+    console.log('Posting fee',selectedPostingFee)
+    if(erc20 === NATIVE_TOKEN) result = await contractInstance.payForPosting(postingAddress, { value: selectedPostingFee });
+    else result = await contractInstance.payForPosting(postingAddress);
+
     return result;
   }catch{}
 
@@ -844,24 +878,26 @@ export const isPostingPaid = async(postingAddress) =>{
        currency = await contractInstance.getCurrency();
       // console.log('CURRENCY:', currency)
        decimals = await getDecimal();
-      // console.log('DECIMALS: ', decimals);
-      price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
+      console.log('DECIMALS: ', decimals);
+      // price = ethers.utils.formatUnits(price * 0.8, decimals) * (10 ** decimals);
       obj.name = name;
       obj.price = formatPrice(price, decimals);
       obj.currency = currency
       obj.productAddress = productAddress
       // console.log('Obj: ',obj)
     }catch(err){
-
+      console.log(err)
     }
   
   return obj;
 }
 
-export const postAJob = async(postingAddress) =>{
+export const postAJob = async(postingAddress, erc20Address) =>{
+  let posted = null;
   try{
       const contractInstance = getContractInstance(postingAddress,iJCJobPostingEditorAbi, 'signer');
-      const posted = contractInstance.post();
+      if(erc20Address === NATIVE_TOKEN) posted = await contractInstance.post();
+      else posted = await contractInstance.post();
       return posted;
   }catch(err){}
 
@@ -878,15 +914,17 @@ export const getPostJobStatus = async(postingAddress) =>{
    return false;
 }
 
-export const permissionToViewApplyLink = async(postingAddress) =>{
+export const permissionToViewApplyLink = async(postingAddress, erc20Address) =>{
   let applyLink='';
   try{
       const contractInstance = getContractInstance(postingAddress, iJCJobPostingAbi, 'signer');
-      try{
-          applyLink = await contractInstance.applyForJob();
-          // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
-      }catch(err){
-      }
+    try{
+         applyLink = await contractInstance.applyForJob();
+    // else posted = await contractInstance.applyForJob();
+        // applyLink = await contractInstance.applyForJob();
+        // applyLink = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${applyLink}`);
+    }catch(err){
+    }
       
   }catch(err){}
     return applyLink;
@@ -908,7 +946,7 @@ export const getApplyLink = async(postingAddress) =>{
 
 
 export const searchJob = async(word) =>{
-  console.log('search word: ', word)
+  // console.log('search word: ', typeof word)
   let jobCryptAddress ='';
   try{
   const CONTRACTS = JSON.parse(sessionStorage.getItem('contracts'));
@@ -918,14 +956,39 @@ export const searchJob = async(word) =>{
 
   if(isNull(jobCryptAddress)) jobCryptAddress = await getContractFromRegistry('RESERVED_JOBCRYPT_CORE');
   console.log(jobCryptAddress);
-
-  const contractInstance = getContractInstance(jobCryptAddress, iJCJobCryptAbi, 'provider');
+//0x35D92d9e9118F68e42E1ba23B787F3359069F7B5
+//0xd54dBb92EDe0ceA9c454998257459331D697a649
+//0xfb2786C6b04A0fb4C5d46a33Bb38eF21b10BbdCb
+//0xeF2B30162EF017c7Da30ce74959cA6398B091e6D
+//0x538eD11A68060310dDC2dAE1a54B9388Ea7B9F20
+//0xCfBCFa8657eAd775E17fC763c8275a22266138e9
+  const contractInstance = getContractInstance(jobCryptAddress, iJCJobCryptAbi, 'signer');
   console.log(contractInstance)
   const postingAddresses = await contractInstance.findJobs(word);
+  // const postingAddresses = await contractInstance.getActiveJobPage();
   console.log(postingAddresses);
+
 }catch(err){
   console.log(err);
 }
+
+// 0x7aAd492D24C25A38b026D2cD5242A821BcCe3Bd2,
+// 0x373AB59c609ba8bCBD45e697AfBf67fBFC4d11F2,
+// 0xE7Dc5d6acD5a5ddE6Ec1Fc6b3b4f2D24F7F0a039,
+// 0x60c04b6063230BB195771C32A3e872b4F5D0e7c5
+
+
+// 0x7aAd492D24C25A38b026D2cD5242A821BcCe3Bd2,
+// 0x373AB59c609ba8bCBD45e697AfBf67fBFC4d11F2,
+// 0xAfA01C35a73D2a4BF53D5f552A9705Eb54BaF1eb,
+// 0x3EEb7747FD1B825cCd752a66c9C0bd66f53Cf3D8,
+// 0xE7Dc5d6acD5a5ddE6Ec1Fc6b3b4f2D24F7F0a039,
+// 0x60c04b6063230BB195771C32A3e872b4F5D0e7c5,
+// 0x8DA04E2a3C50A80CF5f44eaF95e43249dF50c23C,
+// 0xD1AC242fc4Ba518c8E3A16b20e92E9Cd3e4c49cd,
+// 0x84d829B55963F2971f1BF399452953D482e83e42,
+// 0x4A3E88e8EB8C470A5aEa0fc950aBAeA3fd2A6F7B
+
 //0x3FB7DaB69caB8b2c92bab03918A33C8d983e4588
 // return 
 }

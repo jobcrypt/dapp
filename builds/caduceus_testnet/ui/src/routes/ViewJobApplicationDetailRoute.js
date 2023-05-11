@@ -25,13 +25,14 @@ const ViewJobApplicationDetailRoute = (props) =>{
     
 
     const getDetail = useCallback(async() =>{
+        if(isNull(location.state.selectedPostingAddress))return;
         const result = await getJobDetailUsingPostingddress(location.state.selectedPostingAddress);
         console.log(result);
         // jobDesc.ops[0].insert
         setData({
             jobTitle: result.jobTitle, locationType: result.locationType, locationSupport: result.locationSupport, workLocation: result.workLocation, companyName: result.companyName, companyLink: result.companyLink, companySummary: result.companySummary, paymentType: result.paymentType, workType: result.workType, jobDesc: result.jobDesc.ops[0].insert, searchTerms: result.searchTerms, applyLink: result.applyLink, skills: result.skills, searchCategory: result.searchCategory,postedDate: result.postedDate
         });
-    },[location.state.selectedPostingAddress]);
+    },[]);
 
 
     useEffect(()=>{

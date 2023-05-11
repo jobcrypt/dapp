@@ -92,10 +92,16 @@ export const getLatestJobDetails = async(postingAddress) =>{
         const skillsFeature = await contractInstance.getFeatureSTRARRAY("SKILLS_FEATURE");
         try{
             jobDesc = await contractInstance.getFeatureSTR("JOB_DESCRIPTION");
+            console.log('------>>>>>',jobDesc)
             const result = await sendGetRequest(`${JOBCRYPT_IPFS_URL}${jobDesc}`);
+            console.log(result)
+            if(typeof result === 'object'){
             if(!isNull(result.ops[0])){
-                jobDesc = result.ops[0].insert
+                jobDesc = result.ops
             }
+        }else{
+            jobDesc = result;
+        }
         }catch(err){
             jobDesc = 'Job description not available at the moment.'
         }

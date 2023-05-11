@@ -8,7 +8,7 @@ import { createEmployerDashboard, findEmployerDashboard } from '../contracts/Con
 import { AccountContext } from '../App';
 import { isNull } from '../utils/Util';
 import PostJobPopup from '../popups/PostJobPopup';
-import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import useConnectMetaMask from '../hooks/useMetamask';
 import ConnectMetaMaskPopup from '../popups/ConnectMetaMaskPopup';
 
 
@@ -23,13 +23,14 @@ const EmployerDashboardRoute = () =>{
      const [ openMetaPopup, setOpenMetaPopup ] = useState(false);
      const pathRef = useRef(null);
 
+     
      const getEmployerDashboard = useCallback(async() =>{
         // console.log('isconnected: ', account.isConnected)
         if(!account.isConnected)return;
         // console.log('a')
         const dashAddress = await findEmployerDashboard();
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
-            // console.log('dash: ', dashAddress);
+            console.log('dash: ', dashAddress);
             setHasDashboard(true);
             setEmployerDashAddress(dashAddress);
       }else{

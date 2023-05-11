@@ -2,23 +2,26 @@
 
 
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
-import { FormContext } from '../App';
+import { AccountContext, FormContext } from '../App';
 import { approvePayment, buyPosting, getPaymentInformation, postAJob } from '../contracts/ContractManager';
 import { isNull } from '../utils/Util';
 import { getProvider } from '../contracts/init';
 import { ethers } from 'ethers';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 let isRunning = false;
-const MakePayment = (props) =>{
-    const { setDispatch, setOpenPostJob } = props;
+const MakePayment = (props, ref) =>{
+    const { setDispatch, setOpenPostJob, setShowDialog } = props;
     const [ paymentStatus, setPaymentStatus ] = useState({text: '', isApproved: false, color: 'transparent', isPaid: false });
-    const [ paymentData, setPaymentData ] = useState({ duration: '', erc20: '--',  weeks: '--', price: 0, currency: '--', decimal: 0 });
+    const [ paymentData, setPaymentData ] = useState({ duration: '', erc20: '--',  weeks: '--', price: 0, currency: '--', decimal: 0, rawPrice: null });
     const { productAddress, employerPostingAddress } = useContext(FormContext);
+    const { account } = useContext(AccountContext);
     const [ isPosted, setIsPosted ] = useState(false);
-
+    const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
+    const dialogRef = useRef();
 
     const getPaymentInfo = useCallback(async() =>{
         const result = await getPaymentInformation(employerPostingAddress);
@@ -26,7 +29,7 @@ const MakePayment = (props) =>{
         console.log('result of approval: ', result)
         if(!isNull(result)){
             setPaymentData({
-                duration: result.duration, erc20: result.erc20,  weeks: result.weeks, price: result.price, currency: result.currency, decimal: result.decimal
+                duration: result.duration, erc20: result.erc20,  weeks: result.weeks, price: result.price, currency: result.currency, decimal: result.decimal, rawPrice: result.rawPrice
             });
         }
     },[]);
@@ -43,8 +46,10 @@ const MakePayment = (props) =>{
         setPaymentStatus({ text: 'Waiting for approval...', color: '#956B00', isApproved: false });
         console.log('Price: ', paymentData.price)
         console.log('......', paymentData.decimal)
-        const price = paymentData.price * (10**paymentData.decimal);
+        // const price = paymentData.price * (10**paymentData.decimal);
+        const price = ethers.utils.parseUnits(paymentData.price, paymentData.decimal)
         const result = await approvePayment(price, paymentData.erc20);
+        console.log(result)
         if(!isNull(result)){
             setPaymentStatus({ text: 'Confirming your approval...', color: '#956B00', isApproved: false });
             try{
@@ -55,16 +60,22 @@ const MakePayment = (props) =>{
         }catch(err){
             setPaymentStatus({ text: `Failed to approve, Try again later!`, color: 'red', isApproved: false });
         }
-
-        isRunning = false;
         }
+        isRunning = false;
     }
 
     const makePaymentHandler = async() =>{
+        // setShowReceipt({ hash: '0xz82726363g363t3f3fgwhh2', type: 'Gas Fee', isVisible: true }); 
+        // return
         if(isRunning)return;
         isRunning=true;
         setPaymentStatus(prev=>({ ...prev, text: 'Waiting for payment...', color: '#956B00', isPaid: false }));
-        const result = await buyPosting(employerPostingAddress);
+        // console.log(employerPostingAddress);
+
+        // const price = paymentData.price * (10**paymentData.decimal);
+        const price = paymentData.rawPrice;
+        const result = await buyPosting(employerPostingAddress, price, paymentData.erc20, account.address);
+        console.log('result: ', result);
         if(!isNull(result)){
             setPaymentStatus(prev=>({ ...prev, text: 'Confirming your payment...', color: '#956B00', isPaid: false }));
             try{
@@ -77,16 +88,17 @@ const MakePayment = (props) =>{
         }catch(err){
             setPaymentStatus(prev=>({ ...prev, text: `Payment failed. Try again later!`, color: 'red', isPaid: false }));
         }
+        setShowReceipt({ hash: result.hash, type: 'Posting Fee', isVisible: true }); 
+        }
         isRunning=false;
 
-        }
     }
 
     const postJobHandler = async() =>{
         if(isRunning)return
         isRunning=true;
         setPaymentStatus(prev=>({ ...prev, text: `Wait for your posting to finish...`, color: '#956B00' }));
-         const result = await postAJob(employerPostingAddress);
+         const result = await postAJob(employerPostingAddress, paymentData.erc20);
          try{
             const wait = await getProvider().waitForTransaction(result.hash);
             if(!isNull(wait) && wait.status === 1){
@@ -95,14 +107,22 @@ const MakePayment = (props) =>{
             }else{
                 setPaymentStatus(prev=>({ ...prev, text: `Unable to post this job. Try again later!`, color: 'red' }));
             }
+            setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
          }catch(err){
-            setPaymentStatus(prev=>({ ...prev, text: `Posting spproval failed. Try again later!`, color: 'red' }));
+            setPaymentStatus(prev=>({ ...prev, text: `Posting approval failed. Try again later!`, color: 'red' }));
          }
          isRunning=false;
     }
 
+    const closeHandler = () =>{
+        setOpenPostJob(false);
+        setShowDialog(false);
+        ref.current.close();
+    }
+
     return(
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
+            {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
         <section className={classes.backSection}>
             <img src={backIcon} alt='' onClick={()=>setDispatch({ TYPE: 'CREATE_FORM' })} />
         </section>
@@ -134,10 +154,11 @@ const MakePayment = (props) =>{
                 </div>
             </section>
             <div className={classes.btnContainer}>
-            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
-            {(!paymentStatus.isApproved && !paymentStatus.isPaid) &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>}
-            {(paymentStatus.isApproved && !paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
-            {(paymentStatus.isApproved && paymentStatus.isPaid) && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postJobHandler}>Post Job</button>}
+            <button className={classes.normalBtn} onClick={closeHandler}>Close</button>
+            {/* {(!paymentStatus.isApproved && !paymentStatus.isPaid) &&<button className={classes.linearGradBtn} onClick={approvePaymentHandler}>Approve Payment currency</button>} */}
+            {/* {(paymentStatus.isApproved && !paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>} */}
+            {(!paymentStatus.isPaid) &&<button style={paymentData.isPaid? { display: 'none' } : {}} className={classes.linearGradBtn} onClick={makePaymentHandler}>Buy Your Job Listing</button>}
+            {(paymentStatus.isPaid) && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postJobHandler}>Post Job</button>}
             <p>Warning: This action incurs gas fee</p>
         </div>
         </section>
@@ -145,4 +166,4 @@ const MakePayment = (props) =>{
     )
 }
 
-export default MakePayment;
+export default forwardRef(MakePayment);

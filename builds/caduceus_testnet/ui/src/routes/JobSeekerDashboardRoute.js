@@ -35,6 +35,7 @@ const JobSeekerDashboardRoute = () =>{
     },[findJobSeekerDashboardHandler]);
 
     useLayoutEffect(()=>{
+        // window.scrollTo({ top: 0, behavior: 'smooth'});
         document.getElementById('posting').scrollIntoView({ behavior: "smooth" });
      },[]);
     
