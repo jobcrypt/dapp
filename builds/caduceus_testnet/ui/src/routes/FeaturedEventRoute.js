@@ -16,8 +16,32 @@ const FeaturedEventRoute = () =>{
     const width = useWindowSize();
     const location = useLocation();
 
+    const navigateAndScrollPage = () =>{
+        try{
+            let clientHeight = document.documentElement.clientHeight;
+            let scrollTop = document.documentElement.scrollTop;
+            console.log('Scroll top',scrollTop)
+            const interval = setInterval(()=>{
+                 if(clientHeight > 0){
+                    console.log('----')
+                     clientHeight = clientHeight - 20;
+                     window.scrollTo(0, clientHeight);
+                 }else {
+                     clearInterval(interval);
+                     return;
+                 }
+             },10);
+        }catch(err){
+            window.scrollTo(0, 0);
+        }
+    }
+
     useEffect(()=>{
-        document.getElementById('featured_event').scrollIntoView({ behavior: "smooth" });
+        // navigateAndScrollPage();
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = -10;
+        document.body.scrollTop = -10;
+        // document.getElementById('featured_event').scrollIntoView({ behavior: "smooth" });
   },[]);
 
 
@@ -43,7 +67,8 @@ const FeaturedEventRoute = () =>{
                 <h1>Check out our upcoming featured events.</h1>
                 <p className={classes.content}>Our events help us to connect to you where your are, bringing the best in blockchain and web3 education to your city</p>
             </article>
-            {width <= 770 &&<article className={classes.sustainibilityParent}>
+            <SustanabilityWeekEvent />
+            {/* {width <= 770 &&<article className={classes.sustainibilityParent}>
                <SustanabilityWeekEvent />
             </article>}
             {width > 770 &&
@@ -90,8 +115,15 @@ const FeaturedEventRoute = () =>{
                     </span>
                 </div>
                 </article>
-         </main>}
+         </main>} */}
             <article className={classes.secondContainer}>
+            <main className={classes.main2}>
+               <h1 className={classes.title}>JobCrypt Events Calendar</h1>
+               <span className={classes.cloudContainer}>
+                {/* <img src={cloudIcon} alt='' /> */}
+                <p><strong>View Past Events</strong></p>
+               </span>
+            </main>
              <CalendarEvent2 />
             </article>
             <article className={classes.contactUsContainer}>

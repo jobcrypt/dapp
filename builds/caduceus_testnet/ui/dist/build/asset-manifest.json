@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.40bff875.css",
-    "main.js": "/static/js/main.17b08834.js",
+    "main.css": "/static/css/main.0742f2f0.css",
+    "main.js": "/static/js/main.7c7737c4.js",
     "static/js/27.82119556.chunk.js": "/static/js/27.82119556.chunk.js",
     "static/media/hero.png": "/static/media/hero.f6228f0ef693c48791d8.png",
     "static/media/corporate_businessman.png": "/static/media/corporate_businessman.1aa2a55014747e385395.png",
@@ -19,10 +19,14 @@
     "static/media/decentralized.png": "/static/media/decentralized.be7ef57a55fad1d9c290.png",
     "static/media/permissionless.png": "/static/media/permissionless.2befc805b4a7376cb59a.png",
     "static/media/Frame_image.png": "/static/media/Frame_image.71b8759571fab7b7472b.png",
+    "static/media/uk_flag.png": "/static/media/uk_flag.0a25305e073a9fa15053.png",
     "static/media/filecoin.png": "/static/media/filecoin.79734e3cb0fb8889d947.png",
+    "static/media/jobcrypt_flag.png": "/static/media/jobcrypt_flag.ecf6826c1fc0d2107222.png",
+    "static/media/check2.png": "/static/media/check2.0e163e83492acb677d72.png",
     "static/media/hackathon.png": "/static/media/hackathon.ad84199f949ff2dba310.png",
     "static/media/uk.png": "/static/media/uk.b9a2ba74e5f8a55977e7.png",
     "static/media/hamburger.png": "/static/media/hamburger.46723dd6327ddc8d113d.png",
+    "static/media/german_flag.png": "/static/media/german_flag.8dc5381ba394de9b8dd3.png",
     "static/media/location.png": "/static/media/location.a405c2668c55f74c09be.png",
     "static/media/instagram.png": "/static/media/instagram.d84275eb8b4d715206dc.png",
     "static/media/group.png": "/static/media/group.34e6546a61971b240245.png",
@@ -37,7 +41,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.40bff875.css",
-    "static/js/main.17b08834.js"
+    "static/css/main.0742f2f0.css",
+    "static/js/main.7c7737c4.js"
   ]
 }

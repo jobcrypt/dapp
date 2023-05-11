@@ -1,3 +1,4 @@
+const latestJobsContainer = document.getElementById("latest-jobs-container");
 const latestJobsView = document.getElementById("latest_jobs_view");
 const latestJobsTitle = document.getElementById("latest-jobs-title");
 const latestJobsSubtitle = document.getElementById("latest-jobs-subtitle");
@@ -12,7 +13,9 @@ async function getLatestJobs() {
       var jobAddresses = response._activeJobAddresses;
 
       console.log(jobAddresses);
-      latestJobsView.innerHTML = ""; // clear out
+      latestJobsView.innerHTML = "";
+
+      // clear out
       buildLatestJobs(trimZeroAddresses(jobAddresses));
     })
     .catch(function (err) {
@@ -49,18 +52,28 @@ function buildLatestJobs(postingAddresses) {
 
 function processRow(postingAddress) {
   var jobDetailLinkDestination =
-    "./app/job_detail_template.html?postingAddress=" + postingAddress;
+    "/pages/app/job_detail_template.html?postingAddress=" + postingAddress;
 
   console.log(jobDetailLinkDestination);
+
   latestJobsTitle.innerHTML = "Latest Jobs";
-  latestJobsTitle.setAttribute("class", "text-center text-2xl font-bold");
+  latestJobsTitle.setAttribute(
+    "class",
+    "text-center text-2xl font-bold text-white"
+  );
 
   latestJobsSubtitle.innerHTML =
     "Check out our latest jobs constantly updated on-chain ";
-  latestJobsSubtitle.setAttribute("class", "text-center text-lg my-3 ");
+  latestJobsSubtitle.setAttribute(
+    "class",
+    "text-center text-lg my-3  text-white"
+  );
 
   var layoutDiv = document.createElement("div");
-  layoutDiv.setAttribute("class", "bg-[#D9D9D9] px-2 py-2 rounded-xl text-xs ");
+  layoutDiv.setAttribute(
+    "class",
+    " text-white border border-white text-center whitespace-normal px-2  py-4 rounded-lg text-xs lg:text-sm "
+  );
   layoutDiv.setAttribute("data-aos", "zoom-in");
   layoutDiv.setAttribute("data-aos-delay", 100);
   latestJobsView.appendChild(layoutDiv);
@@ -70,7 +83,7 @@ function processRow(postingAddress) {
   layoutDiv.append(iconBox);
 
   var img = ce("img");
-  img.setAttribute("class", "mb-1");
+  img.setAttribute("class", "mb-2 mx-auto");
   img.src = "/assets/images/joblogo.svg";
   iconBox.append(img);
 

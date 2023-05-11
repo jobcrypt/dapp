@@ -332,7 +332,7 @@ function loadConnect() {
     );
 
     onboardButton.addEventListener("click", disconnect);
-    // removeElement.remove();
+    removeElement.remove();
     setSessionTimeout();
     connected = true;
   }

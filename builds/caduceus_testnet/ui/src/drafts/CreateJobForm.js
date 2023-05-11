@@ -1,5 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
-
+import { forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 
 import classes from '../styles/popups/PostJobPopup.module.css';
@@ -16,20 +15,36 @@ import { getJobDetailUsingPostingddress, getPostJobStatus, getProductAddressInfo
 import { FormContext } from '../App';
 import { getProvider } from '../contracts/init';
 import TextEditor from '../components/TextEditor';
+import ReceiptPopup from '../popups/ReceiptPopup';
 
 
 let isRunning = false;
-const CreateJobForm = (props) =>{
-    const { setDispatch, setOpenPostJob } = props;
+const CreateJobForm = (props, ref) =>{
+    const { setDispatch, setOpenPostJob, setShowDialog } = props;
     const [ hasPaid, setHasPaid ] = useState(false);
-    const [ paymentStatus, setPaymentStatus ] = useState({ text: '', color: 'transparent', isSaved: true});
+    const [ paymentStatus, setPaymentStatus ] = useState({ text: '', color: 'transparent', isSaved: false});
     const { jobTitle, setJobTitle, locationType, setLocationType,locationSupport, setLocationSupport, workLocation, setWorkLocation, companyName, setCompanyName, companyLink, setCompanyLink, companySummary, setCompanySummary, skills, setSkills, searchCategories, setSearchCategories, searchTerms, setSearchTerms, workType, setWorkType, paymentType, setPaymentType, jobDesc, setJobDesc, jobApplyLink, setJobApplyLink, employerPostingAddress, editingJobPosting, setEditingJobPosting, companyLogo, setCompanyLogo  } = useContext(FormContext);
     const inputRef = useRef();
     const [ postStatus, setPostStatus ] = useState('');
     const [ isPosted, setIsPosted ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
+    const dialogRef = useRef();
+    const existingValues = useRef('');
+    const [ isSaved, setIsSaved ] = useState(false);
+    const [ disableSaveBtn, setDisableSaveBtn ] = useState(true);
+    const [ showpaymentBtn, setShowPaymentBtn ] = useState(false);
     
 
+    useEffect(()=>{
+        if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
+            setDisableSaveBtn(false);
+        }else{
+            setDisableSaveBtn(true);
+        }
+    },[jobTitle,locationType,locationSupport,workLocation,companyName,companyLink,companySummary,skills,searchCategories,searchTerms,workType,paymentType,jobDesc,jobApplyLink])
     
+ 
     const reset = useCallback(()=>{
         setJobTitle({ isValid: false, text: '' });
         setLocationType({ isValid: false, text: '' });
@@ -51,12 +66,12 @@ const CreateJobForm = (props) =>{
 
     const hasUserPaidForPosting = useCallback(async() =>{
         const isPaid = await isPostingPaid(employerPostingAddress);
-        // console.log('Is paid: ', isPaid);
+        console.log('Is paid: ', isPaid);
         setHasPaid(isPaid);
     },[]);
 
     const getProductAddressInfoHandler = useCallback(async()=>{
-        // console.log('>>>>>>>>>>>>>', employerPostingAddress)
+        console.log('POSTING ADDRSES>>>>>>>>>>>>>', employerPostingAddress)
         const result = await getProductAddressInfo(employerPostingAddress);
         // console.log(result)
         if(!isNull(result)){
@@ -78,22 +93,22 @@ const CreateJobForm = (props) =>{
            if(!isNull(wait) && wait.status === 1){
                setPaymentStatus(prev=>({ ...prev, text: `Posting successful: ${wait.transactionHash}`, color: '#159500' }));
                setIsPosted(true);
+               
            }else{
                setPaymentStatus(prev=>({ ...prev, text: `Unable to post this job. Try again later!`, color: 'red' }));
            }
+           setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
         }catch(err){
            setPaymentStatus(prev=>({ ...prev, text: `Posting spproval failed. Try again later!`, color: 'red' }));
         } 
     }
 
-    useLayoutEffect(()=>{
-        reset();
-        hasUserPaidForPosting();
-        getProductAddressInfoHandler();
-        getPostStatus();
-        (async()=>{
+    const run = useCallback(async() =>{
+            setIsLoading(true);
+            // console.log(employerPostingAddress)
+            let skills='',searchCategory ='' 
             const data = await getJobDetailUsingPostingddress(employerPostingAddress);
-            console.log('LOGO : ', data.companyLogo);
+            // console.log('LOGO : ', data);
 
             setJobTitle({ text: data.jobTitle, isValid: isNull(data.jobTitle)? false : true });
             setLocationType({ text: data.locationType, isValid: isNull(data.locationType)? false : true });
@@ -102,8 +117,10 @@ const CreateJobForm = (props) =>{
             setCompanyName({ text: data.companyName, isValid: isNull(data.companyName)? false : true });
             setCompanyLink({ text: data.companyLink, isValid: isNull(data.companyLink)? false : true });
             setCompanySummary({ text: data.companySummary, isValid: isNull(data.companySummary)? false : true });
-            setCompanyLogo(data.companyLogo)
+            setCompanyLogo(data.companyLogo);
             try{
+                skills = data.skills.join(',');
+                searchCategory = data.searchCategory.join(',');
             setSkills({ text: data.skills.join(','), isValid: isNull(data.skills)? false : true });
             setSearchCategories({ text: data.searchCategory.join(','), isValid: isNull(data.searchCategory)? false : true });
             }catch(err){}
@@ -114,9 +131,20 @@ const CreateJobForm = (props) =>{
             setJobApplyLink({ text: data.applyLink, isValid: isNull(data.applyLink)? false : true });
             // setPaymentStatus(prev=>({...prev, isSaved: true }));//assume it is saved here
             // console.log('EDIT : ', data)
-        })();
+            existingValues.current=data.jobTitle+''+data.locationType+''+data.locationSupport+''+data.workLocation+''+data.companyName+''+data.companyLink+''+data.companySummary+''+skills+''+searchCategory+''+data.searchTerms+''+data.workType+''+data.paymentType+''+data.jobDesc+''+data.applyLink;
+            // console.log(existingValues.current);
+            setIsLoading(false);
+    },[]);
+
+    useEffect(()=>{
+        run();
+        reset();
+        hasUserPaidForPosting();
+        getProductAddressInfoHandler();
+        getPostStatus();
+        setEditingJobPosting(`Note: You are editing(--)`);
             
-    },[setJobTitle, setLocationType,setLocationSupport, setWorkLocation, setCompanyName, setCompanyLink, setCompanySummary, setSkills,setSearchCategories, setSearchTerms, setWorkType, setPaymentType, setJobDesc, setJobApplyLink, reset, hasUserPaidForPosting, getProductAddressInfoHandler]);
+    },[setJobTitle, setLocationType,setLocationSupport, setWorkLocation, setCompanyName, setCompanyLink, setCompanySummary, setSkills,setSearchCategories, setSearchTerms, setWorkType, setPaymentType, setJobDesc, setJobApplyLink, reset, hasUserPaidForPosting, getProductAddressInfoHandler, run]);
 
 
     const updateJobTitleHandler = (e) =>{
@@ -197,15 +225,18 @@ const CreateJobForm = (props) =>{
     }
 
 
-    const removeImage = (imageName) =>{
+    const removeImage = () =>{
        setCompanyLogo(null);
     }
 
 
     const saveJobPostingHandler = async() =>{
+        // setShowReceipt({ hash: 'oxhgstw6w337362626333ff3', type: 'Gas Fee', isVisible: true }); 
+        // return
         if(isRunning)return;
         if(jobTitle.isValid && locationType.isValid && locationSupport.isValid && companyName.isValid && companyLink.isValid && companySummary.isValid && skills.isValid && searchCategories.isValid && searchTerms.isValid && workType.isValid && paymentType.isValid && jobDesc.isValid && jobApplyLink.isValid){
             isRunning = true;
+            console.log(jobDesc.text);
             try{
             const jobDescriptionHash = await getHashFromIpfs(jobDesc.text);
             const companySummaryHash = await getHashFromIpfs(companySummary.text);
@@ -231,20 +262,25 @@ const CreateJobForm = (props) =>{
                 companyLogoHash: companyLogoHash
             });
 
-            setPaymentStatus({  text: `Waiting for txn to be confirmed, please wait...`, color: '#956B00', isSaved: false });
+            setPaymentStatus({  text: `Waiting for your approval...`, color: '#956B00', isSaved: false });
            const result = await saveToEVM(JOB_JSON, jobDescriptionHash, companySummaryHash, employerPostingAddress);
            if(!isNull(result.hash)){
             try{
+                setDisableSaveBtn(true);
+                setPaymentStatus({  text: `Waiting for txn to be confirmed, please wait...`, color: '#956B00', isSaved: false });
                 const wait = await getProvider().waitForTransaction(result.hash);
                 if(!isNull(wait.transactionHash) && wait.status === 1){
                     setPaymentStatus({  text: `Saved: ${wait.transactionHash}`, color: '#159500', isSaved: true});
+                    setShowPaymentBtn(true);//show the payment button here and remove the save jobs button
+                    setIsSaved(true);
                 }else{
                     setPaymentStatus({  text: `Transaction unsuccessful`, color: 'red', isSaved: false });
                 }
+                setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true }); 
         }catch(err){
             setPaymentStatus({  text: `Transaction failed`, color: 'red', isSaved: false });
         }
-            
+        // console.log('SHow receipt')
         }
         }catch(err){
             // console.log('something happened', err)
@@ -253,18 +289,27 @@ const CreateJobForm = (props) =>{
         }
     }
     
+    const closeHandler = () =>{
+        setOpenPostJob(false);
+        setShowDialog(false);
+        ref.current.close();
+    }
 
 
     return(
         <main className={classes.box2} onClick={(e)=>e.stopPropagation()}>
+            {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
            <section className={classes.backSection}>
             <img src={backIcon} alt=''  onClick={()=>setDispatch({ TYPE: 'EDIT_DRAFT' })} />
         </section>
         <section className={classes.contentSection}>
-            <h1 className={classes.fillFormTxt}>Edit Job Posting Details</h1>
+            <h1 className={classes.fillFormTxt}>Fill Your Draft Form</h1>
             <p className={classes.noteTxt}>{editingJobPosting}</p>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Job Title*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Job Title*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Enter Job Title' 
@@ -274,7 +319,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Location Type*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Location Type*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Geo Remote' 
@@ -290,7 +338,10 @@ const CreateJobForm = (props) =>{
                 {locationType.isVisible && <LocationTypeList setLocationType={setLocationType} />}
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Location Support*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Location Support*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                    type='' 
                    placeholder='Supported Location' 
@@ -306,7 +357,10 @@ const CreateJobForm = (props) =>{
                 {locationSupport.isVisible && <LocationSupportList setLocationSupport={setLocationSupport} />}
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Work Location(optional)</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Work Location(optional)</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Enter Work Location (Optional)' 
@@ -316,7 +370,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Company Name*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Company Name*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Enter Company Name' 
@@ -326,7 +383,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Company Link*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Company Link*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Enter Company Link' 
@@ -336,7 +396,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Company Logo(Optional)</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Company Logo(optional)</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <span className={classes.logoContainer}>
                     <input 
                         type='file' 
@@ -356,7 +419,10 @@ const CreateJobForm = (props) =>{
                 </span>
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Summary about your company*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Summary about your company*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <textarea 
                     placeholder='Enter Summary' 
                     className={classes.textarea} 
@@ -365,7 +431,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Skills Required*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Skills Required*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <textarea 
                     placeholder='Enter skills required' 
                     className={classes.textarea} 
@@ -374,7 +443,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Search categories*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Search Categories*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <textarea 
                     placeholder='Enter search categories' 
                     className={classes.textarea} 
@@ -383,7 +455,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Search terms*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Search Terms*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <textarea 
                     placeholder='Enter search terms' 
                     className={classes.textarea} 
@@ -392,7 +467,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Work Type*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Work Type*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Full-Time' 
@@ -408,7 +486,10 @@ const CreateJobForm = (props) =>{
                 {workType.isVisible && <WorkTypeList setWorkType={setWorkType} />}
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Payment Type*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Payment Type*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Fiat' 
@@ -424,7 +505,10 @@ const CreateJobForm = (props) =>{
                 {paymentType.isVisible && <PaymentTypeList setPaymentType={setPaymentType} />}
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Job Description*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Job Description*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 {/* <textarea 
                     placeholder='Enter job description' 
                     className={classes.textarea} 
@@ -438,7 +522,10 @@ const CreateJobForm = (props) =>{
                 />
             </div>
             <div className={classes.inputContainer}>
-                <p className={classes.label}>Job Application Link*</p>
+                <span className={classes.titleSpan}>
+                    <p className={classes.label}>Job Application Link*</p>
+                     {isLoading &&<p className={classes.loadingTxt}>Loading...</p>}
+                </span>
                 <input 
                     type='' 
                     placeholder='Link or email' 
@@ -449,10 +536,11 @@ const CreateJobForm = (props) =>{
             </div>
             <p className={classes.statusTxt} style={{ fontWeight: 'bold', fontSize: '18px', color: paymentStatus.color }}>{paymentStatus.text}</p>
         <div className={classes.btnContainer}>
-            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
+            <button className={classes.normalBtn} onClick={closeHandler}>Close</button>
             <button className={classes.normalBtn} onClick={reset}>Reset</button>
-            {!paymentStatus.isSaved && <button className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
-            {(!hasPaid && paymentStatus.isSaved) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
+
+            {!isSaved &&<button disabled={disableSaveBtn} className={classes.linearGradBtn} onClick={saveJobPostingHandler}>Save your Job Posting</button>}
+            {(!hasPaid && showpaymentBtn) &&<button className={classes.linearGradBtn} onClick={()=>setDispatch({ TYPE: 'MAKE_PAYMENT' })}>Continue to payment</button>}
             {(hasPaid && postStatus === 'DRAFT') && <button style={isPosted? { display: 'none'} : {}} className={classes.linearGradBtn} onClick={postAJobHandler}>Post Job</button>}
             {(!paymentStatus.isSaved || !hasPaid) && <p>Warning: This action incurs gas fee</p>}
         </div>
@@ -461,4 +549,4 @@ const CreateJobForm = (props) =>{
     )
 }
 
-export default CreateJobForm;
+export default forwardRef(CreateJobForm);

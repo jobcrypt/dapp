@@ -10,6 +10,7 @@
     position: relative;
     padding-top: 3rem;
     background-image: linear-gradient(to right, #171d32, #2c2231);
+    z-index: 0;
 }
 
 .hero{

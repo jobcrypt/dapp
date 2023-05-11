@@ -17,6 +17,7 @@
     justify-content: flex-start;
     align-items: center;
     column-gap: 10px;
+    margin-bottom: 10px;
 }
 
 .header>img{
@@ -33,6 +34,41 @@
     padding-left: 45px;
     margin: 0;
 }
+
+.main2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .main2>div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  
+  .title{
+      font-family: 'bold';
+      color: #fff;
+      font-size: 40px;
+      margin: 0; 
+  }
+  
+  .cloudContainer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 5px;
+  }
+  
+  .cloudContainer>p{
+      color: #fff;
+      font-family: 'light';
+      font-size: 20px;
+      cursor: pointer;
+  }
 
 @media screen and (max-width: 770px) {
     .parent{

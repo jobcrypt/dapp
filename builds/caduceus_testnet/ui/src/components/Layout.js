@@ -8,7 +8,7 @@ import { useLayoutEffect } from 'react';
 import { chain, isNull } from '../utils/Util';
 import { AccountContext } from '../App';
 import { getIsStaked } from '../contracts/ContractManager';
-import useConnectMetaMask from '../hooks/useConnectMetaMask';
+import useConnectMetaMask from '../hooks/useMetamask';
 
 
 const Layout = (props) =>{

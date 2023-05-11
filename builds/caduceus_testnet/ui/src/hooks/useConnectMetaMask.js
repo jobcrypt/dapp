@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const useConnectMetaMask = (path) =>{
+const useMetamask = (path) =>{
     const { setAccount } = useContext(AccountContext);
     const navigate = useNavigate();
 
@@ -49,4 +49,4 @@ const useConnectMetaMask = (path) =>{
     }
 }
 
-export default useConnectMetaMask;
+export default useMetamask;

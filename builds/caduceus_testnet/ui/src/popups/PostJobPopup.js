@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 
 
 
@@ -64,9 +64,13 @@ const reducerFunc = (state, action) =>{
 const PostJobPopup = (props) =>{
     const { setOpenPostJob, formToOpen } = props;
     const [ dispatch, setDispatch ] = useReducer(reducerFunc, initialState); 
+    const dialogRef = useRef();
+    const [ showDialog, setShowDialog ] = useState(false);
 
 
     useEffect(()=>{
+        if(!dialogRef.current.open)dialogRef.current.showModal();
+        setShowDialog(true)
         if(formToOpen === CREATE_DRAFT)setDispatch({ TYPE: CREATE_DRAFT });
         if(formToOpen === EDIT_DRAFT)setDispatch({ TYPE: EDIT_DRAFT });
         if(formToOpen === CREATE_FORM)setDispatch({ TYPE: CREATE_FORM });
@@ -76,12 +80,12 @@ const PostJobPopup = (props) =>{
  
 
     return(
-        <section className={classes.parent}>
-                {dispatch.create_draft && <CreateDraft  setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
-                {dispatch.edit_draft && <EditDraft setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
-                {dispatch.create_form && <CreateJobForm setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
-                {dispatch.make_payment && <MakePayment setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
-        </section>
+        <dialog ref={dialogRef} className={classes.parent} style={{ display: showDialog?'flex' : 'none'}}>
+                {dispatch.create_draft && <CreateDraft ref={dialogRef} setShowDialog={setShowDialog} setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} />}
+                {dispatch.edit_draft && <EditDraft ref={dialogRef} setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} setShowDialog={setShowDialog} />}
+                {dispatch.create_form && <CreateJobForm ref={dialogRef} setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} setShowDialog={setShowDialog} />}
+                {dispatch.make_payment && <MakePayment ref={dialogRef} setDispatch={setDispatch} setOpenPostJob={setOpenPostJob} setShowDialog={setShowDialog} />}
+        </dialog>
     )
 }
 

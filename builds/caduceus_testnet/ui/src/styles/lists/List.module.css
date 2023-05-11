@@ -25,7 +25,7 @@
 
 .ul>li{
     width: 100%;
-    min-height: 40px;
+    min-height: 60px;
     display: flex;
     justify-content: flex-start;
     align-items: center;

@@ -30,3 +30,4 @@ Current folders are available for:
  | OK Chain Testnet 	| | 
  | Sepolia Testnet 		| https://sepoliajobcrypt.on.fleek.co/ | 
  | Reference Testnet 	| https://jobcryptreference.on.fleek.co/ | 
+ | Optimism 	UI/UX Design 1.0		| (https://www.figma.com/file/bTIBikr9PeREnobwRVEf6G/Job-Crypt-Website?type=design&node-id=357%3A12179&t=gPnIkha7JfFvv8LW-1) |

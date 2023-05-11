@@ -1,0 +1,136 @@
+.parent{
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .05);
+    display: flex;
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    min-width: 100%;
+    min-height: 100%;
+    border: none;
+}
+
+.box{
+    width: 400px;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 30px 10px;
+    display: flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'light';
+    font-size: 25px;
+    font-weight: bold;
+    /* line-height: 40px; */
+}
+
+.typeTxt{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'light';
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 10px;
+    /* line-height: 40px; */
+}
+
+
+.middle{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    position: relative;
+}
+
+.middle>p{
+    font-family: 'light';
+    font-size: 11px;
+    font-weight: bold;
+    background-color: rgba(0, 128, 0, 0.184);
+    padding: 5px;
+    color: green;
+    border-radius: 5px;
+}
+
+.middle>img{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.checkIcon{
+   width: 10px;
+   height: 10px;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.explorerBtn{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   column-gap: 10px;
+   font-family: 'light';
+   font-weight: 600;
+   padding: 10px 20px;
+   border: 2px solid #2c2231;
+   border-radius: 5px;
+   color: #2c2231;
+   cursor: pointer;
+}
+
+.explorerBtn>img{
+    width: 12px;
+    height: 12px;
+}
+
+.closeBtn{
+    font-family: 'light';
+    font-weight: 600;
+    padding: 10px;
+    background-color: #2c2231;
+    padding: 12px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 770px) {
+    .box{
+        width: 90%;
+    }
+    .middle>img{
+        cursor: none;
+    }
+    .explorerBtn{
+        cursor: none;
+    }
+    .closeBtn{
+        cursor: none;
+    }
+}

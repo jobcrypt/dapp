@@ -7,41 +7,6 @@
     -ms-flex-direction: column;
 }
 
-.main{
-  /* max-height: 2300px; */
-  display: flex;
-  flex-direction: column;
-  -ms-flex-direction: column;
-}
-
-.main>div{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-
-.title{
-    font-family: 'bold';
-    color: #fff;
-    font-size: 40px;
-    margin: 0; 
-}
-
-.cloudContainer{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  column-gap: 5px;
-}
-
-.cloudContainer>p{
-    color: #fff;
-    font-family: 'light';
-    font-size: 20px;
-}
-
-
 .calendarParent{
     display: flex;
     justify-content: flex-start;
@@ -49,9 +14,10 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    flex-direction: column;
-    -ms-flex-direction: column;
+    /* flex-direction: column;
+    -ms-flex-direction: column; */
     /* row-gap: 20px; */
+    column-gap: 20px;
 }
 
 .calendarParent>span{
@@ -62,17 +28,21 @@
     height: fit-content;
     box-sizing: border-box;
     column-gap: 20px;
-    margin-top: 20px;
+    row-gap: 20px;
+    /* margin-top: 20px; */
+    flex-direction: column;
+    -ms-flex-direction: column;
 }
 
 .card{
-    width: 50%;
+    width: 100%;
     min-height: 250px;
     max-height: fit-content;
     background-color: #fff;
     border-radius: 20px;
     display: flex;
     padding: 20px;
+    cursor: pointer;
 }
 
 .countrySpan{
@@ -195,6 +165,10 @@
         font-size: 25px;
     }
 
+    .calendarParent{
+        row-gap: 20px; 
+    }
+
     .cloudContainer>p{
         font-size: 15px;
     }
@@ -242,6 +216,10 @@
     .crownIconContainer{
         width: 80px;
      }
+     .calendarParent{
+        flex-direction: column;
+        -ms-flex-direction: column;
+    }
     .crownImage{
         width: 50px;
         height: 50px;

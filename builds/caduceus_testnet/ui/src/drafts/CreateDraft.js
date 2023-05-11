@@ -1,37 +1,64 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { forwardRef, useCallback, useContext, useEffect, useRef } from 'react';
 
 
 
 import classes from '../styles/popups/PostJobPopup.module.css';
 import backIcon from '../assets/back.png'
 import { useState } from 'react';
-import { createDraftPosting, findEmployerDashboard, loadJobProducts } from '../contracts/ContractManager';
+import { createDraftPosting, findEmployerDashboard, getDraftPosting, loadJobProducts } from '../contracts/ContractManager';
 import { isNull } from '../utils/Util';
 import Wrapper from '../components/Wrapper';
 import Spinner from '../components/Spinner';
 import { AccountContext, FormContext } from '../App';
 import { getProvider } from '../contracts/init';
+import EditDraftList from '../lists/EditDraftList';
+import dropdownIcon from '../assets/dropdown.png';
+import ReceiptPopup from '../popups/ReceiptPopup';
+
+
 
 let isRunning = false;
 const ZERO_ADDRESS ='0x0000000000000000000000000000000000000000';
 
-const CreateDraft = (props) =>{
-     const { setDispatch, setOpenPostJob } = props;
+const CreateDraft = (props, ref) =>{
+     const { setDispatch, setOpenPostJob, setShowDialog } = props;
      const [ txnHash, setTxnHash ] = useState({ text: '', color: 'transparent', confirmed: false });
     //  const [ txnHash, setTxnHash ] = useState('');
      const [ isLoading, setIsLoading ] = useState({ status: true, message: ''});
      const [ jobProductArray, setJobProductArray ] = useState([]);
-     const [ selectedProductAddress, setSelectedProductddress ] = useState('');
-     const { account, setEmployerDashAddress } = useContext(AccountContext);
-     const { setProductAddress, setEditingJobPosting  } = useContext(FormContext);
+     const [ error, setError ] = useState('');
+     const [ isEditing, setIsEditing ] = useState(`EDITING DRAFT ::`);
+     const [ selectedDraft, setSelectedDraft ] = useState({ text: `Click to select an existing Job Posting`, isVisible: false, address: '' });
+     const [ draftArray, setDraftArray ] = useState([]);
+     const { account, setEmployerDashAddress, employerDashAddress } = useContext(AccountContext);
+     const { setProductAddress, productAddress, setEditingJobPosting  } = useContext(FormContext);
+     const [ disabledCreateDraft, setDisabledCreateDraft ] = useState(false);
+     const [ disabledEditDraft, setDisabledEditDraft ] = useState(true);
+     const [ createdDraftProductAddress, setCreatedDraftProductAddress ] = useState(null);
+     const [ showReceipt, setShowReceipt ] = useState({ hash: '', type: '', isVisible: false });
+     const [ showCreateDraftBtn, setShowCreateDraftBtn ] = useState(false);
+     const [ showContinueBtn, setShowContinueBtn ] = useState(false);
+     const [ showEditDraftPane, setShowEditDraftPane ] = useState(false);
+     const dialogRef = useRef();
+
+
+     useEffect(()=>{
+         if(isNull(selectedDraft.address))return;
+
+         setCreatedDraftProductAddress(null);
+         setDisabledCreateDraft(true);
+         setDisabledEditDraft(false);
+     },[selectedDraft.address])
 
 
      const getEmployerDashboard = useCallback(async() =>{
         const dashAddress = await findEmployerDashboard();
         // console.log('DASH ADDRESS ', dashAddress)
         if(dashAddress !== ZERO_ADDRESS && !isNull(dashAddress)){
-            console.log('dash: ', dashAddress);
+            // console.log('dash: ', dashAddress);
             setEmployerDashAddress(dashAddress);
+            getJobProducts();
+            getDraftPostingsHandler();
       }
     },[])
 
@@ -39,39 +66,70 @@ const CreateDraft = (props) =>{
      const getJobProducts = useCallback(async() =>{
         setIsLoading({ status: true, message: 'loading job postings, please wait...'});
         const products = await loadJobProducts();
+        if(isNull(products)){
+            setShowCreateDraftBtn(false);
+            setShowContinueBtn(false);
+        }
         setJobProductArray(products);
         setIsLoading({ status: false, message: '' });
         // console.log('Products: ',products);
      },[]);
 
 
+     //checking to see if user has existing draft jobs
+     const getDraftPostingsHandler = useCallback(async()=>{
+        // console.log('EMPLOYER DASH ADDRESS: ', employerDashAddress);
+        setIsLoading({ status: true, message: '' });
+        setDraftArray([]);
+        if(isNull(employerDashAddress))return;
+        const result = await getDraftPosting(employerDashAddress);
+        if(!isNull(result)){
+            setShowEditDraftPane(true);
+        }else{
+            setShowEditDraftPane(false)
+        }
+        setDraftArray(result);
+        setIsLoading({ status: false, message: isNull(result)? 'No drafts' : '' });
+        // console.log('RESULT IS =======>', result);
+        
+    },[]);
+
+
      useEffect(()=>{
         getEmployerDashboard();
-        getJobProducts();
      },[getJobProducts, getEmployerDashboard]);
 
+    
 
      //after user has selected the product plans, then proceed to create a posting address which the user can use to add, save and pay for.
     const createJobPosting = async() =>{
-        // console.log('isConnected: ', account.isConnected)
-
-        if(isNull(selectedProductAddress))return;
-        if(!account.isConnected)return;
-        // sessionStorage.setItem('posting_address', selectedProductAddress);
+        if(isRunning)return;
         isRunning = true;
-       const result = await createDraftPosting(selectedProductAddress);
+        // console.log('isConnected: ', account.isConnected)
+        if(isNull(productAddress)){
+            setError('You have to select an option');
+            return;
+        };
+        if(!account.isConnected)return;
+        // sessionStorage.setItem('posting_address', productAddress);
+        setError('');
+        setTxnHash({ text: 'Waiting for approval...', color: '#956B00', confirmed: false });
+       const result = await createDraftPosting(productAddress);
        setTxnHash({ text: 'Waiting for your transaction to be confirmed, Please wait...', color: '#956B00', confirmed: false });
+       setShowCreateDraftBtn(false);
        try{
             const waitForTx = await getProvider().waitForTransaction(result.hash);
             // console.log('waiting for result: ', waitForTx);
             if(!isNull(waitForTx.transactionHash) && waitForTx.status === 1){
             setTxnHash({ text: `Draft Posting Created Txn: ${waitForTx.transactionHash}`, color: '#159500', confirmed: true });
+            setShowContinueBtn(true);
             }else{
-                setTxnHash({ text: `Transaction was unsuccessful.`, color: 'red' });
+                setTxnHash({ text: `Transaction was unsuccessful.`, color: 'red', confirmed: false });
             }
+            setShowReceipt({ hash: result.hash, type: 'Gas Fee', isVisible: true });
        }catch(err){
-        setTxnHash({ text: `Transaction failed.`, color: 'red' });
-       }
+        setTxnHash({ text: `Transaction failed.`, color: 'red', confirmed: false });
+       }      
        isRunning = false;
       
     }
@@ -81,23 +139,78 @@ const CreateDraft = (props) =>{
     }
 
     const setSelectedJobProductHandler = (item) =>{
-        setSelectedProductddress(item.address);
+            //when you select on a product, override the old product address with the new one. The address could be from the editList file or this file. Then disable the edit draft button. Reset everything about edit draft
         setProductAddress(item.address);
-        setEditingJobPosting(`Note: You are editing ${item.name} - ${item.price} - ${item.currency} (${item.address})`);
+        // setEditingJobPosting(`Note: You are editing ${item.name} - ${item.price} - ${item.currency} (${item.address})`);
+        setSelectedDraft({ text: `Click to select an existing Job Posting`, isVisible: false, address: '' });
+        setDisabledEditDraft(true);
+        setDisabledCreateDraft(false);
+        setIsEditing(`EDITING DRAFT ::`);
+        setShowCreateDraftBtn(true);
+
+  //This function is redundant. Im using it for controlling the radio button so when clicked, it saves the product address but when edit draft is edited, it clears the selection and disables the button
+  setCreatedDraftProductAddress(item.address);
+
+}
+
+    const jumpToFormHandler = () =>{
+        if(!isNull(selectedDraft.text) && !isNull(productAddress) && !isNull(isEditing))setDispatch({ TYPE: 'CREATE_FORM' });
+        else return;
     }
 
+    const updateProductHandler = (e) =>{
+        const value = e.target.value;
+        // console.log(value)
+        //when you select on a product, override the old product address with the new one. The address could be from the editList file or this file. Then disable the edit draft button
+        setProductAddress(value);
+        setSelectedDraft({ text: `Click to select an existing Job Posting`, isVisible: false, address: '' });
+        setDisabledEditDraft(true);
+        setDisabledCreateDraft(false);
+        setIsEditing(`EDITING DRAFT ::`);
+        setShowCreateDraftBtn(true);
 
+        //This function is redundant. Im using it for controlling the radio button so when clicked, it saves the product address but when edit draft is edited, it clears the selection and disables the button
+        setCreatedDraftProductAddress(value)
+    }
+
+    const closeHandler = () =>{
+        setOpenPostJob(false);
+        setShowDialog(false);
+        ref.current.close();
+    }
 
     return(
         <main className={classes.box} onClick={(e)=>e.stopPropagation()}>
+            {showReceipt.isVisible && <ReceiptPopup hash={showReceipt.hash} type={showReceipt.type} setShowReceipt={setShowReceipt} ref={dialogRef} />}
         <section className={classes.backSection}>
             <img src={backIcon} alt='' onClick={()=>setOpenPostJob(false)} />
         </section>
         <section className={classes.contentSection}>
-            <h1 className={classes.draftTxt}>Create Draft Job Posting</h1>
+            <h1 className={classes.draftTxt}>Create or Edit Draft Job Posting</h1>
             <p className={classes.note}>Note: Listings duration only start after posting(Pay later).</p>
-            {(!isNull(txnHash)) && <p className={classes.txnText} style={{ color: txnHash.color}}>{txnHash.text}</p>}
-            <p className={classes.jobPostingTxt}>Job Postings</p>
+            {showEditDraftPane && 
+            <>
+            <div className={classes.inputContainer} style={{ marginTop: '30px'}}>
+                <input 
+                    type='' 
+                    placeholder='Click to select an existing Job Posting' 
+                    readOnly 
+                    className={classes.input2} 
+                    value={selectedDraft.text} 
+                    onFocus={()=>setSelectedDraft(prev=>({...prev, isVisible: true}))} 
+                    onBlur={()=>setTimeout(()=> setSelectedDraft(prev=>({...prev, isVisible: false})), 300)}
+                />
+                <p className={classes.editingTxt}>{isEditing}</p>
+                <span className={classes.dropDownContainer}>
+                    <img src={dropdownIcon} alt='' />
+                </span>
+                {selectedDraft.isVisible && <EditDraftList setSelectedDraft={setSelectedDraft} setIsEditing={setIsEditing} setDraftArray={setDraftArray} draftArray={draftArray} isLoading={isLoading.status} message={isLoading.message} />}
+            </div>
+            <div className={classes.btnContainer}>
+            <button disabled={disabledEditDraft} className={classes.linearGradBtn} onClick={jumpToFormHandler}>Edit Draft Job Posting</button>
+            </div>
+            </>}
+            <p className={classes.jobPostingTxt}>Select Job Product Plan<strong style={{ color: 'rgba(230, 9, 9, 0.725)', fontSize: '15px', fontWeight: 'normal'}}>(Note: Payment for selected products happens later)</strong></p>
             <section className={classes.radioSection}>
                 {isLoading.status && <Wrapper width={'fit-content'} height={'fit-content'}>
                       <Spinner size={25} color1={'#2c2231'} />
@@ -105,20 +218,30 @@ const CreateDraft = (props) =>{
                     </Wrapper>}
                 {!isNull(jobProductArray) && jobProductArray.map(item=>(
                 <div className={classes.radioParent} key={item.address} onClick={()=>setSelectedJobProductHandler(item)}>
-                     <input type='radio' id={item.address} name='good' />
+                     <input 
+                        type='radio' 
+                        htmlFor={item.address}
+                        id={item.address} 
+                        name='good' 
+                        checked={createdDraftProductAddress === item.address}
+                        value={item.address}
+                        onChange={updateProductHandler}
+                        />
                      <label htmlFor={item.address}>{item.optionTxt}</label>
                  </div>
                 ))}
             </section>
+            {!isNull(error) &&<p style={{ color: '#159500'}} className={classes.error}>{error}</p>}
+            {(!isNull(txnHash)) && <p className={classes.txnText} style={{ color: txnHash.color}}>{txnHash.text}</p>}
             <div className={classes.btnContainer}>
-            {(!txnHash.confirmed) && <button disabled={isRunning} className={classes.linearGradBtn} onClick={createJobPosting}>Create Draft Job Posting</button>}
-            <button className={classes.normalBtn} onClick={()=>setOpenPostJob(false)}>Close</button>
-            {txnHash.confirmed &&<button className={classes.linearGradBtn} onClick={continueToEditPane}>Continue</button>}
-            <p>Warning: This action incurs gas fee</p>
+            <button className={classes.normalBtn} onClick={closeHandler}>Close</button>
+            {(showCreateDraftBtn) && <button disabled={disabledCreateDraft} className={classes.linearGradBtn} onClick={createJobPosting}>Create Draft Job Posting</button>}
+            {showContinueBtn &&<button className={classes.linearGradBtn} onClick={continueToEditPane}>Continue</button>}
+            {showCreateDraftBtn &&<p>Warning: This action incurs gas fee</p>}
         </div>
         </section>
         </main>
     )
 }
 
-export default CreateDraft;
+export default forwardRef(CreateDraft);

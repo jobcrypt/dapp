@@ -33,13 +33,13 @@ function clearWarning() {
 }
 
 const titleTable = document.getElementById("title_table");
+const companyName = document.getElementById("company_name");
 
 function buildJobTitle() {
   var titleTable = document.getElementById("title_table");
-  var titleRow = titleTable.insertRow();
-  var titleCell = titleRow.insertCell();
+
   var h3Format = document.createElement("h3");
-  titleCell.appendChild(h3Format);
+  titleTable.appendChild(h3Format);
 
   jobPostingContract.methods
     .getFeatureSTR("JOB_TITLE")
@@ -56,10 +56,11 @@ function buildJobTitle() {
 }
 
 function buildCompany() {
-  var companyRow = titleTable.insertRow();
-  var companyCell = companyRow.insertCell();
+  var companyName = document.getElementById("company_name");
+
   var h4Format = document.createElement("h4");
-  companyCell.appendChild(h4Format);
+  h4Format.setAttribute("class", "text-center");
+  companyName.appendChild(h4Format);
   jobPostingContract.methods
     .getFeatureSTR("COMPANY_NAME")
     .call({ from: account })
@@ -84,10 +85,9 @@ function buildCompany() {
       console.log(err);
     });
 
-  var companySummaryRow = titleTable.insertRow();
-  var companySummaryCell = companySummaryRow.insertCell();
-  var smallFormat = document.createElement("small");
-  companySummaryCell.appendChild(smallFormat);
+  var companySummary = document.getElementById("company_summary");
+  var smallFormat = document.createElement("p");
+  companySummary.appendChild(smallFormat);
   jobPostingContract.methods
     .getFeatureSTR("COMPANY_SUMMARY")
     .call({ from: account })
@@ -130,10 +130,11 @@ async function fetchFromIPFS(cid, messageSpan) {
 }
 
 function buildLocation() {
-  var locationWorkRow = titleTable.insertRow();
-  var locationWorkCell = locationWorkRow.insertCell();
-  var h6Format = document.createElement("h6");
-  locationWorkCell.appendChild(h6Format);
+  var locationName = document.getElementById("location_name");
+
+  var h6Format = document.createElement("div");
+  h6Format.setAttribute("class", "grid grid-cols-3 gap-10");
+  locationName.appendChild(h6Format);
 
   var jobLocationSpan = document.createElement("span");
   var workTypeSpan = document.createElement("span");
@@ -167,7 +168,7 @@ function buildLocation() {
     .then(function (response) {
       console.log(response);
       var workType = response;
-      workTypeSpan.append(getTextNode(" | Work Type : "));
+      workTypeSpan.append(getTextNode("  Work Type : "));
       workTypeSpan.appendChild(getSmall(workType));
     })
     .catch(function (err) {
@@ -180,7 +181,7 @@ function buildLocation() {
     .then(function (response) {
       console.log(response);
       var paymentType = response;
-      paymentTypeSpan.append(getTextNode(" | Payment Type : "));
+      paymentTypeSpan.append(getTextNode("  Payment Type : "));
       paymentTypeSpan.appendChild(getSmall(paymentType));
     })
     .catch(function (err) {
@@ -193,7 +194,7 @@ function buildLocation() {
     .then(function (response) {
       console.log(response);
       var locationType = response;
-      locationTypeSpan.append(getTextNode(" | Location Type : "));
+      locationTypeSpan.append(getTextNode("  Location Type : "));
       locationTypeSpan.appendChild(getSmall(locationType));
     })
     .catch(function (err) {
@@ -206,7 +207,7 @@ function buildLocation() {
     .then(function (response) {
       console.log(response);
       var locationSupport = response;
-      locationSupportSpan.append(getTextNode(" | Location Support : "));
+      locationSupportSpan.append(getTextNode("  Location Support : "));
       locationSupportSpan.appendChild(getSmall(locationSupport));
     })
     .catch(function (err) {
@@ -257,7 +258,7 @@ function buildPostedDate() {
       console.log(response);
       var postedDate = response;
       var postedDateText = document.createTextNode(
-        "First posted : " + new Date(postedDate * 1000)
+        "Date posted: " + new Date(postedDate * 1000)
       );
       h4Format2.appendChild(getSmallNode(postedDateText));
     });
@@ -324,7 +325,9 @@ function buildApplyLink() {
     .then(function (response) {
       console.log(response);
       applyLinkSpan.innerHTML =
-        '<small style="color:green">Apply Details: ' + response + "</small>";
+        '<p class="text-xs whitespace-normal text-green-500">Apply Details: <br/> ' +
+        response +
+        "</p>";
     })
     .catch(function (err) {
       console.log(err);
@@ -342,7 +345,11 @@ function applyLink() {
 
       console.log(" staked " + staked);
       if (staked === true) {
-        var applyLink = createTextButton("apply()", "Apply HERE");
+        var applyLink = createTextButton("apply()", "Apply Here");
+        applyLink.setAttribute(
+          "class",
+          "bg-jcBlack text-jcDarkBlue rounded-xl px-5 py-2 mb-10 cursor-pointer"
+        );
         applyLinkSpan.appendChild(applyLink);
       } else {
         var approveLink = ce("a");
