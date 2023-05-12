@@ -70,7 +70,7 @@
 
     <title>Job Crypt - Web 3 Jobs for Web 3 people</title>
   </head>
-  <body class="overflow-x-hidden w-full">
+  <body class="w-screen">
     <!-- TOP BAR -->
 
     <!-- Header -->
@@ -126,7 +126,7 @@
         </div>
       </section>
 
-      <div class="bg-black text-white px-5 py-4 w-full flex justify-center">
+      <div class="bg-black text-white px-5 py-4">
         <nav class="border-gray-200">
           <div
             class="container text-white font-poppins flex-wrap lg:flex-nowrap lg:gap-[7rem] gap-0 flex justify-between items-center"
@@ -140,7 +140,7 @@
             <button
               data-collapse-toggle="mobile-menu"
               type="button"
-              class="lg:hidden ml-3 text-white focus:ring-blue-300 rounded-lg inline-flex items-center justify-center"
+              class="lg:hidden ml-3 text-white focus:ring-blue-300 rounded-lg inline-flex items-center"
               aria-controls="mobile-menu-2"
               aria-expanded="false"
             >
@@ -299,7 +299,7 @@
                         >
                       </li>
                       <li>
-                        <a class="nav-link scrollto" href="#stake"
+                        <a class="nav-link scrollto" href="./staking.html"
                           >Stake to Apply for Jobs</a
                         >
                       </li>
@@ -446,7 +446,7 @@
                       aria-labelledby="dropdownLargeButton"
                     >
                       <li>
-                        <a class="nav-link scrollto" href="index.html#whyus"
+                        <a class="nav-link scrollto" href="/index.html#whyus"
                           >Why Us</a
                         >
                       </li>
@@ -487,11 +487,13 @@
         </nav>
       </div>
       <section class="banner-container">
-        <div class="flex">
-          <div class="scroll-element mx-10">
-            <img src="/assets/images/banner-flag.svg" alt="" />
+        <div class="flex justify-center">
+          <div class="mx-5 lg:mx-10 flex">
+            <div class="w-20">
+              <img src="/assets/images/euflag-banner" alt="" />
+            </div>
             <p
-              class="text-center tracking-wider text-2xl font-baijam py-5 text-white"
+              class="text-center tracking-wider text-sm lg:text-2xl font-baijam py-1 lg:py-5 text-white"
             >
               Join our Blockchain Sustainability Week - UK 2023 & Blockchain
               <br />
@@ -499,7 +501,7 @@
             </p>
             <a
               href=""
-              class="bg-jcBlue rounded-full mt-5 py-2 px-6 flex justify-center"
+              class="bg-jcBlue rounded-full mt-1 lg:mt-5 py-2 px-6 flex justify-center"
             >
               Get your Tickets
             </a>
@@ -518,7 +520,7 @@
         <div class="font-poppins">
           <div class="flex gap-5 justify-between text-white lg:p-5 py-5 px-2">
             <div
-              class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] lg:[150px] flex justify-center rounded-lg"
+              class="ukflag px-2 py-4 w-[200px] lg:w-[250px] h-[150px] flex justify-center rounded-lg"
             >
               <div class="">
                 <div
@@ -560,7 +562,9 @@
               </div>
             </div>
           </div>
-          <div class="flex justify-between items-center lg:px-20 px-10">
+          <div
+            class="flex flex-col lg:flex-row justify-between items-center lg:px-20 px-10"
+          >
             <div class="text-white w-50">
               <h2 class="text-3xl font-bold mt-10 lg:mt-0">
                 Welcome to <span class="text-jcBlue">JobCrypt</span>
@@ -570,10 +574,10 @@
                 <p class="text-2xl mt-5">
                   Where every applicant is a Web3 user
                 </p>
-                <p class="mt-5" id="">
+                <p class="mt-5 text-sm lg:text-base" id="">
                   Connect MetaMask & Stake to apply to verified web 3 jobs.
                 </p>
-                <div class="mt-5">
+                <div class="mt-5 text-sm lg:text-base">
                   <button class="bg-jcBlue rounded-full px-6 py-2 text-jcBlack">
                     <a href="#connect_web_3"> Connect Metamask to view jobs</a>
                   </button>
