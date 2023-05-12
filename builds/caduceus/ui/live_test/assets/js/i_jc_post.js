@@ -104,9 +104,9 @@ async function populateProductSelectName(productContract, jobPostingProductSelec
             var name = response;
             
             console.log(productContract.options.address);
-            if(!name.includes("Community") || !name.includes("Community")){
+          //  if(!name.includes("Community") || !name.includes("Community")){ // live filter
                 populateProductSelectPrice(productContract, name, jobPostingProductSelect, productAddress);
-            }
+          //  }
         })
         .catch(function(err) {
             console.log(err);
