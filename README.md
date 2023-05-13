@@ -31,3 +31,4 @@ Current folders are available for:
  | Sepolia Testnet 		| https://sepoliajobcrypt.on.fleek.co/ | 
  | Reference Testnet 	| https://jobcryptreference.on.fleek.co/ | 
  | Optimism 	UI/UX Design 1.0		| (https://www.figma.com/file/bTIBikr9PeREnobwRVEf6G/Job-Crypt-Website?type=design&node-id=357%3A12179&t=gPnIkha7JfFvv8LW-1) |
+ | Caduceus 	UI/UX Design 1.0		|  https://www.figma.com/file/UUQ39V5Nlj2MY22jDSr768/JobCrypt---Caduceus?type=design&node-id=0%3A1&t=OzoBrK86dN1RzXPH-1 |
