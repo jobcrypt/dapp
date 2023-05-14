@@ -1,11 +1,23 @@
+const wallView  = ge("wall_view");
+const pageRoot = "";
+const docRoot = "../doc/"; 
+
+async function configureCoreContracts() {
+    var requiredContracts = ["JOBCRYPT_CORE", "STAKE_MANAGER", "OPEN_RANKING"];
+    configureContracts(requiredContracts);
+    getStaking(docRoot);
+}
+
 function loadPageData() {
     console.log("loading page data");
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     var wallType = urlParams.get("wall-type");
 
-	const wallView  = ge("wall_view");
+	
 	wallView.innerHTML = ""; 
+
+    console.log("wall type: " + wallType);
 
 	if(wallType === "featured") {
 		getFeaturedJobs(); 
@@ -71,9 +83,8 @@ function loadPageData() {
         jcJobCryptContract.methods.getActiveJobPage(0).call({ from: account })
         .then(function(response) {
             console.log(response);
-            var jobAddresses = response._activeJobAddresses;
-            console.log(jobAddresses);
-            buildJobs(trimZeroAddresses(jobAddresses));
+            var jobAddresses = response._activeJobAddresses;      
+            buildJobs(jobAddresses);
         })
         .catch(function(err){
             console.log(err);
@@ -83,12 +94,12 @@ function loadPageData() {
     function trimZeroAddresses(list){
         var a = new Array();  
         for(var x = 0; x <list.length; x++) {
-            if(list[x] != "0x0000000000000000000000000000000000000000"){
-                console.log("pushing " + list[x]);
-                a.push(list[x]);
+            if(list[x] === "0x0000000000000000000000000000000000000000"){
+                console.log("zero address :" + list[x] );
             }
             else {
-                console.log("zero address :" + list[x] );
+                console.log("pushing " + list[x]);
+                a.push(list[x]);
             }
         }
         return a; 
@@ -97,7 +108,12 @@ function loadPageData() {
 	function buildJobs(jobPostingAddresses) {
 		for(var x = 0; x < jobPostingAddresses.length; x++ ){
 			var postingAddress = jobPostingAddresses[x];
-			buildJob(postingAddress);
+            if(postingAddress === "0x0000000000000000000000000000000000000000"){
+                console.log("zero : " + postingAddress);
+            }
+            else {
+			    buildJob(postingAddress);
+            }
 		}
 	}
 
@@ -107,7 +123,7 @@ function loadPageData() {
         console.log(jobDetailLinkDestination);
 
         var layoutDiv = document.createElement("div");
-        layoutDiv.setAttribute("class", "col-lg-4 col-md-6 d-flex align-items-stretch" );
+        layoutDiv.setAttribute("class", "col-lg-12 col-md-6 d-flex align-items-stretch" );
         layoutDiv.setAttribute("data-aos", "zoom-in");
         layoutDiv.setAttribute("data-aos-delay", 100);
         wallView.appendChild(layoutDiv);
@@ -159,10 +175,17 @@ function loadPageData() {
 
     function populateJob(jobTitle, paragraph, hiringCompany, hiringCompanyLogo, jobDetailLinkDestination, postingAddress){
 
-         // ======= START CONTRACT WORK =====
-         console.log("posting address :- " + postingAddress);
-         var postingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
- 
+        // ======= START CONTRACT WORK =====
+        console.log("posting address :- " + postingAddress);
+        var postingContract = new web3.eth.Contract(iJCJobPostingAbi, postingAddress);
+         
+        setJobTitle(postingContract, jobTitle);
+        setCompany(postingContract, hiringCompany);
+        setCompanyLogo(postingContract, hiringCompanyLogo);
+        setWorkTypeLodationTypePostingDate(postingContract, paragraph, jobDetailLinkDestination);
+    }
+
+    function setJobTitle(postingContract, jobTitle) {
         postingContract.methods.getFeatureSTR("JOB_TITLE").call({ from: account })
         .then(function(response) {
             console.log("building title");
@@ -174,51 +197,74 @@ function loadPageData() {
         .catch(function(err){
             console.log(err);
         });
- 
+    }
+
+    function setCompany(postingContract, hiringCompany) {
         postingContract.methods.getFeatureSTR('COMPANY_NAME').call({ from: account })
         .then(function(response) {
             console.log(response);
             var companyName = response;
-            postingContract.methods.getFeatureSTR('COMPANY_LINK').call({ from: account })
-                .then(function(response) {
-                    console.log(response);
-                    var companyLink = response;
-                    var cLink = createLink(companyLink, companyName);
-                    cLink.setAttribute("style", "color: cadetblue;");
-                    cLink.setAttribute("target", "_blank");
-                    hiringCompany.appendChild(cLink);
-                })
+            setCompanyLink(postingContract, hiringCompany, companyName);
         })
         .catch(function(err){
             console.log(err);
         });
- 
-        setCompanyLogo(postingContract, hiringCompanyLogo);
+    }
 
+    function setCompanyLink(postingContract, hiringCompany, companyName) {
+        postingContract.methods.getFeatureSTR('COMPANY_LINK').call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var companyLink = response;
+            var cLink = createLink(companyLink, companyName);
+            cLink.setAttribute("style", "color: cadetblue;");
+            cLink.setAttribute("target", "_blank");
+            hiringCompany.appendChild(cLink);
+        })
+        .catch(function(err){
+            console.log(err);
+        }); 
+    }
+
+    function setWorkTypeLodationTypePostingDate(postingContract, paragraph, jobDetailLinkDestination ){
         postingContract.methods.getFeatureSTR('JOB_WORK_TYPE').call({ from: account })
         .then(function(response) {
             var workType = response;
-            postingContract.methods.getFeatureSTR('JOB_LOCATION_TYPE').call({ from: account })
+            setLocationTypePostingDate(postingContract, paragraph, jobDetailLinkDestination, workType);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }
+
+    function setLocationTypePostingDate(postingContract, paragraph, jobDetailLinkDestination, workType) {
+        postingContract.methods.getFeatureSTR('JOB_LOCATION_TYPE').call({ from: account })
                 .then(function(response) {
                     console.log(response);
                     var locationType = response;
-                    postingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({ from: account })
-                .then(function(response) {
-                    console.log(response);
-                    var postingDate = response;
-                    var jobSummaryText = " | Location :: " + locationType + " | Work Type :: " + workType + " | Posted ::  " + formatDate(new Date(postingDate*1000)) + " | ";
-                    var jsText = document.createTextNode(jobSummaryText);
-                    
-                    paragraph.appendChild(jsText);
-                
-                    var moreLink = createLink(jobDetailLinkDestination, "more...");
-                    paragraph.appendChild(moreLink);
-                })
+                    setPostingDate( postingContract, paragraph, jobDetailLinkDestination, workType, locationType);
                 })
                 .catch(function(err){
                     console.log(err);
                 });
+
+    }
+
+    function setPostingDate( postingContract, paragraph, jobDetailLinkDestination, workType, locationType) {
+        postingContract.methods.getFeatureUINT("POSTING_DATE_FEATURE").call({ from: account })
+        .then(function(response) {
+            console.log(response);
+            var postingDate = response;
+            var jobSummaryText = " | Location :: " + locationType + " | Work Type :: " + workType + " | Posted ::  " + formatDate(new Date(postingDate*1000)) + " | ";
+            var jsText = document.createTextNode(jobSummaryText);
+            
+            paragraph.appendChild(jsText);        
+            var moreLink = createLink(jobDetailLinkDestination, "more...");
+            paragraph.appendChild(moreLink);
         })
+        .catch(function(err){
+            console.log(err);
+        });
     }
 
     function setCompanyLogo(postingContract, hiringCompanyLogo) {
