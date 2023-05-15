@@ -19,7 +19,8 @@ async function loadPageData() {
 	getMainSearch(); 
 	getHotSearchTerms(pageRoot);
 	
-	getStakeStatus(); 
+	getStakeStatus();
+	loadEvents(); 
 	loadPromos();
 	
 }
