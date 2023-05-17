@@ -1,3 +1,5 @@
+const NATIVE_CURRENCY = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
+
 const createDraftPostingButton = ge("create_draft_job_posting");
 createDraftPostingButton.addEventListener("click", createPosting);
 
@@ -649,6 +651,26 @@ function editListing() {
     });
 }
 
+function setPaymentBoxProduct(productContract) {
+  console.log("product contract");
+  console.log(productContract);
+  productContract.methods
+    .getFeatureUINTValue("DURATION")
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var duration = response;
+      var weeks = duration / (7 * 24 * 60 * 60);
+      console.log(weeks);
+      console.log(jobPostingDuration);
+      jobPostingDuration.innerHTML = weeks + " Weeks ";
+      getErc20(productContract);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
 var productContract;
 
 function updatePaymentBox(productAddress, postingAddress) {
@@ -672,44 +694,23 @@ function updatePaymentBox(productAddress, postingAddress) {
     });
 
   productContract = getContract(iOpenProductAbi, productAddress);
-  console.log("product contract");
-  console.log(productContract);
-  productContract.methods
-    .getFeatureUINTValue("DURATION")
-    .call({ from: account })
-    .then(function (response) {
-      console.log(response);
-      var duration = response;
-      var weeks = duration / (7 * 24 * 60 * 60);
-      console.log(weeks);
-      console.log(jobPostingDuration);
-      jobPostingDuration.innerHTML = weeks + " Weeks ";
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+  setPaymentBoxProduct(productContract);
+}
 
+function setPrice(productContract, decimals) {
   productContract.methods
     .getPrice()
     .call({ from: account })
     .then(function (response) {
       console.log(response);
       var price = response;
-      jobPostingFee.innerHTML = price / 1e18;
+
+      jobPostingFee.innerHTML = price / Number("1e" + decimals);
       selectedPostingFee = price;
-      getErc20(productContract);
-      getCurrency(productContract);
-      selectedPostingAddress = postingAddress;
     })
     .catch(function (err) {
       console.log(err);
     });
-}
-
-function setSelectedErc20(erc20) {
-  jobPostingCurrencyErc20Address.innerHTML = "";
-
-  jobPostingCurrencyErc20Address.append(erc20);
 }
 
 function getErc20(productContract) {
@@ -720,13 +721,77 @@ function getErc20(productContract) {
     .then(function (response) {
       console.log(response);
       var erc20 = response;
-      setSelectedErc20(getAddressLink(erc20));
+      jobPostingCurrencyErc20Address.innerHTML = "";
+      jobPostingCurrencyErc20Address.append(getAddressLink(erc20));
+
       selectedERC20Address = erc20;
+      if (erc20 == NATIVE_CURRENCY) {
+        jobPostingCurrency.innerHTML = chain.nativeCurrency.symbol;
+        setPrice(productContract, chain.nativeCurrency.decimals);
+        disableApprove();
+      } else {
+        getCurrency(productContract);
+        getDecimalsAndPrice(productContract, erc20);
+        enableApprove();
+      }
     })
     .catch(function (err) {
       console.log(err);
     });
 }
+
+// function getErc20(productContract) {
+//   console.log("product erc20 " + productContract);
+//   productContract.methods
+//     .getErc20()
+//     .call({ from: account })
+//     .then(function (response) {
+//       console.log(response);
+//       var erc20 = response;
+//       setSelectedErc20(getAddressLink(erc20));
+//       selectedERC20Address = erc20;
+//     })
+//     .catch(function (err) {
+//       console.log(err);
+//     });
+// }
+
+function disableApprove() {
+  approvePaymentCurrencyButton.disabled = true;
+  approvePaymentCurrencyButton.setAttribute(
+    "class",
+    "bg-gradient-to-r from-jcGray to-jcLightGray text-xs lg:text-base text-white rounded-full px-5 py-2 "
+  );
+}
+
+function enableApprove() {
+  approvePaymentCurrencyButton.disabled = false;
+  approvePaymentCurrencyButton.setAttribute(
+    "class",
+    "bg-jcBlack text-xs lg:text-base text-jcBlue rounded-full px-5 py-2 "
+  );
+}
+
+function getDecimalsAndPrice(productContract, erc20) {
+  erc20Metadata = getContract(ierc20MetadataAbi, erc20);
+  erc20Metadata.methods
+    .decimals()
+    .call({ from: account })
+    .then(function (response) {
+      console.log(response);
+      var decimals = response;
+      setPrice(productContract, decimals);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
+// function setSelectedErc20(erc20) {
+//   jobPostingCurrencyErc20Address.innerHTML = "";
+
+//   jobPostingCurrencyErc20Address.append(erc20);
+// }
 
 function getCurrency(productContract) {
   console.log("product currency " + productContract);
@@ -843,13 +908,13 @@ function deactivateBuyCapability() {
   buyJobPostingButton.disabled = true;
   buyJobPostingButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-secondary "
+    "bg-gradient-to-r from-jcGray to-jcLightGray text-xs lg:text-base text-white rounded-full px-5 py-2  "
   );
 
   approvePaymentCurrencyButton.disabled = true;
   approvePaymentCurrencyButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-secondary"
+    "bg-gradient-to-r from-jcGray to-jcLightGray text-xs lg:text-base text-white rounded-full px-5 py-2 "
   );
   buying = true;
 }
@@ -858,13 +923,13 @@ function activateBuyCapability() {
   buyJobPostingButton.disabled = false;
   buyJobPostingButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-primary "
+    "bg-jcBlack text-xs lg:text-base text-jcBlue rounded-full px-5 py-2 "
   );
 
   approvePaymentCurrencyButton.disabled = true;
   approvePaymentCurrencyButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-secondary"
+    "bg-gradient-to-r from-jcGray to-jcLightGray text-xs lg:text-base text-white rounded-full px-5 py-2"
   );
   buying = true;
 }
@@ -874,13 +939,13 @@ function resetBuyProcess() {
   buyJobPostingButton.disabled = true;
   buyJobPostingButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-secondary "
+    "bg-gradient-to-r from-jcGray to-jcLightGray text-xs lg:text-base text-white rounded-full px-5 py-2 "
   );
 
   approvePaymentCurrencyButton.disabled = false;
   approvePaymentCurrencyButton.setAttribute(
     "class",
-    "ui-component-button ui-component-button-medium ui-component-button-primary"
+    "bg-jcBlack text-xs lg:text-base text-jcBlue rounded-full px-5 py-2"
   );
 }
 
@@ -1003,7 +1068,7 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
       console.log(response);
       var s = ce("span");
       s.append(text("Saved @> EVM :: "));
-      s.append(getTransactionHashLink(response.blockHash));
+      s.append(getTransactionHashLink(response.transactionHash));
       s.append(text(" :: "));
       s.append(text(" IPFS Company Summary Hash :: "));
       s.append(getIPFSLink(companySummaryHash));
@@ -1333,6 +1398,7 @@ function getHashLink(url, hash) {
   a.setAttribute("target", "_blank");
   a.setAttribute("style", "color:orange");
   a.append(text(hash));
+  console.log(a);
   return a;
 }
 
