@@ -352,7 +352,8 @@ async function getAccount() {
   });
   account = accounts[0];
   connected = true;
-  showWallet.innerHTML = "Connected Wallet :: " + account + "<br/>";
+  showWallet.innerHTML =
+    "Connected Wallet :: " + abbrev_name(account) + "<br/>";
   setHowToPlayList();
   configureCoreContracts()
     .then(function (response) {

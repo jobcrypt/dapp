@@ -51,6 +51,7 @@ const createOnchainEmployerDashboardButtonSpan = ge(
   "create_onchain_employer_dashboard_button_span"
 );
 
+const employerDashboardContainer = ge("employer_dashboard_container");
 const saveBeforePostCheckBox = ge("save_before_post_checkbox");
 
 var selectedPostingAddress;
@@ -257,9 +258,9 @@ function createDashboardButton() {
   a.setAttribute("href", "javascript:createEmployerDashboard();");
   a.setAttribute(
     "class",
-    "ui-component-button ui-component-button-small ui-component-button-primary"
+    "bg-jcBlack text-jcBlue px-5 py-2 rounded-full mx-auto"
   );
-  a.append(text("click to create your employer dashboard onchain"));
+  a.append(text("Click to create your employer dashboard onchain"));
   createOnchainEmployerDashboardButtonSpan.append(a);
 }
 function disableAll() {
@@ -845,7 +846,7 @@ async function approve_2(erc20Address, price) {
     .approve(jcPaymentManagerAddress, price)
     .send({ from: account })
     .then(function (response) {
-      console.log(response);
+      console.log(response.transactionHash);
       var s = ce("span");
       s.append(text("Approved :: "));
       s.append(getTransactionHashLink(response.transactionHash));
@@ -866,7 +867,7 @@ async function buyPosting() {
       .payForPosting(selectedPostingAddress)
       .send({ from: account, value: selectedPostingFee })
       .then(function (response) {
-        console.log(response);
+        console.log(response.transactionHash);
         s.append(text("Paid :: "));
         s.append(getTransactionHashLink(response.transactionHash));
         setBuyMsg(s);
@@ -883,7 +884,7 @@ async function buyPosting() {
       .payForPosting(selectedPostingAddress)
       .send({ from: account })
       .then(function (response) {
-        console.log(response);
+        console.log(response.transactionHash);
         s.append(text("Paid :: "));
         s.append(getTransactionHashLink(response.transactionHash));
         setBuyMsg(s);
@@ -1065,7 +1066,7 @@ async function saveToEVM(jobJSON, jobDescriptionHash, companySummaryHash) {
     )
     .send({ from: account })
     .then(function (response) {
-      console.log(response);
+      console.log(response.transactionHash);
       var s = ce("span");
       s.append(text("Saved @> EVM :: "));
       s.append(getTransactionHashLink(response.transactionHash));
@@ -1227,7 +1228,7 @@ function postJobToJobCrypt() {
     .post()
     .send({ from: account })
     .then(function (response) {
-      console.log(response);
+      console.log(response.transactionHash);
 
       var s = ce("span");
       s.append(text(" Job : "));
