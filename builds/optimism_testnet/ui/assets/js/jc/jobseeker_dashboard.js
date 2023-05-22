@@ -4,6 +4,9 @@ const applicantDashboardTable = ge("applicant_dashboard_table");
 const createOnchainJobSeekerDashboard = ge(
   "create_jobseeker_onchain_dashboard_button_span"
 );
+const createOnChainEmployerDashboardTitle = ge(
+  "create_jobseeker_onchain_dashboard_title"
+);
 
 var iJobSeekerDashboardContract;
 const pageRoot = "";
@@ -58,14 +61,16 @@ function findAgain() {
 }
 
 function createDashboardButton() {
+  createOnChainEmployerDashboardTitle.innerHTML =
+    "An onchain dashboard is needed to view your job application information";
   createOnchainJobSeekerDashboard.innerHTML = "";
   var a = ce("a");
   a.setAttribute("href", "javascript:getDashboard();");
   a.setAttribute(
     "class",
-    "ui-component-button ui-component-button-small ui-component-button-primary"
+    "bg-jcBlack text-jcBlue px-5 py-2 rounded-full mx-auto"
   );
-  a.append(text("click to create your dashboard onchain"));
+  a.append(text("Click to create your dashboard onchain"));
   createOnchainJobSeekerDashboard.append(a);
 }
 

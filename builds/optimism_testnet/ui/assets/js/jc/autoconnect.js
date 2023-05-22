@@ -328,7 +328,7 @@ function loadConnect() {
     onboardButton.innerText = "Web 3 Connected";
     onboardButton.setAttribute(
       "class",
-      "cursor-pointer text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+      "cursor-pointer text-black  bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-1 bg-opacity-90"
     );
 
     onboardButton.addEventListener("click", disconnect);
@@ -338,13 +338,13 @@ function loadConnect() {
   }
 }
 
-abbrev_name = function (str1) {
-  var split_names = str1.trim().split(" ");
-  if (split_names.length > 1) {
-    return split_names[0] + " " + split_names[1].charAt(0) + ".";
+function truncateString(str, num) {
+  if (str.length <= num) {
+    return str;
   }
-  return split_names[0];
-};
+  // Return str truncated with '...' concatenated to the end of str.
+  return str.slice(0, num) + "...";
+}
 
 async function getAccount() {
   const accounts = await ethereum.request({
@@ -353,7 +353,7 @@ async function getAccount() {
   account = accounts[0];
   connected = true;
   showWallet.innerHTML =
-    "Connected Wallet :: " + abbrev_name(account) + "<br/>";
+    "Connected Wallet :: " + truncateString(account, 3) + "<br/>";
   setHowToPlayList();
   configureCoreContracts()
     .then(function (response) {

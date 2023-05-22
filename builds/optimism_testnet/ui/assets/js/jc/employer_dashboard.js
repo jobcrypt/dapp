@@ -23,6 +23,9 @@ const employerDashboardMessage = ge("employer_dashboard_message");
 const createOnchainEmployerDashboardButtonSpan = ge(
   "create_onchain_employer_dashboard_button_span"
 );
+const createOnChainEmployerDashboardTitle = ge(
+  "create_jobseeker_onchain_dashboard_title"
+);
 
 async function configureCoreContracts() {
   var requiredContracts = ["FACTORY_FACADE"];
@@ -52,11 +55,17 @@ function findDashboard() {
     });
 }
 function createDashboardButton() {
+  createOnChainEmployerDashboardTitle.innerHTML =
+    "An onchain dashboard is needed to view your job application information";
   createOnchainEmployerDashboardButtonSpan.innerHTML = "";
+
   var a = ce("a");
   a.setAttribute("href", "javascript:getDashboard();");
-  a.setAttribute("class", "btn btn-outline-primary");
-  a.append(text("click to create your dashboard onchain"));
+  a.setAttribute(
+    "class",
+    "bg-jcBlack text-jcBlue px-5 py-2 mx-auto mt-3 rounded-full mx-auto"
+  );
+  a.append(text("Click to create your dashboard onchain"));
   createOnchainEmployerDashboardButtonSpan.append(a);
 }
 function getDashboard() {

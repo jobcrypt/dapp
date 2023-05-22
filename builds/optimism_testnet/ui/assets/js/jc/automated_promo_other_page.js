@@ -431,7 +431,7 @@ function loadPromos() {
   console.log("loading promos");
   pagePromoSpot.innerHTML = "";
   var drow = ce("div");
-  drow.setAttribute("class", " grid grid-cols-3 gap-5");
+  drow.setAttribute("class", " grid grid-cols-2 lg:grid-cols-3 gap-5");
   pagePromoSpot.append(drow);
 
   var t = new Date().getTime();

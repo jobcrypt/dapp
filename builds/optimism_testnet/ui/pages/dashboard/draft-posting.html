@@ -40,8 +40,13 @@
     <header>
       <section class="bg-jcBlue py-4 px-5">
         <div
-          class="flex lg:flex-row flex-col md:flex-col justify-end lg:gap-60 gap-10"
+          class="flex lg:flex-row flex-col md:flex-col justify-between gap-5 items-center px-2 lg:px-20"
         >
+          <button class="bg-jcBlack text-jcBlue rounded-full py-1 px-5">
+            <a href="https://jobcryptcaduceustestnet.on.fleek.co/">
+              Switch to Caduceus Network
+            </a>
+          </button>
           <span class="flex gap-2 justify-center font-baiJam">
             <p class="text-center text-xs lg:text-base">
               JobCrypt Blockchain Sustainability Week - UK 2023
@@ -424,18 +429,18 @@
                   </div>
                 </li>
               </ul>
-              <div class="">
-                <span class="text-green-500 text-xs" id="showAccount"></span>
-
+              <div class="flex flex-col items-center">
                 <span
-                  id="connect_web_3"
-                  class="text-black my-4 bg-jcBlue font-thin rounded-full text-xs whitespace-nowrap px-4 py-2 bg-opacity-90"
+                  class="text-xxs text-green-500 mb-1"
+                  id="showAccount"
                 ></span>
+
+                <span id="connect_web_3" class="my-2"></span>
                 <div class="flex text-white text-xs mt-1">
-                  <span id="start_point_span"></span>
-                  <span id="get_started_button_span"></span>
-                  <span id="connect_video_icon_span"></span
-                  ><span id="connect_video_link_span"></span>
+                  <span id="start_point_span" class="hidden"></span>
+                  <span id="get_started_button_span" class="hidden"></span>
+                  <span id="connect_video_icon_span" class="text-xxs"></span
+                  ><span id="connect_video_link_span" class="text-xxs"></span>
                 </div>
               </div>
             </div>
