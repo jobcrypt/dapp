@@ -196,6 +196,14 @@ function formatPrice(price) {
   return price / 1e6;
 }
 
+function truncateString(str, num) {
+  if (str.length <= num) {
+    return str;
+  }
+  // Return str truncated with '...' concatenated to the end of str.
+  return str.slice(0, num) + "...";
+}
+
 async function createPosting() {
   var productAddress = jobPostingProductSelect.value;
   console.log("product address :: " + productAddress);
@@ -206,7 +214,12 @@ async function createPosting() {
     .send({ from: account })
     .then(function (response) {
       console.log(response);
-      setCreateMsg(text("Draft Posting Created Txn :: " + response.blockHash));
+      setCreateMsg(
+        text(
+          "Draft Posting Created Txn :: " +
+            truncateString(response.blockHash, 100)
+        )
+      );
       updateDraftListings();
     })
     .catch(function (err) {

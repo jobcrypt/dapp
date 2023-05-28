@@ -1716,10 +1716,6 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 0.5;
 }
 
-.bg-opacity-90 {
-  --tw-bg-opacity: 0.9;
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -1862,14 +1858,6 @@ input:checked + .toggle-bg {
 
 .pt-20 {
   padding-top: 5rem;
-}
-
-.pt-4 {
-  padding-top: 1rem;
-}
-
-.pt-6 {
-  padding-top: 1.5rem;
 }
 
 .text-center {
@@ -2431,10 +2419,6 @@ input:checked + .toggle-bg {
 
   .lg\:gap-16 {
     gap: 4rem;
-  }
-
-  .lg\:gap-20 {
-    gap: 5rem;
   }
 
   .lg\:gap-40 {
