@@ -42,7 +42,7 @@ input::placeholder {
 
 .banner-container {
     overflow: hidden;
-    display: flex;
+
     background-image: url('../images/banner-bg.png');
     background-position: center;
     background-size: cover;
